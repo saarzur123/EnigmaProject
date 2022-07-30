@@ -7,11 +7,12 @@ public class Rotor {
     private int id;
     private final int Window = 0;
     private Map<Character,Integer> KeyByCharRight = new HashMap<>();
-//    map KeyByIntRight;
-//    map KeyByCharLeft;
-//    map KeyByIntLeft;
-//    char notchSign;
-//    bool isForward;
+    private Map<Integer, Character> KeyByIntRight = new HashMap<>();
+    private Map<Character,Integer> KeyByCharLeft = new HashMap<>();
+    private Map<Integer, Character> KeyByIntLeft = new HashMap<>();
+    private char notchSign;
+    private boolean isForward;
+
     private void InitRotor(int id, int notch, String right, String left){
 
     }
