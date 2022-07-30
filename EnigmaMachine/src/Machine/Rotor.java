@@ -43,8 +43,16 @@ public Rotor(int idInput, int langCount,int notch, String right, String left)
         }
     }
 
-    private void movePositions(Map<Character,Integer> movePosInMap){
+    private void movePositions(Map<Character,Integer> movePosInMap, List<Character> movePosInList){
         movePositionsForEachMap(movePosInMap);
+        movePositionsForEachList(movePosInList);
+    }
+    private void movePositionsForEachList(List<Character> listToMove) {
+        Character saveLastPlace= listToMove.get(listToMove.size() - 1);
+        for(int i = listToMove.size() - 2; i > 0; i-- ){
+            listToMove.set(i + 1, listToMove.get(i));
+        }
+        listToMove.set(0, saveLastPlace);
     }
 
     private void movePositionsForEachMap(Map<Character,Integer> mapToMove){
@@ -62,11 +70,11 @@ public Rotor(int idInput, int langCount,int notch, String right, String left)
     private int getNotch(){
         return notchPosition;
     }
-    private char FindCharInNextRotor(int index){
-        return 'c';
+    private char FindCharInRotor(int index, List<Character> searchInThisList){
+        return searchInThisList.get(index);
     }
-    private int FindIndexInRotor(char charInRotor){
-        return 1;
+    private int FindIndexInRotor(char charInRotor, Map<Character,Integer> searchInThisMap){
+        return searchInThisMap.get(charInRotor);
     }
     private void setRotorStartPositionByWindow(int index){
         //j
