@@ -5,6 +5,7 @@ import java.util.Map;
 
 public class Rotor {
     private int id;
+    private int numberOfCharsInABC;
     private final int Window = 0;
     private Map<Character,Integer> KeyByCharRight = new HashMap<>();
     private Map<Integer, Character> KeyByIntRight = new HashMap<>();
@@ -13,9 +14,11 @@ public class Rotor {
     private char notchSign;
     private boolean isForward;
 
-    private void InitRotor(int id, int notch, String right, String left){
+
+    private void InitRotor(int idInput, int notch, String right, String left){
 
     }
+
     private void movePositions(Boolean moveRotor){
 
     }
