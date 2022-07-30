@@ -5,7 +5,6 @@ import java.util.List;
 
 public class Reflector {
     private List<Integer> ReflectInAndOut = new ArrayList<Integer>();
-
     private int id;
 
     public Reflector(List<Integer> inputArr, int idInput)
@@ -14,7 +13,7 @@ public class Reflector {
         id = idInput;
     }
 
-    int getOutReflectorIndex(int inIndex) {
+    private int getOutReflectorIndex(int inIndex) {
         return 0;
     }
 }
