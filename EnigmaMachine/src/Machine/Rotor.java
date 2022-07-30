@@ -83,10 +83,10 @@ public Rotor(int idInput, int langCount,int notch, String right, String left)
         return notchPosition;
     }
 
-    private char FindCharInRotor(int index, List<Character> searchInThisList){
+    private char findCharInRotor(int index, List<Character> searchInThisList){
         return searchInThisList.get(index);
     }
-    private int FindIndexInRotor(char charInRotor, Map<Character,Integer> searchInThisMap){
+    private int findIndexInRotor(char charInRotor, Map<Character,Integer> searchInThisMap){
         return searchInThisMap.get(charInRotor);
     }
     private void setRotorStartPositionByWindow(int indexOfCharInWindow){//the input index starting from zero

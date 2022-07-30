@@ -6,10 +6,10 @@ import java.util.Map;
 public class PlugBoard {
     private Map<Character,Character> plugSwitch = new HashMap<>();
 
-    public PlugBoard(){
-
+    public PlugBoard(Map<Character,Character> plugBoardMapFromXML){
+        plugSwitch = plugBoardMapFromXML;
     }
     private char checkSwappingChar(char checkSign){
-        return 's';
+        return plugSwitch.get(checkSign);
     }
 }
