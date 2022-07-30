@@ -38,9 +38,7 @@ public class Rotor {
     }
 
     private void movePositions(Boolean moveRotor){
-        if(moveRotor){
 
-        }
     }
 
     private char getNotch(){
