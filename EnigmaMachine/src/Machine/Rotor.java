@@ -21,7 +21,7 @@ public class Rotor {
 
     }
     private void movePositions(Boolean moveRotor){
-
+    //
     }
 
     private int getNotch(){
