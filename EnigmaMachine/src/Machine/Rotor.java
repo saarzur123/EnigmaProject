@@ -15,7 +15,7 @@ public class Rotor {
     private boolean isForward;
 
 
-    private void InitRotor(int idInput, int notch, String right, String left){
+    private void InitRotor(int idInput,int notch, String right, String left){
 
     }
 
