@@ -26,7 +26,7 @@ public class Rotor {
     }
 
     private char getNotch(){
-        return 0;
+        return notchSign;
     }
     private char FindCharInNextRotor(int index){
         return 'c';
