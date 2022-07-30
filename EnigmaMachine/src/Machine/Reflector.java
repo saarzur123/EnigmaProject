@@ -4,16 +4,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Reflector {
-    private List<Integer> ReflectInAndOut = new ArrayList<Integer>();
+    private List<Integer> reflectInAndOut = new ArrayList<Integer>();
     private int id;
 
     public Reflector(List<Integer> inputArr, int idInput)
     {
-        ReflectInAndOut = inputArr;
+        reflectInAndOut = inputArr;
         id = idInput;
     }
 
     private int getOutReflectorIndex(int inIndex) {
-        return 0;
+        return reflectInAndOut.get(inIndex);
     }
 }
