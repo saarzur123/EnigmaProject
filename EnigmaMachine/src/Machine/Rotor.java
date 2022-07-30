@@ -64,6 +64,6 @@ public class Rotor {
         return 1;
     }
     private void setRotorStartPositionByWindow(int index){
-
+    //h
     }
 }
