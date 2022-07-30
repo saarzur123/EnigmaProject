@@ -1,24 +1,23 @@
 package Machine;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 public class Rotor {
     private int id;
     private int numberOfCharsInABC;
     private final int Window = 0;
     private Map<Character,Integer> KeyByCharRight = new HashMap<>();
-    private Map<Integer, Character> KeyByIntRight = new HashMap<>();
+    private List<Character> KeyByIntRight = new ArrayList<>();
     private Map<Character,Integer> KeyByCharLeft = new HashMap<>();
-    private Map<Integer, Character> KeyByIntLeft = new HashMap<>();
-    private char notchSign;
+    private List<Character> KeyByIntLeft = new ArrayList<>();
+    private int notchPosition;
     private boolean isForward;
 
 
     private void initRotor(int idInput, int langCount,int notch, String right, String left){
-    id = idInput;
-    numberOfCharsInABC = langCount;
-    //notchPosition = notch;
+        id = idInput;
+        numberOfCharsInABC = langCount;
+        //notchPosition = notch;
 
     }
 
@@ -26,7 +25,7 @@ public class Rotor {
         int size = dataOfChars.length();
 
         for (int i = 0; i < size; i++) {
-         currentMap.put(dataOfChars.charAt(i),i);
+            currentMap.put(dataOfChars.charAt(i),i);
         }
     }
 
@@ -38,19 +37,9 @@ public class Rotor {
         }
     }
 
-    private void movePositions(Map<Character,Integer> movePosInMap){
-        movePositionsForEachMap(movePosInMap);
-    }
+    private void movePositions(Boolean moveRotor){
+        if(moveRotor){
 
-    private void movePositionsForEachMap(Map<Character,Integer> mapToMove){
-        for (Map.Entry<Character,Integer> mapElement : mapToMove.entrySet()){
-            int valueOfElementInMap = mapElement.getValue();
-            if(valueOfElementInMap == 0){
-                mapElement.setValue(numberOfCharsInABC - 1);
-            }
-            else{
-                mapElement.setValue(valueOfElementInMap + 1);
-            }
         }
     }
 
@@ -64,6 +53,6 @@ public class Rotor {
         return 1;
     }
     private void setRotorStartPositionByWindow(int index){
-    //h
+
     }
 }
