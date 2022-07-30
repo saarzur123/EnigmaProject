@@ -5,11 +5,11 @@ import java.util.*;
 public class Rotor {
     private int id;
     private int numberOfCharsInABC;
-    private final int Window = 0;
-    private Map<Character,Integer> KeyByCharRight = new HashMap<>();
-    private List<Character> KeyByIntRight = new ArrayList<>();
-    private Map<Character,Integer> KeyByCharLeft = new HashMap<>();
-    private List<Character> KeyByIntLeft = new ArrayList<>();
+    private final int window = 0;
+    private Map<Character,Integer> keyByCharRight = new HashMap<>();
+    private List<Character> charsByIndexRight = new ArrayList<>();
+    private Map<Character,Integer> keyByCharLeft = new HashMap<>();
+    private List<Character> charsByIndexLeft = new ArrayList<>();
     private int notchPosition;
     private boolean isForward;
 
@@ -17,7 +17,12 @@ public class Rotor {
     private void initRotor(int idInput, int langCount,int notch, String right, String left){
         id = idInput;
         numberOfCharsInABC = langCount;
-        //notchPosition = notch;
+        notchPosition = notch;
+        initListCharByIndex(right,charsByIndexRight);
+        initListCharByIndex(left,charsByIndexLeft);
+        initMapByCharKey(right,keyByCharRight);
+        initMapByCharKey(left,keyByCharLeft);
+
 
     }
 
@@ -29,11 +34,11 @@ public class Rotor {
         }
     }
 
-    private void initMapByIndexKey(String dataOfChars, List<Character> currentMap){
+    private void initListCharByIndex(String dataOfChars, List<Character> currentList){
         int size = dataOfChars.length();
 
         for (int i = 0; i < size; i++) {
-            currentMap.add(i,dataOfChars.charAt(i));
+            currentList.add(i,dataOfChars.charAt(i));
         }
     }
 
