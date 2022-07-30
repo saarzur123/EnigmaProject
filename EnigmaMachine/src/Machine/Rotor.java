@@ -37,9 +37,11 @@ public class Rotor {
         }
     }
 
-    private void movePositions(Map<Character,Integer> movePosInMap, List<Character> movePosInList){
-        movePositionsForEachMap(movePosInMap);
-        movePositionsForEachList(movePosInList);
+    private void movePositions(){
+        movePositionsForEachMap(KeyByCharRight);
+        movePositionsForEachList(KeyByIntRight);
+        movePositionsForEachMap(KeyByCharLeft);
+        movePositionsForEachList(KeyByIntLeft);
     }
     private void movePositionsForEachList(List<Character> listToMove) {
         Character saveLastPlace= listToMove.get(listToMove.size() - 1);
