@@ -16,4 +16,20 @@ public class Rotor {
     private void InitRotor(int id, int notch, String right, String left){
 
     }
+    private void movePositions(Boolean moveRotor){
+
+    }
+
+    private int getNotch(){
+        return 0;
+    }
+    private char FindCharInNextRotor(int index){
+        return 'c';
+    }
+    private int FindIndexInRotor(char charInRotor){
+        return 1;
+    }
+    private void setRotorStartPositionByWindow(int index){
+
+    }
 }
