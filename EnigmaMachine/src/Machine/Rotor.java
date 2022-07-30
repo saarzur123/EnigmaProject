@@ -48,7 +48,17 @@ public Rotor(int idInput, int langCount,int notch, String right, String left)
         movePositionsForEachList(charsByIndexRight);
         movePositionsForEachMap(keyByCharLeft);
         movePositionsForEachList(charsByIndexLeft);
+        checkPosOfNotchAfterMovement();
     }
+    private void checkPosOfNotchAfterMovement(){
+        if(notchPosition == 0){
+            notchPosition = numberOfCharsInABC - 1;
+        }
+        else{
+            notchPosition--;
+        }
+    }
+
     private void movePositionsForEachList(List<Character> listToMove) {
         Character saveLastPlace= listToMove.get(listToMove.size() - 1);
         for(int i = listToMove.size() - 2; i > 0; i-- ){
