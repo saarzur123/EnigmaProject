@@ -9,4 +9,7 @@ public class Rotor {
 //    map KeyByIntLeft;
 //    char notchSign;
 //    bool isForward;
+    private void InitRotor(int id, int notch, String right, String left){
+
+    }
 }
