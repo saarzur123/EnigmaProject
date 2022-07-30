@@ -17,10 +17,12 @@ public class Rotor {
 
     }
     private void movePositions(Boolean moveRotor){
+        if(moveRotor){
 
+        }
     }
 
-    private int getNotch(){
+    private char getNotch(){
         return 0;
     }
     private char FindCharInNextRotor(int index){
