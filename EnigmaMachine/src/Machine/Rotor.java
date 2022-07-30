@@ -3,9 +3,9 @@ package Machine;
 import java.util.*;
 
 public class Rotor {
+    private final int window = 0;
     private int id;
     private int numberOfCharsInABC;
-    private final int window = 0;
     private Map<Character,Integer> keyByCharRight = new HashMap<>();
     private List<Character> charsByIndexRight = new ArrayList<>();
     private Map<Character,Integer> keyByCharLeft = new HashMap<>();
@@ -13,17 +13,18 @@ public class Rotor {
     private int notchPosition;
     private boolean isForward;
 
-
+public Rotor(int idInput, int langCount,int notch, String right, String left)
+{
+    initRotor(idInput, langCount, notch, right, left);
+}
     private void initRotor(int idInput, int langCount,int notch, String right, String left){
-        id = idInput;
-        numberOfCharsInABC = langCount;
-        notchPosition = notch;
-        initListCharByIndex(right,charsByIndexRight);
-        initListCharByIndex(left,charsByIndexLeft);
-        initMapByCharKey(right,keyByCharRight);
-        initMapByCharKey(left,keyByCharLeft);
-
-
+        this.id = idInput;
+        this.numberOfCharsInABC = langCount;
+        this.notchPosition = notch;
+        initListCharByIndex(right,this.charsByIndexRight);//initialize rotor sides
+        initListCharByIndex(left,this.charsByIndexLeft);
+        initMapByCharKey(right,this.keyByCharRight);
+        initMapByCharKey(left,this.keyByCharLeft);
     }
 
     private void initMapByCharKey(String dataOfChars, Map<Character, Integer> currentMap){
@@ -58,8 +59,8 @@ public class Rotor {
         }
     }
 
-    private char getNotch(){
-        return 'c';
+    private int getNotch(){
+        return notchPosition;
     }
     private char FindCharInNextRotor(int index){
         return 'c';
