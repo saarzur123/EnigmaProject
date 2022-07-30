@@ -17,7 +17,7 @@ public class Rotor {
     private void initRotor(int idInput, int langCount,int notch, String right, String left){
     id = idInput;
     numberOfCharsInABC = langCount;
-    notchPosition = notch;
+    //notchPosition = notch;
 
     }
 
