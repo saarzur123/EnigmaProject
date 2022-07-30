@@ -44,10 +44,10 @@ public Rotor(int idInput, int langCount,int notch, String right, String left)
     }
 
     private void movePositions(){
-        movePositionsForEachMap(KeyByCharRight);
-        movePositionsForEachList(KeyByIntRight);
-        movePositionsForEachMap(KeyByCharLeft);
-        movePositionsForEachList(KeyByIntLeft);
+        movePositionsForEachMap(keyByCharRight);
+        movePositionsForEachList(charsByIndexRight);
+        movePositionsForEachMap(keyByCharLeft);
+        movePositionsForEachList(charsByIndexLeft);
     }
     private void movePositionsForEachList(List<Character> listToMove) {
         Character saveLastPlace= listToMove.get(listToMove.size() - 1);
