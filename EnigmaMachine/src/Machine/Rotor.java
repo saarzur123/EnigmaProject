@@ -40,6 +40,13 @@ public class Rotor {
     private void movePositions(Map<Character,Integer> movePosInMap){
         movePositionsForEachMap(movePosInMap);
     }
+    private void movePositionsForEachList(List<Character> listToMove) {
+        Character saveLastPlace= listToMove.get(listToMove.size() - 1);
+        for(int i = listToMove.size() - 2; i > 0; i-- ){
+            listToMove.set(i + 1, listToMove.get(i));
+        }
+        listToMove.set(0, saveLastPlace);
+    }
 
     private void movePositionsForEachMap(Map<Character,Integer> mapToMove){
         for (Map.Entry<Character,Integer> mapElement : mapToMove.entrySet()){
@@ -56,11 +63,11 @@ public class Rotor {
     private char getNotch(){
         return 'c';
     }
-    private char FindCharInNextRotor(int index){
-        return 'c';
+    private char FindCharInRotor(int index, List<Character> searchInThisList){
+        return searchInThisList.get(index);
     }
-    private int FindIndexInRotor(char charInRotor){
-        return 1;
+    private int FindIndexInRotor(char charInRotor, Map<Character,Integer> searchInThisMap){
+        return searchInThisMap.get(charInRotor);
     }
     private void setRotorStartPositionByWindow(int index){
         //j
