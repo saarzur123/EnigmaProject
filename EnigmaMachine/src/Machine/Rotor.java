@@ -5,8 +5,8 @@ import java.util.*;
 public class Rotor {
     private int id;
     private int numberOfCharsInABC;
-    private LinkedList<Character> charactersLinkedListRight = new LinkedList<>();
-    private LinkedList<Character> charactersLinkedListLeft = new LinkedList<>();
+    private List<Character> charactersLinkedListRight = new LinkedList<>();
+    private List<Character> charactersLinkedListLeft = new LinkedList<>();
     private int notchPosition;
 
 public Rotor(int idInput, int langCount,int notch, String right, String left)
@@ -21,11 +21,11 @@ public Rotor(int idInput, int langCount,int notch, String right, String left)
         initCharsLinkedList(left, charactersLinkedListLeft);
     }
 
-    private void initCharsLinkedList(String dataOfChars, LinkedList<Character> currentList){
+    private void initCharsLinkedList(String dataOfChars, List<Character> currentList){
         int size = dataOfChars.length();
 
         for (int i = 0; i < size; i++) {
-            currentList.offerLast(dataOfChars.charAt(i));
+            currentList.add(dataOfChars.charAt(i));
         }
     }
 
@@ -44,9 +44,9 @@ public Rotor(int idInput, int langCount,int notch, String right, String left)
         }
     }
 
-    private void movePositionsForEachList(LinkedList<Character> listToMove) {
-        char chSaveFirst = listToMove.removeFirst();
-        listToMove.offerLast(chSaveFirst);
+    private void movePositionsForEachList(List<Character> listToMove) {
+        char chSaveFirst = listToMove.remove(0);
+        listToMove.add(chSaveFirst);
     }
 
     private int getNotch(){
@@ -64,7 +64,7 @@ public Rotor(int idInput, int langCount,int notch, String right, String left)
         }
     }
 
-    private int convertInToOutIndex(LinkedList<Character> inList, LinkedList<Character> outList, int inputIndex)
+    private int convertInToOutIndex(List<Character> inList, List<Character> outList, int inputIndex)
     {
         char charAtInIndex = inList.get(inputIndex);//get char at input index
         return outList.indexOf(charAtInIndex);//get char index at parallel list
