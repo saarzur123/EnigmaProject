@@ -10,14 +10,16 @@ public class Rotor {
     private int notchPosition;
     private char startingPosition;
 
-public Rotor(int idInput, int langCount,int notch, String right, String left)
+public Rotor(int idInput, int notch, String right, String left)
 {
     this.id = idInput;
-    this.numberOfCharsInABC = langCount;
     this.notchPosition = notch;
     initCharsLinkedList(right,charactersLinkedListRight);
     initCharsLinkedList(left, charactersLinkedListLeft);
+    numberOfCharsInABC = charactersLinkedListLeft.size();
 }
+
+
 
     private void initCharsLinkedList(String dataOfChars, List<Character> currentList){
         int size = dataOfChars.length();
