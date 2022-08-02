@@ -3,53 +3,38 @@ package Machine;
 import java.util.*;
 
 public class Rotor {
-    private final int window = 0;
     private int id;
     private int numberOfCharsInABC;
-    private Map<Character,Integer> keyByCharRight = new HashMap<>();
-    private List<Character> charsByIndexRight = new ArrayList<>();
-    private Map<Character,Integer> keyByCharLeft = new HashMap<>();
-    private List<Character> charsByIndexLeft = new ArrayList<>();
+    private List<Character> charactersLinkedListRight = new LinkedList<>();
+    private List<Character> charactersLinkedListLeft = new LinkedList<>();
     private int notchPosition;
-    private boolean isForward;
+    private char startingPosition;
 
 public Rotor(int idInput, int langCount,int notch, String right, String left)
 {
-    initRotor(idInput, langCount, notch, right, left);
+    this.id = idInput;
+    this.numberOfCharsInABC = langCount;
+    this.notchPosition = notch;
+    initCharsLinkedList(right,charactersLinkedListRight);
+    initCharsLinkedList(left, charactersLinkedListLeft);
 }
-    private void initRotor(int idInput, int langCount,int notch, String right, String left){
-        this.id = idInput;
-        this.numberOfCharsInABC = langCount;
-        this.notchPosition = notch;
-        initListCharByIndex(right,this.charsByIndexRight);//initialize rotor sides
-        initListCharByIndex(left,this.charsByIndexLeft);
-        initMapByCharKey(right,this.keyByCharRight);
-        initMapByCharKey(left,this.keyByCharLeft);
-    }
 
-    private void initMapByCharKey(String dataOfChars, Map<Character, Integer> currentMap){
+    private void initCharsLinkedList(String dataOfChars, List<Character> currentList){
         int size = dataOfChars.length();
 
         for (int i = 0; i < size; i++) {
-            currentMap.put(dataOfChars.charAt(i),i);
+            currentList.add(dataOfChars.charAt(i));
         }
     }
 
-    private void initListCharByIndex(String dataOfChars, List<Character> currentList){
-        int size = dataOfChars.length();
+    public int getId() {return id; }
 
-        for (int i = 0; i < size; i++) {
-            currentList.add(i,dataOfChars.charAt(i));
-        }
-    }
-
-    private void movePositions(){
-        movePositionsForEachMap(keyByCharRight);
-        movePositionsForEachList(charsByIndexRight);
-        movePositionsForEachMap(keyByCharLeft);
-        movePositionsForEachList(charsByIndexLeft);
+    public void movePositions(){
+        movePositionsForEachList(charactersLinkedListRight);
+        movePositionsForEachList(charactersLinkedListLeft);
         checkPosOfNotchAfterMovement();
     }
+
     private void checkPosOfNotchAfterMovement(){
         if(notchPosition == 0){
             notchPosition = numberOfCharsInABC - 1;
@@ -60,39 +45,54 @@ public Rotor(int idInput, int langCount,int notch, String right, String left)
     }
 
     private void movePositionsForEachList(List<Character> listToMove) {
-        Character saveLastPlace= listToMove.get(listToMove.size() - 1);
-        for(int i = listToMove.size() - 2; i > 0; i-- ){
-            listToMove.set(i + 1, listToMove.get(i));
-        }
-        listToMove.set(0, saveLastPlace);
+        char chSaveFirst = listToMove.remove(0);
+        listToMove.add(chSaveFirst);
     }
 
-    private void movePositionsForEachMap(Map<Character,Integer> mapToMove){
-        for (Map.Entry<Character,Integer> mapElement : mapToMove.entrySet()){
-            int valueOfElementInMap = mapElement.getValue();
-            if(valueOfElementInMap == 0){
-                mapElement.setValue(numberOfCharsInABC - 1);
-            }
-            else{
-                mapElement.setValue(valueOfElementInMap + 1);
-            }
-        }
-    }
-
-    private int getNotch(){
+    public int getNotch(){
         return notchPosition;
     }
 
-    private char findCharInRotor(int index, List<Character> searchInThisList){
-        return searchInThisList.get(index);
+    public int convertInToOutIndexByDir(int inputIndex, boolean isForward)
+    {
+        if(isForward)
+        {
+            return convertInToOutIndex(charactersLinkedListRight, charactersLinkedListLeft, inputIndex);
+        }
+        else {
+            return convertInToOutIndex(charactersLinkedListLeft, charactersLinkedListRight, inputIndex);
+        }
     }
-    private int findIndexInRotor(char charInRotor, Map<Character,Integer> searchInThisMap){
-        return searchInThisMap.get(charInRotor);
-    }
-    private void setRotorStartPositionByWindow(int indexOfCharInWindow){//the input index starting from zero
 
-        for (int i = 0; i < indexOfCharInWindow; i++) {
+    private int convertInToOutIndex(List<Character> inList, List<Character> outList, int inputIndex)
+    {
+        char charAtInIndex = inList.get(inputIndex);//get char at input index
+        return outList.indexOf(charAtInIndex);//get char index at parallel list
+    }
+
+    public void setRotorToStartPosition(char startingPosition){
+    this.startingPosition = startingPosition;
+    int startingPositionIndex = charactersLinkedListRight.indexOf(this.startingPosition);
+
+        for (int i = 0; i < startingPositionIndex; i++) {//the howManyToMove index starting from zero
             movePositions();
         }
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Rotor rotor = (Rotor) o;
+        return id == rotor.id && numberOfCharsInABC == rotor.numberOfCharsInABC && notchPosition == rotor.notchPosition &&
+                //startingPosition == rotor.startingPosition &&
+                charactersLinkedListRight.equals(rotor.charactersLinkedListRight) &&
+                charactersLinkedListLeft.equals(rotor.charactersLinkedListLeft);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, numberOfCharsInABC, charactersLinkedListRight, charactersLinkedListLeft,
+                notchPosition); //startingPosition);
     }
 }
