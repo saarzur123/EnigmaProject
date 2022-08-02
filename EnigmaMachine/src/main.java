@@ -12,13 +12,13 @@ public class main {
     public static void main(String[] args) {
         //create reflector
         List<Integer> reflectList = new ArrayList<>(6);
+        reflectList.add(3);
+        reflectList.add(4);
+        reflectList.add(5);
+        reflectList.add(0);
+        reflectList.add(1);
+        reflectList.add(2);
 
-        reflectList.set(0,3);
-        reflectList.set(3,0);
-        reflectList.set(1,4);
-        reflectList.set(4,1);
-        reflectList.set(5,2);
-        reflectList.set(2,5);
         Reflector reflectorInUse = new Reflector(reflectList,1);
 
         //create rotors

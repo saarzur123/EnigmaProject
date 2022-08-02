@@ -88,7 +88,8 @@ public class MachineImplement {
 
     private char encodingAndDecodingSingleChar(char keyBoardChar)
     {
-        return backwardDecoding(forwardDecoding(keyBoardChar));
+        int forwardIndexDecoding = forwardDecoding(keyBoardChar);
+        return backwardDecoding(forwardIndexDecoding);
     }
 
     private void makeRotorsMove()
