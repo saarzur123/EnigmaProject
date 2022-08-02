@@ -14,13 +14,13 @@ public class MachineImplement {
     private int reflectorsTotalNumber;
     private Map<Integer, Reflector> availableReflectorsMapIdToReflector = new HashMap<>();
     private Reflector reflectorInUse;
-    private String language;
+    private String ABC;
     private PlugBoard plugBoard;
 
 
-    public MachineImplement(List<Rotor> availableRotors, List<Reflector> availableReflectors, int countInUseRotors, String lang){
+    public MachineImplement(List<Rotor> availableRotors, List<Reflector> availableReflectors, int countInUseRotors, String language){
     this.rotorsMustBeInUseNumber = countInUseRotors;
-    this.language = lang;
+    this.ABC = language;
     initAvailableRotors(availableRotors);
     initAvailableReflectors(availableReflectors);
     rotorsTotalNumber = availableRotors.size();
@@ -29,14 +29,14 @@ public class MachineImplement {
 
     private void initAvailableRotors(List<Rotor> availableRotors)
     {
-        for(Rotor r : availableRotors)
-            availableRotorsMapIdToRotor.put(r.getId(),r);
+        availableRotors.forEach(rotor ->
+                availableRotorsMapIdToRotor.put(rotor.getId(), rotor));
     }
 
     private void initAvailableReflectors(List<Reflector> availableReflectors)
     {
-        for(Reflector r : availableReflectors)
-            availableReflectorsMapIdToReflector.put(r.getId(),r);
+        availableReflectors.forEach(reflector ->
+                availableReflectorsMapIdToReflector.put(reflector.getId(), reflector));
     }
 
     //in the positions lists!!!! the most right member at index 0 !!!
@@ -50,8 +50,8 @@ public class MachineImplement {
 
     private void setRotorsInCodeOrder(List<Integer> rotorsIdPositions)
     {
-        for(Integer ind : rotorsIdPositions)
-            rotorsInUse.add(availableRotorsMapIdToRotor.get(ind));
+        rotorsIdPositions.forEach(indexOfID ->
+                rotorsInUse.add(availableRotorsMapIdToRotor.get(indexOfID)));
     }
 
     private void setRotorsToStartPositions(List<Character> rotorsStartingPos)
@@ -73,22 +73,21 @@ public class MachineImplement {
         this.plugBoard = new PlugBoard(plugsMapping);
     }
 
-    public String encodingAndDecoding(String keyBoardStr)
+    public String encodingAndDecoding(String textSentToTheEnigma)
     {
-        final int size = keyBoardStr.length();
+        final int size = textSentToTheEnigma.length();
         String result = "";
 
         for (int i = 0; i < size; i++) {
-
-            result += encodingAndDecodingSingleChar(keyBoardStr.charAt(i));
+            result += encodingAndDecodingSingleChar(textSentToTheEnigma.charAt(i));
         }
 
         return result;
     }
 
-    private char encodingAndDecodingSingleChar(char keyBoardChar)
+    private char encodingAndDecodingSingleChar(char charInTextSentToTheEnigma)
     {
-        return backwardDecoding(forwardDecoding(keyBoardChar));
+        return backwardDecoding(forwardDecoding(charInTextSentToTheEnigma));
     }
 
     private void makeRotorsMove()
@@ -119,8 +118,8 @@ public class MachineImplement {
         int currReturnIndex = -1;
 
         if(isForward) {
-            for (int i = mostRightRotor; i < size; i++) {
-                currReturnIndex = rotorsInUse.get(i).convertInToOutIndexByDir(currStartIndex,isForward);
+            for (Rotor rotor : rotorsInUse) {
+                currReturnIndex = rotor.convertInToOutIndexByDir(currStartIndex, isForward);
                 currStartIndex = currReturnIndex;
             }
         }
@@ -134,12 +133,12 @@ public class MachineImplement {
         return currReturnIndex;
     }
 
-    private int forwardDecoding(char keyBoardChar)
+    private int forwardDecoding(char charInTextSentToTheEnigma)
     {
         final boolean isForward = true;
-        char charToDiscover = plugBoard.checkSwappingChar(keyBoardChar);
+        char charToDiscover = plugBoard.checkSwappingChar(charInTextSentToTheEnigma);
         makeRotorsMove();
-        int indexOfCharToDiscover = language.indexOf(charToDiscover);
+        int indexOfCharToDiscover = ABC.indexOf(charToDiscover);
         int indexToReflector = rotorsTransfer(indexOfCharToDiscover, isForward);
         int indexOfStartBackwards = reflectorInUse.getOutReflectorIndex(indexToReflector);
 
@@ -150,7 +149,7 @@ public class MachineImplement {
     {
         final boolean isForward = false;
         int indexToFinalChar = rotorsTransfer(reflectorIndex,isForward);
-        char charToReturn = plugBoard.checkSwappingChar(language.charAt(indexToFinalChar));
+        char charToReturn = plugBoard.checkSwappingChar(ABC.charAt(indexToFinalChar));
 
         return charToReturn;
     }

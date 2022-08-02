@@ -24,7 +24,7 @@ public class Reflector {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Reflector reflector = (Reflector) o;
+        Reflector reflector = (Reflector)o;
         return id == reflector.id && Objects.equals(reflectInAndOut, reflector.reflectInAndOut);
     }
 
