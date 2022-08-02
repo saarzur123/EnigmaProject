@@ -61,8 +61,8 @@ public class main {
         startPoint.add('C');
 
         Map<Character,Character> plug = new HashMap<>();
-        plug.put('C','B');
-        plug.put('B','C');
+        plug.put('A','F');
+        plug.put('F','A');
 
         machine.determineSecretCode(positions,startPoint,1,plug);
 
