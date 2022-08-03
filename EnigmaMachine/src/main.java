@@ -1,4 +1,7 @@
 import Machine.JaxbGenerated.CTEEnigma;
+import Machine.JaxbGenerated.CTEPositioning;
+import Machine.JaxbGenerated.CTERotor;
+import Machine.JaxbGenerated.CTERotors;
 import Machine.MachineImplement;
 import Machine.Reflector;
 import Machine.Rotor;
@@ -19,6 +22,7 @@ import java.util.Map;
 public class main {
 
     private final static String JAXB_PACKAGE_NAME = "Machine/JaxbGenerated";
+
     public static void main(String[] args) {
 //        //create reflector
 //        List<Integer> reflectList = new ArrayList<>(6);
@@ -86,23 +90,54 @@ public class main {
 //
 //        System.out.println(machine.encodingAndDecoding("AFBFCFDFEFFF"));
 
-//        try{
+//        try {
 //            InputStream inputStream = new FileInputStream(new File("src/Resources/ex1-sanity-small.xml"));
 //            MachineImplement machineImplement = deserializeFrom(inputStream);
-//        }catch (JAXBException | FileNotFoundException e){
+//        } catch (JAXBException | FileNotFoundException e) {
 //
 //        }
 //    }
 //
-//    private static MachineImplement deserializeFrom(InputStream in) throws JAXBException{
+//    private static MachineImplement deserializeFrom(InputStream in) throws JAXBException {
 //        JAXBContext jc = JAXBContext.newInstance(JAXB_PACKAGE_NAME);
 //        Unmarshaller u = jc.createUnmarshaller();
 //
 //        CTEEnigma cteEnigma = (CTEEnigma) u.unmarshal(in);
 //
 //
-//    }
+   }
 
+    private static List<Rotor> rotorsImplementFromJAXB(CTERotors cteRotorsInput)
+    {
+        List<Rotor> rotorsList = new ArrayList<>();
+        List<CTERotor> cteRotorsList = cteRotorsInput.getCTERotor();
 
+        for(CTERotor cteRotor : cteRotorsList)
+        {
+            rotorsList.add(createRotorFromCteRotor(cteRotor));
+        }
+
+        return rotorsList;
+    }
+
+    private static Rotor createRotorFromCteRotor(CTERotor cteRotor)
+    {
+        String rotorRight = "";
+        String rotorLeft = "";
+
+        createStringFromCtePositioning(cteRotor.getCTEPositioning(), rotorRight, rotorLeft);
+        Rotor newRotor = new Rotor(cteRotor.getId(), cteRotor.getNotch(), rotorRight, rotorLeft);
+
+        return newRotor;
+    }
+
+    private static void createStringFromCtePositioning(List<CTEPositioning> ctePositioning, String right, String left)
+    {
+        for(CTEPositioning ctePosition : ctePositioning)
+        {
+            right += ctePosition.getRight();
+            left += ctePosition.getLeft();
+        }
+    }
 
 }
