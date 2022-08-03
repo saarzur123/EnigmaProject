@@ -18,7 +18,7 @@ import java.util.Map;
 
 public class main {
 
-    private final static String JAXB_PACKAGE_NAME = "Machine/JaxbGenerated";
+    private final static String JAXB_PACKAGE_NAME = "Machine.JaxbGenerated";
     public static void main(String[] args) {
 //        //create reflector
 //        List<Integer> reflectList = new ArrayList<>(6);
@@ -87,12 +87,13 @@ public class main {
 //        System.out.println(machine.encodingAndDecoding("AFBFCFDFEFFF"));
 
         try{
-            InputStream inputStream = new FileInputStream(new File("src/Resources/ex1-sanity-small.xml"));
+            InputStream inputStream = new FileInputStream(new File("C:/Users/saarz/IdeaProjects/EnigmaProject/EnigmaMachine/src/Resources/ex1-sanity-small.xml"));
             MachineImplement machineImplement = deserializeFrom(inputStream);
         }catch (JAXBException | FileNotFoundException e){
 
         }
     }
+
 
     private static MachineImplement deserializeFrom(InputStream in) throws JAXBException{
         JAXBContext jc = JAXBContext.newInstance(JAXB_PACKAGE_NAME);
@@ -109,7 +110,9 @@ public class main {
     private static MachineImplement machineImplementFromJAXB(CTEMachine cteMachine){
         CTERotors cteRotors = cteMachine.getCTERotors();
         CTEReflectors cteReflectors = cteMachine.getCTEReflectors();
-        return new MachineImplement(rotorsImplementFromJAXB(cteRotors), reflectorsImplementFromJAXB(cteReflectors), cteMachine.getRotorsCount(), cteMachine.getABC());
+        List<Rotor> rotorsList = rotorsImplementFromJAXB(cteRotors);
+        List<Reflector> reflectorsList = reflectorsImplementFromJAXB(cteReflectors);
+        return new MachineImplement(rotorsList, reflectorsList, cteMachine.getRotorsCount(), cteMachine.getABC());
     }
 
     private static List<Reflector> reflectorsImplementFromJAXB(CTEReflectors cteReflectors){
@@ -120,6 +123,7 @@ public class main {
 
         return arrayRefelctor;
     }
+
     private static Reflector reflectorImplementFromJAXB(CTEReflector cteReflector){
         List<Integer> insideReflector = new ArrayList<>();
         Map<String,Integer> romiMap = romanMap();
@@ -150,7 +154,8 @@ public class main {
 
         for(CTERotor cteRotor : cteRotorsList)
         {
-            rotorsList.add(createRotorFromCteRotor(cteRotor));
+            Rotor toAdd = createRotorFromCteRotor(cteRotor);
+            rotorsList.add(toAdd);
         }
 
         return rotorsList;
