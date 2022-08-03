@@ -87,7 +87,8 @@ public class MachineImplement {
 
     private char encodingAndDecodingSingleChar(char charInTextSentToTheEnigma)
     {
-        return backwardDecoding(forwardDecoding(charInTextSentToTheEnigma));
+        int forwardIndexDecoding = forwardDecoding(charInTextSentToTheEnigma);
+        return backwardDecoding(forwardIndexDecoding);
     }
 
     private void makeRotorsMove()
