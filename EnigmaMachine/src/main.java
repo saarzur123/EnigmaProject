@@ -1,20 +1,5 @@
-import Machine.JaxbGenerated.*;
 import Machine.MachineImplement;
-import Machine.Reflector;
-import Machine.Rotor;
 import TransferJaxbGeneratedToObject.ObjectFromXml;
-
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBException;
-import javax.xml.bind.Unmarshaller;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 
 public class main {

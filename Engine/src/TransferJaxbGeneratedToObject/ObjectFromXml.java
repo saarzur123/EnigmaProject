@@ -1,3 +1,4 @@
+
 package TransferJaxbGeneratedToObject;
 
 import Machine.JaxbGenerated.*;
@@ -26,6 +27,7 @@ public class ObjectFromXml {
 
         try{
             //"C:/Users/saarz/IdeaProjects/EnigmaProject/EnigmaMachine/src/Resources/ex1-sanity-small.xml"
+            ///Users/natalializi/dev/EnigmaProject/EnigmaMachine/src/Resources/ex1-sanity-small.xml
             InputStream inputStream = new FileInputStream(new File(desiredXmlPath));
             machineImplement = deserializeFrom(inputStream);
 
