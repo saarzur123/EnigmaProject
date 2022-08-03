@@ -87,13 +87,13 @@ public class main {
 //        System.out.println(machine.encodingAndDecoding("AFBFCFDFEFFF"));
 
         try{
-            InputStream inputStream = new FileInputStream(new File("C:/Users/saarz/IdeaProjects/EnigmaProject/EnigmaMachine/src/Resources/ex1-sanity-small.xml"));
+            InputStream inputStream = new FileInputStream(new File("/Users/natalializi/dev/EnigmaProject/EnigmaMachine/src/Resources/ex1-sanity-small.xml"));
             MachineImplement machineImplement = deserializeFrom(inputStream);
+            System.out.println("h");
         }catch (JAXBException | FileNotFoundException e){
 
         }
     }
-
 
     private static MachineImplement deserializeFrom(InputStream in) throws JAXBException{
         JAXBContext jc = JAXBContext.newInstance(JAXB_PACKAGE_NAME);
@@ -112,13 +112,19 @@ public class main {
         CTEReflectors cteReflectors = cteMachine.getCTEReflectors();
         List<Rotor> rotorsList = rotorsImplementFromJAXB(cteRotors);
         List<Reflector> reflectorsList = reflectorsImplementFromJAXB(cteReflectors);
-        return new MachineImplement(rotorsList, reflectorsList, cteMachine.getRotorsCount(), cteMachine.getABC());
+        String cleanStringABC = cleanABC(cteMachine.getABC());
+        return new MachineImplement(rotorsList, reflectorsList, cteMachine.getRotorsCount(), cleanStringABC);
+    }
+
+    private static String cleanABC(String acbFromJAXB){
+        return acbFromJAXB.trim();
     }
 
     private static List<Reflector> reflectorsImplementFromJAXB(CTEReflectors cteReflectors){
         List<Reflector> arrayRefelctor = new ArrayList<>();
-        for(int i = 0; i<cteReflectors.getCTEReflector().size();i++){
-            arrayRefelctor.add(reflectorImplementFromJAXB(cteReflectors.getCTEReflector().get(i)));
+        for(int i = 0; i<cteReflectors.getCTEReflector().size(); i++){
+            Reflector reflector = reflectorImplementFromJAXB(cteReflectors.getCTEReflector().get(i));
+            arrayRefelctor.add(reflector);
         }
 
         return arrayRefelctor;
@@ -127,11 +133,12 @@ public class main {
     private static Reflector reflectorImplementFromJAXB(CTEReflector cteReflector){
         List<Integer> insideReflector = new ArrayList<>();
         Map<String,Integer> romiMap = romanMap();
-        for(int i = 0; i<cteReflector.getCTEReflect().size(); i++){
+        for(int i = 0; i<cteReflector.getCTEReflect().size()*2 +1; i++){
             insideReflector.add(null);
         }
-        for( int i = 0; i<cteReflector.getCTEReflect().size(); i++){
+        for( int i = 0; i<insideReflector.size()/2 ; i++){
             insideReflector.set(cteReflector.getCTEReflect().get(i).getInput(), cteReflector.getCTEReflect().get(i).getOutput());
+            insideReflector.set(cteReflector.getCTEReflect().get(i).getOutput(), cteReflector.getCTEReflect().get(i).getInput());
         }
 
         return new Reflector( insideReflector,romiMap.get(cteReflector.getId()));
