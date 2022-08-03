@@ -74,6 +74,6 @@ public class main {
 //        machine.insertPlug("A", "F");
 
 
-        System.out.println(machine.encodingAndDecoding("FEDCBAABCDEF"));
+        System.out.println(machine.encodingAndDecoding("AFBFCFDFEFFF"));
     }
 }
