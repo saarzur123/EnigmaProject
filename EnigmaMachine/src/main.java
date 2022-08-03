@@ -127,11 +127,12 @@ public class main {
     private static Reflector reflectorImplementFromJAXB(CTEReflector cteReflector){
         List<Integer> insideReflector = new ArrayList<>();
         Map<String,Integer> romiMap = romanMap();
-        for(int i = 0; i<cteReflector.getCTEReflect().size(); i++){
+        for(int i = 0; i<cteReflector.getCTEReflect().size()*2; i++){
             insideReflector.add(null);
         }
-        for( int i = 0; i<cteReflector.getCTEReflect().size(); i++){
+        for( int i = 0; i<cteReflector.getCTEReflect().size()*2; i++){
             insideReflector.set(cteReflector.getCTEReflect().get(i).getInput(), cteReflector.getCTEReflect().get(i).getOutput());
+            insideReflector.set(cteReflector.getCTEReflect().get(i).getOutput(), cteReflector.getCTEReflect().get(i).getInput());
         }
 
         return new Reflector( insideReflector,romiMap.get(cteReflector.getId()));
