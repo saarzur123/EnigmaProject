@@ -27,6 +27,10 @@ public class MachineImplement {
     reflectorsTotalNumber = availableReflectors.size();
     }
 
+    public String getABC(){return ABC;}
+    public int getInUseRotorNumber(){return  rotorsMustBeInUseNumber; }
+    public List<Rotor> getInUseRotors(){return rotorsInUse; }
+
     private void initAvailableRotors(List<Rotor> availableRotors)
     {
         availableRotors.forEach(rotor ->
