@@ -54,10 +54,10 @@ public class XMLToObject {
     private static MachineImplement machineImplementFromJAXB(CTEMachine cteMachine) {
         CTERotors cteRotors = cteMachine.getCTERotors();
         CTEReflectors cteReflectors = cteMachine.getCTEReflectors();
-        List<Rotor> rotorsList = rotorsImplementFromJAXB(cteRotors);
+        //List<Rotor> rotorsList = rotorsImplementFromJAXB(cteRotors);
         List<Reflector> reflectorsList = reflectorsImplementFromJAXB(cteReflectors);
         String cleanStringABC = cleanABC(cteMachine.getABC());
-        return new MachineImplement(rotorsList, reflectorsList, cteMachine.getRotorsCount(), cleanStringABC);
+        return new MachineImplement(rotorsImplementFromJAXB(cteRotors), reflectorsList, cteMachine.getRotorsCount(), cleanStringABC);
     }
 
     private static String cleanABC(String acbFromJAXB) {
