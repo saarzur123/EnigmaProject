@@ -102,7 +102,6 @@ public class main {
 
 
     }
-
     private static MachineImplement enigmaImplementFromJAXB(CTEEnigma cteEnigma){
         CTEMachine cteMachine = cteEnigma.getCTEMachine();
         return machineImplementFromJAXB(cteMachine);
@@ -144,6 +143,37 @@ public class main {
         return romiMap;
     }
 
+    private static List<Rotor> rotorsImplementFromJAXB(CTERotors cteRotorsInput)
+    {
+        List<Rotor> rotorsList = new ArrayList<>();
+        List<CTERotor> cteRotorsList = cteRotorsInput.getCTERotor();
 
+        for(CTERotor cteRotor : cteRotorsList)
+        {
+            rotorsList.add(createRotorFromCteRotor(cteRotor));
+        }
+
+        return rotorsList;
+    }
+
+    private static Rotor createRotorFromCteRotor(CTERotor cteRotor)
+    {
+        String rotorRight = "";
+        String rotorLeft = "";
+
+        createStringFromCtePositioning(cteRotor.getCTEPositioning(), rotorRight, rotorLeft);
+        Rotor newRotor = new Rotor(cteRotor.getId(), cteRotor.getNotch(), rotorRight, rotorLeft);
+
+        return newRotor;
+    }
+
+    private static void createStringFromCtePositioning(List<CTEPositioning> ctePositioning, String right, String left)
+    {
+        for(CTEPositioning ctePosition : ctePositioning)
+        {
+            right += ctePosition.getRight();
+            left += ctePosition.getLeft();
+        }
+    }
 
 }
