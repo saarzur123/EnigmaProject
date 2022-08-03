@@ -92,8 +92,8 @@ public class main {
 //        }catch (JAXBException | FileNotFoundException e){
 //
 //        }
-    }
-
+//    }
+//
 //    private static MachineImplement deserializeFrom(InputStream in) throws JAXBException{
 //        JAXBContext jc = JAXBContext.newInstance(JAXB_PACKAGE_NAME);
 //        Unmarshaller u = jc.createUnmarshaller();
@@ -102,6 +102,7 @@ public class main {
 //
 //
 //    }
+
 
 
 }
