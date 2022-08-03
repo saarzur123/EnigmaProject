@@ -163,21 +163,21 @@ public class main {
 
     private static Rotor createRotorFromCteRotor(CTERotor cteRotor)
     {
-        String rotorRight = "";
-        String rotorLeft = "";
+        StringBuilder rotorRight = new StringBuilder("");
+        StringBuilder rotorLeft = new StringBuilder("");
 
         createStringFromCtePositioning(cteRotor.getCTEPositioning(), rotorRight, rotorLeft);
-        Rotor newRotor = new Rotor(cteRotor.getId(), cteRotor.getNotch(), rotorRight, rotorLeft);
+        Rotor newRotor = new Rotor(cteRotor.getId(), cteRotor.getNotch(), rotorRight.toString(), rotorLeft.toString());
 
         return newRotor;
     }
 
-    private static void createStringFromCtePositioning(List<CTEPositioning> ctePositioning, String right, String left)
+    private static void createStringFromCtePositioning(List<CTEPositioning> ctePositioning, StringBuilder right, StringBuilder left)
     {
         for(CTEPositioning ctePosition : ctePositioning)
         {
-            right += ctePosition.getRight();
-            left += ctePosition.getLeft();
+            right.append(ctePosition.getRight());
+            left.append(ctePosition.getLeft());
         }
     }
 
