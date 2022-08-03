@@ -89,6 +89,7 @@ public class main {
         try{
             InputStream inputStream = new FileInputStream(new File("/Users/natalializi/dev/EnigmaProject/EnigmaMachine/src/Resources/ex1-sanity-small.xml"));
             MachineImplement machineImplement = deserializeFrom(inputStream);
+            System.out.println("h");
         }catch (JAXBException | FileNotFoundException e){
 
         }
@@ -111,7 +112,12 @@ public class main {
         CTEReflectors cteReflectors = cteMachine.getCTEReflectors();
         List<Rotor> rotorsList = rotorsImplementFromJAXB(cteRotors);
         List<Reflector> reflectorsList = reflectorsImplementFromJAXB(cteReflectors);
-        return new MachineImplement(rotorsList, reflectorsList, cteMachine.getRotorsCount(), cteMachine.getABC());
+        String cleanStringABC = cleanABC(cteMachine.getABC());
+        return new MachineImplement(rotorsList, reflectorsList, cteMachine.getRotorsCount(), cleanStringABC);
+    }
+
+    private static String cleanABC(String acbFromJAXB){
+        return acbFromJAXB.trim();
     }
 
     private static List<Reflector> reflectorsImplementFromJAXB(CTEReflectors cteReflectors){
@@ -127,10 +133,10 @@ public class main {
     private static Reflector reflectorImplementFromJAXB(CTEReflector cteReflector){
         List<Integer> insideReflector = new ArrayList<>();
         Map<String,Integer> romiMap = romanMap();
-        for(int i = 0; i<cteReflector.getCTEReflect().size()*2; i++){
+        for(int i = 0; i<cteReflector.getCTEReflect().size()*2 +1; i++){
             insideReflector.add(null);
         }
-        for( int i = 0; i<cteReflector.getCTEReflect().size()*2; i++){
+        for( int i = 0; i<insideReflector.size()/2 ; i++){
             insideReflector.set(cteReflector.getCTEReflect().get(i).getInput(), cteReflector.getCTEReflect().get(i).getOutput());
             insideReflector.set(cteReflector.getCTEReflect().get(i).getOutput(), cteReflector.getCTEReflect().get(i).getInput());
         }
