@@ -85,16 +85,11 @@ public class main {
 //
 //
 //        System.out.println(machine.encodingAndDecoding("AFBFCFDFEFFF"));
-        System.out.println("jj");
-        InputStream inputStream=null;
-        try{
-            inputStream = new FileInputStream(new File("/Users/natalializi/dev/EnigmaProject/EnigmaMachine/src/Resources/ex1-sanity-small.xml"));
-        }catch (FileNotFoundException e){
 
-        }
-        try {
+        try{
+            InputStream inputStream = new FileInputStream(new File("/Users/natalializi/dev/EnigmaProject/EnigmaMachine/src/Resources/ex1-sanity-small.xml"));
             MachineImplement machineImplement = deserializeFrom(inputStream);
-        }catch (JAXBException e){
+        }catch (JAXBException | FileNotFoundException e){
 
         }
     }
@@ -114,9 +109,9 @@ public class main {
     private static MachineImplement machineImplementFromJAXB(CTEMachine cteMachine){
         CTERotors cteRotors = cteMachine.getCTERotors();
         CTEReflectors cteReflectors = cteMachine.getCTEReflectors();
-        List<Rotor> rotors = rotorsImplementFromJAXB(cteRotors);
-        List<Reflector> reflectors = reflectorsImplementFromJAXB(cteReflectors);
-        return new MachineImplement(rotors, reflectors, cteMachine.getRotorsCount(), cteMachine.getABC());
+        List<Rotor> rotorsList = rotorsImplementFromJAXB(cteRotors);
+        List<Reflector> reflectorsList = reflectorsImplementFromJAXB(cteReflectors);
+        return new MachineImplement(rotorsList, reflectorsList, cteMachine.getRotorsCount(), cteMachine.getABC());
     }
 
     private static List<Reflector> reflectorsImplementFromJAXB(CTEReflectors cteReflectors){
@@ -128,6 +123,7 @@ public class main {
 
         return arrayRefelctor;
     }
+
     private static Reflector reflectorImplementFromJAXB(CTEReflector cteReflector){
         List<Integer> insideReflector = new ArrayList<>();
         Map<String,Integer> romiMap = romanMap();
@@ -158,7 +154,8 @@ public class main {
 
         for(CTERotor cteRotor : cteRotorsList)
         {
-            rotorsList.add(createRotorFromCteRotor(cteRotor));
+            Rotor toAdd = createRotorFromCteRotor(cteRotor);
+            rotorsList.add(toAdd);
         }
 
         return rotorsList;
