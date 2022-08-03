@@ -97,9 +97,9 @@ public class main {
     private static MachineImplement deserializeFrom(InputStream in) throws JAXBException{
         JAXBContext jc = JAXBContext.newInstance(JAXB_PACKAGE_NAME);
         Unmarshaller u = jc.createUnmarshaller();
-
         CTEEnigma cteEnigma = (CTEEnigma) u.unmarshal(in);
 
+        return enigmaImplementFromJAXB(cteEnigma);
 
     }
     private static MachineImplement enigmaImplementFromJAXB(CTEEnigma cteEnigma){
@@ -121,16 +121,16 @@ public class main {
         return arrayRefelctor;
     }
     private static Reflector reflectorImplementFromJAXB(CTEReflector cteReflector){
-        List<Integer> listReflector = new ArrayList<>();
+        List<Integer> insideReflector = new ArrayList<>();
         Map<String,Integer> romiMap = romanMap();
-        for(int i = 0;i<cteReflector.getCTEReflect().size(); i++){
-            listReflector.add(null);
+        for(int i = 0; i<cteReflector.getCTEReflect().size(); i++){
+            insideReflector.add(null);
         }
         for( int i = 0; i<cteReflector.getCTEReflect().size(); i++){
-            listReflector.set(cteReflector.getCTEReflect().get(i).getInput(), cteReflector.getCTEReflect().get(i).getOutput());
+            insideReflector.set(cteReflector.getCTEReflect().get(i).getInput(), cteReflector.getCTEReflect().get(i).getOutput());
         }
 
-        return new Reflector( listReflector,romiMap.get(cteReflector.getId()));
+        return new Reflector( insideReflector,romiMap.get(cteReflector.getId()));
     }
 
     private static Map<String, Integer> romanMap(){
