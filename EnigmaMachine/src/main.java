@@ -1,4 +1,4 @@
-import Machine.JaxbGenerated.CTEEnigma;
+import Machine.JaxbGenerated.*;
 import Machine.MachineImplement;
 import Machine.Reflector;
 import Machine.Rotor;
@@ -86,22 +86,63 @@ public class main {
 //
 //        System.out.println(machine.encodingAndDecoding("AFBFCFDFEFFF"));
 
-//        try{
-//            InputStream inputStream = new FileInputStream(new File("src/Resources/ex1-sanity-small.xml"));
-//            MachineImplement machineImplement = deserializeFrom(inputStream);
-//        }catch (JAXBException | FileNotFoundException e){
-//
-//        }
-//    }
-//
-//    private static MachineImplement deserializeFrom(InputStream in) throws JAXBException{
-//        JAXBContext jc = JAXBContext.newInstance(JAXB_PACKAGE_NAME);
-//        Unmarshaller u = jc.createUnmarshaller();
-//
-//        CTEEnigma cteEnigma = (CTEEnigma) u.unmarshal(in);
-//
-//
-//    }
+        try{
+            InputStream inputStream = new FileInputStream(new File("src/Resources/ex1-sanity-small.xml"));
+            MachineImplement machineImplement = deserializeFrom(inputStream);
+        }catch (JAXBException | FileNotFoundException e){
+
+        }
+    }
+
+    private static MachineImplement deserializeFrom(InputStream in) throws JAXBException{
+        JAXBContext jc = JAXBContext.newInstance(JAXB_PACKAGE_NAME);
+        Unmarshaller u = jc.createUnmarshaller();
+
+        CTEEnigma cteEnigma = (CTEEnigma) u.unmarshal(in);
+
+
+    }
+
+    private static MachineImplement enigmaImplementFromJAXB(CTEEnigma cteEnigma){
+        CTEMachine cteMachine = cteEnigma.getCTEMachine();
+        return machineImplementFromJAXB(cteMachine);
+    }
+    private static MachineImplement machineImplementFromJAXB(CTEMachine cteMachine){
+        CTERotors cteRotors = cteMachine.getCTERotors();
+        CTEReflectors cteReflectors = cteMachine.getCTEReflectors();
+        return new MachineImplement(rotorsImplementFromJAXB(cteRotors), reflectorsImplementFromJAXB(cteReflectors), cteMachine.getRotorsCount(), cteMachine.getABC());
+    }
+
+    private static List<Reflector> reflectorsImplementFromJAXB(CTEReflectors cteReflectors){
+        List<Reflector> arrayRefelctor = new ArrayList<>();
+        for(int i = 0; i<cteReflectors.getCTEReflector().size();i++){
+            arrayRefelctor.add(reflectorImplementFromJAXB(cteReflectors.getCTEReflector().get(i)));
+        }
+
+        return arrayRefelctor;
+    }
+    private static Reflector reflectorImplementFromJAXB(CTEReflector cteReflector){
+        List<Integer> listReflector = new ArrayList<>();
+        Map<String,Integer> romiMap = romanMap();
+        for(int i = 0;i<cteReflector.getCTEReflect().size(); i++){
+            listReflector.add(null);
+        }
+        for( int i = 0; i<cteReflector.getCTEReflect().size(); i++){
+            listReflector.set(cteReflector.getCTEReflect().get(i).getInput(), cteReflector.getCTEReflect().get(i).getOutput());
+        }
+
+        return new Reflector( listReflector,romiMap.get(cteReflector.getId()));
+    }
+
+    private static Map<String, Integer> romanMap(){
+        Map<String,Integer> romiMap = new HashMap<>();
+        romiMap.put("I",1);
+        romiMap.put("II",2);
+        romiMap.put("III",3);
+        romiMap.put("IV",4);
+        romiMap.put("V",5);
+        return romiMap;
+    }
 
 
 
