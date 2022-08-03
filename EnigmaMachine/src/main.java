@@ -18,7 +18,7 @@ import java.util.Map;
 
 public class main {
 
-    private final static String JAXB_PACKAGE_NAME = "Machine/JaxbGenerated";
+    private final static String JAXB_PACKAGE_NAME = "Machine.JaxbGenerated";
     public static void main(String[] args) {
 //        //create reflector
 //        List<Integer> reflectList = new ArrayList<>(6);
@@ -85,11 +85,16 @@ public class main {
 //
 //
 //        System.out.println(machine.encodingAndDecoding("AFBFCFDFEFFF"));
-
+        System.out.println("jj");
+        InputStream inputStream=null;
         try{
-            InputStream inputStream = new FileInputStream(new File("src/Resources/ex1-sanity-small.xml"));
+            inputStream = new FileInputStream(new File("/Users/natalializi/dev/EnigmaProject/EnigmaMachine/src/Resources/ex1-sanity-small.xml"));
+        }catch (FileNotFoundException e){
+
+        }
+        try {
             MachineImplement machineImplement = deserializeFrom(inputStream);
-        }catch (JAXBException | FileNotFoundException e){
+        }catch (JAXBException e){
 
         }
     }
@@ -109,13 +114,16 @@ public class main {
     private static MachineImplement machineImplementFromJAXB(CTEMachine cteMachine){
         CTERotors cteRotors = cteMachine.getCTERotors();
         CTEReflectors cteReflectors = cteMachine.getCTEReflectors();
-        return new MachineImplement(rotorsImplementFromJAXB(cteRotors), reflectorsImplementFromJAXB(cteReflectors), cteMachine.getRotorsCount(), cteMachine.getABC());
+        List<Rotor> rotors = rotorsImplementFromJAXB(cteRotors);
+        List<Reflector> reflectors = reflectorsImplementFromJAXB(cteReflectors);
+        return new MachineImplement(rotors, reflectors, cteMachine.getRotorsCount(), cteMachine.getABC());
     }
 
     private static List<Reflector> reflectorsImplementFromJAXB(CTEReflectors cteReflectors){
         List<Reflector> arrayRefelctor = new ArrayList<>();
-        for(int i = 0; i<cteReflectors.getCTEReflector().size();i++){
-            arrayRefelctor.add(reflectorImplementFromJAXB(cteReflectors.getCTEReflector().get(i)));
+        for(int i = 0; i<cteReflectors.getCTEReflector().size(); i++){
+            Reflector reflector = reflectorImplementFromJAXB(cteReflectors.getCTEReflector().get(i));
+            arrayRefelctor.add(reflector);
         }
 
         return arrayRefelctor;
