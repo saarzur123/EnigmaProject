@@ -1,3 +1,4 @@
+import ImportFromXML.XMLToObject;
 import Machine.MachineImplement;
 
 
@@ -9,7 +10,7 @@ public class main {
         String path = "C:/Users/saarz/IdeaProjects/EnigmaProject/EnigmaMachine/src/Resources/ex1-sanity-small.xml";
 
 
-        MachineImplement machine = ObjectFromXml.machineFromXml(path);
+        MachineImplement machine = XMLToObject.machineFromXml(path);
 
         char s = 'v';
     }
