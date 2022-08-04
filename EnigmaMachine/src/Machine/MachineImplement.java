@@ -100,15 +100,18 @@ public class MachineImplement {
         final int mostRightRotor = 0;
         final int windowIndex = 0;
         final int size = rotorsInUse.size();
+        final int indexBeforeWindow = 1;
+        int notchLastPlace = rotorsInUse.get(mostRightRotor).getNotch();
 
         rotorsInUse.get(mostRightRotor).movePositions();
 
-        for (int i = 0; i < size - 1; i++) {///מה קורה כשהזיז של הרוטור האחרון מגיע לחלונית??????????TODO
+        for (int i = 0; i < size - 1; i++) {
 
             boolean isNotchInWindow = rotorsInUse.get(i).getNotch() == windowIndex;
 
-            if(isNotchInWindow)
+            if(isNotchInWindow && notchLastPlace == indexBeforeWindow)
             {
+                notchLastPlace = rotorsInUse.get(i+1).getNotch();
                 rotorsInUse.get(i+1).movePositions();
             }
         }

@@ -1,14 +1,15 @@
 package CheckXMLFile;
 
 import ImportFromXML.XMLToObject;
+import Machine.JaxbGenerated.*;
 import Machine.MachineImplement;
+import Machine.Reflector;
 import Machine.Rotor;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+
+import static javax.swing.UIManager.put;
 
 public class CheckXML {
 
@@ -38,7 +39,7 @@ public class CheckXML {
         return rotorCount >=2;
     }
 
-    private  boolean checkIfAllRotorsHaveUniqueIDAndSifror(List<Rotor> listOfRotor){//אין לי שם טוב -_-
+    private boolean checkIfAllRotorsHaveUniqueIDAndSifror(List<Rotor> listOfRotor){//אין לי שם טוב -_-
         int lengthOfTheList = listOfRotor.size();
         List<Rotor> indexIdOfList = new ArrayList<>();
         for (int i = 0; i<lengthOfTheList;i++){
@@ -57,6 +58,90 @@ public class CheckXML {
         return true;
     }
 
+    private boolean checkReflectorsId(List<CTEReflector> cteReflectorList)////////try and catch TODO
+    {
+        boolean isValid = true;
+        List<Integer> reflectorsId = new ArrayList<>();
+        Map<String,Integer> romeToInt = createRomeToIntMap();
+
+        for(CTEReflector r : cteReflectorList)
+        {
+         isValid = checkRomeId(r.getId(),romeToInt);
+
+         if(!isValid)//check id in rome number
+             return false;
+         int intId = romeToInt.get(r.getId());
+         if(reflectorsId.contains(intId))//check duplicates
+             return false;
+         reflectorsId.add(intId);
+        }
+
+        return checkSequentialNumbering(reflectorsId);//check sifroor
+    }
+
+    private boolean checkRomeId(String reflectorId, Map<String,Integer> RomeToInt)
+    {
+        return RomeToInt.containsKey(reflectorId);
+    }
+
+    private Map<String,Integer> createRomeToIntMap()
+    {
+        Map<String,Integer> romeToInt = new HashMap<>();
+        romeToInt.put("I", 1);
+        romeToInt.put("II",2);
+        romeToInt.put("III",3);
+        romeToInt.put("IV",4);
+        romeToInt.put("V",5);
+        return  romeToInt;
+    }
+
+    private boolean checkSequentialNumbering(List<Integer> listOfElementsId)
+    {
+        Collections.sort(listOfElementsId);
+        int size = listOfElementsId.size();
+        int firstId = listOfElementsId.get(0);
+
+        for (int i = 0; i < size; i++,firstId++) {
+
+            boolean isSequential = listOfElementsId.get(i) == firstId;
+            if(!isSequential)
+                return false;
+        }
+
+        return true;
+    }
+
+    private boolean checkSelfMapping(List<CTEReflector> reflectorsList)//TODO add reflector id to exception msg
+    {
+        for(CTEReflector r : reflectorsList)
+        {
+            for(CTEReflect reflect : r.getCTEReflect())
+            {
+                if(reflect.getInput() == reflect.getOutput())
+                    return false;
+            }
+        }
+        return true;
+    }
+
+    private boolean checkRotorDoubleMapping(String rotorRight, String rotorLeft)//TODO create Exception
+
+    {
+        return checkDoubleMappingInStr(rotorLeft,rotorRight) && checkDoubleMappingInStr(rotorRight,rotorLeft);
+    }
+
+    private boolean checkDoubleMappingInStr(String strToCheck, String isContainDoubleMappingStr)
+    {
+        int size = strToCheck.length();
+
+        for (int i = 0; i < size; i++) {
+            char search = strToCheck.charAt(i);
+            boolean isDoubleMapping = isContainDoubleMappingStr.lastIndexOf(search) == isContainDoubleMappingStr.indexOf(search);
+            if(!isDoubleMapping)
+                return false;
+        }
+        return true;
+    }
 
 
 }
