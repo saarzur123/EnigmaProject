@@ -39,13 +39,13 @@ public class CheckXML {
         return rotorCount >=2;
     }
 
-    private boolean checkIfAllRotorsHaveUniqueIDAndSifror(List<Rotor> listOfRotor){//אין לי שם טוב -_-
+    private boolean checkIfAllRotorsHaveUniqueIDAndSifror(List<CTERotor> listOfRotor){//אין לי שם טוב -_-
         int lengthOfTheList = listOfRotor.size();
-        List<Rotor> indexIdOfList = new ArrayList<>();
+        List<CTERotor> indexIdOfList = new ArrayList<>();
         for (int i = 0; i<lengthOfTheList;i++){
             indexIdOfList.add(null);
         }
-        for(Rotor rotor : listOfRotor){
+        for(CTERotor rotor : listOfRotor){
             if (rotor.getId() >= lengthOfTheList || rotor.getId() <= 0) return false; //חורג מהגודל המקסימלי
             if (indexIdOfList.get(rotor.getId()-1) != null) return false; //הid כבר קיים
             indexIdOfList.set((rotor.getId()-1),rotor);
@@ -143,6 +143,15 @@ public class CheckXML {
         return true;
     }
 
-
+    private boolean checkIfRotorsStringsAreFromAbc(String ABC, List<CTERotors> listRotors){
+        for(CTERotors rotors : listRotors){
+            for(CTERotor rotor : rotors.getCTERotor()){
+                for(CTEPositioning positioning : rotor.getCTEPositioning()){
+                    if((!ABC.contains(positioning.getLeft()))||((!ABC.contains(positioning.getRight()))))return false;
+                }
+            }
+        }
+        return true;
+    }
 }
 
