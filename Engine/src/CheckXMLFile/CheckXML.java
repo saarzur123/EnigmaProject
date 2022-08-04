@@ -153,5 +153,9 @@ public class CheckXML {
         }
         return true;
     }
+
+    private boolean checkIfReflectorsMappingInRange(){
+
+    }
 }
 
