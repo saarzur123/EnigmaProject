@@ -33,15 +33,15 @@ public class CheckXML {
         }
     }
 
-    public void checkEnoughRotors(int inUseRotorsNumbers, int rotorsNumber,List<ExceptionDTO> checkedObjectsList){
-        checkedObjectsList.add(new ExceptionDTO(rotorsNumber >= inUseRotorsNumbers,"rotors"," entered are not according to rotors count"));
+    public void checkEnoughRotors(int mustInUseRotorsNumbers, int rotorsNumber,List<ExceptionDTO> checkedObjectsList){
+        checkedObjectsList.add(new ExceptionDTO(rotorsNumber < mustInUseRotorsNumbers,"rotors"," entered are not according to rotors count"));
     }
 
     public void checkRotorsCount(int rotorCount,List<ExceptionDTO> checkedObjectsList){
         checkedObjectsList.add(new ExceptionDTO(rotorCount >=2,"rotors"," number < 2"));
     }
 
-    public void checkIfAllRotorsHaveUniqueIDAndSifror(List<Rotor> listOfRotor,List<ExceptionDTO> checkedObjectsList){//אין לי שם טוב -_-
+    public void checkIfAllRotorsHaveUniqueIDAndNumbering(List<Rotor> listOfRotor,List<ExceptionDTO> checkedObjectsList){
         int lengthOfTheList = listOfRotor.size();
         List<Rotor> indexIdOfList = new ArrayList<>();
         for (int i = 0; i<lengthOfTheList;i++){
@@ -56,8 +56,8 @@ public class CheckXML {
         }
     }
 
-    public void checkIfNotchInRange(int notch, String ABC,List<ExceptionDTO> checkedObjectsList){
-        if(notch > ABC.length() || notch < 1)
+    public void checkIfNotchInRange(int notch, int ABCLen,List<ExceptionDTO> checkedObjectsList){
+        if(notch > ABCLen || notch < 1)
             checkedObjectsList.add(new ExceptionDTO(false,"notch"," not in abc range"));
     }
 

@@ -56,28 +56,34 @@ public class XMLToObject {
         return machineImplementFromJAXB(cteMachine);
     }
 
-    private MachineImplement machineImplementFromJAXB(CTEMachine cteMachine) {
+    private MachineImplement machineImplementFromJAXB(CTEMachine cteMachine){
+        xmlValidator.checkRotorsCount(cteMachine.getRotorsCount(),checkedObjectsList);
+        String cleanStringABC = cleanABC(cteMachine.getABC());
         CTERotors cteRotors = cteMachine.getCTERotors();
         CTEReflectors cteReflectors = cteMachine.getCTEReflectors();
-        List<Rotor> rotorsList = rotorsImplementFromJAXB(cteRotors);
+        List<Rotor> rotorsList = rotorsImplementFromJAXB(cteRotors,cleanStringABC.length());
+        xmlValidator.checkEnoughRotors(cteMachine.getRotorsCount(),rotorsList.size(),checkedObjectsList);
+        xmlValidator.checkIfAllRotorsHaveUniqueIDAndNumbering(rotorsList,checkedObjectsList);
         List<Reflector> reflectorsList = reflectorsImplementFromJAXB(cteReflectors);
-        String cleanStringABC = cleanABC(cteMachine.getABC());
         xmlValidator.checkEvenNumberInABC(cleanStringABC,checkedObjectsList);
         return new MachineImplement(rotorsList, reflectorsList, cteMachine.getRotorsCount(), cleanStringABC);
     }
 
-    private String cleanABC(String acbFromJAXB) {
-        return acbFromJAXB.trim();
+    private String cleanABC(String abcFromJAXB) {
+        return abcFromJAXB.trim();
     }
 
     private List<Reflector> reflectorsImplementFromJAXB(CTEReflectors cteReflectors) {
-        List<Reflector> arrayRefelctor = new ArrayList<>();
-        for (int i = 0; i < cteReflectors.getCTEReflector().size(); i++) {
+        List<Reflector> arrayReflector = new ArrayList<>();
+        List<CTEReflector> cteReflectorList = cteReflectors.getCTEReflector();
+        xmlValidator.checkReflectorsId(cteReflectorList,checkedObjectsList);
+        xmlValidator.checkSelfMapping(cteReflectorList,checkedObjectsList);
+        for (int i = 0; i < cteReflectorList.size(); i++) {
             Reflector reflector = reflectorImplementFromJAXB(cteReflectors.getCTEReflector().get(i));
-            arrayRefelctor.add(reflector);
+            arrayReflector.add(reflector);
         }
 
-        return arrayRefelctor;
+        return arrayReflector;
     }
 
     private Reflector reflectorImplementFromJAXB(CTEReflector cteReflector) {
@@ -104,23 +110,25 @@ public class XMLToObject {
         return romiMap;
     }
 
-    private List<Rotor> rotorsImplementFromJAXB(CTERotors cteRotorsInput) {
+    private List<Rotor> rotorsImplementFromJAXB(CTERotors cteRotorsInput,int ABCLen) {
         List<Rotor> rotorsList = new ArrayList<>();
         List<CTERotor> cteRotorsList = cteRotorsInput.getCTERotor();
 
         for (CTERotor cteRotor : cteRotorsList) {
-            Rotor toAdd = createRotorFromCteRotor(cteRotor);
+            Rotor toAdd = createRotorFromCteRotor(cteRotor,ABCLen);
             rotorsList.add(toAdd);
         }
 
         return rotorsList;
     }
 
-    private Rotor createRotorFromCteRotor(CTERotor cteRotor) {
+    private Rotor createRotorFromCteRotor(CTERotor cteRotor, int ABCLen) {
         StringBuilder rotorRight = new StringBuilder("");
         StringBuilder rotorLeft = new StringBuilder("");
 
         createStringFromCtePositioning(cteRotor.getCTEPositioning(), rotorRight, rotorLeft);
+        xmlValidator.checkIfNotchInRange(cteRotor.getNotch(),ABCLen,checkedObjectsList);
+        xmlValidator.checkRotorDoubleMapping(rotorRight.toString(), rotorLeft.toString(),cteRotor.getId(),checkedObjectsList);
         Rotor newRotor = new Rotor(cteRotor.getId(), cteRotor.getNotch(), rotorRight.toString(), rotorLeft.toString());
 
         return newRotor;
