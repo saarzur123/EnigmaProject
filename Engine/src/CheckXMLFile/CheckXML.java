@@ -1,5 +1,6 @@
 package CheckXMLFile;
 
+import EnigmaExceptions.ExceptionDTO;
 import ImportFromXML.XMLToObject;
 import Machine.JaxbGenerated.*;
 import Machine.MachineImplement;
@@ -13,16 +14,16 @@ import static javax.swing.UIManager.put;
 
 public class CheckXML {
 
-    private boolean checkIfTheFileExist(String path){
+    public ExceptionDTO checkIfTheFileExist(String path){
         File file = new File(path);
-        return file.exists();
+        return new ExceptionDTO(file.exists(),"file","path does not exist") ;
     }
 
-    private boolean checkFileEnding(String path){
+    private ExceptionDTO checkFileEnding(String path){
         if(path.charAt(path.length()-1)=='l'&&path.charAt(path.length()-2)=='m'&&path.charAt(path.length()-3)=='x'){
-            return  true;
+            return  new ExceptionDTO(true,"","");
         }
-        return false;
+        return new ExceptionDTO(false,"file","path doesn't end in .xml");
     }
     private boolean checkEvenNumberInABC(String ABC) {
         if(ABC.length() % 2 == 0){
