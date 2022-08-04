@@ -45,7 +45,7 @@ public class CheckXML {
             indexIdOfList.add(null);
         }
         for(Rotor rotor : listOfRotor){
-            if (rotor.getId()>=lengthOfTheList) return false; //חורג מהגודל המקסימלי
+            if (rotor.getId() >= lengthOfTheList || rotor.getId() <= 0) return false; //חורג מהגודל המקסימלי
             if (indexIdOfList.get(rotor.getId()-1) != null) return false; //הid כבר קיים
             indexIdOfList.set((rotor.getId()-1),rotor);
         }
