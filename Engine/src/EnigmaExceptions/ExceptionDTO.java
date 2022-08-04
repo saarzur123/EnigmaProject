@@ -3,7 +3,7 @@ package EnigmaExceptions;
 public class ExceptionDTO {
     private String element;
     private String specificMsg;
-    private boolean isProblematic;
+    private boolean isValid;
 
    public ExceptionDTO(boolean isProblematic, String element, String msg)
    {

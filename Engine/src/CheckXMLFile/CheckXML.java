@@ -144,11 +144,12 @@ public class CheckXML {
         return true;
     }
 
-    private boolean checkIfRotorsStringsAreFromAbc(String ABC, List<CTERotors> listRotors){
+    private ExceptionDTO checkIfRotorsStringsAreFromAbc(String ABC, List<CTERotors> listRotors){
         for(CTERotors rotors : listRotors){
             for(CTERotor rotor : rotors.getCTERotor()){
                 for(CTEPositioning positioning : rotor.getCTEPositioning()){
-                    if((!ABC.contains(positioning.getLeft()))||((!ABC.contains(positioning.getRight()))))return false;
+                    if((!ABC.contains(positioning.getLeft()))||((!ABC.contains(positioning.getRight()))))
+                       return new ExceptionDTO(false, );
                 }
             }
         }
