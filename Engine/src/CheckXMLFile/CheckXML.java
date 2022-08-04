@@ -2,8 +2,13 @@ package CheckXMLFile;
 
 import ImportFromXML.XMLToObject;
 import Machine.MachineImplement;
+import Machine.Rotor;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class CheckXML {
 
@@ -33,8 +38,23 @@ public class CheckXML {
         return rotorCount >=2;
     }
 
-    private  boolean checkIfAllRotorsHaveUniqueID(){
-        
+    private  boolean checkIfAllRotorsHaveUniqueIDAndSifror(List<Rotor> listOfRotor){//אין לי שם טוב -_-
+        int lengthOfTheList = listOfRotor.size();
+        List<Rotor> indexIdOfList = new ArrayList<>();
+        for (int i = 0; i<lengthOfTheList;i++){
+            indexIdOfList.add(null);
+        }
+        for(Rotor rotor : listOfRotor){
+            if (rotor.getId()>=lengthOfTheList) return false; //חורג מהגודל המקסימלי
+            if (indexIdOfList.get(rotor.getId()-1) != null) return false; //הid כבר קיים
+            indexIdOfList.set((rotor.getId()-1),rotor);
+        }
+        return true;
+    }
+
+    private boolean checkIfNotchInRange(int notch, String ABC){
+        if(notch > ABC.length() || notch < 1) return false;
+        return true;
     }
 
 
