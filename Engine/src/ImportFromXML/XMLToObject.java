@@ -1,4 +1,6 @@
 package ImportFromXML;
+import CheckXMLFile.CheckXML;
+import EnigmaExceptions.ExceptionDTO;
 import Machine.JaxbGenerated.*;
 import Machine.MachineImplement;
 import Machine.Reflector;
@@ -19,16 +21,19 @@ import java.util.Map;
 public class XMLToObject {
 
     private final static String JAXB_PACKAGE_NAME = "Machine.JaxbGenerated";
+    private List<ExceptionDTO> checkedObjectsList = new ArrayList<>();
+    private CheckXML xmlValidator = new CheckXML();
 
-    public static MachineImplement machineFromXml(String desiredXmlPath) {
+    public MachineImplement machineFromXml(String desiredXmlPath) {
         MachineImplement machineImplement = null;
 
         try {
             //"C:/Users/saarz/IdeaProjects/EnigmaProject/EnigmaMachine/src/Resources/ex1-sanity-small.xml"
             ///Users/natalializi/dev/EnigmaProject/EnigmaMachine/src/Resources/ex1-sanity-small.xml
             InputStream inputStream = new FileInputStream(new File(desiredXmlPath));
+            xmlValidator.checkIfTheFileExist(desiredXmlPath,checkedObjectsList);
+            xmlValidator.checkFileEnding(desiredXmlPath,checkedObjectsList);
             machineImplement = deserializeFrom(inputStream);
-
 
         } catch (JAXBException | FileNotFoundException e) {
 
@@ -37,7 +42,7 @@ public class XMLToObject {
     }
 
 
-    private static MachineImplement deserializeFrom(InputStream in) throws JAXBException {
+    private MachineImplement deserializeFrom(InputStream in) throws JAXBException {
         JAXBContext jc = JAXBContext.newInstance(JAXB_PACKAGE_NAME);
         Unmarshaller u = jc.createUnmarshaller();
         CTEEnigma cteEnigma = (CTEEnigma) u.unmarshal(in);
@@ -46,25 +51,26 @@ public class XMLToObject {
 
     }
 
-    private static MachineImplement enigmaImplementFromJAXB(CTEEnigma cteEnigma) {
+    private MachineImplement enigmaImplementFromJAXB(CTEEnigma cteEnigma) {
         CTEMachine cteMachine = cteEnigma.getCTEMachine();
         return machineImplementFromJAXB(cteMachine);
     }
 
-    private static MachineImplement machineImplementFromJAXB(CTEMachine cteMachine) {
+    private MachineImplement machineImplementFromJAXB(CTEMachine cteMachine) {
         CTERotors cteRotors = cteMachine.getCTERotors();
         CTEReflectors cteReflectors = cteMachine.getCTEReflectors();
-        //List<Rotor> rotorsList = rotorsImplementFromJAXB(cteRotors);
+        List<Rotor> rotorsList = rotorsImplementFromJAXB(cteRotors);
         List<Reflector> reflectorsList = reflectorsImplementFromJAXB(cteReflectors);
         String cleanStringABC = cleanABC(cteMachine.getABC());
-        return new MachineImplement(rotorsImplementFromJAXB(cteRotors), reflectorsList, cteMachine.getRotorsCount(), cleanStringABC);
+        xmlValidator.checkEvenNumberInABC(cleanStringABC,checkedObjectsList);
+        return new MachineImplement(rotorsList, reflectorsList, cteMachine.getRotorsCount(), cleanStringABC);
     }
 
-    private static String cleanABC(String acbFromJAXB) {
+    private String cleanABC(String acbFromJAXB) {
         return acbFromJAXB.trim();
     }
 
-    private static List<Reflector> reflectorsImplementFromJAXB(CTEReflectors cteReflectors) {
+    private List<Reflector> reflectorsImplementFromJAXB(CTEReflectors cteReflectors) {
         List<Reflector> arrayRefelctor = new ArrayList<>();
         for (int i = 0; i < cteReflectors.getCTEReflector().size(); i++) {
             Reflector reflector = reflectorImplementFromJAXB(cteReflectors.getCTEReflector().get(i));
@@ -74,7 +80,7 @@ public class XMLToObject {
         return arrayRefelctor;
     }
 
-    private static Reflector reflectorImplementFromJAXB(CTEReflector cteReflector) {
+    private Reflector reflectorImplementFromJAXB(CTEReflector cteReflector) {
         List<Integer> insideReflector = new ArrayList<>();
         Map<String, Integer> romiMap = romanMap();
         for (int i = 0; i < cteReflector.getCTEReflect().size() * 2 + 1; i++) {
@@ -88,7 +94,7 @@ public class XMLToObject {
         return new Reflector(insideReflector, romiMap.get(cteReflector.getId()));
     }
 
-    private static Map<String, Integer> romanMap() {
+    private Map<String, Integer> romanMap() {
         Map<String, Integer> romiMap = new HashMap<>();
         romiMap.put("I", 1);
         romiMap.put("II", 2);
@@ -98,7 +104,7 @@ public class XMLToObject {
         return romiMap;
     }
 
-    private static List<Rotor> rotorsImplementFromJAXB(CTERotors cteRotorsInput) {
+    private List<Rotor> rotorsImplementFromJAXB(CTERotors cteRotorsInput) {
         List<Rotor> rotorsList = new ArrayList<>();
         List<CTERotor> cteRotorsList = cteRotorsInput.getCTERotor();
 
@@ -110,7 +116,7 @@ public class XMLToObject {
         return rotorsList;
     }
 
-    private static Rotor createRotorFromCteRotor(CTERotor cteRotor) {
+    private Rotor createRotorFromCteRotor(CTERotor cteRotor) {
         StringBuilder rotorRight = new StringBuilder("");
         StringBuilder rotorLeft = new StringBuilder("");
 
@@ -120,7 +126,7 @@ public class XMLToObject {
         return newRotor;
     }
 
-    private static void createStringFromCtePositioning(List<CTEPositioning> ctePositioning, StringBuilder right, StringBuilder left) {
+    private void createStringFromCtePositioning(List<CTEPositioning> ctePositioning, StringBuilder right, StringBuilder left) {
         for (CTEPositioning ctePosition : ctePositioning) {
             right.append(ctePosition.getRight());
             left.append(ctePosition.getLeft());
