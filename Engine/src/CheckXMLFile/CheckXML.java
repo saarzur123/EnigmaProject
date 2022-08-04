@@ -40,13 +40,13 @@ public class CheckXML {
         return new ExceptionDTO(rotorCount >=2,"rotors"," number < 2");
     }
 
-    private boolean checkIfAllRotorsHaveUniqueIDAndSifror(List<Rotor> listOfRotor){//אין לי שם טוב -_-
+    private boolean checkIfAllRotorsHaveUniqueIDAndSifror(List<CTERotor> listOfRotor){//אין לי שם טוב -_-
         int lengthOfTheList = listOfRotor.size();
-        List<Rotor> indexIdOfList = new ArrayList<>();
+        List<CTERotor> indexIdOfList = new ArrayList<>();
         for (int i = 0; i<lengthOfTheList;i++){
             indexIdOfList.add(null);
         }
-        for(Rotor rotor : listOfRotor){
+        for(CTERotor rotor : listOfRotor){
             if (rotor.getId() >= lengthOfTheList || rotor.getId() <= 0) return false; //חורג מהגודל המקסימלי
             if (indexIdOfList.get(rotor.getId()-1) != null) return false; //הid כבר קיים
             indexIdOfList.set((rotor.getId()-1),rotor);
@@ -59,7 +59,7 @@ public class CheckXML {
         return true;
     }
 
-    private boolean checkReflectorsId(List<CTEReflector> cteReflectorList)////////try and catch TODO
+    private ExceptionDTO checkReflectorsId(List<CTEReflector> cteReflectorList)////////try and catch TODO
     {
         boolean isValid = true;
         final int size = cteReflectorList.size();
@@ -130,10 +130,47 @@ public class CheckXML {
         }
         return true;
     }
+    private ExceptionDTO checkIfRotorsStringsAreFromAbc(String ABC, List<CTERotors> listRotors){
+        for(CTERotors rotors : listRotors){
+            for(CTERotor rotor : rotors.getCTERotor()){
+                for(CTEPositioning positioning : rotor.getCTEPositioning()){
+                    if((!ABC.contains(positioning.getLeft()))||((!ABC.contains(positioning.getRight()))))
+                        return new ExceptionDTO(false,"Rotor","The rotor include char that it's not from the ABC");
+                }
+            }
+        }
+        return new ExceptionDTO(true,"Rotor","");
+    }
 
 
-    private boolean checkIfReflectorsMappingInRange(){
+    private ExceptionDTO checkIfReflectorsMappingInRange(String ABC, List<CTEReflectors> cteReflectorList){
 
+        for (CTEReflectors reflectors : cteReflectorList){
+            for(CTEReflector reflector : reflectors.getCTEReflector()){
+                for(CTEReflect reflect : reflector.getCTEReflect()){
+                    if(reflect.getInput() < 1 ||
+                       reflect.getInput() > ABC.length() ||
+                       reflect.getOutput() > ABC.length() ||
+                       reflect.getOutput() < 1){
+                        return new ExceptionDTO(false,"Reflector","Reflector Mapping not in Range");
+                    }
+                }
+            }
+        }
+        return new ExceptionDTO(true,"Reflector","");
+    }
+    private ExceptionDTO checkIfRotorsIncludeAllAbc(String ABC, List<CTERotors> listRotor){
+        int lengthOfTheList = listRotor.size();
+        List<CTERotor> indexIdOfList = new ArrayList<>();
+        for (int i = 0; i<lengthOfTheList;i++){
+            indexIdOfList.add(null);
+        }
+        for(CTERotor rotor : listRotor){
+            if (rotor.getId() >= lengthOfTheList || rotor.getId() <= 0) return false; //חורג מהגודל המקסימלי
+            if (indexIdOfList.get(rotor.getId()-1) != null) return false; //הid כבר קיים
+            indexIdOfList.set((rotor.getId()-1),rotor);
+        }
+        return true;
     }
 }
 
