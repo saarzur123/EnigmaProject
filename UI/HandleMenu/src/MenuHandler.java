@@ -16,7 +16,7 @@ public class MenuHandler {
             userSelection = myObj.nextLine();
         }while(!handler.checkInputOfSelectionFromMenu(userSelection));
 
-        return userSelection.charAt(0) - '0'; // עדכון למספר
+        return userSelection.charAt(0) - '0'; //  עדכון למספר
     }
 
     public String buildStrMenu(StringBuilder str){
