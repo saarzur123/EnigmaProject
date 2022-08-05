@@ -27,20 +27,23 @@ public class XMLToObject {
 
     public MachineImplement machineFromXml(String desiredXmlPath) {
         MachineImplement machineImplement = null;
-
+        xmlValidator.checkIfTheFileExist(desiredXmlPath,checkedObjectsList);
+        xmlValidator.checkFileEnding(desiredXmlPath,checkedObjectsList);
         try {
             //"C:/Users/saarz/IdeaProjects/EnigmaProject/EnigmaMachine/src/Resources/ex1-sanity-small.xml"
             ///Users/natalializi/dev/EnigmaProject/EnigmaMachine/src/Resources/ex1-sanity-small.xml
             InputStream inputStream = new FileInputStream(new File(desiredXmlPath));
-            xmlValidator.checkIfTheFileExist(desiredXmlPath,checkedObjectsList);
-            xmlValidator.checkFileEnding(desiredXmlPath,checkedObjectsList);
-            if(checkedObjectsList.size()>0)
-                throw new XMLException(checkedObjectsList);
             machineImplement = deserializeFrom(inputStream);
 
         } catch (JAXBException | FileNotFoundException e) {
-
+            throw new XMLException(checkedObjectsList);
         }
+
+        if(checkedObjectsList.size()>0) {
+            machineImplement = null;
+            throw new XMLException(checkedObjectsList);
+        }
+
         return machineImplement;
     }
 
@@ -60,6 +63,7 @@ public class XMLToObject {
     }
 
     private MachineImplement machineImplementFromJAXB(CTEMachine cteMachine){
+        MachineImplement retMachine = null;
         xmlValidator.checkRotorsCount(cteMachine.getRotorsCount(),checkedObjectsList);
         String cleanStringABC = cleanABC(cteMachine.getABC());
         xmlValidator.checkEmptyLanguage(cleanStringABC,checkedObjectsList);
@@ -70,7 +74,9 @@ public class XMLToObject {
         xmlValidator.checkIfAllRotorsHaveUniqueIDAndNumbering(rotorsList,checkedObjectsList);
         List<Reflector> reflectorsList = reflectorsImplementFromJAXB(cteReflectors,cleanStringABC);
         xmlValidator.checkEvenNumberInABC(cleanStringABC,checkedObjectsList);
-        return new MachineImplement(rotorsList, reflectorsList, cteMachine.getRotorsCount(), cleanStringABC);
+        if(checkedObjectsList.size() == 0)
+            retMachine = new MachineImplement(rotorsList, reflectorsList, cteMachine.getRotorsCount(), cleanStringABC);
+        return retMachine;
     }
 
     private String cleanABC(String abcFromJAXB) {
@@ -84,10 +90,12 @@ public class XMLToObject {
         xmlValidator.checkReflectorsId(cteReflectorList,checkedObjectsList);
         xmlValidator.checkSelfMapping(cteReflectorList,checkedObjectsList);
         xmlValidator.checkIfReflectorsMappingInRange(ABC,cteReflectorList,checkedObjectsList);
+
+        if(checkedObjectsList.size() == 0){
         for (int i = 0; i < cteReflectorList.size(); i++) {
             Reflector reflector = reflectorImplementFromJAXB(cteReflectors.getCTEReflector().get(i));
             arrayReflector.add(reflector);
-        }
+        }}
 
         return arrayReflector;
     }
@@ -121,6 +129,7 @@ public class XMLToObject {
         List<CTERotor> cteRotorsList = cteRotorsInput.getCTERotor();
 
         xmlValidator.checkIfRotorsStringsAreFromAbc(ABC,cteRotorsList,checkedObjectsList);
+        xmlValidator.checkIfAllRotorsHaveUniqueIDAndNumbering(cteRotorsList,checkedObjectsList);
 
         for (CTERotor cteRotor : cteRotorsList) {
             rotorsList.add(createRotorFromCteRotor(cteRotor,ABC));
@@ -130,13 +139,16 @@ public class XMLToObject {
     }
 
     private Rotor createRotorFromCteRotor(CTERotor cteRotor, String ABC) {
+        Rotor newRotor = null;
         StringBuilder rotorRight = new StringBuilder("");
         StringBuilder rotorLeft = new StringBuilder("");
 
         createStringFromCtePositioning(cteRotor.getCTEPositioning(), rotorRight, rotorLeft);
-        xmlValidator.checkIfNotchInRange(cteRotor.getNotch(),ABC.length(),checkedObjectsList);
+        xmlValidator.checkIfNotchInRange(cteRotor.getNotch(),cteRotor.getId(), ABC.length(),checkedObjectsList);
         xmlValidator.checkRotorDoubleMapping(rotorRight.toString(), rotorLeft.toString(),cteRotor.getId(),checkedObjectsList);
-        Rotor newRotor = new Rotor(cteRotor.getId(), cteRotor.getNotch(), rotorRight.toString(), rotorLeft.toString());
+
+        if(checkedObjectsList.size() == 0)
+            newRotor = new Rotor(cteRotor.getId(), cteRotor.getNotch(), rotorRight.toString(), rotorLeft.toString());
 
         return newRotor;
     }

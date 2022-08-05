@@ -37,43 +37,45 @@ public class CheckXML {
             checkedObjectsList.add(new ExceptionDTO(false,"rotors"," number < 2"));
     }
 
-    public void checkIfAllRotorsHaveUniqueIDAndNumbering(List<Rotor> listOfRotor,List<ExceptionDTO> checkedObjectsList){
+    public void checkIfAllRotorsHaveUniqueIDAndNumbering(List<CTERotor> listOfRotor,List<ExceptionDTO> checkedObjectsList){
         int lengthOfTheList = listOfRotor.size();
-        List<Rotor> indexIdOfList = new ArrayList<>();
+        List<CTERotor> indexIdOfList = new ArrayList<>();
         for (int i = 0; i<lengthOfTheList;i++){
             indexIdOfList.add(null);
         }
-        for(Rotor rotor : listOfRotor){
+        for(CTERotor rotor : listOfRotor){
             if (rotor.getId() > lengthOfTheList || rotor.getId() <= 0)
                 checkedObjectsList.add(new ExceptionDTO(false,"rotor "+ rotor.getId()," id not according to numbering")); //חורג מהגודל המקסימלי
-            if (indexIdOfList.get(rotor.getId()-1) != null)
+            if (indexIdOfList.contains(rotor.getId()-1))
                 checkedObjectsList.add(new ExceptionDTO(false,"rotor " + rotor.getId()," not unique")); //הid כבר קיים
             indexIdOfList.set((rotor.getId()-1),rotor);
         }
     }
 
-    public void checkIfNotchInRange(int notch, int ABCLen,List<ExceptionDTO> checkedObjectsList){
+    public void checkIfNotchInRange(int notch,Integer rotorId, int ABCLen,List<ExceptionDTO> checkedObjectsList){
         if(notch > ABCLen || notch < 1)
-            checkedObjectsList.add(new ExceptionDTO(false,"notch"," not in abc range"));
+            checkedObjectsList.add(new ExceptionDTO(false,"notch"," in rotor " + rotorId.toString() + " not in abc range"));
     }
 
-    public void checkReflectorsId(List<CTEReflector> cteReflectorList,List<ExceptionDTO> checkedObjectsList)////////try and catch TODO
+    public void checkReflectorsId(List<CTEReflector> cteReflectorList,List<ExceptionDTO> checkedObjectsList)
     {
         boolean isValid = true;
         final int size = cteReflectorList.size();
         List<Integer> reflectorsId = new ArrayList<>();
         Map<String,Integer> romeToInt = createRomeToIntMap();
 
-        for(CTEReflector r : cteReflectorList){
-         isValid = checkRomeId(r.getId(),romeToInt);
-         if(!isValid)//check id in rome number
-             checkedObjectsList.add(new ExceptionDTO(false,"reflector " + r.getId()," id not in rome number"));
-         int intId = romeToInt.get(r.getId());
-         if(reflectorsId.contains(intId))//check duplicates
-             checkedObjectsList.add(new ExceptionDTO(false,"reflector "+ r.getId()," id not unique"));
-         if (intId > size || intId <= 0)
-             checkedObjectsList.add(new ExceptionDTO(false,"reflector "+ intId," id not according to numbering"));
-            reflectorsId.add(intId);
+        for(CTEReflector r : cteReflectorList) {
+            isValid = checkRomeId(r.getId(), romeToInt);
+            if (!isValid)//check id in rome number
+                checkedObjectsList.add(new ExceptionDTO(false, "reflector " + r.getId(), " id not in rome number"));
+            else {
+                int intId = romeToInt.get(r.getId());
+                if (reflectorsId.contains(intId))//check duplicates
+                    checkedObjectsList.add(new ExceptionDTO(false, "reflector " + r.getId(), " id not unique"));
+                if (intId > size || intId <= 0)
+                    checkedObjectsList.add(new ExceptionDTO(false, "reflector " + intId, " id not according to numbering"));
+                reflectorsId.add(intId);
+            }
         }
     }
 
@@ -98,37 +100,35 @@ public class CheckXML {
         for(CTEReflector r : reflectorsList){
             for(CTEReflect reflect : r.getCTEReflect()){
                 if(reflect.getInput() == reflect.getOutput())
-                    checkedObjectsList.add(new ExceptionDTO(false,"reflector " + r.getId()," contain input equal to output"));
+                    checkedObjectsList.add(new ExceptionDTO(false,"reflector " + r.getId()," contain input "+reflect.getInput()+" equal to output"));
             }
         }
     }
 
     public void checkRotorDoubleMapping(String rotorRight, String rotorLeft, Integer rotorId,List<ExceptionDTO> checkedObjectsList)//TODO create Exception
-
     {
-        if(!(checkDoubleMappingInStr(rotorLeft,rotorRight) && checkDoubleMappingInStr(rotorRight,rotorLeft))){
-            checkedObjectsList.add(new ExceptionDTO(false, "rotor " + rotorId.toString()," has double mapping"));
-        }
+        checkDoubleMappingInStr(rotorLeft,rotorRight,rotorId,checkedObjectsList);
+        checkDoubleMappingInStr(rotorRight,rotorLeft,rotorId,checkedObjectsList);
     }
 
-    private boolean checkDoubleMappingInStr(String strToCheck, String isContainDoubleMappingStr)
+    private void checkDoubleMappingInStr(String strToCheck, String isContainDoubleMappingStr,int rotorId, List<ExceptionDTO> checkedObjectsList)
     {
         int size = strToCheck.length();
 
         for (int i = 0; i < size; i++){
             char search = strToCheck.charAt(i);
-            boolean isDoubleMapping = isContainDoubleMappingStr.lastIndexOf(search) == isContainDoubleMappingStr.indexOf(search);
-            if(!isDoubleMapping)
-                return false;
+            boolean isValidMapping = isContainDoubleMappingStr.lastIndexOf(search) == isContainDoubleMappingStr.indexOf(search);
+            if(!isValidMapping)
+                checkedObjectsList.add(new ExceptionDTO(false, "rotor " + rotorId," has double mapping at char " + search));
         }
-        return true;
     }
 
     public void checkIfRotorsStringsAreFromAbc(String ABC, List<CTERotor> listRotors ,List<ExceptionDTO> checkedObjectsList){
+
             for(CTERotor rotor : listRotors){
                 for(CTEPositioning positioning : rotor.getCTEPositioning()){
-                    if((!ABC.contains(positioning.getLeft()))||((!ABC.contains(positioning.getRight())))){
-                        checkedObjectsList.add(new ExceptionDTO(false, "Rotor", "The rotor include char that it's not from the ABC"));
+                    if((!ABC.contains(positioning.getLeft()))||((!ABC.contains(positioning.getRight())))) {
+                        checkedObjectsList.add(new ExceptionDTO(false, "Rotor id " + rotor.getId(), " include char that it's not from the ABC"));
                         return;
                     }
                 }
@@ -142,7 +142,7 @@ public class CheckXML {
                             reflect.getInput() > ABC.length() ||
                             reflect.getOutput() > ABC.length() ||
                             reflect.getOutput() < 1){
-                        checkedObjectsList.add(new ExceptionDTO(false,"Reflector","Reflector Mapping not in Range"));
+                        checkedObjectsList.add(new ExceptionDTO(false,"Reflector id "+reflector.getId()," mapping not in range"));
                         return;
                     }
                 }
