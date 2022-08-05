@@ -16,15 +16,13 @@ public class CheckXML {
     }
 
     public void checkFileEnding(String path,List<ExceptionDTO> checkedObjectsList){
-        boolean isValid = path.charAt(path.length()-1)=='l'&&path.charAt(path.length()-2)=='m'&&path.charAt(path.length()-3)=='x' && path.charAt(path.length()-4)=='.';
-        if(!isValid){
+        if(!(path.charAt(path.length()-1)=='l'&&path.charAt(path.length()-2)=='m'&&path.charAt(path.length()-3)=='x' && path.charAt(path.length()-4)=='.')){
             checkedObjectsList.add(new ExceptionDTO(false,"file"," path doesn't end in .xml"));
         }
     }
 
     public void checkEvenNumberInABC(String ABC,List<ExceptionDTO> checkedObjectsList) {
-        boolean isValid = ABC.length() % 2 == 0;
-        if(!isValid) {
+        if(!(ABC.length() % 2 == 0)) {
             checkedObjectsList.add(new ExceptionDTO(false, "language", " doesn't even"));
         }
     }
@@ -66,8 +64,7 @@ public class CheckXML {
         List<Integer> reflectorsId = new ArrayList<>();
         Map<String,Integer> romeToInt = createRomeToIntMap();
 
-        for(CTEReflector r : cteReflectorList)
-        {
+        for(CTEReflector r : cteReflectorList){
          isValid = checkRomeId(r.getId(),romeToInt);
          if(!isValid)//check id in rome number
              checkedObjectsList.add(new ExceptionDTO(false,"reflector " + r.getId()," id not in rome number"));
@@ -98,10 +95,8 @@ public class CheckXML {
 
     public void checkSelfMapping(List<CTEReflector> reflectorsList,List<ExceptionDTO> checkedObjectsList)//TODO add reflector id to exception msg
     {
-        for(CTEReflector r : reflectorsList)
-        {
-            for(CTEReflect reflect : r.getCTEReflect())
-            {
+        for(CTEReflector r : reflectorsList){
+            for(CTEReflect reflect : r.getCTEReflect()){
                 if(reflect.getInput() == reflect.getOutput())
                     checkedObjectsList.add(new ExceptionDTO(false,"reflector " + r.getId()," contain input equal to output"));
             }
@@ -111,7 +106,7 @@ public class CheckXML {
     public void checkRotorDoubleMapping(String rotorRight, String rotorLeft, Integer rotorId,List<ExceptionDTO> checkedObjectsList)//TODO create Exception
 
     {
-        if(!(checkDoubleMappingInStr(rotorLeft,rotorRight) && checkDoubleMappingInStr(rotorRight,rotorLeft))) {
+        if(!(checkDoubleMappingInStr(rotorLeft,rotorRight) && checkDoubleMappingInStr(rotorRight,rotorLeft))){
             checkedObjectsList.add(new ExceptionDTO(false, "rotor " + rotorId.toString()," has double mapping"));
         }
     }
@@ -120,7 +115,7 @@ public class CheckXML {
     {
         int size = strToCheck.length();
 
-        for (int i = 0; i < size; i++) {
+        for (int i = 0; i < size; i++){
             char search = strToCheck.charAt(i);
             boolean isDoubleMapping = isContainDoubleMappingStr.lastIndexOf(search) == isContainDoubleMappingStr.indexOf(search);
             if(!isDoubleMapping)
@@ -130,10 +125,9 @@ public class CheckXML {
     }
 
     public void checkIfRotorsStringsAreFromAbc(String ABC, List<CTERotor> listRotors ,List<ExceptionDTO> checkedObjectsList){
-
             for(CTERotor rotor : listRotors){
                 for(CTEPositioning positioning : rotor.getCTEPositioning()){
-                    if((!ABC.contains(positioning.getLeft()))||((!ABC.contains(positioning.getRight())))) {
+                    if((!ABC.contains(positioning.getLeft()))||((!ABC.contains(positioning.getRight())))){
                         checkedObjectsList.add(new ExceptionDTO(false, "Rotor", "The rotor include char that it's not from the ABC"));
                         return;
                     }

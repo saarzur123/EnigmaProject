@@ -34,10 +34,8 @@ public class XMLToObject {
             InputStream inputStream = new FileInputStream(new File(desiredXmlPath));
             xmlValidator.checkIfTheFileExist(desiredXmlPath,checkedObjectsList);
             xmlValidator.checkFileEnding(desiredXmlPath,checkedObjectsList);
-
             if(checkedObjectsList.size()>0)
                 throw new XMLException(checkedObjectsList);
-
             machineImplement = deserializeFrom(inputStream);
 
         } catch (JAXBException | FileNotFoundException e) {
@@ -125,8 +123,7 @@ public class XMLToObject {
         xmlValidator.checkIfRotorsStringsAreFromAbc(ABC,cteRotorsList,checkedObjectsList);
 
         for (CTERotor cteRotor : cteRotorsList) {
-            Rotor toAdd = createRotorFromCteRotor(cteRotor,ABC);
-            rotorsList.add(toAdd);
+            rotorsList.add(createRotorFromCteRotor(cteRotor,ABC));
         }
 
         return rotorsList;
