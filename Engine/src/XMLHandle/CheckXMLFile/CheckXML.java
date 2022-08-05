@@ -139,9 +139,7 @@ public class CheckXML {
                     }
                 }
             }
-
     }
-
 
     public void checkIfReflectorsMappingInRange(String ABC, List<CTEReflector> cteReflectorList, List<ExceptionDTO> checkedObjectsList){
     for(CTEReflector reflector : cteReflectorList){
