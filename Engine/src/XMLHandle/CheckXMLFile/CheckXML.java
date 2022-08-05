@@ -1,16 +1,11 @@
-package CheckXMLFile;
+package XMLHandle.CheckXMLFile;
 
-import EnigmaExceptions.ExceptionDTO;
-import ImportFromXML.XMLToObject;
+import EnigmaExceptions.XMLExceptions.ExceptionDTO;
 import Machine.JaxbGenerated.*;
-import Machine.MachineImplement;
-import Machine.Reflector;
 import Machine.Rotor;
 
 import java.io.File;
 import java.util.*;
-
-import static javax.swing.UIManager.put;
 
 public class CheckXML {
 
@@ -113,8 +108,9 @@ public class CheckXML {
     public void checkRotorDoubleMapping(String rotorRight, String rotorLeft, Integer rotorId,List<ExceptionDTO> checkedObjectsList)//TODO create Exception
 
     {
-        checkedObjectsList.add(new ExceptionDTO(checkDoubleMappingInStr(rotorLeft,rotorRight) && checkDoubleMappingInStr(rotorRight,rotorLeft),
-                "rotor " + rotorId.toString()," has double mapping"));
+        if(!(checkDoubleMappingInStr(rotorLeft,rotorRight) && checkDoubleMappingInStr(rotorRight,rotorLeft))) {
+            checkedObjectsList.add(new ExceptionDTO(false, "rotor " + rotorId.toString()," has double mapping"));
+        }
     }
 
     private boolean checkDoubleMappingInStr(String strToCheck, String isContainDoubleMappingStr)
@@ -141,7 +137,6 @@ public class CheckXML {
                 }
             }
 
-        checkedObjectsList.add(new ExceptionDTO(true,"Rotor",""));
     }
 
 
@@ -157,17 +152,16 @@ public class CheckXML {
                     }
                 }
             }
-      //  checkedObjectsList.add(new ExceptionDTO(true,"Reflector",""));
     }
 
     public void checkAtLeastOneReflector(List<CTEReflector> reflectorsList, List<ExceptionDTO> checkedObjectsList){
-        if(reflectorsList.size() > 0) checkedObjectsList.add(new ExceptionDTO(true,"Reflector",""));
-        else checkedObjectsList.add(new ExceptionDTO(false,"Reflector","Not enough reflectors"));
+        if(reflectorsList.size() <= 0)
+            checkedObjectsList.add(new ExceptionDTO(false,"Reflector","Not enough reflectors"));
     }
 
     public void checkEmptyLanguage (String ABC, List<ExceptionDTO> checkedObjectsList){
-        if(ABC.length() != 0 ) checkedObjectsList.add(new ExceptionDTO(true,"Language",""));
-        else checkedObjectsList.add(new ExceptionDTO(false,"Language","Not enough char in language"));
+        if(ABC.length() == 0 )
+            checkedObjectsList.add(new ExceptionDTO(false,"Language","Not enough char in language"));
     }
 
 }
