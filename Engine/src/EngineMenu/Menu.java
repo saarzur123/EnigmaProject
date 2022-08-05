@@ -7,7 +7,7 @@ import java.util.Set;
 import java.util.function.Function;
 
 public class Menu {
-    Map<Integer, Function<Object,Object>> menuMap = new HashMap<>();
+    Map<Integer, Object> menuMap = new HashMap<>();
     Set<Function<Object,Object>> menuSet = new HashSet<>();
     public Menu(){
 
