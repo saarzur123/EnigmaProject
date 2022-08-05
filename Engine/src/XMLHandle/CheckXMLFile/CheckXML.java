@@ -11,7 +11,8 @@ public class CheckXML {
 
     public void checkIfTheFileExist(String path, List<ExceptionDTO> checkedObjectsList){
         File file = new File(path);
-        checkedObjectsList.add(new ExceptionDTO(file.exists(),"file"," path does not exist"));
+        if(!file.exists())
+            checkedObjectsList.add(new ExceptionDTO(false,"file"," path does not exist"));
     }
 
     public void checkFileEnding(String path,List<ExceptionDTO> checkedObjectsList){
@@ -28,12 +29,14 @@ public class CheckXML {
         }
     }
 
-    public void checkEnoughRotors(int mustInUseRotorsNumbers, int rotorsNumber,List<ExceptionDTO> checkedObjectsList){
-        checkedObjectsList.add(new ExceptionDTO(rotorsNumber < mustInUseRotorsNumbers,"rotors"," entered are not according to rotors count"));
+    public void checkEnoughRotors(int mustInUseRotorsNumbers, int rotorsNumber,List<ExceptionDTO> checkedObjectsList){//TODO check
+        if(rotorsNumber < mustInUseRotorsNumbers)
+            checkedObjectsList.add(new ExceptionDTO(false,"rotors"," entered are not according to rotors count"));
     }
 
     public void checkRotorsCount(int rotorCount,List<ExceptionDTO> checkedObjectsList){
-        checkedObjectsList.add(new ExceptionDTO(rotorCount >=2,"rotors"," number < 2"));
+        if(rotorCount < 2)
+            checkedObjectsList.add(new ExceptionDTO(false,"rotors"," number < 2"));
     }
 
     public void checkIfAllRotorsHaveUniqueIDAndNumbering(List<Rotor> listOfRotor,List<ExceptionDTO> checkedObjectsList){
