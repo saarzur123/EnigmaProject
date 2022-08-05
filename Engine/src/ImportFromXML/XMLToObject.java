@@ -1,6 +1,7 @@
 package ImportFromXML;
 import CheckXMLFile.CheckXML;
 import EnigmaExceptions.ExceptionDTO;
+import EnigmaExceptions.XMLException;
 import Machine.JaxbGenerated.*;
 import Machine.MachineImplement;
 import Machine.Reflector;
@@ -33,6 +34,10 @@ public class XMLToObject {
             InputStream inputStream = new FileInputStream(new File(desiredXmlPath));
             xmlValidator.checkIfTheFileExist(desiredXmlPath,checkedObjectsList);
             xmlValidator.checkFileEnding(desiredXmlPath,checkedObjectsList);
+
+            if(checkedObjectsList.size()>0)
+                throw new XMLException(checkedObjectsList);
+
             machineImplement = deserializeFrom(inputStream);
 
         } catch (JAXBException | FileNotFoundException e) {
