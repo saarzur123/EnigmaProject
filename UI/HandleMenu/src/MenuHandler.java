@@ -31,4 +31,10 @@ public class MenuHandler {
         str.append("8) Exit.");str.append(System.lineSeparator());
         return str.toString();
     }
+
+    public String takePathFromUser(){
+        System.out.println("Please enter full path of the XML File :) ");
+        Scanner myObj = new Scanner(System.in);
+        return myObj.nextLine();
+    }
 }
