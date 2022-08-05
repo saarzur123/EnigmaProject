@@ -1,4 +1,6 @@
-package EnigmaExceptions;
+package EnigmaExceptions.XMLExceptions;
+
+import EnigmaExceptions.XMLExceptions.ExceptionDTO;
 
 import java.util.ArrayList;
 import java.util.List;

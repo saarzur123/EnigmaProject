@@ -1,4 +1,4 @@
-package EnigmaExceptions;
+package EnigmaExceptions.XMLExceptions;
 
 public class ExceptionDTO {
     private String element;
