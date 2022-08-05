@@ -130,9 +130,9 @@ public class CheckXML {
         return true;
     }
 
-    public void checkIfRotorsStringsAreFromAbc(String ABC, List<CTERotors> listRotors ,List<ExceptionDTO> checkedObjectsList){
-        for(CTERotors rotors : listRotors){
-            for(CTERotor rotor : rotors.getCTERotor()){
+    public void checkIfRotorsStringsAreFromAbc(String ABC, List<CTERotor> listRotors ,List<ExceptionDTO> checkedObjectsList){
+
+            for(CTERotor rotor : listRotors){
                 for(CTEPositioning positioning : rotor.getCTEPositioning()){
                     if((!ABC.contains(positioning.getLeft()))||((!ABC.contains(positioning.getRight())))) {
                         checkedObjectsList.add(new ExceptionDTO(false, "Rotor", "The rotor include char that it's not from the ABC"));
@@ -140,15 +140,13 @@ public class CheckXML {
                     }
                 }
             }
-        }
+
         checkedObjectsList.add(new ExceptionDTO(true,"Rotor",""));
     }
 
 
-    public void checkIfReflectorsMappingInRange(String ABC, List<CTEReflectors> cteReflectorList, List<ExceptionDTO> checkedObjectsList){
-
-        for (CTEReflectors reflectors : cteReflectorList){
-            for(CTEReflector reflector : reflectors.getCTEReflector()){
+    public void checkIfReflectorsMappingInRange(String ABC, List<CTEReflector> cteReflectorList, List<ExceptionDTO> checkedObjectsList){
+    for(CTEReflector reflector : cteReflectorList){
                 for(CTEReflect reflect : reflector.getCTEReflect()){
                     if(reflect.getInput() < 1 ||
                             reflect.getInput() > ABC.length() ||
@@ -159,11 +157,10 @@ public class CheckXML {
                     }
                 }
             }
-        }
-        checkedObjectsList.add(new ExceptionDTO(true,"Reflector",""));
+      //  checkedObjectsList.add(new ExceptionDTO(true,"Reflector",""));
     }
 
-    public void checkAtLeastOneReflector(List<CTEReflectors> reflectorsList, List<ExceptionDTO> checkedObjectsList){
+    public void checkAtLeastOneReflector(List<CTEReflector> reflectorsList, List<ExceptionDTO> checkedObjectsList){
         if(reflectorsList.size() > 0) checkedObjectsList.add(new ExceptionDTO(true,"Reflector",""));
         else checkedObjectsList.add(new ExceptionDTO(false,"Reflector","Not enough reflectors"));
     }
