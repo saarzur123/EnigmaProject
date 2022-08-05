@@ -16,20 +16,18 @@ public class CheckXML {
     }
 
     public void checkFileEnding(String path,List<ExceptionDTO> checkedObjectsList){
-        boolean isValid = path.charAt(path.length()-1)=='l'&&path.charAt(path.length()-2)=='m'&&path.charAt(path.length()-3)=='x' && path.charAt(path.length()-4)=='.';
-        if(!isValid){
+        if(!(path.charAt(path.length()-1)=='l'&&path.charAt(path.length()-2)=='m'&&path.charAt(path.length()-3)=='x' && path.charAt(path.length()-4)=='.')){
             checkedObjectsList.add(new ExceptionDTO(false,"file"," path doesn't end in .xml"));
         }
     }
 
     public void checkEvenNumberInABC(String ABC,List<ExceptionDTO> checkedObjectsList) {
-        boolean isValid = ABC.length() % 2 == 0;
-        if(!isValid) {
+        if(!(ABC.length() % 2 == 0)) {
             checkedObjectsList.add(new ExceptionDTO(false, "language", " doesn't even"));
         }
     }
 
-    public void checkEnoughRotors(int mustInUseRotorsNumbers, int rotorsNumber,List<ExceptionDTO> checkedObjectsList){
+    public void checkEnoughRotors(int mustInUseRotorsNumbers, int rotorsNumber,List<ExceptionDTO> checkedObjectsList){//TODO check
         if(rotorsNumber < mustInUseRotorsNumbers)
             checkedObjectsList.add(new ExceptionDTO(false,"rotors"," entered are not according to rotors count"));
     }
@@ -50,7 +48,7 @@ public class CheckXML {
                 checkedObjectsList.add(new ExceptionDTO(false,"rotor "+ rotor.getId()," id not according to numbering")); //חורג מהגודל המקסימלי
             if (indexIdOfList.contains(rotor.getId()-1))
                 checkedObjectsList.add(new ExceptionDTO(false,"rotor " + rotor.getId()," not unique")); //הid כבר קיים
-            else indexIdOfList.add(rotor);
+            indexIdOfList.set((rotor.getId()-1),rotor);
         }
     }
 
@@ -66,19 +64,18 @@ public class CheckXML {
         List<Integer> reflectorsId = new ArrayList<>();
         Map<String,Integer> romeToInt = createRomeToIntMap();
 
-        for(CTEReflector r : cteReflectorList)
-        {
-         isValid = checkRomeId(r.getId(),romeToInt);
-         if(!isValid)//check id in rome number
-             checkedObjectsList.add(new ExceptionDTO(false,"reflector " + r.getId()," id not in rome number"));
-         else {
-             int intId = romeToInt.get(r.getId());
-             if (reflectorsId.contains(intId))//check duplicates
-                 checkedObjectsList.add(new ExceptionDTO(false, "reflector " + r.getId(), " id not unique"));
-             if (intId > size || intId <= 0)
-                 checkedObjectsList.add(new ExceptionDTO(false, "reflector " + intId, " id not according to numbering"));
-             reflectorsId.add(intId);
-         }
+        for(CTEReflector r : cteReflectorList) {
+            isValid = checkRomeId(r.getId(), romeToInt);
+            if (!isValid)//check id in rome number
+                checkedObjectsList.add(new ExceptionDTO(false, "reflector " + r.getId(), " id not in rome number"));
+            else {
+                int intId = romeToInt.get(r.getId());
+                if (reflectorsId.contains(intId))//check duplicates
+                    checkedObjectsList.add(new ExceptionDTO(false, "reflector " + r.getId(), " id not unique"));
+                if (intId > size || intId <= 0)
+                    checkedObjectsList.add(new ExceptionDTO(false, "reflector " + intId, " id not according to numbering"));
+                reflectorsId.add(intId);
+            }
         }
     }
 
@@ -100,10 +97,8 @@ public class CheckXML {
 
     public void checkSelfMapping(List<CTEReflector> reflectorsList,List<ExceptionDTO> checkedObjectsList)//TODO add reflector id to exception msg
     {
-        for(CTEReflector r : reflectorsList)
-        {
-            for(CTEReflect reflect : r.getCTEReflect())
-            {
+        for(CTEReflector r : reflectorsList){
+            for(CTEReflect reflect : r.getCTEReflect()){
                 if(reflect.getInput() == reflect.getOutput())
                     checkedObjectsList.add(new ExceptionDTO(false,"reflector " + r.getId()," contain input "+reflect.getInput()+" equal to output"));
             }
@@ -120,7 +115,7 @@ public class CheckXML {
     {
         int size = strToCheck.length();
 
-        for (int i = 0; i < size; i++) {
+        for (int i = 0; i < size; i++){
             char search = strToCheck.charAt(i);
             boolean isValidMapping = isContainDoubleMappingStr.lastIndexOf(search) == isContainDoubleMappingStr.indexOf(search);
             if(!isValidMapping)

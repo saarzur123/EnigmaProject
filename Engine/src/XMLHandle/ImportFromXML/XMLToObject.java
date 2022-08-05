@@ -71,6 +71,7 @@ public class XMLToObject {
         CTEReflectors cteReflectors = cteMachine.getCTEReflectors();
         List<Rotor> rotorsList = rotorsImplementFromJAXB(cteRotors,cleanStringABC);
         xmlValidator.checkEnoughRotors(cteMachine.getRotorsCount(),rotorsList.size(),checkedObjectsList);
+        xmlValidator.checkIfAllRotorsHaveUniqueIDAndNumbering(rotorsList,checkedObjectsList);
         List<Reflector> reflectorsList = reflectorsImplementFromJAXB(cteReflectors,cleanStringABC);
         xmlValidator.checkEvenNumberInABC(cleanStringABC,checkedObjectsList);
         if(checkedObjectsList.size() == 0)
@@ -131,8 +132,7 @@ public class XMLToObject {
         xmlValidator.checkIfAllRotorsHaveUniqueIDAndNumbering(cteRotorsList,checkedObjectsList);
 
         for (CTERotor cteRotor : cteRotorsList) {
-            Rotor toAdd = createRotorFromCteRotor(cteRotor,ABC);
-            rotorsList.add(toAdd);
+            rotorsList.add(createRotorFromCteRotor(cteRotor,ABC));
         }
 
         return rotorsList;
