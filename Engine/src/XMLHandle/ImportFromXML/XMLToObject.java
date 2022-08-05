@@ -1,4 +1,5 @@
 package XMLHandle.ImportFromXML;
+import EnigmaExceptions.XMLExceptions.XMLException;
 import XMLHandle.CheckXMLFile.CheckXML;
 import EnigmaExceptions.XMLExceptions.ExceptionDTO;
 import Machine.JaxbGenerated.*;
