@@ -3,11 +3,11 @@ package EnigmaExceptions;
 public class ExceptionDTO {
     private String element;
     private String specificMsg;
-    private boolean isValid;
+    private boolean isValid ;
 
    public ExceptionDTO(boolean isProblematic, String element, String msg)
    {
-       this.isProblematic = isProblematic;
+       this.isValid = isProblematic;
        this.element = element;
        this.specificMsg = msg;
    }
@@ -16,7 +16,7 @@ public class ExceptionDTO {
 
     public String getMsg() {return specificMsg; }
 
-    public boolean getValidationState() {return isProblematic; }
+    public boolean getValidationState() {return isValid; }
 
 
 }
