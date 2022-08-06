@@ -20,6 +20,8 @@ public class PlugBoard {
         return retChar;
     }
 
+    public Map<Character,Character> getPlugBoard(){return plugSwitch;}
+
     @Override
     public boolean equals(Object o) {
         if ( this == o) return true;

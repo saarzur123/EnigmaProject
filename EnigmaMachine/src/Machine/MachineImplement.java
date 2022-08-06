@@ -8,6 +8,8 @@ import java.util.Map;
 public class MachineImplement {
 
     private int rotorsMustBeInUseNumber;
+
+    private boolean secreteCodeState = false;
     private int rotorsTotalNumber;
     private Map<Integer,Rotor> availableRotorsMapIdToRotor = new HashMap<>();
     private List<Rotor> rotorsInUse = new ArrayList<>();//first rotor (most right) at index 0
@@ -16,6 +18,8 @@ public class MachineImplement {
     private Reflector reflectorInUse;
     private String ABC;
     private PlugBoard plugBoard;
+
+    private int messagesDecoded = 0;
 
 
     public MachineImplement(List<Rotor> availableRotors, List<Reflector> availableReflectors, int countInUseRotors, String language){
@@ -30,6 +34,14 @@ public class MachineImplement {
     public String getABC(){return ABC;}
     public int getInUseRotorNumber(){return  rotorsMustBeInUseNumber; }
     public List<Rotor> getInUseRotors(){return rotorsInUse; }
+    public Map<Integer, Reflector> getAvailableReflectors(){return availableReflectorsMapIdToReflector;}
+    public PlugBoard getPlugBoard() {return plugBoard;}
+    public Map<Integer,Rotor> getAvailableRotors(){return availableRotorsMapIdToRotor; }
+    public int getMessagesDecoded(){return messagesDecoded;}
+
+    public Reflector getInUseReflector(){return reflectorInUse;}
+    public boolean getSecretCodeState(){return secreteCodeState;}
+
 
     private void initAvailableRotors(List<Rotor> availableRotors)
     {
@@ -46,6 +58,7 @@ public class MachineImplement {
     //in the positions lists!!!! the most right member at index 0 !!!
     public void determineSecretCode(List<Integer> rotorsIdPositions, List<Character> rotorsStartingPos, int reflectorId, Map<Character,Character> plugsMapping)
     {
+        secreteCodeState = true;
         setRotorsInCodeOrder(rotorsIdPositions);
         setRotorsToStartPositions(rotorsStartingPos);
         setCodeReflector(reflectorId);
@@ -79,13 +92,14 @@ public class MachineImplement {
 
     public String encodingAndDecoding(String textSentToTheEnigma)
     {
+
         final int size = textSentToTheEnigma.length();
         String result = "";
 
         for (int i = 0; i < size; i++) {
             result += encodingAndDecodingSingleChar(textSentToTheEnigma.charAt(i));
         }
-
+        messagesDecoded++;
         return result;
     }
 

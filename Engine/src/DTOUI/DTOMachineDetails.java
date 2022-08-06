@@ -14,6 +14,7 @@ public class DTOMachineDetails extends DTO{
     private Map<Integer,Integer> notchPosInEachRotor = new HashMap<>();
 
 
+
     public DTOMachineDetails(int number, MachineImplement machine){
         super(number);
     }
