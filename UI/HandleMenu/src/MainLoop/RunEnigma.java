@@ -63,9 +63,10 @@ public class RunEnigma {
                 if (historyAndStatisticsForMachine.getHistoryAndStatSize() == 0) {
                     System.out.println("Unfortunately, there is no option to perform the selected action because there is no machine currently running");
                 }
+                ans = 7;
 
         }
-        return 0;
+        return ans;
     }
 
 }
