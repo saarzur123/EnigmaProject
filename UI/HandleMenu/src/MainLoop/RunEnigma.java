@@ -91,7 +91,7 @@ public class RunEnigma {
         secretCode = new SecretCode(machine);
         secretCode.determineSecretCode();
         machineDetailsPresenter.addSecretCode(secretCode);
-        historyAndStatisticsForMachine;
+        historyAndStatisticsForMachine.addSecretCodeToMachineHistory(secretCode);
     };
 
 }
