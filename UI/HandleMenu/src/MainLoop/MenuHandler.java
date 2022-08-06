@@ -5,6 +5,7 @@ import EnigmaExceptions.XMLExceptions.XMLException;
 import HandleInput.HandleInputFromUser;
 import HistoryAndStatistics.HistoryAndStatisticsForMachine;
 import Machine.MachineImplement;
+import MachineDetails.SecretCode;
 import XMLHandle.ImportFromXML.XMLToObject;
 
 import java.util.Scanner;
@@ -47,8 +48,10 @@ public class MenuHandler {
     }
 
 
-    public void showHistoryAnsStati(DTOHistoryStatistics dtoHistoryStatistics){
+    public void showHistoryAnsStatistics(DTOHistoryStatistics dtoHistoryStatistics){
+        for (SecretCode secretCode : dtoHistoryStatistics.getSecretCodesHistory()){
 
+        }
     }
 
 

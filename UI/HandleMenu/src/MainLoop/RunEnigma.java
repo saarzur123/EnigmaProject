@@ -62,7 +62,7 @@ public class RunEnigma {
                 else ans = 2;
                 break;
             case 7:
-                if (historyAndStatisticsForMachine.getHistoryAndStatSize() == 0) {
+                if (!historyAndStatisticsForMachine.checkIfMachineExists()) {
                     System.out.println(noMachineMsg);
                 }
                 else {
@@ -80,7 +80,7 @@ public class RunEnigma {
         } else if(dto.getClass() == DTOExit.class)
             System.exit(0);
         else if(dto.getClass() == DTOHistoryStatistics.class)
-            menu.showHistoryAnsStati(((DTOHistoryStatistics) dto));
+            menu.showHistoryAnsStatistics(((DTOHistoryStatistics) dto));
 
 
 

@@ -20,4 +20,20 @@ public class DTOHistoryStatistics extends DTO {
         decodedStringsHistory = decodedHistory;
         timeForProcess = time;
     }
+
+    public List<SecretCode> getSecretCodesHistory(){
+        return secretCodesHistory;
+    }
+
+    public List<String> getSourceStringsHistory(){
+        return sourceStringsHistory;
+    }
+
+    public List<String> getDecodedStringsHistory(){
+        return decodedStringsHistory;
+    }
+
+    public Map<Integer, Long> getTimeForProcess(){
+        return timeForProcess;
+    }
 }
