@@ -13,6 +13,7 @@ import MachineDetails.SecretCode;
 public class RunEnigma {
 
     private MachineImplement machine;
+
     private SecretCode secretCode;
     private MachineDetails machineDetailsPresenter;
     private MenuHandler menu = new MenuHandler();
@@ -39,7 +40,7 @@ public class RunEnigma {
                 dto = new DTOImportFromXML(userInput, menu.takePathFromUser());
                 break;
             case 2:
-                //dto = new DTOMachineDetails(userInput);
+                dto = machineDetailsPresenter.createCurrMachineDetails();
                 break;
             case 7:
                 dto = historyAndStatisticsForMachine.DTOHistoryAndStatisticsMaker();
@@ -51,19 +52,21 @@ public class RunEnigma {
     }
 
     public int checkIfTheSelectionCanBeDone(int userInput) {
+        final String noMachineMsg = "Unfortunately, there is no option to perform the selected action because there is no machine currently running";
         int ans = 0;
+
         switch (userInput) {
             case 1:
                 ans = 1;
                 break;
             case 2:
                 if(machineDetailsPresenter == null)
-                    System.out.println("");
-                    ans = 2;
+                    System.out.println(noMachineMsg);
+                else ans = 2;
                 break;
             case 7:
-                if (historyAndStatisticsForMachine.checkIfMachineExists()) {
-                    System.out.println("Unfortunately, there is no option to perform the selected action because there is no machine currently running");
+                if (historyAndStatisticsForMachine.getHistoryAndStatSize() == 0) {
+                    System.out.println(noMachineMsg);
                 }
                 else {
                     ans = 7;
