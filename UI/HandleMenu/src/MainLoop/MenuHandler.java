@@ -76,9 +76,9 @@ public class MenuHandler {
         msg += "Amount of rotors in use / amount of possible rotors: " + dtoDetails.getNumberOfRotorInUse()+" / "+dtoDetails.getTotalNumberOfRotors() + System.lineSeparator();
         msg += "Notch places for each rotor:" + System.lineSeparator();
         for (int i = 1; i <= dtoDetails.getTotalNumberOfRotors(); i++) {
-            msg+= "Rotor id: "+i+ " notch in place: "+ dtoDetails.getNotchPosInEachRotor().get(i);
+            msg+= "Rotor id: "+i+ " notch in place: "+ dtoDetails.getNotchPosInEachRotor().get(i)+ System.lineSeparator();
         }
-        msg+= System.lineSeparator() + "Reflectors number: "+dtoDetails.getTotalNumberOfReflectors() + System.lineSeparator();
+        msg+="Reflectors number: "+dtoDetails.getTotalNumberOfReflectors() + System.lineSeparator();
         msg+="Until now there were " + dtoDetails.getHowMuchMsgHaveBeenProcessed()+" messages processed in machine"+ System.lineSeparator();
         msg+="Secret code: " + dtoDetails.getCurrSecretCodeDescription();
         System.out.println(msg);

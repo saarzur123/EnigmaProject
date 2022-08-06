@@ -17,14 +17,18 @@ public class RunEnigma {
     private HistoryAndStatisticsForMachine historyAndStatisticsForMachine = new HistoryAndStatisticsForMachine();
 
     public void Run(){
-        int userInput = menu.checkWHatTheUserWantToDo();
+        int userInput;
+        do{
+        userInput = menu.checkWHatTheUserWantToDo();
         DTO dto = choseOneOptionDTO(userInput);
         while (dto == null)
         {
             System.out.println("Please choose another option");
+            userInput = menu.checkWHatTheUserWantToDo();
             dto = choseOneOptionDTO(userInput);
         }
         actionInDTO(dto);
+        }while (userInput != 8);
     }
 
     public DTO choseOneOptionDTO(int userInput){
@@ -43,7 +47,6 @@ public class RunEnigma {
                 dto = historyAndStatisticsForMachine.DTOHistoryAndStatisticsMaker();
             case 8:
                 dto = new DTOExit(userInput);
-
         }
         return dto;
     }

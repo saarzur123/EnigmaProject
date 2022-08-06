@@ -10,7 +10,7 @@ public class main {
 
     public static void main(String[] args) {
 
-        String path = "C:/Users/saarz/IdeaProjects/EnigmaProject/EnigmaMachine/src/Resources/ex1-error-3.xml";
+        String path = "C:/Users/saarz/IdeaProjects/EnigmaProject/EnigmaMachine/src/Resources/ex1-sanity-small.xml";
         XMLToObject converter = new XMLToObject();
         DTO dto = new DTO(1);
         try{
