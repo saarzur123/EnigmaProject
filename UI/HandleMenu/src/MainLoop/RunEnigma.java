@@ -93,7 +93,7 @@ public class RunEnigma {
 
     private void getSecretCodeFromUser(){
         secretCode = new SecretCode(machine);
-        List<Integer> rotorsIdPositions = menu.getInputHandler().getAndValidateRotorsByOrderFromUser();
+        List<Integer> rotorsIdPositions = menu.getInputHandler().getAndValidateRotorsByOrderFromUser(machine.getAvailableRotors().size(),machine.getInUseRotorNumber());
         List<Character> rotorsStartPosition = menu.getInputHandler().getAndValidateRotorsStartPositionFromUser();
         int reflectorIdChosen = menu.getInputHandler().getReflectorIdFromUser();
         Map<Character,Character> plugBoardFromUser = menu.getInputHandler().getPlugBoardFromUser();
