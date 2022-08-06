@@ -100,6 +100,27 @@ public class RunEnigma {
         secretCode.determineSecretCode(rotorsIdPositions,rotorsStartPosition,reflectorIdChosen,plugBoardFromUser);
         machineDetailsPresenter.addSecretCode(secretCode);
         historyAndStatisticsForMachine.addSecretCodeToMachineHistory(secretCode);
-    };
+    }
+
+    private void getSecretCodeAutomation(){
+        secretCode = new SecretCode(machine);
+
+        secretCode.determineSecretCode();
+        machineDetailsPresenter.addSecretCode(secretCode);
+        historyAndStatisticsForMachine.addSecretCodeToMachineHistory(secretCode);
+    }
+
+    private void getRandomPositionForRotors(){
+        Random rand = new Random();
+        Map<Integer, Rotor> rotorMap = machine.getAvailableRotors();
+        int numberOfRotorToChoose = machine.getInUseRotorNumber();
+        for(int i = 0; i < numberOfRotorToChoose; i++){
+            Rotor rotor = rotorMap.get(rand.nextInt(numberOfRotorToChoose));
+            if(secretCode.getInUseRotors().contains(rotor))
+                i--;
+            else
+                secretCode.getInUseRotors().add(rotor);
+        }
+    }
 
 }
