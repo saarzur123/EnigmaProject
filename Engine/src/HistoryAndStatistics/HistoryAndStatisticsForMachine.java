@@ -17,7 +17,9 @@ public class HistoryAndStatisticsForMachine {
     private Long startTime;
     private Long endTime;
 
-    //public DTOHistoryStatistics DTOHistoryAndStatisticsMaker
+    public DTOHistoryStatistics DTOHistoryAndStatisticsMaker(){
+        return new DTOHistoryStatistics(7, secretCodesHistory, sourceStringsHistory, decodedStringsHistory, timeForProcess);
+    }
     public void addStartSourceCodeAndTime(String sourceString, Long start){
         addSourceStrToMachineHistory(sourceString);
         startTime = start;
