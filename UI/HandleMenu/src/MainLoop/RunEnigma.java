@@ -27,7 +27,6 @@ public class RunEnigma {
             dto = choseOneOptionDTO(userInput);
         }
         menu.actionInDTO(dto);
-
     }
 
     public DTO choseOneOptionDTO(int userInput){
@@ -58,6 +57,8 @@ public class RunEnigma {
                 ans = 1;
                 break;
             case 2:
+                if(machineDetailsPresentor != null)
+                    ans = 2;
                 break;
             case 7:
                 if (historyAndStatisticsForMachine.getHistoryAndStatSize() == 0) {
@@ -65,7 +66,7 @@ public class RunEnigma {
                 }
 
         }
-        return 0;
+        return ans;
     }
 
 }

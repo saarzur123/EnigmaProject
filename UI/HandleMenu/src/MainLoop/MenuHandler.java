@@ -46,9 +46,6 @@ public class MenuHandler {
     }
 
 
-
-
-
     public void actionInDTO(DTO dto){
         if(dto.getClass() == DTOImportFromXML.class)
             openXMLFile((DTOImportFromXML)dto);
