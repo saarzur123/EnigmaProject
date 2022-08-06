@@ -6,4 +6,8 @@ public class DTO {
     public DTO(int number){
         numberOfSelection = number;
     }
+
+    public int getNumberOfSelection(){
+        return numberOfSelection;
+    }
 }

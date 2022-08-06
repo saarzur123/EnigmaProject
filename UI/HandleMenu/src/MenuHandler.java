@@ -1,10 +1,16 @@
+import DTOUI.DTO;
+import DTOUI.DTOExit;
+import DTOUI.DTOImportFromXML;
+import DTOUI.DTOMachineDetails;
+import EnigmaExceptions.XMLExceptions.XMLException;
 import HandleInput.HandleInputFromUser;
+import Machine.MachineImplement;
+import XMLHandle.ImportFromXML.XMLToObject;
 
 import java.util.Scanner;
 
 public class MenuHandler {
-
-    private HandleInputFromUser handler;
+    private HandleInputFromUser handler = new HandleInputFromUser();
     public int checkWHatTheUserWantToDo(){
         StringBuilder str = new StringBuilder();
         Scanner myObj = new Scanner(System.in);
@@ -36,5 +42,42 @@ public class MenuHandler {
         System.out.println("Please enter full path of the XML File :) ");
         Scanner myObj = new Scanner(System.in);
         return myObj.nextLine();
+    }
+
+    public DTO choseOneOptionDTO(int userInput){
+        DTO dto = null;
+        switch (userInput){
+            case 1:
+                dto = new DTOImportFromXML(userInput, this.takePathFromUser());
+                break;
+            case 2:
+                //dto = new DTOMachineDetails(userInput);
+                break;
+            case 8:
+                dto = new DTOExit(userInput);
+
+        }
+        return dto;
+    }
+
+    public void actionInDTO(DTO dto){
+        if(dto.getClass() == DTOImportFromXML.class)
+            openXMLFile((DTOImportFromXML)dto);
+        else if(dto.getClass() == DTOExit.class)
+            System.exit(0);
+
+    }
+
+    public void openXMLFile(DTO dto){
+        XMLToObject converter = new XMLToObject();
+        DTOImportFromXML dtoXML = (DTOImportFromXML)dto;
+        try{
+            MachineImplement machine = converter.machineFromXml(dtoXML.getPath());
+        }
+        catch (XMLException error){
+            System.out.println(error.getMessage());
+            this.takePathFromUser();
+            this.openXMLFile(dto);
+        }
     }
 }

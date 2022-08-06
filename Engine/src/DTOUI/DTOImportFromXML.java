@@ -7,4 +7,8 @@ public class DTOImportFromXML extends DTO{
         super(number);
         pathOfXMLFile = path;
     }
+
+    public String getPath(){
+        return pathOfXMLFile;
+    }
 }
