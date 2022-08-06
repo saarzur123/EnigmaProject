@@ -13,6 +13,7 @@ import MachineDetails.SecretCode;
 public class RunEnigma {
 
     private MachineImplement machine;
+
     private SecretCode secretCode;
     private MachineDetails machineDetailsPresenter;
     private MenuHandler menu = new MenuHandler();
