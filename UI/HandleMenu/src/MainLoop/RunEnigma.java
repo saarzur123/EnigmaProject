@@ -1,9 +1,6 @@
 package MainLoop;
 
-import DTOUI.DTO;
-import DTOUI.DTOExit;
-import DTOUI.DTOHistoryStatistics;
-import DTOUI.DTOImportFromXML;
+import DTOUI.*;
 import HandleInput.HandleInputFromUser;
 import HistoryAndStatistics.HistoryAndStatisticsForMachine;
 import Machine.MachineImplement;
@@ -78,7 +75,9 @@ public class RunEnigma {
     public void actionInDTO(DTO dto){
         if(dto.getClass() == DTOImportFromXML.class)
             menu.openXMLFile((DTOImportFromXML)dto);
-        else if(dto.getClass() == DTOExit.class)
+        else if (dto.getClass() == DTOMachineDetails.class) {
+            menu.showLastMachineDetails((DTOMachineDetails) dto);
+        } else if(dto.getClass() == DTOExit.class)
             System.exit(0);
         else if(dto.getClass() == DTOHistoryStatistics.class)
             menu.showHistoryAnsStati(((DTOHistoryStatistics) dto));

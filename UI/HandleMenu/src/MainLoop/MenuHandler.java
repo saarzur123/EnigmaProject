@@ -8,6 +8,7 @@ import Machine.MachineImplement;
 import XMLHandle.ImportFromXML.XMLToObject;
 
 import java.util.Scanner;
+import java.util.Set;
 
 public class MenuHandler {
     private HandleInputFromUser handler = new HandleInputFromUser();
@@ -62,5 +63,19 @@ public class MenuHandler {
             this.takePathFromUser();
             this.openXMLFile(dto);
         }
+    }
+
+    public void showLastMachineDetails(DTOMachineDetails dtoDetails)
+    {
+        String msg = "Last machine in use description:" + System.lineSeparator();
+        msg += "Amount of rotors in use / amount of possible rotors: " + dtoDetails.getNumberOfRotorInUse()+" / "+dtoDetails.getTotalNumberOfRotors() + System.lineSeparator();
+        msg += "Notch places for each rotor:" + System.lineSeparator();
+        for (int i = 1; i <= dtoDetails.getTotalNumberOfRotors(); i++) {
+            msg+= "Rotor id: "+i+ " notch in place: "+ dtoDetails.getNotchPosInEachRotor().get(i);
+        }
+        msg+= System.lineSeparator() + "Reflectors number: "+dtoDetails.getTotalNumberOfReflectors() + System.lineSeparator();
+        msg+="Until now there were " + dtoDetails.getHowMuchMsgHaveBeenProcessed()+" messages processed in machine"+ System.lineSeparator();
+        msg+="Secret code: " + dtoDetails.getCurrSecretCodeDescription();
+        System.out.println(msg);
     }
 }

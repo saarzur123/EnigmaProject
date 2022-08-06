@@ -48,7 +48,7 @@ public class MachineDetails {
 
     private String showCurrSecretCode(){
         if(!isSecretCodeExist())
-            return "";
+            return "No secret code!";
         String code = secretCode.getSecretCodeCombination();
         return code;
     }
