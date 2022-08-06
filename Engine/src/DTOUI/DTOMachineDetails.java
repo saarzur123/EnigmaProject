@@ -5,7 +5,7 @@ import Machine.MachineImplement;
 import java.util.HashMap;
 import java.util.Map;
 
-public class DTOMachineDetails extends DTO implements Setter,Getter{
+public class DTOMachineDetails extends DTO{
 
     private int totalNumberOfRotor;
     private int numberOfRotorInUse;

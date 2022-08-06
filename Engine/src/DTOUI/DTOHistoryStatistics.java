@@ -7,7 +7,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class DTOHistoryStatistics extends DTO implements Setter,Getter{
+public class DTOHistoryStatistics extends DTO {
 
     private List<SecretCode> secretCodesHistory = new ArrayList<>();
     private List<String> sourceStringsHistory = new ArrayList<>();

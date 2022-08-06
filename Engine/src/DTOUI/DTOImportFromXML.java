@@ -1,6 +1,6 @@
 package DTOUI;
 
-public class DTOImportFromXML extends DTO implements Setter,Getter{
+public class DTOImportFromXML extends DTO{
 
     private String pathOfXMLFile;
     public DTOImportFromXML(int number, String path){

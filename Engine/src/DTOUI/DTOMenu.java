@@ -1,6 +1,6 @@
 package DTOUI;
 
-public class DTOMenu {
+public class DTOMenu  implements Setter,Getter{
     private DTOMachineDetails machineDetails = null;
     private DTOHistoryStatistics historyStatistics = null;
 
