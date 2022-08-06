@@ -8,9 +8,7 @@ import Machine.Rotor;
 import MachineDetails.MachineDetails;
 import MachineDetails.SecretCode;
 
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
+import java.util.*;
 
 public class RunEnigma {
     private MachineImplement machine;
@@ -105,22 +103,63 @@ public class RunEnigma {
     private void getSecretCodeAutomation(){
         secretCode = new SecretCode(machine);
 
-        secretCode.determineSecretCode();
+        secretCode.determineSecretCode(getRandomPositionForRotors(), getRandomStartingPostChar(), getRandomReflectorID(), getRandomPlugBoard());
         machineDetailsPresenter.addSecretCode(secretCode);
         historyAndStatisticsForMachine.addSecretCodeToMachineHistory(secretCode);
     }
 
-    private void getRandomPositionForRotors(){
+    private List<Integer> getRandomPositionForRotors(){
+        List<Integer> rotorIDPos = new ArrayList<>();
         Random rand = new Random();
         Map<Integer, Rotor> rotorMap = machine.getAvailableRotors();
         int numberOfRotorToChoose = machine.getInUseRotorNumber();
         for(int i = 0; i < numberOfRotorToChoose; i++){
-            Rotor rotor = rotorMap.get(rand.nextInt(numberOfRotorToChoose));
-            if(secretCode.getInUseRotors().contains(rotor))
+            int IDToAdd = rand.nextInt(numberOfRotorToChoose);
+            if(rotorIDPos.contains(IDToAdd))
                 i--;
             else
-                secretCode.getInUseRotors().add(rotor);
+                rotorIDPos.add(IDToAdd);
         }
+        return rotorIDPos;
     }
 
+    private List<Character> getRandomStartingPostChar(){
+        List<Character> ListOfStartingPos = new ArrayList<>();
+        int lengthOfABC = machine.getABC().length();
+        Random rand = new Random();
+        for(int k = 0; k < lengthOfABC; k++){
+            ListOfStartingPos.add(machine.getABC().charAt(rand.nextInt(lengthOfABC)));
+        }
+        return ListOfStartingPos;
+    }
+
+    private int getRandomReflectorID(){
+        int numberOfReflector = machine.getAvailableReflectors().size();
+        Random rand = new Random();
+        return rand.nextInt(numberOfReflector);
+    }
+
+    private Map<Character, Character> getRandomPlugBoard(){
+        Map<Character, Character> plugBoardRand = new HashMap<>();
+        int numberOfOptionToChooseFrom = machine.getABC().length() / 2;
+        Random rand = new Random();
+        int numberOfOptionToChooseFromToAdd= rand.nextInt(numberOfOptionToChooseFrom);
+        for(int i = 0; i< numberOfOptionToChooseFromToAdd; i++)
+        {
+            char firstChar = machine.getABC().charAt(rand.nextInt(numberOfOptionToChooseFrom * 2));
+            char secondChar;
+            do {
+                secondChar = machine.getABC().charAt(rand.nextInt(numberOfOptionToChooseFrom * 2));
+            }while (firstChar != secondChar); //כל עוד הם זהים לבחור מישהו אחר
+
+            plugBoardRand.put(firstChar, secondChar);
+            plugBoardRand.put(secondChar, firstChar);
+        }
+        for(int i = 0 ; i < machine.getABC().length(); i++){
+            if(!plugBoardRand.containsKey(machine.getABC().charAt(i))){
+                plugBoardRand.put(machine.getABC().charAt(i),machine.getABC().charAt(i));
+            }
+        }
+        return plugBoardRand;
+    }
 }
