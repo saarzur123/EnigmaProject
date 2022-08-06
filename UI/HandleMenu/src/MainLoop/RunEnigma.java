@@ -4,11 +4,13 @@ import DTOUI.*;
 import HandleInput.HandleInputFromUser;
 import HistoryAndStatistics.HistoryAndStatisticsForMachine;
 import Machine.MachineImplement;
+import Machine.Rotor;
 import MachineDetails.MachineDetails;
 import MachineDetails.SecretCode;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
 public class RunEnigma {
     private MachineImplement machine;
@@ -98,6 +100,6 @@ public class RunEnigma {
         secretCode.determineSecretCode(rotorsIdPositions,rotorsStartPosition,reflectorIdChosen,plugBoardFromUser);
         machineDetailsPresenter.addSecretCode(secretCode);
         historyAndStatisticsForMachine.addSecretCodeToMachineHistory(secretCode);
-    }
+    };
 
 }
