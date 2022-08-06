@@ -26,4 +26,8 @@ public class DTOMachineDetails extends DTO implements Setter,Getter{
     }
 
     public int getTotalNumberOfRotors{return }
+    public int getNumberOfRotorInUse{}
+    public int getHowMuchMsgHaveBeenProcessed(){}
+    public Map<Integer,Integer> getNotchPosInEachRotor(){}
+    public String getCurrSecretCodeDescription(){return }
 }
