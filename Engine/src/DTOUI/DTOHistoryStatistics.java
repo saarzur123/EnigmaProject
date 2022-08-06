@@ -21,7 +21,7 @@ public class DTOHistoryStatistics extends DTO {
         timeForProcess = time;
     }
 
-    public int getSecretCodesHistorySize(){
-        return secretCodesHistory.size();
+    public DTOHistoryStatistics getDTOHistoryStatistics(){
+        return this;
     }
 }

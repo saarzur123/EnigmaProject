@@ -30,6 +30,7 @@ public class HistoryAndStatisticsForMachine {
     public DTOHistoryStatistics DTOHistoryAndStatisticsMaker(){
         return new DTOHistoryStatistics(7, secretCodesHistory, sourceStringsHistory, decodedStringsHistory, timeForProcess);
     }
+
     private void addStartSourceCodeAndTime(String sourceString, Long start){
         addSourceStrToMachineHistory(sourceString);
         startTime = start;
