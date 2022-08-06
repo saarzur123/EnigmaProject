@@ -89,6 +89,7 @@ public class RunEnigma {
     private void getSecretCodeFromUser(){
 
         secretCode = new SecretCode(machine);
+
         secretCode.determineSecretCode();
         machineDetailsPresenter.addSecretCode(secretCode);
         historyAndStatisticsForMachine.addSecretCodeToMachineHistory(secretCode);
