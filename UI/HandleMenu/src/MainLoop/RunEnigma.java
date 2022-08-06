@@ -7,6 +7,9 @@ import Machine.MachineImplement;
 import MachineDetails.MachineDetails;
 import MachineDetails.SecretCode;
 
+import java.util.List;
+import java.util.Map;
+
 public class RunEnigma {
     private MachineImplement machine;
     private SecretCode secretCode;
@@ -87,12 +90,14 @@ public class RunEnigma {
     }
 
     private void getSecretCodeFromUser(){
-
         secretCode = new SecretCode(machine);
-
-        secretCode.determineSecretCode();
+        List<Integer> rotorsIdPositions = menu.getInputHandler().getAndValidateRotorsByOrderFromUser();
+        List<Character> rotorsStartPosition = menu.getInputHandler().getAndValidateRotorsStartPositionFromUser();
+        int reflectorIdChosen = menu.getInputHandler().getReflectorIdFromUser();
+        Map<Character,Character> plugBoardFromUser = menu.getInputHandler().getPlugBoardFromUser();
+        secretCode.determineSecretCode(rotorsIdPositions,rotorsStartPosition,reflectorIdChosen,plugBoardFromUser);
         machineDetailsPresenter.addSecretCode(secretCode);
         historyAndStatisticsForMachine.addSecretCodeToMachineHistory(secretCode);
-    };
+    }
 
 }

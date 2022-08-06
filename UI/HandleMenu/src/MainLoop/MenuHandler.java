@@ -14,6 +14,8 @@ import java.util.Set;
 public class MenuHandler {
     private HandleInputFromUser handler = new HandleInputFromUser();
 
+    public HandleInputFromUser getInputHandler(){return  handler;}
+
     public int checkWHatTheUserWantToDo(){
         StringBuilder str = new StringBuilder();
         Scanner myObj = new Scanner(System.in);
