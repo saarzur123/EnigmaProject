@@ -1,6 +1,7 @@
 import DTOUI.*;
 import EnigmaExceptions.XMLExceptions.XMLException;
 import HandleInput.HandleInputFromUser;
+import HistoryAndStatistics.HistoryAndStatisticsForMachine;
 import Machine.MachineImplement;
 import XMLHandle.ImportFromXML.XMLToObject;
 
@@ -8,6 +9,7 @@ import java.util.Scanner;
 
 public class MenuHandler {
     private HandleInputFromUser handler = new HandleInputFromUser();
+    private HistoryAndStatisticsForMachine historyAndStatisticsForMachine = new HistoryAndStatisticsForMachine();
     public int checkWHatTheUserWantToDo(){
         StringBuilder str = new StringBuilder();
         Scanner myObj = new Scanner(System.in);
@@ -41,6 +43,20 @@ public class MenuHandler {
         return myObj.nextLine();
     }
 
+    public boolean checkIfTheSelectionCanBeDone(DTO dto){
+        if(dto.getClass() == DTOImportFromXML.class)
+            return true;
+        else if(dto.getClass() == DTOExit.class)
+            return true;
+        else if(dto.getClass() == DTOHistoryStatistics.class){
+            if(historyAndStatisticsForMachine.getSecretCodeHistory().size() == 0){
+                System.out.println("Unfortunately, there is no option to perform the selected action because there is no machine currently running");
+                return false;
+            }
+        }
+        return true;
+    }
+
     public DTO choseOneOptionDTO(int userInput){
         DTO dto = null;
         switch (userInput){
@@ -51,12 +67,21 @@ public class MenuHandler {
                 //dto = new DTOMachineDetails(userInput);
                 break;
             case 7:
-                dto = new DTOHistoryStatistics(userInput);
+                if(checkIfMachineExists())
+                    dto = historyAndStatisticsForMachine.DTOHistoryAndStatisticsMaker();
+                else
+                    return null;
             case 8:
                 dto = new DTOExit(userInput);
 
         }
         return dto;
+    }
+
+    public boolean checkIfMachineExists(){
+        if(historyAndStatisticsForMachine.getSecretCodeHistory().size()==0)
+            return false;
+        return true;
     }
 
     public void actionInDTO(DTO dto){
