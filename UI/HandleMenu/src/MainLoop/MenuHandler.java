@@ -55,17 +55,19 @@ public class MenuHandler {
     }
 
 
-    public void openXMLFile(DTO dto){
+    public MachineImplement openXMLFile(DTO dto){
         XMLToObject converter = new XMLToObject();
         DTOImportFromXML dtoXML = (DTOImportFromXML)dto;
         try{
             MachineImplement machine = converter.machineFromXml(dtoXML.getPath());
+            return machine;
         }
         catch (XMLException error){
             System.out.println(error.getMessage());
             this.takePathFromUser();
             this.openXMLFile(dto);
         }
+        return null;
     }
 
     public void showLastMachineDetails(DTOMachineDetails dtoDetails)
