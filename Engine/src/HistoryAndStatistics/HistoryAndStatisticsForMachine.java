@@ -17,48 +17,55 @@ public class HistoryAndStatisticsForMachine {
     private Long startTime;
     private Long endTime;
 
+    private void clearAllHistory(){
+        secretCodesHistory.clear();
+        sourceStringsHistory.clear();
+        decodedStringsHistory.clear();
+        timeForProcess.clear();
+    }
+
     public DTOHistoryStatistics DTOHistoryAndStatisticsMaker(){
         return new DTOHistoryStatistics(7, secretCodesHistory, sourceStringsHistory, decodedStringsHistory, timeForProcess);
     }
-    public void addStartSourceCodeAndTime(String sourceString, Long start){
+    private void addStartSourceCodeAndTime(String sourceString, Long start){
         addSourceStrToMachineHistory(sourceString);
         startTime = start;
     }
-    public void addSecretCodeAndTimeProcess(SecretCode secretCode){
+    private void addSecretCodeAndTimeProcess(SecretCode secretCode){
         addSecretCodeToMachineHistory(secretCode);
         int indexToPutInMap = secretCodesHistory.size() - 1;
         timeForProcess.put(indexToPutInMap, endTime - startTime);
     }
-    public void addEndDecodedCodeAndTime(String decodedString, Long end){
+    private void addEndDecodedCodeAndTime(String decodedString, Long end){
         addDecodedStrToMachineHistory(decodedString);
         endTime = end;
     }
-    public void addSecretCodeToMachineHistory(SecretCode secretCode)
+    private void addSecretCodeToMachineHistory(SecretCode secretCode)
     {
         secretCodesHistory.add(secretCode);
     }
 
-    public List<SecretCode> getSecretCodeHistory(){
+    private List<SecretCode> getSecretCodeHistory(){
         return secretCodesHistory;
     }
 
-    public void addSourceStrToMachineHistory(String sourceString){
+    private void addSourceStrToMachineHistory(String sourceString){
         sourceStringsHistory.add(sourceString);
     }
 
-    public List<String> getSourceStrHistory(){
+    private List<String> getSourceStrHistory(){
         return sourceStringsHistory;
     }
 
-    public void addDecodedStrToMachineHistory(String resultStr){
+    private void addDecodedStrToMachineHistory(String resultStr){
         decodedStringsHistory.add(resultStr);
     }
 
-    public List<String> getDecodedStringsHistory(){
+    private List<String> getDecodedStringsHistory(){
         return decodedStringsHistory;
     }
 
-    public boolean checkIfMachineExists(){
+    private boolean checkIfMachineExists(){
         if(this.getSecretCodeHistory().size()==0)
             return false;
         return true;
