@@ -20,8 +20,4 @@ public class DTOHistoryStatistics extends DTO {
         decodedStringsHistory = decodedHistory;
         timeForProcess = time;
     }
-
-    public DTOHistoryStatistics getDTOHistoryStatistics(){
-        return this;
-    }
 }
