@@ -24,4 +24,6 @@ public class DTOMachineDetails extends DTO{
         this.notchPosInEachRotor = notchPosInEachRotor;
         this.currSecretCodeDescription = currSecretCodeDescription;
     }
+
+    public int get
 }

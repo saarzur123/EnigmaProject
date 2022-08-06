@@ -21,13 +21,16 @@ public class SecretCode {
     private List<Rotor> rotorsInUse = new ArrayList<>();//first rotor (most right) at index 0
     private Reflector reflectorInUse;
     private PlugBoard plugBoard;
+    private boolean secreteCodeState;
+
 
 
     public SecretCode(MachineImplement machine){
         this.currMachine = machine;
-        secretCodeCombination = createSecretCodeSchema();
+        secreteCodeState = false;
     }
 
+    public boolean getSecretCodeState(){return secreteCodeState;}
     public List<Rotor> getInUseRotors(){return rotorsInUse; }
     public PlugBoard getPlugBoard() {return plugBoard;}
     public Reflector getInUseReflector(){return reflectorInUse;}
@@ -66,10 +69,12 @@ public class SecretCode {
     //in the positions lists!!!! the most right member at index 0 !!!
     public void determineSecretCode(List<Integer> rotorsIdPositions, List<Character> rotorsStartingPos, int reflectorId, Map<Character,Character> plugsMapping)
     {
+        secreteCodeState = true;
         setRotorsInCodeOrder(rotorsIdPositions);
         setRotorsToStartPositions(rotorsStartingPos);
         setCodeReflector(reflectorId);
         createCodePlugBoard(plugsMapping);
+        secretCodeCombination = createSecretCodeSchema();
     }
 
 

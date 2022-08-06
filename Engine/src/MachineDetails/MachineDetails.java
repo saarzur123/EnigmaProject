@@ -13,10 +13,17 @@ import java.util.Map;
 public class MachineDetails {
 
     private MachineImplement currMachine;
+    private SecretCode secretCode;
+    private final int commandNumber = 2;
 
 
-    public void MachineDetails(MachineImplement currMachine){
+    public void MachineDetails(MachineImplement currMachine,SecretCode secretCode){
         this.currMachine = currMachine;
+        this.secretCode = secretCode;
+    }
+
+    public DTOMachineDetails createCurrMachineDetails(){
+        return new DTOMachineDetails(commandNumber,possibleRotorsAmount(),inUseRotorAmount(),reflectorsAmount(),messagesProcessedCurrAmount(),notchPlacesForEachRotor(),showCurrSecretCode());
     }
 
     private int possibleRotorsAmount(){return currMachine.getAvailableRotors().size();}
@@ -37,14 +44,13 @@ public class MachineDetails {
 
     private int messagesProcessedCurrAmount(){return currMachine.getMessagesDecoded();}
 
-    private boolean isSecretCodeExist(){return currMachine.getSecretCodeState();}
+    private boolean isSecretCodeExist(){return secretCode.getSecretCodeState();}
 
     private String showCurrSecretCode(){
         if(!isSecretCodeExist())
             return "";
-        String code = createSecretCodeSchema();
+        String code = secretCode.getSecretCodeCombination();
         return code;
     }
-
 
 }
