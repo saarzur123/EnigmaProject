@@ -68,7 +68,7 @@ public class HistoryAndStatisticsForMachine {
         return decodedStringsHistory;
     }
 
-    private boolean checkIfMachineExists(){
+    public boolean checkIfMachineExists(){
         if(this.getSecretCodeHistory().size()==0)
             return false;
         return true;

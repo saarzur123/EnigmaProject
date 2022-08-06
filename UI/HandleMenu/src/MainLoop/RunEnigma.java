@@ -26,7 +26,7 @@ public class RunEnigma {
             System.out.println("Please choose another option");
             dto = choseOneOptionDTO(userInput);
         }
-        menu.actionInDTO(dto);
+        actionInDTO(dto);
     }
 
     public DTO choseOneOptionDTO(int userInput){
@@ -65,12 +65,24 @@ public class RunEnigma {
                 break;
             case 7:
                 if (historyAndStatisticsForMachine.getHistoryAndStatSize() == 0) {
-                    System.out.println(noMachineMsg);
+                    System.out.println("Unfortunately, there is no option to perform the selected action because there is no machine currently running");
                 }
-                ans = 7;
+                else {
+                    ans = 7;
+                }
 
         }
         return ans;
+    }
+    public void actionInDTO(DTO dto){
+        if(dto.getClass() == DTOImportFromXML.class)
+            menu.openXMLFile((DTOImportFromXML)dto);
+        else if(dto.getClass() == DTOExit.class)
+            System.exit(0);
+        else if(dto.getClass() == DTOHistoryStatistics.class)
+            //historyAndStatisticsForMachine.g
+
+
     }
 
 }
