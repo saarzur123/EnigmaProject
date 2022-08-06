@@ -73,8 +73,10 @@ public class RunEnigma {
         return ans;
     }
     public void actionInDTO(DTO dto){
-        if(dto.getClass() == DTOImportFromXML.class)
+        if(dto.getClass() == DTOImportFromXML.class){
             machine = menu.openXMLFile((DTOImportFromXML)dto);
+            machineDetailsPresenter = new MachineDetails(machine,secretCode);
+        }
         else if (dto.getClass() == DTOMachineDetails.class) {
             menu.showLastMachineDetails((DTOMachineDetails)dto);
         } else if(dto.getClass() == DTOExit.class)

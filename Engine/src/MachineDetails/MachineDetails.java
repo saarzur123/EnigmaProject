@@ -17,7 +17,7 @@ public class MachineDetails {
     private final int commandNumber = 2;
 
 
-    public void MachineDetails(MachineImplement currMachine,SecretCode secretCode){
+    public MachineDetails(MachineImplement currMachine,SecretCode secretCode){
         this.currMachine = currMachine;
         this.secretCode = secretCode;
     }
@@ -47,10 +47,11 @@ public class MachineDetails {
     private boolean isSecretCodeExist(){return secretCode.getSecretCodeState();}
 
     private String showCurrSecretCode(){
-        if(!isSecretCodeExist())
+        if(secretCode == null)
             return "No secret code!";
         String code = secretCode.getSecretCodeCombination();
         return code;
     }
+    public void addSecretCode(SecretCode newCode){this.secretCode=newCode;}
 
 }
