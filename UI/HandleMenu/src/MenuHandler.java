@@ -49,7 +49,7 @@ public class MenuHandler {
         else if(dto.getClass() == DTOExit.class)
             return true;
         else if(dto.getClass() == DTOHistoryStatistics.class){
-            if(historyAndStatisticsForMachine.getSecretCodeHistory().size() == 0){
+            if(historyAndStatisticsForMachine.checkIfMachineExists()){
                 System.out.println("Unfortunately, there is no option to perform the selected action because there is no machine currently running");
                 return false;
             }
@@ -67,10 +67,7 @@ public class MenuHandler {
                 //dto = new DTOMachineDetails(userInput);
                 break;
             case 7:
-                if(checkIfMachineExists())
-                    dto = historyAndStatisticsForMachine.DTOHistoryAndStatisticsMaker();
-                else
-                    return null;
+                dto = historyAndStatisticsForMachine.DTOHistoryAndStatisticsMaker();
             case 8:
                 dto = new DTOExit(userInput);
 
@@ -78,11 +75,7 @@ public class MenuHandler {
         return dto;
     }
 
-    public boolean checkIfMachineExists(){
-        if(historyAndStatisticsForMachine.getSecretCodeHistory().size()==0)
-            return false;
-        return true;
-    }
+
 
     public void actionInDTO(DTO dto){
         if(dto.getClass() == DTOImportFromXML.class)
