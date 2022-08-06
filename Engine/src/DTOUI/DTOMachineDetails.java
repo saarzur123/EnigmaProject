@@ -12,7 +12,7 @@ public class DTOMachineDetails extends DTO{
     private int totalNumberOfReflector;
     private int howMuchMsgHaveBeenProcessed;
     private Map<Integer,Integer> notchPosInEachRotor = new HashMap<>();
-
+    private String currSecretCodeDescription;
 
 
     public DTOMachineDetails(int number, MachineImplement machine){
