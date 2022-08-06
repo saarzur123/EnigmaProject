@@ -46,6 +46,9 @@ public class MenuHandler {
     }
 
 
+    public void showHistoryAnsStati(DTOHistoryStatistics dtoHistoryStatistics){
+
+    }
 
 
     public void openXMLFile(DTO dto){
