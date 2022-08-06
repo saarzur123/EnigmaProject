@@ -8,9 +8,7 @@ import MachineDetails.MachineDetails;
 import MachineDetails.SecretCode;
 
 public class RunEnigma {
-
     private MachineImplement machine;
-
     private SecretCode secretCode;
     private MachineDetails machineDetailsPresenter;
     private MenuHandler menu = new MenuHandler();
@@ -87,5 +85,13 @@ public class RunEnigma {
         else if(dto.getClass() == DTOHistoryStatistics.class)
             menu.showHistoryAnsStatistics(((DTOHistoryStatistics) dto));
     }
+
+    private void getSecretCodeFromUser(){
+
+        secretCode = new SecretCode(machine);
+        secretCode.determineSecretCode();
+        machineDetailsPresenter.addSecretCode(secretCode);
+        historyAndStatisticsForMachine;
+    };
 
 }
