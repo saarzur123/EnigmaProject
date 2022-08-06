@@ -68,46 +68,5 @@ public List<String> getSecretCodeHistory(){return secretCodesHistory;}
         return code;
     }
 
-    private String createSecretCodeSchema(){
-        List<Rotor> rotors = currMachine.getInUseRotors();
-        String rotorsFromRight = "";
-        String rotorsPositionsFromRight = "";
-        int size = rotors.size();
 
-        for (int i = size-1 ; i >=0 ; i--) {
-            rotorsFromRight+=rotors.get(i).getId();
-            rotorsPositionsFromRight += rotors.get(i).getStartPos();
-        }
-
-        String code = "<" + rotorsFromRight +">"+"<"+rotorsPositionsFromRight+">"+"<"+chosenReflector()+">"+"<"+plugs()+">";
-
-        return code;
-    }
-
-    private String chosenReflector(){
-        Map<Integer,String> romanMap = new HashMap<>();
-        romanMap.put(1,"I");
-        romanMap.put(2,"II");
-        romanMap.put(3,"III");
-        romanMap.put(4,"IV");
-        romanMap.put(5,"V");
-
-        return romanMap.get(currMachine.getInUseReflector().getId());
-    }
-
-    private String plugs(){
-        Map<Character,Character> plugs = currMachine.getPlugBoard().getPlugBoard();
-        List<Character> charsAdded = new ArrayList<>();
-        StringBuilder plugsStr = new StringBuilder();
-
-        for(Character key : plugs.keySet()){
-            if(!charsAdded.contains(key)) {
-                plugsStr.append(key + "|" + plugs.get(key) + ",");
-                charsAdded.add(key);
-                charsAdded.add(plugs.get(key));
-            }
-        }
-        plugsStr.deleteCharAt(plugsStr.length() - 1);
-        return plugsStr.toString();
-    }
 }

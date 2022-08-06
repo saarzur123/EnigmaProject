@@ -11,14 +11,12 @@ public class MachineImplement {
     private boolean secreteCodeState = false;
     private int rotorsTotalNumber;
     private Map<Integer,Rotor> availableRotorsMapIdToRotor = new HashMap<>();
-    private List<Rotor> rotorsInUse = new ArrayList<>();//first rotor (most right) at index 0
     private int reflectorsTotalNumber;
     private Map<Integer, Reflector> availableReflectorsMapIdToReflector = new HashMap<>();
-    private Reflector reflectorInUse;
     private String ABC;
-    private PlugBoard plugBoard;
-
     private int messagesDecoded = 0;
+
+
 
 
     public MachineImplement(List<Rotor> availableRotors, List<Reflector> availableReflectors, int countInUseRotors, String language){
@@ -32,13 +30,12 @@ public class MachineImplement {
 
     public String getABC(){return ABC;}
     public int getInUseRotorNumber(){return  rotorsMustBeInUseNumber; }
-    public List<Rotor> getInUseRotors(){return rotorsInUse; }
     public Map<Integer, Reflector> getAvailableReflectors(){return availableReflectorsMapIdToReflector;}
-    public PlugBoard getPlugBoard() {return plugBoard;}
+   // public PlugBoard getPlugBoard() {return plugBoard;}
     public Map<Integer,Rotor> getAvailableRotors(){return availableRotorsMapIdToRotor; }
     public int getMessagesDecoded(){return messagesDecoded;}
 
-    public Reflector getInUseReflector(){return reflectorInUse;}
+   // public Reflector getInUseReflector(){return reflectorInUse;}
     public boolean getSecretCodeState(){return secreteCodeState;}
 
 
@@ -54,61 +51,61 @@ public class MachineImplement {
                 availableReflectorsMapIdToReflector.put(reflector.getId(), reflector));
     }
 
-    //in the positions lists!!!! the most right member at index 0 !!!
-    public void determineSecretCode(List<Integer> rotorsIdPositions, List<Character> rotorsStartingPos, int reflectorId, Map<Character,Character> plugsMapping)
-    {
-        secreteCodeState = true;
-        setRotorsInCodeOrder(rotorsIdPositions);
-        setRotorsToStartPositions(rotorsStartingPos);
-        setCodeReflector(reflectorId);
-        createCodePlugBoard(plugsMapping);
-    }
+//    //in the positions lists!!!! the most right member at index 0 !!!
+//    public void determineSecretCode(List<Integer> rotorsIdPositions, List<Character> rotorsStartingPos, int reflectorId, Map<Character,Character> plugsMapping)
+//    {
+//        secreteCodeState = true;
+//        setRotorsInCodeOrder(rotorsIdPositions);
+//        setRotorsToStartPositions(rotorsStartingPos);
+//        setCodeReflector(reflectorId);
+//        createCodePlugBoard(plugsMapping);
+//    }
 
-    private void setRotorsInCodeOrder(List<Integer> rotorsIdPositions)
-    {
-        rotorsIdPositions.forEach(indexOfID ->
-                rotorsInUse.add(availableRotorsMapIdToRotor.get(indexOfID)));
-    }
+//    private void setRotorsInCodeOrder(List<Integer> rotorsIdPositions)
+//    {
+//        rotorsIdPositions.forEach(indexOfID ->
+//                rotorsInUse.add(availableRotorsMapIdToRotor.get(indexOfID)));
+//    }
+//
+//    private void setRotorsToStartPositions(List<Character> rotorsStartingPos)
+//    {
+//        int size = rotorsStartingPos.size();
+//
+//        for (int i   = 0; i < size; i++) {
+//            rotorsInUse.get(i).setRotorToStartPosition(rotorsStartingPos.get(i));
+//        }
+//    }
+//
+//    private void setCodeReflector(int reflectorId)
+//    {
+//        reflectorInUse = availableReflectorsMapIdToReflector.get(reflectorId);
+//    }
+//
+//    private void createCodePlugBoard(Map<Character,Character> plugsMapping)
+//    {
+//        this.plugBoard = new PlugBoard(plugsMapping);
+//    }
 
-    private void setRotorsToStartPositions(List<Character> rotorsStartingPos)
-    {
-        int size = rotorsStartingPos.size();
-
-        for (int i   = 0; i < size; i++) {
-            rotorsInUse.get(i).setRotorToStartPosition(rotorsStartingPos.get(i));
-        }
-    }
-
-    private void setCodeReflector(int reflectorId)
-    {
-        reflectorInUse = availableReflectorsMapIdToReflector.get(reflectorId);
-    }
-
-    private void createCodePlugBoard(Map<Character,Character> plugsMapping)
-    {
-        this.plugBoard = new PlugBoard(plugsMapping);
-    }
-
-    public String encodingAndDecoding(String textSentToTheEnigma)
+    public String encodingAndDecoding(String textSentToTheEnigma, List<Rotor> rotorsInUse, PlugBoard plugBoard, Reflector reflectorInUse)
     {
 
         final int size = textSentToTheEnigma.length();
         String result = "";
 
         for (int i = 0; i < size; i++) {
-            result += encodingAndDecodingSingleChar(textSentToTheEnigma.charAt(i));
+            result += encodingAndDecodingSingleChar(textSentToTheEnigma.charAt(i),rotorsInUse,plugBoard,reflectorInUse);
         }
         messagesDecoded++;
         return result;
     }
 
-    private char encodingAndDecodingSingleChar(char charInTextSentToTheEnigma)
+    private char encodingAndDecodingSingleChar(char charInTextSentToTheEnigma, List<Rotor> rotorsInUse, PlugBoard plugBoard, Reflector reflectorInUse)
     {
-        int forwardIndexDecoding = forwardDecoding(charInTextSentToTheEnigma);
-        return backwardDecoding(forwardIndexDecoding);
+        int forwardIndexDecoding = forwardDecoding(charInTextSentToTheEnigma,rotorsInUse,plugBoard,reflectorInUse);
+        return backwardDecoding(forwardIndexDecoding,rotorsInUse,plugBoard);
     }
 
-    private void makeRotorsMove()
+    private void makeRotorsMove(List<Rotor> rotorsInUse)
     {
         final int mostRightRotor = 0;
         final int windowIndex = 0;
@@ -130,7 +127,7 @@ public class MachineImplement {
         }
     }
 
-    private int rotorsTransfer(int startIndex, boolean isForward)
+    private int rotorsTransfer(int startIndex, boolean isForward, List<Rotor> rotorsInUse)
     {
         final int size = rotorsInUse.size();
         final int mostRightRotor = 0;
@@ -154,22 +151,22 @@ public class MachineImplement {
         return currReturnIndex;
     }
 
-    private int forwardDecoding(char charInTextSentToTheEnigma)
+    private int forwardDecoding(char charInTextSentToTheEnigma, List<Rotor> rotorsInUse, PlugBoard plugBoard, Reflector reflectorInUse)
     {
         final boolean isForward = true;
         char charToDiscover = plugBoard.checkSwappingChar(charInTextSentToTheEnigma);
-        makeRotorsMove();
+        makeRotorsMove(rotorsInUse);
         int indexOfCharToDiscover = ABC.indexOf(charToDiscover);
-        int indexToReflector = rotorsTransfer(indexOfCharToDiscover, isForward);
+        int indexToReflector = rotorsTransfer(indexOfCharToDiscover, isForward,rotorsInUse);
         int indexOfStartBackwards = reflectorInUse.getOutReflectorIndex(indexToReflector);
 
         return indexOfStartBackwards;
     }
 
-    private char backwardDecoding(int reflectorIndex)
+    private char backwardDecoding(int reflectorIndex, List<Rotor> rotorsInUse, PlugBoard plugBoard)
     {
         final boolean isForward = false;
-        int indexToFinalChar = rotorsTransfer(reflectorIndex,isForward);
+        int indexToFinalChar = rotorsTransfer(reflectorIndex,isForward,rotorsInUse);
         char charToReturn = plugBoard.checkSwappingChar(ABC.charAt(indexToFinalChar));
 
         return charToReturn;
