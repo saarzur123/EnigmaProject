@@ -14,7 +14,7 @@ public class RunEnigma {
 
     private MachineImplement machine;
     private SecretCode secretCode;
-    private MachineDetails machineDetailsPresentor;
+    private MachineDetails machineDetailsPresenter;
     private MenuHandler menu = new MenuHandler();
     private HistoryAndStatisticsForMachine historyAndStatisticsForMachine = new HistoryAndStatisticsForMachine();
 
@@ -57,7 +57,8 @@ public class RunEnigma {
                 ans = 1;
                 break;
             case 2:
-                if(machineDetailsPresentor != null)
+                if(machineDetailsPresenter == null)
+                    System.out.println("");
                     ans = 2;
                 break;
             case 7:
