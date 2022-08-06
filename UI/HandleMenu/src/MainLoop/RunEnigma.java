@@ -4,8 +4,13 @@ import DTOUI.*;
 import HandleInput.HandleInputFromUser;
 import HistoryAndStatistics.HistoryAndStatisticsForMachine;
 import Machine.MachineImplement;
+import Machine.Rotor;
 import MachineDetails.MachineDetails;
 import MachineDetails.SecretCode;
+
+import java.util.List;
+import java.util.Map;
+import java.util.Random;
 
 public class RunEnigma {
     private MachineImplement machine;
@@ -94,5 +99,28 @@ public class RunEnigma {
         machineDetailsPresenter.addSecretCode(secretCode);
         historyAndStatisticsForMachine.addSecretCodeToMachineHistory(secretCode);
     };
+
+    private void getSecretCodeAutomation(){
+        secretCode = new SecretCode(machine);
+
+        secretCode.determineSecretCode();
+        machineDetailsPresenter.addSecretCode(secretCode);
+        historyAndStatisticsForMachine.addSecretCodeToMachineHistory(secretCode);
+    }
+
+    private void getRandomPositionForRotors(){
+        Random rand = new Random();
+        Map<Integer, Rotor> rotorMap = machine.getAvailableRotors();
+        int numberOfRotorToChoose = machine.getInUseRotorNumber();
+        for(int i = 0; i < numberOfRotorToChoose; i++){
+            Rotor rotor = rotorMap.get(rand.nextInt(numberOfRotorToChoose));
+            if(secretCode.getInUseRotors().contains(rotor))
+                i--;
+            else
+                secretCode.getInUseRotors().add(rotor);
+        }
+    }
+
+    private void
 
 }
