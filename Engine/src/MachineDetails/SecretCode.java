@@ -40,7 +40,12 @@ public class SecretCode {
     public String getPlugs(){return plugs;}
     public String getSecretCodeCombination(){return secretCodeCombination;}
 
-
+    @Override
+    public String toString(){
+        StringBuilder strSecretCode = new StringBuilder();
+        strSecretCode.append(secretCodeCombination);
+        return strSecretCode.toString();
+    }
     private void setRotorsInCodeOrder(List<Integer> rotorsIdPositions)
     {
         rotorsIdPositions.forEach(indexOfID ->

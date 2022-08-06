@@ -65,9 +65,9 @@ public class HistoryAndStatisticsForMachine {
         decodedStringsHistory.add(resultStr);
     }
 
-    private List<String> getDecodedStringsHistory(){
-        return decodedStringsHistory;
-    }
+   // private List<String> getDecodedStringsHistory(){
+   //     return decodedStringsHistory;
+   // }
 
     public boolean checkIfMachineExists(){
         if(this.getSecretCodeHistory().size()==0)
