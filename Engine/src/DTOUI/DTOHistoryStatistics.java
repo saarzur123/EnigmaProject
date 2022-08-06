@@ -20,4 +20,8 @@ public class DTOHistoryStatistics extends DTO{
         decodedStringsHistory = decodedHistory;
         timeForProcess = time;
     }
+
+    public int getSecretCodesHistorySize(){
+        return secretCodesHistory.size();
+    }
 }

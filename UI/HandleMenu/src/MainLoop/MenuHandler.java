@@ -1,3 +1,5 @@
+package MainLoop;
+
 import DTOUI.*;
 import EnigmaExceptions.XMLExceptions.XMLException;
 import HandleInput.HandleInputFromUser;
@@ -9,7 +11,7 @@ import java.util.Scanner;
 
 public class MenuHandler {
     private HandleInputFromUser handler = new HandleInputFromUser();
-    private HistoryAndStatisticsForMachine historyAndStatisticsForMachine = new HistoryAndStatisticsForMachine();
+
     public int checkWHatTheUserWantToDo(){
         StringBuilder str = new StringBuilder();
         Scanner myObj = new Scanner(System.in);
@@ -49,30 +51,12 @@ public class MenuHandler {
         else if(dto.getClass() == DTOExit.class)
             return true;
         else if(dto.getClass() == DTOHistoryStatistics.class){
-            if(historyAndStatisticsForMachine.checkIfMachineExists()){
+            if(((DTOHistoryStatistics) dto).getSecretCodesHistorySize() == 0){
                 System.out.println("Unfortunately, there is no option to perform the selected action because there is no machine currently running");
                 return false;
             }
         }
         return true;
-    }
-
-    public DTO choseOneOptionDTO(int userInput){
-        DTO dto = null;
-        switch (userInput){
-            case 1:
-                dto = new DTOImportFromXML(userInput, this.takePathFromUser());
-                break;
-            case 2:
-                //dto = new DTOMachineDetails(userInput);
-                break;
-            case 7:
-                dto = historyAndStatisticsForMachine.DTOHistoryAndStatisticsMaker();
-            case 8:
-                dto = new DTOExit(userInput);
-
-        }
-        return dto;
     }
 
 
