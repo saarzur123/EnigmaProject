@@ -76,7 +76,7 @@ public class RunEnigma {
         if(dto.getClass() == DTOImportFromXML.class)
             menu.openXMLFile((DTOImportFromXML)dto);
         else if (dto.getClass() == DTOMachineDetails.class) {
-            menu.showLastMachineDetails((DTOMachineDetails) dto);
+            menu.showLastMachineDetails((DTOMachineDetails)dto);
         } else if(dto.getClass() == DTOExit.class)
             System.exit(0);
         else if(dto.getClass() == DTOHistoryStatistics.class)
