@@ -1,5 +1,6 @@
 package HistoryAndStatistics;
 
+import DTOUI.DTOHistoryStatistics;
 import MachineDetails.SecretCode;
 
 import java.util.ArrayList;
@@ -16,7 +17,20 @@ public class HistoryAndStatisticsForMachine {
     private Long startTime;
     private Long endTime;
 
-
+    //public DTOHistoryStatistics DTOHistoryAndStatisticsMaker
+    public void addStartSourceCodeAndTime(String sourceString, Long start){
+        addSourceStrToMachineHistory(sourceString);
+        startTime = start;
+    }
+    public void addSecretCodeAndTimeProcess(SecretCode secretCode){
+        addSecretCodeToMachineHistory(secretCode);
+        int indexToPutInMap = secretCodesHistory.size() - 1;
+        timeForProcess.put(indexToPutInMap, endTime - startTime);
+    }
+    public void addEndDecodedCodeAndTime(String decodedString, Long end){
+        addDecodedStrToMachineHistory(decodedString);
+        endTime = end;
+    }
     public void addSecretCodeToMachineHistory(SecretCode secretCode)
     {
         secretCodesHistory.add(secretCode);
