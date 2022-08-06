@@ -23,6 +23,9 @@ public class HistoryAndStatisticsForMachine {
         decodedStringsHistory.clear();
         timeForProcess.clear();
     }
+    public int getHistoryAndStatSize(){
+        return secretCodesHistory.size();
+    }
 
     public DTOHistoryStatistics DTOHistoryAndStatisticsMaker(){
         return new DTOHistoryStatistics(7, secretCodesHistory, sourceStringsHistory, decodedStringsHistory, timeForProcess);

@@ -45,19 +45,7 @@ public class MenuHandler {
         return myObj.nextLine();
     }
 
-    public boolean checkIfTheSelectionCanBeDone(DTO dto){
-        if(dto.getClass() == DTOImportFromXML.class)
-            return true;
-        else if(dto.getClass() == DTOExit.class)
-            return true;
-        else if(dto.getClass() == DTOHistoryStatistics.class){
-            if(((DTOHistoryStatistics) dto).getSecretCodesHistorySize() == 0){
-                System.out.println("Unfortunately, there is no option to perform the selected action because there is no machine currently running");
-                return false;
-            }
-        }
-        return true;
-    }
+
 
 
 
