@@ -30,20 +30,6 @@ public class HistoryAndStatisticsForMachine {
     public DTOHistoryStatistics DTOHistoryAndStatisticsMaker(){
         return new DTOHistoryStatistics(7, secretCodesHistory, sourceStringsHistory, decodedStringsHistory, timeForProcess);
     }
-
-    public void addStartSourceCodeAndTime(String sourceString, Long start){
-        addSourceStrToMachineHistory(sourceString);
-        startTime = start;
-    }
-    public void addSecretCodeAndTimeProcess(SecretCode secretCode){
-        addSecretCodeToMachineHistory(secretCode);
-        int indexToPutInMap = secretCodesHistory.size() - 1;
-        timeForProcess.put(indexToPutInMap, endTime - startTime);
-    }
-    public void addEndDecodedCodeAndTime(String decodedString, Long end){
-        addDecodedStrToMachineHistory(decodedString);
-        endTime = end;
-    }
     public void addSecretCodeToMachineHistory(SecretCode secretCode)
     {
         secretCodesHistory.add(secretCode);
