@@ -31,43 +31,40 @@ public class HistoryAndStatisticsForMachine {
         return new DTOHistoryStatistics(7, secretCodesHistory, sourceStringsHistory, decodedStringsHistory, timeForProcess);
     }
 
-    private void addStartSourceCodeAndTime(String sourceString, Long start){
+    public void addStartSourceCodeAndTime(String sourceString, Long start){
         addSourceStrToMachineHistory(sourceString);
         startTime = start;
     }
-    private void addSecretCodeAndTimeProcess(SecretCode secretCode){
+    public void addSecretCodeAndTimeProcess(SecretCode secretCode){
         addSecretCodeToMachineHistory(secretCode);
         int indexToPutInMap = secretCodesHistory.size() - 1;
         timeForProcess.put(indexToPutInMap, endTime - startTime);
     }
-    private void addEndDecodedCodeAndTime(String decodedString, Long end){
+    public void addEndDecodedCodeAndTime(String decodedString, Long end){
         addDecodedStrToMachineHistory(decodedString);
         endTime = end;
     }
-    private void addSecretCodeToMachineHistory(SecretCode secretCode)
+    public void addSecretCodeToMachineHistory(SecretCode secretCode)
     {
         secretCodesHistory.add(secretCode);
     }
 
-    private List<SecretCode> getSecretCodeHistory(){
+    public List<SecretCode> getSecretCodeHistory(){
         return secretCodesHistory;
     }
 
-    private void addSourceStrToMachineHistory(String sourceString){
+    public void addSourceStrToMachineHistory(String sourceString){
         sourceStringsHistory.add(sourceString);
     }
 
-    private List<String> getSourceStrHistory(){
+    public List<String> getSourceStrHistory(){
         return sourceStringsHistory;
     }
 
-    private void addDecodedStrToMachineHistory(String resultStr){
+    public void addDecodedStrToMachineHistory(String resultStr){
         decodedStringsHistory.add(resultStr);
     }
 
-   // private List<String> getDecodedStringsHistory(){
-   //     return decodedStringsHistory;
-   // }
 
     public boolean checkIfMachineExists(){
         if(this.getSecretCodeHistory().size()==0)
