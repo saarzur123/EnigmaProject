@@ -49,8 +49,13 @@ public class MenuHandler {
 
 
     public void showHistoryAnsStatistics(DTOHistoryStatistics dtoHistoryStatistics){
+        int i = 0;
         for (SecretCode secretCode : dtoHistoryStatistics.getSecretCodesHistory()){
-
+            System.out.println(secretCode.toString());
+            System.out.println(dtoHistoryStatistics.getSourceStringsHistory().get(i));
+            System.out.println(dtoHistoryStatistics.getDecodedStringsHistory().get(i));
+            System.out.println(dtoHistoryStatistics.getTimeForProcess().get(i) );
+            i++;
         }
     }
 
