@@ -25,5 +25,5 @@ public class DTOMachineDetails extends DTO{
         this.currSecretCodeDescription = currSecretCodeDescription;
     }
 
-    public int get
+    public int getTotalNumberOfRotors{return }
 }
