@@ -74,7 +74,7 @@ public class RunEnigma {
     }
     public void actionInDTO(DTO dto){
         if(dto.getClass() == DTOImportFromXML.class)
-            menu.openXMLFile((DTOImportFromXML)dto);
+            machine = menu.openXMLFile((DTOImportFromXML)dto);
         else if (dto.getClass() == DTOMachineDetails.class) {
             menu.showLastMachineDetails((DTOMachineDetails)dto);
         } else if(dto.getClass() == DTOExit.class)
