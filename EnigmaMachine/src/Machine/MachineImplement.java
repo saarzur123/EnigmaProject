@@ -8,7 +8,6 @@ import java.util.Map;
 public class MachineImplement {
 
     private int rotorsMustBeInUseNumber;
-
     private boolean secreteCodeState = false;
     private int rotorsTotalNumber;
     private Map<Integer,Rotor> availableRotorsMapIdToRotor = new HashMap<>();
