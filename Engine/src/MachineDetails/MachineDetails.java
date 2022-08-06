@@ -13,33 +13,11 @@ import java.util.Map;
 public class MachineDetails {
 
     private MachineImplement currMachine;
-    private List<String> secretCodesHistory = new ArrayList<>();
-    private List<String> sourceStringsHistory = new ArrayList<>();
-    private List<String> decodedStringsHistory = new ArrayList<>();
+
 
     public void MachineDetails(MachineImplement currMachine){
         this.currMachine = currMachine;
     }
-
-public void addSecretCodeToMachineHistory(String secretCode)
-{
-    secretCodesHistory.add(secretCode);
-}
-
-public List<String> getSecretCodeHistory(){return secretCodesHistory;}
-
-    public void addSourceStrToMachineHistory(String sourceString)
-    {
-        sourceStringsHistory.add(sourceString);
-    }
-
-    public List<String> getSourceStrHistory(){return sourceStringsHistory;}
-    public void addDecodedStrToMachineHistory(String resultStr)
-    {
-        decodedStringsHistory.add(resultStr);
-    }
-
-    public List<String> getDecodedStringsHistory(){return decodedStringsHistory;}
 
     private int possibleRotorsAmount(){return currMachine.getAvailableRotors().size();}
 

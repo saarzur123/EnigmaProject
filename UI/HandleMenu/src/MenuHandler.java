@@ -1,7 +1,4 @@
-import DTOUI.DTO;
-import DTOUI.DTOExit;
-import DTOUI.DTOImportFromXML;
-import DTOUI.DTOMachineDetails;
+import DTOUI.*;
 import EnigmaExceptions.XMLExceptions.XMLException;
 import HandleInput.HandleInputFromUser;
 import Machine.MachineImplement;
@@ -53,6 +50,8 @@ public class MenuHandler {
             case 2:
                 //dto = new DTOMachineDetails(userInput);
                 break;
+            case 7:
+                dto = new DTOHistoryStatistics(userInput);
             case 8:
                 dto = new DTOExit(userInput);
 
