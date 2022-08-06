@@ -81,10 +81,6 @@ public class RunEnigma {
             System.exit(0);
         else if(dto.getClass() == DTOHistoryStatistics.class)
             menu.showHistoryAnsStatistics(((DTOHistoryStatistics) dto));
-
-
-
-
     }
 
 }
