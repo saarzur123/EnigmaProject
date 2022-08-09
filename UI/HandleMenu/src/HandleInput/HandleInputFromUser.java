@@ -1,7 +1,9 @@
 package HandleInput;
 
+import DTOUI.DTOInputProcessing;
 import MachineDetails.SecretCode;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
@@ -18,7 +20,23 @@ public class HandleInputFromUser {
         return true;
     }
 
+    public String handleInputToEncodingOrDecoding(DTOInputProcessing dtoInputProcessing){
+        String str;
+        boolean flag = false;
+        System.out.println(dtoInputProcessing.getSoutToUser());
 
+        do {
+            str = inputScanner.nextLine();
+            for(int i =0; i<str.length(); i++){
+                if(dtoInputProcessing.getABCString().indexOf(str.charAt(i)) == -1){
+                    flag = false;
+                }
+                else flag = true;
+            }
+            if(!flag) System.out.println(dtoInputProcessing.getErrorMsg());
+        }while(!flag);
+        return str;
+    }
     public List<Integer> getAndValidateRotorsByOrderFromUser(int totalRotorsNumbers, int mustInUseRotors){
         final String inputMsg = "Please enter the rotors id in a decimal number that you wish to create your secret code from, in the order of Right to Left seperated with a comma:" + System.lineSeparator()
                 + " For example: 1,2,3 means: rotor 3 from right, rotor 2 is the next and rotor 1 in the left." +System.lineSeparator();
@@ -28,6 +46,10 @@ public class HandleInputFromUser {
         do{
             rotorsFromUserStr = inputScanner.nextLine();
         }while (!rotorIdByOrderValidator(rotorsFromUserStr,totalRotorsNumbers,mustInUseRotors));
+
+
+
+        return null;
     }
 
     private boolean rotorIdByOrderValidator(String rotorsFromUser,int totalRotorsNumbers, int mustInUseRotors){
@@ -69,9 +91,10 @@ public class HandleInputFromUser {
         }
         return isValid;
     }
-    public List<Character> getAndValidateRotorsStartPositionFromUser(){}
+    //public List<Character> getAndValidateRotorsStartPositionFromUser(){}
 
-    private int getReflectorIdFromUser(){}
+    //private int getReflectorIdFromUser(){}
 
-    private Map<Character,Character> getPlugBoardFromUser(){}
+    //private Map<Character,Character> getPlugBoardFromUser(){}
+
 }

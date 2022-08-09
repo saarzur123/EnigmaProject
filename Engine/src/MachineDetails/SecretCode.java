@@ -95,7 +95,7 @@ public class SecretCode {
         rotorsByOrder = rotorsFromRight;
         rotorsStartPosition = rotorsPositionsFromRight;
         currReflectorRoman = chosenReflector();
-        plugs = plugs();
+        plugs = plugs();//אם הפלאג ריק יש בעיה
 
         String code = "<" + rotorsFromRight +">"+"<"+rotorsPositionsFromRight+">"+"<"+currReflectorRoman+">"+"<"+plugs+">";
 
@@ -114,7 +114,9 @@ public class SecretCode {
     }
 
     private String plugs(){
+
         Map<Character,Character> plugs = plugBoard.getPlugBoard();
+        if(plugs.size() != 0){
         List<Character> charsAdded = new ArrayList<>();
         StringBuilder plugsStr = new StringBuilder();
 
@@ -126,6 +128,7 @@ public class SecretCode {
             }
         }
         plugsStr.deleteCharAt(plugsStr.length() - 1);
-        return plugsStr.toString();
+        return plugsStr.toString();}
+        else return null;
     }
 }

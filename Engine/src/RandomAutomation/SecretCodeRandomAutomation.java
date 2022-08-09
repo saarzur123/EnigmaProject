@@ -11,7 +11,7 @@ import java.util.*;
 public class SecretCodeRandomAutomation {
 
 
-    public void getSecretCodeAutomation(MachineImplement machine, SecretCode secretCode, MachineDetails machineDetailsPresenter, HistoryAndStatisticsForMachine historyAndStatisticsForMachine){
+    public SecretCode getSecretCodeAutomation(MachineImplement machine, SecretCode secretCode, MachineDetails machineDetailsPresenter, HistoryAndStatisticsForMachine historyAndStatisticsForMachine){
         secretCode = new SecretCode(machine);
         secretCode.determineSecretCode(getRandomPositionForRotors(machine),
                 getRandomStartingPostChar(machine),
@@ -19,6 +19,7 @@ public class SecretCodeRandomAutomation {
                 getRandomPlugBoard(machine));
         machineDetailsPresenter.addSecretCode(secretCode);
         historyAndStatisticsForMachine.addSecretCodeToMachineHistory(secretCode);
+        return secretCode;
     }
 
     private List<Integer> getRandomPositionForRotors(MachineImplement machine){
@@ -27,7 +28,7 @@ public class SecretCodeRandomAutomation {
         Map<Integer, Rotor> rotorMap = machine.getAvailableRotors();
         int numberOfRotorToChoose = machine.getInUseRotorNumber();
         for(int i = 0; i < numberOfRotorToChoose; i++){
-            int IDToAdd = rand.nextInt(numberOfRotorToChoose);
+            int IDToAdd = rand.nextInt(numberOfRotorToChoose) + 1;
             if(rotorIDPos.contains(IDToAdd))
                 i--;
             else
@@ -40,7 +41,7 @@ public class SecretCodeRandomAutomation {
         List<Character> ListOfStartingPos = new ArrayList<>();
         int lengthOfABC = machine.getABC().length();
         Random rand = new Random();
-        for(int k = 0; k < lengthOfABC; k++){
+        for(int k = 0; k < machine.getInUseRotorNumber(); k++){
             ListOfStartingPos.add(machine.getABC().charAt(rand.nextInt(lengthOfABC)));
         }
         return ListOfStartingPos;
@@ -49,7 +50,7 @@ public class SecretCodeRandomAutomation {
     private int getRandomReflectorID(MachineImplement machine){
         int numberOfReflector = machine.getAvailableReflectors().size();
         Random rand = new Random();
-        return rand.nextInt(numberOfReflector);
+        return rand.nextInt(numberOfReflector) + 1;
     }
 
     private Map<Character, Character> getRandomPlugBoard(MachineImplement machine){
@@ -59,20 +60,20 @@ public class SecretCodeRandomAutomation {
         int numberOfOptionToChooseFromToAdd= rand.nextInt(numberOfOptionToChooseFrom);
         for(int i = 0; i< numberOfOptionToChooseFromToAdd; i++)
         {
-            char firstChar = machine.getABC().charAt(rand.nextInt(numberOfOptionToChooseFrom * 2));
+            char firstChar;
+            do{
+                firstChar = machine.getABC().charAt(rand.nextInt(numberOfOptionToChooseFrom * 2));
+            }while (plugBoardRand.containsKey(firstChar));
+
             char secondChar;
             do {
                 secondChar = machine.getABC().charAt(rand.nextInt(numberOfOptionToChooseFrom * 2));
-            }while (firstChar != secondChar); //כל עוד הם זהים לבחור מישהו אחר
+            }while (firstChar == secondChar || plugBoardRand.containsKey(secondChar)); // או שכבר קיים או כל עוד הם זהים לבחור מישהו אחר
 
             plugBoardRand.put(firstChar, secondChar);
             plugBoardRand.put(secondChar, firstChar);
         }
-        for(int i = 0 ; i < machine.getABC().length(); i++){
-            if(!plugBoardRand.containsKey(machine.getABC().charAt(i))){
-                plugBoardRand.put(machine.getABC().charAt(i),machine.getABC().charAt(i));
-            }
-        }
+
         return plugBoardRand;
     }
 }
