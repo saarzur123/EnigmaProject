@@ -8,7 +8,7 @@ public class DTOInputProcessing extends DTO{
         super(number);
         ABC = ABCMachine;
         outPutForUser = new String("Please enter a string with the following chars only : " + ABC + "and then enter ENTER (when you done).");
-        errorOutPut = "Please enter only the character that is in the : " + ABC;
+        errorOutPut = "Please enter only the character that is in: " + ABC;
     }
 
     public String getABCString(){

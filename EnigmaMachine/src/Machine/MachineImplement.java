@@ -110,7 +110,12 @@ public class MachineImplement {
     private int forwardDecoding(char charInTextSentToTheEnigma, List<Rotor> rotorsInUse, PlugBoard plugBoard, Reflector reflectorInUse)
     {
         final boolean isForward = true;
-        char charToDiscover = plugBoard.checkSwappingChar(charInTextSentToTheEnigma);
+        char charToDiscover;
+        boolean isTherePlugBoard = plugBoard != null;
+
+        if(isTherePlugBoard) {
+            charToDiscover = plugBoard.checkSwappingChar(charInTextSentToTheEnigma);
+        }else charToDiscover = charInTextSentToTheEnigma;
         makeRotorsMove(rotorsInUse);
         int indexOfCharToDiscover = ABC.indexOf(charToDiscover);
         int indexToReflector = rotorsTransfer(indexOfCharToDiscover, isForward,rotorsInUse);
@@ -122,8 +127,14 @@ public class MachineImplement {
     private char backwardDecoding(int reflectorIndex, List<Rotor> rotorsInUse, PlugBoard plugBoard)
     {
         final boolean isForward = false;
+        char charToReturn;
+        boolean isTherePlugBoard = plugBoard != null;
+
         int indexToFinalChar = rotorsTransfer(reflectorIndex,isForward,rotorsInUse);
-        char charToReturn = plugBoard.checkSwappingChar(ABC.charAt(indexToFinalChar));
+        if(isTherePlugBoard) {
+            charToReturn = plugBoard.checkSwappingChar(ABC.charAt(indexToFinalChar));
+        }else charToReturn = ABC.charAt(indexToFinalChar);
+
 
         return charToReturn;
     }

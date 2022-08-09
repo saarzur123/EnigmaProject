@@ -106,8 +106,8 @@ public class XMLToObject {
             insideReflector.add(null);
         }
         for (int i = 0; i < insideReflector.size() / 2; i++) {
-            insideReflector.set(cteReflector.getCTEReflect().get(i).getInput(), cteReflector.getCTEReflect().get(i).getOutput());
-            insideReflector.set(cteReflector.getCTEReflect().get(i).getOutput(), cteReflector.getCTEReflect().get(i).getInput());
+            insideReflector.set(cteReflector.getCTEReflect().get(i).getInput()-1, cteReflector.getCTEReflect().get(i).getOutput()-1);
+            insideReflector.set(cteReflector.getCTEReflect().get(i).getOutput()-1, cteReflector.getCTEReflect().get(i).getInput()-1);
         }
 
         return new Reflector(insideReflector, romiMap.get(cteReflector.getId()));

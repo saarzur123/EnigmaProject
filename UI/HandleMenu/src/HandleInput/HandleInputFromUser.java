@@ -22,12 +22,12 @@ public class HandleInputFromUser {
 
     public String handleInputToEncodingOrDecoding(DTOInputProcessing dtoInputProcessing){
         String str;
-        boolean flag = false;
+        boolean flag = true;
         System.out.println(dtoInputProcessing.getSoutToUser());
 
         do {
             str = inputScanner.nextLine();
-            for(int i =0; i<str.length(); i++){
+            for(int i =0; i<str.length() && flag; i++){
                 if(dtoInputProcessing.getABCString().indexOf(str.charAt(i)) == -1){
                     flag = false;
                 }

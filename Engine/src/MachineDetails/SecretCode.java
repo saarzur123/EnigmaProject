@@ -70,7 +70,7 @@ public class SecretCode {
     {
         this.plugBoard = new PlugBoard(plugsMapping);
     }
-
+//TODO
     //in the positions lists!!!! the most right member at index 0 !!!
     public void determineSecretCode(List<Integer> rotorsIdPositions, List<Character> rotorsStartingPos, int reflectorId, Map<Character,Character> plugsMapping)
     {
@@ -89,11 +89,11 @@ public class SecretCode {
         int size = rotorsInUse.size();
 
         for (int i = size-1 ; i >=0 ; i--) {
-            rotorsFromRight+=rotorsInUse.get(i).getId();
-            rotorsPositionsFromRight += rotorsInUse.get(i).getStartPos();
+            rotorsFromRight+=rotorsInUse.get(i).getId()+",";
+            rotorsPositionsFromRight += rotorsInUse.get(i).getStartPos()+",";
         }
-        rotorsByOrder = rotorsFromRight;
-        rotorsStartPosition = rotorsPositionsFromRight;
+        rotorsByOrder = rotorsFromRight.substring(0,rotorsFromRight.length()-1);
+        rotorsStartPosition = rotorsPositionsFromRight.substring(0,rotorsPositionsFromRight.length()-1);
         currReflectorRoman = chosenReflector();
         plugs = plugs();//אם הפלאג ריק יש בעיה
 
@@ -129,6 +129,6 @@ public class SecretCode {
         }
         plugsStr.deleteCharAt(plugsStr.length() - 1);
         return plugsStr.toString();}
-        else return null;
+        else return "";
     }
 }
