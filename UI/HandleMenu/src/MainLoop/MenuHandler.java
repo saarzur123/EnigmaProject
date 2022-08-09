@@ -71,7 +71,7 @@ public class MenuHandler {
         }
         catch (XMLException error){
             System.out.println(error.getMessage());
-            this.takePathFromUser();
+            dto = new DTOImportFromXML(1, this.takePathFromUser());
             this.openXMLFile(dto);
         }
         return null;
