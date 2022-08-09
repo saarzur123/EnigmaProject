@@ -30,7 +30,7 @@ public class RunEnigma {
             userInput = menu.checkWHatTheUserWantToDo();
             dto = choseOneOptionDTO(userInput);
         }
-        if(userInput == 4 || userInput == 3){//מצב של יצירה ואז אין dto לשלוח
+        if(userInput == 4 || userInput == 3){
             createTheSecretCodeAccordingToUserInput(userInput);
         }
         else
