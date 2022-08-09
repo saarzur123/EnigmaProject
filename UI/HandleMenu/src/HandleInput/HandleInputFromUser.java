@@ -26,14 +26,17 @@ public class HandleInputFromUser {
         System.out.println(dtoInputProcessing.getSoutToUser());
 
         do {
+            flag = true;
             str = inputScanner.nextLine();
-            for(int i =0; i<str.length() && flag; i++){
+            str = str.toUpperCase();
+            for(int i = 0; i < str.length() && flag; i++){
                 if(dtoInputProcessing.getABCString().indexOf(str.charAt(i)) == -1){
                     flag = false;
                 }
                 else flag = true;
             }
             if(!flag) System.out.println(dtoInputProcessing.getErrorMsg());
+
         }while(!flag);
         return str;
     }
