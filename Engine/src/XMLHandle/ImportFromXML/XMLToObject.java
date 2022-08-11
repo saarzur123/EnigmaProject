@@ -147,7 +147,7 @@ public class XMLToObject {
         xmlValidator.checkRotorDoubleMapping(rotorRight.toString(), rotorLeft.toString(),cteRotor.getId(),checkedObjectsList);
 
         if(checkedObjectsList.size() == 0)
-            newRotor = new Rotor(cteRotor.getId(), cteRotor.getNotch(), rotorRight.toString(), rotorLeft.toString());
+            newRotor = new Rotor(cteRotor.getId(), cteRotor.getNotch() -1, rotorRight.toString(), rotorLeft.toString());
 
         return newRotor;
     }

@@ -124,11 +124,9 @@ public class RunEnigma {
             menu.showHistoryAnsStatistics(((DTOHistoryStatistics) dto));
         else if(dto.getClass() == DTOInputProcessing.class)
         {
-            String str =(machine.encodingAndDecoding(menu.getInputHandler().handleInputToEncodingOrDecoding((DTOInputProcessing) dto),
-                    secretCode.getInUseRotors(),
-                    secretCode.getPlugBoard(),
-                    secretCode.getInUseReflector()
-                    ));
+            String inStr = menu.getInputHandler().handleInputToEncodingOrDecoding((DTOInputProcessing) dto);
+            String str =(machine.encodingAndDecoding(inStr, secretCode.getInUseRotors(), secretCode.getPlugBoard(),
+                    secretCode.getInUseReflector()));
             System.out.println(str);
         }
 

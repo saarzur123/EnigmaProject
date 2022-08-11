@@ -28,7 +28,7 @@ public class SecretCodeRandomAutomation {
         Map<Integer, Rotor> rotorMap = machine.getAvailableRotors();
         int numberOfRotorToChoose = machine.getInUseRotorNumber();
         for(int i = 0; i < numberOfRotorToChoose; i++){
-            int IDToAdd = rand.nextInt(numberOfRotorToChoose) + 1;
+            int IDToAdd = rand.nextInt(numberOfRotorToChoose) + 1;/////////TODO change range to rotors available number
             if(rotorIDPos.contains(IDToAdd))
                 i--;
             else

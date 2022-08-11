@@ -35,7 +35,7 @@ public class MachineDetails {
         Map<Integer,Integer> notchMap = new HashMap<>();
 
         for(Integer id: rotors.keySet())
-            notchMap.put(id,rotors.get(id).getNotch());
+            notchMap.put(id,rotors.get(id).getNotch()+1);
 
         return notchMap;
     }
