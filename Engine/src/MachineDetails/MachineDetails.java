@@ -11,15 +11,17 @@ import java.util.List;
 import java.util.Map;
 
 public class MachineDetails {
-
+    private final int commandNumber = 2;
     private MachineImplement currMachine;
     private SecretCode secretCode;
-    private final int commandNumber = 2;
+    private String firstCodeCombination;
+    private boolean isFirstSecreteCode;
 
 
     public MachineDetails(MachineImplement currMachine,SecretCode secretCode){
         this.currMachine = currMachine;
         this.secretCode = secretCode;
+        isFirstSecreteCode = false;
     }
 
     public DTOMachineDetails createCurrMachineDetails(){
@@ -50,6 +52,10 @@ public class MachineDetails {
         if(secretCode == null)
             return "No secret code!";
         String code = secretCode.getSecretCodeCombination();
+        if(isFirstSecreteCode) {
+            firstCodeCombination = code;
+            isFirstSecreteCode = false;
+        }
         return code;
     }
     public void addSecretCode(SecretCode newCode){this.secretCode=newCode;}

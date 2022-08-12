@@ -13,6 +13,9 @@ public class DTOMachineDetails extends DTO{
     private int howMuchMsgHaveBeenProcessed;
     private Map<Integer,Integer> notchPosInEachRotor = new HashMap<>();
     private String currSecretCodeDescription;
+    private String firstSecreteCodeDescription;
+
+
 
 
     public DTOMachineDetails(int number, int totalRotorsNum, int rotorInUseNum, int totalReflectorNum, int processedMsgNum, Map<Integer,Integer> notchPosInEachRotor, String currSecretCodeDescription){
@@ -31,4 +34,5 @@ public class DTOMachineDetails extends DTO{
     public int getHowMuchMsgHaveBeenProcessed(){return howMuchMsgHaveBeenProcessed;}
     public Map<Integer,Integer> getNotchPosInEachRotor(){return notchPosInEachRotor;}
     public String getCurrSecretCodeDescription(){return currSecretCodeDescription;}
+    public String getFirstSecreteCodeDescription(){return firstSecreteCodeDescription;}
 }
