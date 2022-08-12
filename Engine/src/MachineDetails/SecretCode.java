@@ -89,11 +89,11 @@ public class SecretCode {
         int size = rotorsInUse.size();
 
         for (int i = size-1 ; i >=0 ; i--) {
-            rotorsFromRight+=rotorsInUse.get(i).getId()+",";
-            rotorsPositionsFromRight += rotorsInUse.get(i).getStartPos()+",";
+            rotorsFromRight+=rotorsInUse.get(i).getId()+"("+rotorsInUse.get(i).getNotch()+")"+",";
+            rotorsPositionsFromRight += rotorsInUse.get(i).getStartPos();
         }
-        rotorsByOrder = rotorsFromRight.substring(0,rotorsFromRight.length()-1);
-        rotorsStartPosition = rotorsPositionsFromRight.substring(0,rotorsPositionsFromRight.length()-1);
+        rotorsByOrder = rotorsFromRight.substring(0,rotorsFromRight.length()-2);
+        rotorsStartPosition = rotorsPositionsFromRight.substring(0,rotorsPositionsFromRight.length()-2);
         currReflectorRoman = chosenReflector();
         plugs = plugs();//אם הפלאג ריק יש בעיה
 

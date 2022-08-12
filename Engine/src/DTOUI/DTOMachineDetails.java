@@ -18,7 +18,7 @@ public class DTOMachineDetails extends DTO{
 
 
 
-    public DTOMachineDetails(int number, int totalRotorsNum, int rotorInUseNum, int totalReflectorNum, int processedMsgNum, Map<Integer,Integer> notchPosInEachRotor, String currSecretCodeDescription){
+    public DTOMachineDetails(int number, int totalRotorsNum, int rotorInUseNum, int totalReflectorNum, int processedMsgNum, String firstSecretCode, String currSecretCodeDescription){
         super(number);
         this.totalNumberOfRotor = totalRotorsNum;
         this.numberOfRotorInUse = rotorInUseNum;
@@ -26,6 +26,7 @@ public class DTOMachineDetails extends DTO{
         this.howMuchMsgHaveBeenProcessed = processedMsgNum;
         this.notchPosInEachRotor = notchPosInEachRotor;
         this.currSecretCodeDescription = currSecretCodeDescription;
+        this.firstSecreteCodeDescription = firstSecretCode;
     }
 
     public int getTotalNumberOfRotors(){return totalNumberOfRotor;}

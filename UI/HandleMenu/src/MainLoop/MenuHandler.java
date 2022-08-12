@@ -87,7 +87,8 @@ public class MenuHandler {
         }
         msg+="Reflectors number: "+dtoDetails.getTotalNumberOfReflectors() + System.lineSeparator();
         msg+="Until now there were " + dtoDetails.getHowMuchMsgHaveBeenProcessed()+" messages processed in machine"+ System.lineSeparator();
-        msg+="Secret code: " + dtoDetails.getCurrSecretCodeDescription();
+        msg+="Current secret code: " + dtoDetails.getCurrSecretCodeDescription();
+        msg+="First secret code: " + dtoDetails.getFirstSecreteCodeDescription();
         System.out.println(msg);
     }
 }

@@ -21,26 +21,26 @@ public class MachineDetails {
     public MachineDetails(MachineImplement currMachine,SecretCode secretCode){
         this.currMachine = currMachine;
         this.secretCode = secretCode;
-        isFirstSecreteCode = false;
+        isFirstSecreteCode = true;
     }
 
     public DTOMachineDetails createCurrMachineDetails(){
-        return new DTOMachineDetails(commandNumber,possibleRotorsAmount(),inUseRotorAmount(),reflectorsAmount(),messagesProcessedCurrAmount(),notchPlacesForEachRotor(),showCurrSecretCode());
+        return new DTOMachineDetails(commandNumber,possibleRotorsAmount(),inUseRotorAmount(),reflectorsAmount(),messagesProcessedCurrAmount(),firstCodeCombination,showCurrSecretCode());
     }
 
     private int possibleRotorsAmount(){return currMachine.getAvailableRotors().size();}
 
     private int inUseRotorAmount(){return currMachine.getInUseRotorNumber();}
 
-    private Map<Integer,Integer> notchPlacesForEachRotor(){
-        Map<Integer, Rotor> rotors = currMachine.getAvailableRotors();
-        Map<Integer,Integer> notchMap = new HashMap<>();
-
-        for(Integer id: rotors.keySet())
-            notchMap.put(id,rotors.get(id).getNotch()+1);
-
-        return notchMap;
-    }
+//    private Map<Integer,Integer> notchPlacesForEachRotor(){
+//        List<Rotor> rotors = secretCode.getInUseRotors();
+//        Map<Integer,Integer> notchMap = new HashMap<>();
+//
+//        for(Rotor rotor : rotors)
+//            notchMap.put(rotor.getId(),rotor.getNotch()+1);
+//
+//        return notchMap;
+//    }
 
     private int reflectorsAmount(){return currMachine.getAvailableReflectors().size();}
 
@@ -49,8 +49,10 @@ public class MachineDetails {
     private boolean isSecretCodeExist(){return secretCode.getSecretCodeState();}
 
     private String showCurrSecretCode(){
-        if(secretCode == null)
+        if(secretCode == null) {
+            firstCodeCombination = "You did not enter secret code yet!";
             return "No secret code!";
+        }
         String code = secretCode.getSecretCodeCombination();
         if(isFirstSecreteCode) {
             firstCodeCombination = code;
