@@ -80,6 +80,7 @@ public class SecretCode {
         setCodeReflector(reflectorId);
         createCodePlugBoard(plugsMapping);
         secretCodeCombination = createSecretCodeSchema();
+
     }
 
 

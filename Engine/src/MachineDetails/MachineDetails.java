@@ -25,22 +25,12 @@ public class MachineDetails {
     }
 
     public DTOMachineDetails createCurrMachineDetails(){
-        return new DTOMachineDetails(commandNumber,possibleRotorsAmount(),inUseRotorAmount(),reflectorsAmount(),messagesProcessedCurrAmount(),firstCodeCombination,showCurrSecretCode());
+        return new DTOMachineDetails(commandNumber,possibleRotorsAmount(),inUseRotorAmount(),reflectorsAmount(),messagesProcessedCurrAmount(),showCurrSecretCode(),firstCodeCombination);
     }
 
     private int possibleRotorsAmount(){return currMachine.getAvailableRotors().size();}
 
     private int inUseRotorAmount(){return currMachine.getInUseRotorNumber();}
-
-//    private Map<Integer,Integer> notchPlacesForEachRotor(){
-//        List<Rotor> rotors = secretCode.getInUseRotors();
-//        Map<Integer,Integer> notchMap = new HashMap<>();
-//
-//        for(Rotor rotor : rotors)
-//            notchMap.put(rotor.getId(),rotor.getNotch()+1);
-//
-//        return notchMap;
-//    }
 
     private int reflectorsAmount(){return currMachine.getAvailableReflectors().size();}
 

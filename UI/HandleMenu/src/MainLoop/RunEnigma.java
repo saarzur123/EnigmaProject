@@ -120,8 +120,11 @@ public class RunEnigma {
     }
     public void actionInDTO(DTO dto){
         if(dto.getClass() == DTOImportFromXML.class){
-            machine = menu.openXMLFile((DTOImportFromXML)dto);
-            machineDetailsPresenter = new MachineDetails(machine,secretCode);
+            MachineImplement newMachine = menu.openXMLFile((DTOImportFromXML)dto);
+            if(newMachine != null) {//replace machine only if the new machine is valid
+                machine = newMachine;
+                machineDetailsPresenter = new MachineDetails(machine, secretCode);
+            }
         }
         else if (dto.getClass() == DTOMachineDetails.class) {
             menu.showLastMachineDetails((DTOMachineDetails)dto);

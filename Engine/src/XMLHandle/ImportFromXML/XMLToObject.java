@@ -27,6 +27,7 @@ public class XMLToObject {
 
     public MachineImplement machineFromXml(String desiredXmlPath) {
         MachineImplement machineImplement = null;
+        checkedObjectsList.clear();
         xmlValidator.checkIfTheFileExist(desiredXmlPath,checkedObjectsList);
         xmlValidator.checkFileEnding(desiredXmlPath,checkedObjectsList);
         try {

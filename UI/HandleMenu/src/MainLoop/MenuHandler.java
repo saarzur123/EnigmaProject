@@ -65,16 +65,21 @@ public class MenuHandler {
     public MachineImplement openXMLFile(DTO dto){
         XMLToObject converter = new XMLToObject();
         DTOImportFromXML dtoXML = (DTOImportFromXML)dto;
+        MachineImplement machine = null;
+        boolean isValid = true;
+
+        do{
         try{
-            MachineImplement machine = converter.machineFromXml(dtoXML.getPath());
-            return machine;
+            machine = converter.machineFromXml(dtoXML.getPath());
+            isValid = true;
         }
         catch (XMLException error){
             System.out.println(error.getMessage());
-            dto = new DTOImportFromXML(1, this.takePathFromUser());
-            this.openXMLFile(dto);
-        }
-        return null;
+            dtoXML = new DTOImportFromXML(1, this.takePathFromUser());
+            isValid = false;
+        }}while (!isValid);
+
+        return machine;
     }
 
     public void showLastMachineDetails(DTOMachineDetails dtoDetails)
@@ -82,13 +87,10 @@ public class MenuHandler {
         String msg = "Last machine in use description:" + System.lineSeparator();
         msg += "Amount of rotors in use / amount of possible rotors: " + dtoDetails.getNumberOfRotorInUse()+" / "+dtoDetails.getTotalNumberOfRotors() + System.lineSeparator();
         msg += "Notch places for each rotor:" + System.lineSeparator();
-        for (int i = 1; i <= dtoDetails.getTotalNumberOfRotors(); i++) {
-            msg+= "Rotor id: "+i+ " notch in place: "+ dtoDetails.getNotchPosInEachRotor().get(i)+ System.lineSeparator();
-        }
         msg+="Reflectors number: "+dtoDetails.getTotalNumberOfReflectors() + System.lineSeparator();
         msg+="Until now there were " + dtoDetails.getHowMuchMsgHaveBeenProcessed()+" messages processed in machine"+ System.lineSeparator();
-        msg+="Current secret code: " + dtoDetails.getCurrSecretCodeDescription();
-        msg+="First secret code: " + dtoDetails.getFirstSecreteCodeDescription();
+        msg+="Current secret code: " + dtoDetails.getCurrSecretCodeDescription()+ System.lineSeparator();
+        msg+="First secret code: " + dtoDetails.getFirstSecreteCodeDescription()+ System.lineSeparator();
         System.out.println(msg);
     }
 }
