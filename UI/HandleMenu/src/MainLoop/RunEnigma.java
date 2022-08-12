@@ -40,7 +40,7 @@ public class RunEnigma {
 
     public void createTheSecretCodeAccordingToUserInput(int userInput){
         if(userInput == 3) {
-            //מתודה מס 3
+            secretCode = getSecretCodeFromUser();
         }
         else{//4
             secretCode = secretCodeRandomAutomation.getSecretCodeAutomation(machine, secretCode, machineDetailsPresenter, historyAndStatisticsForMachine);
@@ -59,6 +59,8 @@ public class RunEnigma {
             case 2:
                 dto = machineDetailsPresenter.createCurrMachineDetails();
                 break;
+            case 3:
+                dto = new DTO(3);
             case 4:
                 dto = new DTO(4);
                 break;
@@ -88,6 +90,11 @@ public class RunEnigma {
                 if(machineDetailsPresenter == null)
                     System.out.println(noMachineMsg);
                 else ans = 2;
+                break;
+            case 3://לשים בפונקציהההה
+                if(machineDetailsPresenter == null)
+                    System.out.println(noMachineMsg);
+                else ans = 3;
                 break;
             case 4:
                 if(machineDetailsPresenter == null)
@@ -132,15 +139,16 @@ public class RunEnigma {
 
     }
 
-    private void getSecretCodeFromUser(){
+    private SecretCode getSecretCodeFromUser(){
         secretCode = new SecretCode(machine);
         List<Integer> rotorsIdPositions = menu.getInputHandler().getAndValidateRotorsByOrderFromUser(machine.getAvailableRotors().size(), machine.getInUseRotorNumber());
-        //List<Character> rotorsStartPosition = menu.getInputHandler().getAndValidateRotorsStartPositionFromUser();
-        //int reflectorIdChosen = menu.getInputHandler().getReflectorIdFromUser();
-        //Map<Character,Character> plugBoardFromUser = menu.getInputHandler().getPlugBoardFromUser();
-        //secretCode.determineSecretCode(rotorsIdPositions,rotorsStartPosition,reflectorIdChosen,plugBoardFromUser);
+        List<Character> rotorsStartPosition = menu.getInputHandler().getAndValidateRotorsStartPositionFromUser(machine.getInUseRotorNumber(), machine.getABC());
+        int reflectorIdChosen = menu.getInputHandler().getReflectorIdFromUser(machine.getAvailableReflectors().size());
+        Map<Character,Character> plugBoardFromUser = menu.getInputHandler().getPlugBoardFromUser(machine.getABC());
+        secretCode.determineSecretCode(rotorsIdPositions,rotorsStartPosition,reflectorIdChosen,plugBoardFromUser);
         machineDetailsPresenter.addSecretCode(secretCode);
         historyAndStatisticsForMachine.addSecretCodeToMachineHistory(secretCode);
+        return secretCode;
     }
 
     public void getSecretCodeAutomation(){

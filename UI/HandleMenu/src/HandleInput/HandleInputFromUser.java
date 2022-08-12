@@ -182,7 +182,7 @@ public class HandleInputFromUser {
     }
 
 
-    private int getReflectorIdFromUser(int totalReflectorsNumber){
+    public int getReflectorIdFromUser(int totalReflectorsNumber){
         String inputMsg = "Please choose one reflector from the following (in the range of 1 to "+totalReflectorsNumber+" :" + System.lineSeparator()
                 + " For example: by entering 1 you will choose reflector I." +System.lineSeparator();
         int reflectorIdFromUser = 0;
@@ -231,7 +231,7 @@ public class HandleInputFromUser {
 
 
 
-    private Map<Character,Character> getPlugBoardFromUser(String abc){
+    public Map<Character,Character> getPlugBoardFromUser(String abc){
         String inputMsg = "Please enter any plugs , press enter if you don't want to add plugs." + System.lineSeparator()
                 +"Plugs enter in a pairs string, you can enter "+abc.length()/2+" pairs from the language: "+abc+" ."+System.lineSeparator()
                 +"Please notice not to have more than one pair to the same character, and not have character in pair with itself."+System.lineSeparator()
