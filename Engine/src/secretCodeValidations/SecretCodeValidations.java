@@ -88,6 +88,11 @@ public class SecretCodeValidations {
 
         return  isValid;
     }
+    public static boolean handlePositionsExit(boolean isUserChooseExit, List<Character> startPos){
+        if(isUserChooseExit)
+            startPos.clear();
+        return isUserChooseExit;
+    }
     public static boolean reflectorIDValidator(int reflectorIdFromUser, int totalReflectorNumber,StringBuilder errorMsg){
         errorMsg.append("The chosen option is not valid. Please try:"+System.lineSeparator());
         boolean isValid = true;
@@ -107,6 +112,11 @@ public class SecretCodeValidations {
         romanMap.put(5,"V");
 
         return romanMap.get(userReflectorChoice);
+    }
+    public static boolean handleReflectorExit(boolean isUserChooseExit, List<Integer> reflectorId){
+        if(isUserChooseExit)
+            reflectorId.clear();
+        return isUserChooseExit;
     }
     public static boolean validatePlugsStrFromUser(String plugsUserStr, String abc, Map<Character,Character> plugBoardFromUser,StringBuilder errorMsg){
         boolean isValid = true;
@@ -163,4 +173,10 @@ public class SecretCodeValidations {
         }
         return isValid;
     }
+    public static boolean handlePlugsExit(boolean isUserChooseExit, Map<Character,Character> plugsMap){
+        if(isUserChooseExit)
+            plugsMap.clear();
+        return isUserChooseExit;
+    }
+
 }

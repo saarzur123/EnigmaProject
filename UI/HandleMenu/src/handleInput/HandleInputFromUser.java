@@ -39,13 +39,12 @@ public class HandleInputFromUser {
         return str;
     }
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    public List<Integer> getAndValidateRotorsByOrderFromUser(int totalRotorsNumbers, int mustInUseRotors){
+    public boolean getAndValidateRotorsByOrderFromUser(int totalRotorsNumbers, int mustInUseRotors,LinkedList<Integer> rotorsId){
         final String inputMsg = "Please enter "+ mustInUseRotors +" unique rotors id's in a decimal number that you wish to create your secret code from, in the order of Right to Left seperated with a comma:" + System.lineSeparator()
                 + " For example: number of in use rotors: 3, ID'S: 1,2,3 means: rotor 3 from right, rotor 2 is the next and rotor 1 in the left." +System.lineSeparator();
         String rotorsFromUserStr;
         StringBuilder errorMsg= new StringBuilder();
-        boolean isValid;
-        LinkedList<Integer> rotorsId = new LinkedList<>();
+        boolean isValid,isExit = false;
         System.out.println(inputMsg);
         do{
             isValid = true;
@@ -62,38 +61,42 @@ public class HandleInputFromUser {
                     isValid = false;
                 }
             }
-            isValid = (isValid && SecretCodeValidations.rotorIdByOrderValidator(rotorsId,totalRotorsNumbers,mustInUseRotors,errorMsg)) ||
-                    SecretCodeValidations.handleRotorsIdExit(doUserWntToExit(),rotorsId);
-            if(!isValid) System.out.println(errorMsg.toString()+System.lineSeparator());
+            isValid = isValid && SecretCodeValidations.rotorIdByOrderValidator(rotorsId,totalRotorsNumbers,mustInUseRotors,errorMsg);
+            if(!isValid){
+                System.out.println(errorMsg.toString()+System.lineSeparator());
+                isExit = SecretCodeValidations.handleRotorsIdExit(doUserWntToExit(inputMsg),rotorsId);
+            }
             errorMsg.delete(0,errorMsg.length());
-        }while (!isValid);
-
-        return rotorsId;
+        }while (!isValid && !isExit);
+        return isExit;
     }
 
-    public List<Character> getAndValidateRotorsStartPositionFromUser(int mustInUseRotors,String abc){
+    public boolean getAndValidateRotorsStartPositionFromUser(int mustInUseRotors,String abc, List<Character> startPos){
         final String inputMsg = "Please enter "+mustInUseRotors+" rotors start positions from Right to Left not seperated with anything (Notice the start position characters should be from "+ abc+" ):" + System.lineSeparator()
                 + " For example: Language: [ABCDEF] and rotors 1,2,3 - "+System.lineSeparator()+"B,C,D means: rotor 3 start position is from D, rotor 2 start position is from C,rotor 1 start position is from B." +System.lineSeparator();
         String positionsFromUserStr;
         StringBuilder errorMsg=new StringBuilder();
-        boolean isValid = true;
+        boolean isValid = true, isExit = false;
         System.out.println(inputMsg);
 
         do{
             positionsFromUserStr = inputScanner.nextLine();
             isValid = SecretCodeValidations.rotorPositionsValidator(positionsFromUserStr,mustInUseRotors,abc,errorMsg);
-            if(!isValid) System.out.println(errorMsg + "Please try again:"+System.lineSeparator());
+            if(!isValid) {
+                System.out.println(errorMsg + "Please try again:" + System.lineSeparator());
+                isExit = SecretCodeValidations.handlePositionsExit(doUserWntToExit(inputMsg), startPos);
+            }
             errorMsg.delete(0,errorMsg.length());
-        }while (!isValid);
-
-        return SecretCodeValidations.createPositionListFromStrArr(positionsFromUserStr);
+        }while (!isValid && !isExit);
+        startPos = SecretCodeValidations.createPositionListFromStrArr(positionsFromUserStr);
+        return isExit;
     }
 
-    public int getReflectorIdFromUser(int totalReflectorsNumber){
+    public boolean getReflectorIdFromUser(int totalReflectorsNumber, List<Integer> reflectorInFirstIndex){
         String inputMsg = "Please choose one reflector from the following (in the range of 1 to "+totalReflectorsNumber+" :" + System.lineSeparator()
                 + " For example: by entering 1 you will choose reflector I." +System.lineSeparator();
         String reflectorIdFromUser;
-        boolean isValid = true;
+        boolean isValid = true, isExit = false;
         int choice = 0;
         StringBuilder errorMsg = new StringBuilder();
 
@@ -112,34 +115,39 @@ public class HandleInputFromUser {
                     System.out.println("Please enter a number from the above!" + System.lineSeparator());
                     isValid = false;
                 }
-            if(!isValid) System.out.println(errorMsg + "Please try again:"+System.lineSeparator());
+            if(!isValid){ System.out.println(errorMsg + "Please try again:"+System.lineSeparator());
+            isExit = SecretCodeValidations.handleReflectorExit(doUserWntToExit(inputMsg), reflectorInFirstIndex);
+            }
             errorMsg.delete(0,errorMsg.length());
-        }while (!isValid);
+        }while (!isValid && !isExit);
 
-        return choice;
+        reflectorInFirstIndex.add(choice);
+        return isExit;
     }
 
-    public Map<Character,Character> getPlugBoardFromUser(String abc){
+    public boolean getPlugBoardFromUser(String abc,Map<Character,Character> plugBoardFromUser){
         String inputMsg = "Please enter any plugs , press enter if you don't want to add plugs." + System.lineSeparator()
                 +"Plugs enter in a pairs string with no separation, you can enter "+abc.length()/2+" pairs from the language: "+abc+" ."+System.lineSeparator()
                 +"Please notice not to have more than one pair to the same character, and not have character in pair with itself."+System.lineSeparator()
                 + "For example: Language: ABCDEF , valid plugs string: ABDFCE." +System.lineSeparator()
                 +"It means: A switch with B, D switch with F, C switch with E - there can't be more pairs for this language!"+System.lineSeparator();
-        Map<Character,Character> plugBoardFromUser = new HashMap<>();
         String plugsUserStr;
         StringBuilder errorMsg=new StringBuilder();
-        boolean isValid=true;
+        boolean isValid=true, isExit = false;
         System.out.println(inputMsg);
 
         do{
             plugBoardFromUser.clear();
             plugsUserStr = inputScanner.nextLine();//TODO check if pressing enter leads to empty string
             isValid = SecretCodeValidations.validatePlugsStrFromUser(plugsUserStr,abc,plugBoardFromUser,errorMsg);
-            if(!isValid) System.out.println(errorMsg);
+            if(!isValid) {
+                System.out.println(errorMsg);
+                isExit = SecretCodeValidations.handlePlugsExit(doUserWntToExit(inputMsg), plugBoardFromUser);
+            }
             errorMsg.delete(0,errorMsg.length());
-        }while (!isValid);
+        }while (!isValid && !isExit);
 
-        return plugBoardFromUser;
+        return isExit;
     }
 //////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -153,7 +161,7 @@ public class HandleInputFromUser {
     
     ////////////////////////////////////////
 
-    public boolean doUserWntToExit(){
+    public boolean doUserWntToExit(String inputRequest){
         int userChoice = 0;
         String userStr;
         boolean isValidInput;
@@ -179,6 +187,7 @@ public class HandleInputFromUser {
            }
         }while (!isValidInput);
 
+        if(userChoice == 1) System.out.println(inputRequest);
         return userChoice == 2;
     }
 }
