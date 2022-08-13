@@ -6,7 +6,7 @@
 //
 
 
-package machine.JaxbGenerated;
+package machine.jaxbGenerated;
 
 import javax.xml.bind.annotation.XmlRegistry;
 

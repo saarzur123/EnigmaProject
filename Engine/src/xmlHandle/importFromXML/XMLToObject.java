@@ -2,7 +2,7 @@ package xmlHandle.importFromXML;
 import enigmaExceptions.xmlExceptions.XMLException;
 import xmlHandle.checkXMLFile.CheckXML;
 import enigmaExceptions.xmlExceptions.ExceptionDTO;
-import machine.JaxbGenerated.*;
+import machine.jaxbGenerated.*;
 import machine.MachineImplement;
 import machine.Reflector;
 import machine.Rotor;
@@ -21,7 +21,7 @@ import java.util.Map;
 
 public class XMLToObject {
 
-    private final static String JAXB_PACKAGE_NAME = "Machine.JaxbGenerated";
+    private final static String JAXB_PACKAGE_NAME = "machine.jaxbGenerated";
     private List<ExceptionDTO> checkedObjectsList = new ArrayList<>();
     private CheckXML xmlValidator = new CheckXML();
 

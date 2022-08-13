@@ -6,11 +6,11 @@
 //
 
 
-package machine.JaxbGenerated;
+package machine.jaxbGenerated;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
@@ -24,8 +24,9 @@ import javax.xml.bind.annotation.XmlType;
  * &lt;complexType>
  *   &lt;complexContent>
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
- *       &lt;attribute name="input" use="required" type="{http://www.w3.org/2001/XMLSchema}int" />
- *       &lt;attribute name="output" use="required" type="{http://www.w3.org/2001/XMLSchema}int" />
+ *       &lt;sequence>
+ *         &lt;element ref="{}CTE-Machine"/>
+ *       &lt;/sequence>
  *     &lt;/restriction>
  *   &lt;/complexContent>
  * &lt;/complexType>
@@ -34,45 +35,37 @@ import javax.xml.bind.annotation.XmlType;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "")
-@XmlRootElement(name = "CTE-Reflect")
-public class CTEReflect {
+@XmlType(name = "", propOrder = {
+    "cteMachine"
+})
+@XmlRootElement(name = "CTE-Enigma")
+public class CTEEnigma {
 
-    @XmlAttribute(name = "input", required = true)
-    protected int input;
-    @XmlAttribute(name = "output", required = true)
-    protected int output;
+    @XmlElement(name = "CTE-Machine", required = true)
+    protected CTEMachine cteMachine;
 
     /**
-     * Gets the value of the input property.
+     * Gets the value of the cteMachine property.
      * 
+     * @return
+     *     possible object is
+     *     {@link CTEMachine }
+     *     
      */
-    public int getInput() {
-        return input;
+    public CTEMachine getCTEMachine() {
+        return cteMachine;
     }
 
     /**
-     * Sets the value of the input property.
+     * Sets the value of the cteMachine property.
      * 
+     * @param value
+     *     allowed object is
+     *     {@link CTEMachine }
+     *     
      */
-    public void setInput(int value) {
-        this.input = value;
-    }
-
-    /**
-     * Gets the value of the output property.
-     * 
-     */
-    public int getOutput() {
-        return output;
-    }
-
-    /**
-     * Sets the value of the output property.
-     * 
-     */
-    public void setOutput(int value) {
-        this.output = value;
+    public void setCTEMachine(CTEMachine value) {
+        this.cteMachine = value;
     }
 
 }

@@ -1,7 +1,7 @@
 package xmlHandle.checkXMLFile;
 
 import enigmaExceptions.xmlExceptions.ExceptionDTO;
-import machine.JaxbGenerated.*;
+import machine.jaxbGenerated.*;
 
 import java.io.File;
 import java.util.*;

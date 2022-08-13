@@ -6,7 +6,7 @@
 //
 
 
-package machine.JaxbGenerated;
+package machine.jaxbGenerated;
 
 import java.util.ArrayList;
 import java.util.List;
