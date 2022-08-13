@@ -5,9 +5,9 @@ public class SourceAndDecodedString {
     private String sourceMsg;
     private String decodesMsg;
 
-    public SourceAndDecodedString(String s, String d){
-        sourceMsg = s;
-        decodesMsg = d;
+    public SourceAndDecodedString(String sourceM, String decodedM){
+        sourceMsg = sourceM;
+        decodesMsg = decodedM;
     }
 
     public String getSourceMsg(){

@@ -99,21 +99,6 @@ public class RunEnigma {
             case 1:
                 ans = 1;
                 break;
-            case 2:
-                if(machineDetailsPresenter == null)
-                    System.out.println(noMachineMsg);
-                else ans = 2;
-                break;
-            case 3://לשים בפונקציהההה
-                if(machineDetailsPresenter == null)
-                    System.out.println(noMachineMsg);
-                else ans = 3;
-                break;
-            case 4:
-                if(machineDetailsPresenter == null)
-                    System.out.println(noMachineMsg);
-                else ans = 4;
-                break;
             case 5:
                 if(secretCode == null)
                     System.out.println(noSecretCodeMsg);
@@ -124,13 +109,13 @@ public class RunEnigma {
                     System.out.println(noSecretCodeMsg);
                 else ans = 6;
                 break;
-            case 7:
-                if (!historyAndStatisticsForMachine.checkIfMachineExists()) {
+            case 8:
+                ans = 8;
+                break;
+            default:
+                if(machineDetailsPresenter == null)
                     System.out.println(noMachineMsg);
-                }
-                else {
-                    ans = 7;
-                }
+                else ans = userInput;
                 break;
 
         }
@@ -138,30 +123,33 @@ public class RunEnigma {
     }
     public void actionInDTO(DTO dto){
         if(dto.getClass() == DTOImportFromXML.class){
-            MachineImplement newMachine = menu.openXMLFile((DTOImportFromXML)dto);
+            MachineImplement newMachine = menu.
+                    openXMLFile((DTOImportFromXML)dto);
             if(newMachine != null) {//replace machine only if the new machine is valid
                 machine = newMachine;
+                secretCode = null;
                 machineDetailsPresenter = new MachineDetails(machine, secretCode);
                 historyAndStatisticsForMachine = new HistoryAndStatisticsForMachine();
             }
         }
         else if (dto.getClass() == DTOMachineDetails.class) {
             menu.showLastMachineDetails((DTOMachineDetails)dto);
-        } else if(dto.getClass() == DTOExit.class)
-            System.exit(0);
+        }
         else if(dto.getClass() == DTOHistoryStatistics.class)
             menu.showHistoryAnsStatistics(((DTOHistoryStatistics) dto));
         else if(dto.getClass() == DTOInputProcessing.class)
         {
             String inStr = menu.getInputHandler().handleInputToEncodingOrDecoding((DTOInputProcessing) dto);
-            long start = System.nanoTime();
-            String str =(machine.encodingAndDecoding(inStr, secretCode.getInUseRotors(), secretCode.getPlugBoard(),
-                    secretCode.getInUseReflector()));
-            long end = System.nanoTime();
-            int indexInSecretCodeList = historyAndStatisticsForMachine.getSecretCodeHistory().indexOf(secretCode);
-            historyAndStatisticsForMachine.getDataForEachSecretCode().get(indexInSecretCodeList).add(new SourceAndDecodedAndTime(new SourceAndDecodedString(inStr, str), end - start));
-            System.out.println(str);
-            secretCode.changeNotchInSchema();
+            if(inStr != null) {
+                long start = System.nanoTime();
+                String str = (machine.encodingAndDecoding(inStr, secretCode.getInUseRotors(), secretCode.getPlugBoard(),
+                        secretCode.getInUseReflector()));
+                long end = System.nanoTime();
+                int indexInSecretCodeList = historyAndStatisticsForMachine.getSecretCodeHistory().indexOf(secretCode);
+                historyAndStatisticsForMachine.getDataForEachSecretCode().get(indexInSecretCodeList).add(new SourceAndDecodedAndTime(new SourceAndDecodedString(inStr, str), end - start));
+                System.out.println(str);
+                secretCode.changeNotchInSchema();
+            }
         }
 
     }

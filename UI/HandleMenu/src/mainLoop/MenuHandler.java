@@ -79,8 +79,14 @@ public class MenuHandler {
         }
         catch (XMLException error){
             System.out.println(error.getMessage());
-            dtoXML = new DTOImportFromXML(1, this.takePathFromUser());
-            isValid = false;
+            if(handler.doUserWntToExit()){
+                isValid = true;
+                return null;
+            }
+            else {
+                dtoXML = new DTOImportFromXML(1, this.takePathFromUser());
+                isValid = false;
+            }
         }}while (!isValid);
 
         return machine;
