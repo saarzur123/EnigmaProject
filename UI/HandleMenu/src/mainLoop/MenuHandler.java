@@ -79,7 +79,7 @@ public class MenuHandler {
         }
         catch (XMLException error){
             System.out.println(error.getMessage());
-            if(handler.doUserWntToExit()){
+            if(handler.doUserWntToExit("Please enter valid path for xml :)")){
                 isValid = true;
                 return null;
             }
