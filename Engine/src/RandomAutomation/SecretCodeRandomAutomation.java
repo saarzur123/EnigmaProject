@@ -11,14 +11,12 @@ import java.util.*;
 public class SecretCodeRandomAutomation {
 
 
-    public SecretCode getSecretCodeAutomation(MachineImplement machine, SecretCode secretCode, MachineDetails machineDetailsPresenter, HistoryAndStatisticsForMachine historyAndStatisticsForMachine){
-        secretCode = new SecretCode(machine);
+    public SecretCode getSecretCodeAutomation(MachineImplement machine){
+        SecretCode secretCode = new SecretCode(machine);
         secretCode.determineSecretCode(getRandomPositionForRotors(machine),
                 getRandomStartingPostChar(machine),
                 getRandomReflectorID(machine),
                 getRandomPlugBoard(machine));
-        machineDetailsPresenter.addSecretCode(secretCode);
-        historyAndStatisticsForMachine.addSecretCodeToMachineHistory(secretCode);
         return secretCode;
     }
 
