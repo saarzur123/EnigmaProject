@@ -70,6 +70,11 @@ public class HandleInputFromUser {
         return rotorsId;
     }
 
+    private static void handleRotorsIdExit(boolean isUserChooseExit, List<Integer> rotorsId){
+        if(isUserChooseExit)
+            rotorsId.clear();
+    }
+
     public List<Character> getAndValidateRotorsStartPositionFromUser(int mustInUseRotors,String abc){
         final String inputMsg = "Please enter "+mustInUseRotors+" rotors start positions from Right to Left not seperated with anything (Notice the start position characters should be from "+ abc+" ):" + System.lineSeparator()
                 + " For example: Language: [ABCDEF] and rotors 1,2,3 - "+System.lineSeparator()+"B,C,D means: rotor 3 start position is from D, rotor 2 start position is from C,rotor 1 start position is from B." +System.lineSeparator();
@@ -148,5 +153,33 @@ public class HandleInputFromUser {
             currSecretCode.changeNotchInSchema();
         }
         else System.out.println("Can't set the machine to secret code, because there wasn't secret code !"+System.lineSeparator());
+    }
+    
+    ////////////////////////////////////////
+
+    public boolean doUserWntToExit(){
+        int userChoice = 0;
+        boolean isValidInput;
+
+        System.out.println("Do you want to return to the main menu? enter 1 or 2 as the following:"+System.lineSeparator()+"1. Stay."+System.lineSeparator()
+                +"2. Exit"+System.lineSeparator());
+        do{
+            isValidInput = true;
+           while(inputScanner.hasNext()){
+               if(inputScanner.hasNextInt()){
+                   userChoice = inputScanner.nextInt();
+                   if(userChoice != 1 && userChoice != 2){
+                       System.out.println("Please enter 1 or 2 only."+System.lineSeparator());
+                       isValidInput=false;
+                   }
+               }
+               else{
+                   System.out.println("Please enter a number." + System.lineSeparator());
+                   isValidInput = false;
+               }
+           }
+        }while (!isValidInput);
+
+        return userChoice == 2;
     }
 }
