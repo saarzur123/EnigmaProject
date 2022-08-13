@@ -104,12 +104,14 @@ public class SecretCode {
             rotorsFromRight+=rotorsInUse.get(i).getId()+"("+rotorsInUse.get(i).getNotch()+")"+",";
             rotorsPositionsFromRight += rotorsInUse.get(i).getStartPos();
         }
-        rotorsByOrder = rotorsFromRight.substring(0,rotorsFromRight.length()-2);
+        rotorsByOrder = rotorsFromRight.substring(0,rotorsFromRight.length()-3);
         rotorsStartPosition = rotorsPositionsFromRight.substring(0,rotorsPositionsFromRight.length()-2);
         currReflectorRoman = chosenReflector();
-        plugs = plugs();//אם הפלאג ריק יש בעיה
+        plugs = plugs();
 
-        String code = "<" + rotorsFromRight +">"+"<"+rotorsPositionsFromRight+">"+"<"+currReflectorRoman+">"+"<"+plugs+">";
+        String code = "<" + rotorsFromRight +">"+"<"+rotorsPositionsFromRight+">"+"<"+currReflectorRoman+">";
+        if(plugs.length() > 0)
+            code +="<"+plugs+">";
 
         return code;
     }
