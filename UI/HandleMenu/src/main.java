@@ -1,6 +1,4 @@
-import DTOUI.DTO;
-import MainLoop.MenuHandler;
-import MainLoop.RunEnigma;
+import mainLoop.RunEnigma;
 
 public class main {
 

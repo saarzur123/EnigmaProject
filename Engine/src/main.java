@@ -1,8 +1,7 @@
-import DTOUI.DTO;
-import DTOUI.DTOImportFromXML;
-import EnigmaExceptions.XMLExceptions.XMLException;
-import XMLHandle.ImportFromXML.XMLToObject;
-import Machine.MachineImplement;
+import dTOUI.DTO;
+import enigmaExceptions.xmlExceptions.XMLException;
+import xmlHandle.importFromXML.XMLToObject;
+import machine.MachineImplement;
 
 
 
