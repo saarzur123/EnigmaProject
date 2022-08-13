@@ -62,7 +62,8 @@ public class HandleInputFromUser {
                     isValid = false;
                 }
             }
-            isValid = isValid && SecretCodeValidations.rotorIdByOrderValidator(rotorsId,totalRotorsNumbers,mustInUseRotors,errorMsg);
+            isValid = (isValid && SecretCodeValidations.rotorIdByOrderValidator(rotorsId,totalRotorsNumbers,mustInUseRotors,errorMsg)) ||
+                    SecretCodeValidations.handleRotorsIdExit(doUserWntToExit(),rotorsId);
             if(!isValid) System.out.println(errorMsg.toString()+System.lineSeparator());
             errorMsg.delete(0,errorMsg.length());
         }while (!isValid);
@@ -165,8 +166,11 @@ public class HandleInputFromUser {
                 +"2. Exit"+System.lineSeparator());
         do{
             isValidInput = true;
-               if(inputScanner.hasNextInt()){
-                   userChoice = inputScanner.nextInt();
+            userStr = inputScanner.nextLine();
+            Scanner newScan = new Scanner(userStr);
+           while(newScan.hasNext()){
+               if(newScan.hasNextInt()){
+                   userChoice = newScan.nextInt();
                    if(userChoice != 1 && userChoice != 2){
                        System.out.println("Please enter 1 or 2 only."+System.lineSeparator());
                        isValidInput=false;
@@ -176,7 +180,7 @@ public class HandleInputFromUser {
                    System.out.println("Please enter a number." + System.lineSeparator());
                    isValidInput = false;
                }
-
+           }
         }while (!isValidInput);
 
         return userChoice == 2;
