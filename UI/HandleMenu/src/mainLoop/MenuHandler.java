@@ -83,8 +83,10 @@ public class MenuHandler {
                 isValid = true;
                 return null;
             }
-            dtoXML = new DTOImportFromXML(1, this.takePathFromUser());
-            isValid = false;
+            else {
+                dtoXML = new DTOImportFromXML(1, this.takePathFromUser());
+                isValid = false;
+            }
         }}while (!isValid);
 
         return machine;

@@ -80,7 +80,7 @@ public class XMLToObject {
     }
 
     private String cleanABC(String abcFromJAXB) {
-        return abcFromJAXB.trim();
+        return abcFromJAXB.trim().toUpperCase();
     }
 
     private List<Reflector> reflectorsImplementFromJAXB(CTEReflectors cteReflectors,String ABC) {
@@ -155,8 +155,8 @@ public class XMLToObject {
 
     private void createStringFromCtePositioning(List<CTEPositioning> ctePositioning, StringBuilder right, StringBuilder left) {
         for (CTEPositioning ctePosition : ctePositioning) {
-            right.append(ctePosition.getRight());
-            left.append(ctePosition.getLeft());
+            right.append(ctePosition.getRight().toUpperCase());
+            left.append(ctePosition.getLeft().toUpperCase());
         }
 
     }

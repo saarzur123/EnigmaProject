@@ -33,7 +33,13 @@ public class HandleInputFromUser {
                 }
                 else flag = true;
             }
-            if(!flag) System.out.println(dtoInputProcessing.getErrorMsg());
+            if(!flag) {
+                System.out.println(dtoInputProcessing.getErrorMsg());
+                if(doUserWntToExit()){
+                    flag = true;
+                    return null;
+                }
+            }
 
         }while(!flag);
         return str;
@@ -64,7 +70,7 @@ public class HandleInputFromUser {
             }
             isValid = (isValid && SecretCodeValidations.rotorIdByOrderValidator(rotorsId,totalRotorsNumbers,mustInUseRotors,errorMsg)) ||
                     SecretCodeValidations.handleRotorsIdExit(doUserWntToExit(),rotorsId);
-            if(!isValid) System.out.println(errorMsg.toString()+System.lineSeparator());
+            if(!isValid) errorMsgForUser(errorMsg);
             errorMsg.delete(0,errorMsg.length());
         }while (!isValid);
 
@@ -87,25 +93,26 @@ public class HandleInputFromUser {
         do{
             positionsFromUserStr = inputScanner.nextLine();
             isValid = SecretCodeValidations.rotorPositionsValidator(positionsFromUserStr,mustInUseRotors,abc,errorMsg);
-            if(!isValid) System.out.println(errorMsg + "Please try again:"+System.lineSeparator());
+            if(!isValid) errorMsgForUser(errorMsg);
             errorMsg.delete(0,errorMsg.length());
         }while (!isValid);
 
         return SecretCodeValidations.createPositionListFromStrArr(positionsFromUserStr);
     }
-
-    public int getReflectorIdFromUser(int totalReflectorsNumber){
+    public void outPutMsgForInputReflector(int totalReflectorsNumber){
         String inputMsg = "Please choose one reflector from the following (in the range of 1 to "+totalReflectorsNumber+" :" + System.lineSeparator()
                 + " For example: by entering 1 you will choose reflector I." +System.lineSeparator();
-        String reflectorIdFromUser;
-        boolean isValid = true;
-        int choice = 0;
-        StringBuilder errorMsg = new StringBuilder();
-
         for (int i = 1; i <= totalReflectorsNumber; i++) {
             inputMsg += i +". " + SecretCodeValidations.chosenReflector(i) + System.lineSeparator();
         }
         System.out.println(inputMsg);
+    }
+    public int getReflectorIdFromUser(int totalReflectorsNumber){
+        String reflectorIdFromUser;
+        boolean isValid = true;
+        int choice = 0;
+        StringBuilder errorMsg = new StringBuilder();
+        outPutMsgForInputReflector(totalReflectorsNumber);
         do{
                 reflectorIdFromUser = inputScanner.nextLine();
                 Scanner scanInt = new Scanner(reflectorIdFromUser);
@@ -114,28 +121,26 @@ public class HandleInputFromUser {
                     isValid = SecretCodeValidations.reflectorIDValidator(choice, totalReflectorsNumber, errorMsg);
                 }
                 else {
-                    System.out.println("Please enter a number from the above!" + System.lineSeparator());
+                    System.out.println("Please enter a number from the above!");
                     isValid = false;
                 }
-            if(!isValid) System.out.println(errorMsg + "Please try again:"+System.lineSeparator());
+            if(!isValid) errorMsgForUser(errorMsg);
             errorMsg.delete(0,errorMsg.length());
         }while (!isValid);
 
         return choice;
     }
 
+    public void errorMsgForUser(StringBuilder errorMsg){
+        System.out.println(errorMsg + "Please try again:");
+    }
+
     public Map<Character,Character> getPlugBoardFromUser(String abc){
-        String inputMsg = "Please enter any plugs , press enter if you don't want to add plugs." + System.lineSeparator()
-                +"Plugs enter in a pairs string with no separation, you can enter "+abc.length()/2+" pairs from the language: "+abc+" ."+System.lineSeparator()
-                +"Please notice not to have more than one pair to the same character, and not have character in pair with itself."+System.lineSeparator()
-                + "For example: Language: ABCDEF , valid plugs string: ABDFCE." +System.lineSeparator()
-                +"It means: A switch with B, D switch with F, C switch with E - there can't be more pairs for this language!"+System.lineSeparator();
         Map<Character,Character> plugBoardFromUser = new HashMap<>();
         String plugsUserStr;
         StringBuilder errorMsg=new StringBuilder();
         boolean isValid=true;
-        System.out.println(inputMsg);
-
+        outPutMsgForUserInputPlugBoard(abc);
         do{
             plugBoardFromUser.clear();
             plugsUserStr = inputScanner.nextLine();//TODO check if pressing enter leads to empty string
@@ -145,6 +150,15 @@ public class HandleInputFromUser {
         }while (!isValid);
 
         return plugBoardFromUser;
+    }
+
+    public void outPutMsgForUserInputPlugBoard(String abc){
+        final String inputMsg = "Please enter any plugs , press enter if you don't want to add plugs." + System.lineSeparator()
+                +"Plugs enter in a pairs string with no separation, you can enter "+abc.length()/2+" pairs from the language: "+abc+" ."+System.lineSeparator()
+                +"Please notice not to have more than one pair to the same character, and not have character in pair with itself."+System.lineSeparator()
+                + "For example: Language: ABCDEF , valid plugs string: ABDFCE." +System.lineSeparator()
+                +"It means: A switch with B, D switch with F, C switch with E - there can't be more pairs for this language!"+System.lineSeparator();
+        System.out.println(inputMsg);
     }
 //////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -161,7 +175,7 @@ public class HandleInputFromUser {
     public boolean doUserWntToExit(){
         int userChoice = 0;
         boolean isValidInput;
-
+        String userStr;
         System.out.println("Do you want to return to the main menu? enter 1 or 2 as the following:"+System.lineSeparator()+"1. Stay."+System.lineSeparator()
                 +"2. Exit"+System.lineSeparator());
         do{
@@ -172,12 +186,12 @@ public class HandleInputFromUser {
                if(newScan.hasNextInt()){
                    userChoice = newScan.nextInt();
                    if(userChoice != 1 && userChoice != 2){
-                       System.out.println("Please enter 1 or 2 only."+System.lineSeparator());
+                       System.out.println("Please enter 1 or 2 only.");
                        isValidInput=false;
                    }
                }
                else{
-                   System.out.println("Please enter a number." + System.lineSeparator());
+                   System.out.println("Please enter a number.");
                    isValidInput = false;
                }
            }
