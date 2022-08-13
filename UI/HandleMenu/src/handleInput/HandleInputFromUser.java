@@ -165,7 +165,6 @@ public class HandleInputFromUser {
                 +"2. Exit"+System.lineSeparator());
         do{
             isValidInput = true;
-           while(inputScanner.hasNext()){
                if(inputScanner.hasNextInt()){
                    userChoice = inputScanner.nextInt();
                    if(userChoice != 1 && userChoice != 2){
@@ -177,7 +176,7 @@ public class HandleInputFromUser {
                    System.out.println("Please enter a number." + System.lineSeparator());
                    isValidInput = false;
                }
-           }
+
         }while (!isValidInput);
 
         return userChoice == 2;

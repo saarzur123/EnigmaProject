@@ -130,23 +130,27 @@ public class RunEnigma {
                     ans = 7;
                 }
                 break;
+            case 8:
+                ans = 8;
+                break;
 
         }
         return ans;
     }
     public void actionInDTO(DTO dto){
         if(dto.getClass() == DTOImportFromXML.class){
-            MachineImplement newMachine = menu.openXMLFile((DTOImportFromXML)dto);
+            MachineImplement newMachine = menu.
+                    openXMLFile((DTOImportFromXML)dto);
             if(newMachine != null) {//replace machine only if the new machine is valid
                 machine = newMachine;
+                secretCode = null;
                 machineDetailsPresenter = new MachineDetails(machine, secretCode);
                 historyAndStatisticsForMachine = new HistoryAndStatisticsForMachine();
             }
         }
         else if (dto.getClass() == DTOMachineDetails.class) {
             menu.showLastMachineDetails((DTOMachineDetails)dto);
-        } else if(dto.getClass() == DTOExit.class)
-            System.exit(0);
+        }
         else if(dto.getClass() == DTOHistoryStatistics.class)
             menu.showHistoryAnsStatistics(((DTOHistoryStatistics) dto));
         else if(dto.getClass() == DTOInputProcessing.class)
