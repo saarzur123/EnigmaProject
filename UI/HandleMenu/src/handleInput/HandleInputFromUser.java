@@ -35,7 +35,7 @@ public class HandleInputFromUser {
             }
             if(!flag) {
                 System.out.println(dtoInputProcessing.getErrorMsg());
-                if(doUserWntToExit()){
+                if(doUserWntToExit(dtoInputProcessing.getSoutToUser())){
                     flag = true;
                     return null;
                 }
