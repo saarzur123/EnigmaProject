@@ -33,6 +33,9 @@ public class RunEnigma {
         if(userInput == 4 || userInput == 3){
             createTheSecretCodeAccordingToUserInput(userInput);
         }
+        else if(userInput == 6){
+            menu.getInputHandler().validateUserChoiceAndResetSecretCode(secretCode);
+        }
         else
             actionInDTO(dto);
         }while (userInput != 8);
@@ -48,6 +51,7 @@ public class RunEnigma {
         machineDetailsPresenter.addSecretCode(secretCode);
         historyAndStatisticsForMachine.addSecretCodeToMachineHistory(secretCode);
     }
+
     public DTO choseOneOptionDTO(int userInput){
         DTO dto = null;
         userInput = checkIfTheSelectionCanBeDone(userInput);
@@ -67,6 +71,9 @@ public class RunEnigma {
                 break;
             case 5:
                 dto = new DTOInputProcessing(userInput, machine.getABC());
+                break;
+            case 6:
+                dto = new DTO(6);
                 break;
             case 7:
                 dto = historyAndStatisticsForMachine.DTOHistoryAndStatisticsMaker();
@@ -106,6 +113,11 @@ public class RunEnigma {
                 if(secretCode == null)
                     System.out.println(noSecretCodeMsg);
                 else ans = 5;
+                break;
+            case 6:
+                if(secretCode == null)
+                    System.out.println(noSecretCodeMsg);
+                else ans = 6;
                 break;
             case 7:
                 if (!historyAndStatisticsForMachine.checkIfMachineExists()) {

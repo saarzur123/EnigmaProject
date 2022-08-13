@@ -1,5 +1,6 @@
 package MachineDetails;
 
+import DTOUI.DTOResetCurrentCode;
 import Machine.MachineImplement;
 import Machine.PlugBoard;
 import Machine.Reflector;
@@ -80,9 +81,20 @@ public class SecretCode {
         setCodeReflector(reflectorId);
         createCodePlugBoard(plugsMapping);
         secretCodeCombination = createSecretCodeSchema();
-
     }
 
+    public void resetSecretCode(){
+        if(secreteCodeState){
+            for(Rotor rotor : rotorsInUse){
+                rotor.setRotorToStartPosition(rotor.getStartPos());
+            }
+        }
+    }
+
+    public void changeNotchInSchema()
+    {
+        secretCodeCombination = createSecretCodeSchema();
+    }
 
     private String createSecretCodeSchema(){
         String rotorsFromRight = "";
