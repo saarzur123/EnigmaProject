@@ -152,6 +152,7 @@ public class RunEnigma {
             String str =(machine.encodingAndDecoding(inStr, secretCode.getInUseRotors(), secretCode.getPlugBoard(),
                     secretCode.getInUseReflector()));
             System.out.println(str);
+            secretCode.changeNotchInSchema();
         }
 
     }
