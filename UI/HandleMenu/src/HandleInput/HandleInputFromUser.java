@@ -70,20 +70,6 @@ public class HandleInputFromUser {
         return rotorsId;
     }
 
-//    private List<Integer> createIDListFromStrArr(String[] idStr){
-//       List<Integer> rotorsID = new ArrayList<>();
-//        int rotorId;
-//        for(String id : idStr){
-//            try {
-//                rotorId = Integer.parseInt(id);
-//                rotorsID.add(rotorId);
-//            }
-//            catch (NumberFormatException e){//TODO CHECK IF COLLAPSE
-//
-//            }
-//        }
-//        return rotorsID;
-//    }
     public List<Character> getAndValidateRotorsStartPositionFromUser(int mustInUseRotors,String abc){
         final String inputMsg = "Please enter "+mustInUseRotors+" rotors start positions from Right to Left not seperated with anything (Notice the start position characters should be from "+ abc+" ):" + System.lineSeparator()
                 + " For example: Language:ABCDEF and rotors 1,2,3 - "+System.lineSeparator()+"B,C,D means: rotor 3 start position is from D, rotor 2 start position is from C,rotor 1 start position is from B." +System.lineSeparator();
