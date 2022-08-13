@@ -1,6 +1,7 @@
 package handleInput;
 
 import dTOUI.DTOInputProcessing;
+import machineDetails.SecretCode;
 import secretCodeValidations.SecretCodeValidations;
 
 import java.util.*;
