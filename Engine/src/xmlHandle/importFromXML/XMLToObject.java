@@ -21,7 +21,7 @@ import java.util.Map;
 
 public class XMLToObject {
 
-    private final static String JAXB_PACKAGE_NAME = "Machine.JaxbGenerated";
+    private final static String JAXB_PACKAGE_NAME = "machine.JaxbGenerated";
     private List<ExceptionDTO> checkedObjectsList = new ArrayList<>();
     private CheckXML xmlValidator = new CheckXML();
 

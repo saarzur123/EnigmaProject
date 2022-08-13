@@ -15,9 +15,6 @@ public class HistoryAndStatisticsForMachine {
 
     private Map<Integer, List<SourceAndDecodedAndTime>> dataForEachSecretCode = new HashMap<>(); //המפתח זה האינגקס בליבט של הקוד הסודי והערך זה כל העיבודים והזמן שלקח לכל אחד
 
-    private Long startTime;
-    private Long endTime;
-
     public int getHistoryAndStatSize(){
         return secretCodesHistory.size();
     }
