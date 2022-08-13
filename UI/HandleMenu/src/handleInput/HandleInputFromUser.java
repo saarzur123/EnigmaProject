@@ -139,5 +139,13 @@ public class HandleInputFromUser {
 
         return plugBoardFromUser;
     }
+//////////////////////////////////////////////////////////////////////////////////////////////////////
 
+    public void validateUserChoiceAndResetSecretCode(SecretCode currSecretCode){
+        if(currSecretCode != null) {
+            currSecretCode.resetSecretCode();
+            currSecretCode.changeNotchInSchema();
+        }
+        else System.out.println("Can't set the machine to secret code, because there wasn't secret code !"+System.lineSeparator());
+    }
 }

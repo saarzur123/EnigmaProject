@@ -1,7 +1,13 @@
 package dTOUI;
 
 public class DTOResetCurrentCode extends DTO{
-    public DTOResetCurrentCode(int number){
+
+    private String errorMsg;
+    public DTOResetCurrentCode(int number, String errorMsg){
+
         super(number);
+        this.errorMsg = errorMsg;
     }
+
+    public String getErrorMsg(){return errorMsg;}
 }
