@@ -42,10 +42,11 @@ public class RunEnigma {
         if(userInput == 3) {
             secretCode = getSecretCodeFromUser();
         }
-        else{//4
-            secretCode = secretCodeRandomAutomation.getSecretCodeAutomation(machine, secretCode, machineDetailsPresenter, historyAndStatisticsForMachine);
+        else{
+            secretCode = secretCodeRandomAutomation.getSecretCodeAutomation(machine);
         }
-
+        machineDetailsPresenter.addSecretCode(secretCode);
+        historyAndStatisticsForMachine.addSecretCodeToMachineHistory(secretCode);
     }
     public DTO choseOneOptionDTO(int userInput){
         DTO dto = null;
@@ -124,6 +125,7 @@ public class RunEnigma {
             if(newMachine != null) {//replace machine only if the new machine is valid
                 machine = newMachine;
                 machineDetailsPresenter = new MachineDetails(machine, secretCode);
+                historyAndStatisticsForMachine = new HistoryAndStatisticsForMachine();
             }
         }
         else if (dto.getClass() == DTOMachineDetails.class) {
@@ -149,12 +151,8 @@ public class RunEnigma {
         int reflectorIdChosen = menu.getInputHandler().getReflectorIdFromUser(machine.getAvailableReflectors().size());
         Map<Character,Character> plugBoardFromUser = menu.getInputHandler().getPlugBoardFromUser(machine.getABC());
         secretCode.determineSecretCode(rotorsIdPositions,rotorsStartPosition,reflectorIdChosen,plugBoardFromUser);
-        machineDetailsPresenter.addSecretCode(secretCode);
-        historyAndStatisticsForMachine.addSecretCodeToMachineHistory(secretCode);
+
         return secretCode;
     }
 
-    public void getSecretCodeAutomation(){
-        secretCodeRandomAutomation.getSecretCodeAutomation(machine, secretCode, machineDetailsPresenter, historyAndStatisticsForMachine);
-    }
 }
