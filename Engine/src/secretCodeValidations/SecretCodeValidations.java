@@ -49,6 +49,12 @@ public class SecretCodeValidations {
         }
         return isValid;
     }
+    public static boolean handleRotorsIdExit(boolean isUserChooseExit, List<Integer> rotorsId){
+        boolean isExit = isUserChooseExit;
+        if(isUserChooseExit)
+            rotorsId.clear();
+        return isExit;
+    }
     public static List<Character> createPositionListFromStrArr(String posStr){
         List<Character> posList = new ArrayList<>();
         int size = posStr.length();

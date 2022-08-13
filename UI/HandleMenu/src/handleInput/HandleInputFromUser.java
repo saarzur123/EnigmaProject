@@ -62,17 +62,13 @@ public class HandleInputFromUser {
                     isValid = false;
                 }
             }
-            isValid = isValid && SecretCodeValidations.rotorIdByOrderValidator(rotorsId,totalRotorsNumbers,mustInUseRotors,errorMsg);
+            isValid = (isValid && SecretCodeValidations.rotorIdByOrderValidator(rotorsId,totalRotorsNumbers,mustInUseRotors,errorMsg)) ||
+                    SecretCodeValidations.handleRotorsIdExit(doUserWntToExit(),rotorsId);
             if(!isValid) System.out.println(errorMsg.toString()+System.lineSeparator());
             errorMsg.delete(0,errorMsg.length());
         }while (!isValid);
 
         return rotorsId;
-    }
-
-    private static void handleRotorsIdExit(boolean isUserChooseExit, List<Integer> rotorsId){
-        if(isUserChooseExit)
-            rotorsId.clear();
     }
 
     public List<Character> getAndValidateRotorsStartPositionFromUser(int mustInUseRotors,String abc){
@@ -159,15 +155,18 @@ public class HandleInputFromUser {
 
     public boolean doUserWntToExit(){
         int userChoice = 0;
+        String userStr;
         boolean isValidInput;
 
         System.out.println("Do you want to return to the main menu? enter 1 or 2 as the following:"+System.lineSeparator()+"1. Stay."+System.lineSeparator()
                 +"2. Exit"+System.lineSeparator());
         do{
             isValidInput = true;
-           while(inputScanner.hasNext()){
-               if(inputScanner.hasNextInt()){
-                   userChoice = inputScanner.nextInt();
+            userStr = inputScanner.nextLine();
+            Scanner newScan = new Scanner(userStr);
+           while(newScan.hasNext()){
+               if(newScan.hasNextInt()){
+                   userChoice = newScan.nextInt();
                    if(userChoice != 1 && userChoice != 2){
                        System.out.println("Please enter 1 or 2 only."+System.lineSeparator());
                        isValidInput=false;
