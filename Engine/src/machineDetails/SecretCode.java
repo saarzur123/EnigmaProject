@@ -102,7 +102,7 @@ public class SecretCode {
 
         for (int i = size-1 ; i >=0 ; i--) {
             rotorsFromRight+=rotorsInUse.get(i).getId()+"("+rotorsInUse.get(i).getNotch()+")"+",";
-            rotorsPositionsFromRight += rotorsInUse.get(i).getStartPos();
+            rotorsPositionsFromRight += rotorsInUse.get(i).getCurrCharInWindow();
         }
         rotorsByOrder = rotorsFromRight.substring(0,rotorsFromRight.length()-3);
         rotorsStartPosition = rotorsPositionsFromRight.substring(0,rotorsPositionsFromRight.length()-2);

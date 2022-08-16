@@ -19,6 +19,8 @@ public Rotor(int idInput, int notch, String right, String left)
     numberOfCharsInABC = charactersLinkedListLeft.size();
 }
 
+public char getCurrCharInWindow(){return charactersLinkedListRight.get(0);}
+
 public char getStartPos(){return startingPosition;}
 
     private void initCharsLinkedList(String dataOfChars, List<Character> currentList){
