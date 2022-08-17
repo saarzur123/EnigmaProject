@@ -94,7 +94,7 @@ public class HandleInputFromUser {
             }
             errorMsg.delete(0,errorMsg.length());
         }while (!isValid && !isExit);
-        startPos = SecretCodeValidations.createPositionListFromStrArr(positionsFromUserStr);
+        SecretCodeValidations.createPositionListFromStrArr(positionsFromUserStr, startPos);
         return isExit;
     }
 

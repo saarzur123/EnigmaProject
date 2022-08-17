@@ -55,14 +55,12 @@ public class SecretCodeValidations {
             rotorsId.clear();
         return isExit;
     }
-    public static List<Character> createPositionListFromStrArr(String posStr){
-        List<Character> posList = new ArrayList<>();
+    public static void createPositionListFromStrArr(String posStr, List<Character> posList){
         int size = posStr.length();
 
         for(int i=size-1;i>=0;i--){
             posList.add(Character.toUpperCase(posStr.charAt(i)));
         }
-        return posList;
     }
     public static boolean rotorPositionsValidator(String posStr,int mustInUseRotors,String abc,StringBuilder errorMsg){
         errorMsg.append("You may have follow the next tips:" + System.lineSeparator());
