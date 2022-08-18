@@ -59,6 +59,9 @@ public class Engine implements Commander {
         int i = 0;
         String msg="";
         Map<Integer, List<SourceAndDecodedAndTime>> mapOfData = dtoHistoryStatistics.getMapOfAllData();
+        if(mapOfData.size() == 0){
+            msg +="No information to show you :(" + System.lineSeparator();
+        }
         for (SecretCode secretCode : dtoHistoryStatistics.getSecretCodesHistory()){
             msg+=secretCode.toString()+System.lineSeparator();
             List<SourceAndDecodedAndTime> list = mapOfData.get(i);

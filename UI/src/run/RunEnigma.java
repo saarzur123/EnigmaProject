@@ -39,11 +39,13 @@ public class RunEnigma {
     }
 
     public void createTheSecretCodeAccordingToUserInput(int userInput){
+        Engine engine =(Engine)engineCommands;
         if(userInput == 3) {
             getSecretCodeFromUser();
         }
         else{
             engineCommands.getRandomSecretCode();
+            System.out.println("Yay succeeded :) " + engine.getSecretCode());
         }
     }
 
