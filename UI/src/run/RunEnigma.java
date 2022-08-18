@@ -117,7 +117,7 @@ public class RunEnigma {
     }
     public void actionInDTO(DTO dto){
         if(dto.getClass() == DTOImportFromXML.class){
-            MachineImplement newMachine = menu.openXMLFile((DTOImportFromXML)dto,engineCommands);
+            MachineImplement newMachine = menu.openXMLFile((DTOImportFromXML)dto, engineCommands);
         }
         else if (dto.getClass() == DTOMachineDetails.class) {
             System.out.println(engineCommands.showLastMachineDetails((DTOMachineDetails)dto));
