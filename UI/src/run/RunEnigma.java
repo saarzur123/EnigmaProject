@@ -7,14 +7,11 @@ import engine.Commander;
 
 public class RunEnigma {
     private MenuHandler menu = new MenuHandler();
-
     private Commander engineCommands = new Engine();
 
     public static void main(String[] args) {
-
         RunEnigma runEnigma = new RunEnigma();
         runEnigma.Run();
-
     }
 
     public void Run(){
@@ -50,7 +47,6 @@ public class RunEnigma {
             engineCommands.getRandomSecretCode();
             System.out.println("Yay succeeded :) " + engine.getSecretCode());
         }
-
     }
 
     public DTO choseOneOptionDTO(int userInput){
@@ -153,5 +149,4 @@ public class RunEnigma {
                 || menu.getInputHandler().getPlugBoardFromUser(machine.getABC(),userDto.getPlugBoardFromUser());
         return isExit;
     }
-
 }

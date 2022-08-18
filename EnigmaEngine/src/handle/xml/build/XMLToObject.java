@@ -32,7 +32,6 @@ public class XMLToObject {
         xmlValidator.checkFileEnding(desiredXmlPath,checkedObjectsList);
         try {
             //"C:/Users/saarz/IdeaProjects/EnigmaProject/EnigmaEngine/src/resource/ex1-sanity-small.xml"
-            ///Users/natalializi/dev/EnigmaProject/EnigmaMachine/src/Resources/ex1-sanity-small.xml
             InputStream inputStream = new FileInputStream(new File(desiredXmlPath));
             machineImplement = deserializeFrom(inputStream);
 

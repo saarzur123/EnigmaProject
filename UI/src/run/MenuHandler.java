@@ -71,15 +71,4 @@ public class MenuHandler {
 
         return machine;
     }
-
-//    public void showLastMachineDetails(DTOMachineDetails dtoDetails)
-//    {
-//        String msg = "Last machine in use description:" + System.lineSeparator();
-//        msg += "Amount of rotors in use / amount of possible rotors: " + dtoDetails.getNumberOfRotorInUse()+" / "+dtoDetails.getTotalNumberOfRotors() + System.lineSeparator();
-//        msg+="Reflectors number: "+dtoDetails.getTotalNumberOfReflectors() + System.lineSeparator();
-//        msg+="Until now there were " + dtoDetails.getHowMuchMsgHaveBeenProcessed()+" messages processed in machine"+ System.lineSeparator();
-//        msg+="Current secret code: " + dtoDetails.getCurrSecretCodeDescription()+ System.lineSeparator();
-//        msg+="First secret code: " + dtoDetails.getFirstSecreteCodeDescription()+ System.lineSeparator();
-//        System.out.println(msg);
-//    }
 }
