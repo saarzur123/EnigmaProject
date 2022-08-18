@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public class Reflector {
+public class Reflector implements Mapping{
     private List<Integer> reflectInAndOut = new ArrayList<Integer>();
     private int id;
 
@@ -16,8 +16,10 @@ public class Reflector {
     }
 
     public int getId () {return id; }
-    public int getOutReflectorIndex(int inIndex) {
-        return reflectInAndOut.get(inIndex);
+
+    @Override
+    public Object mapping(Object inIndex) {
+        return reflectInAndOut.get((int)inIndex);
     }
 
     @Override

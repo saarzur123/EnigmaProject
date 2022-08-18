@@ -44,10 +44,10 @@ public class MachineImplement {
     public String encodingAndDecoding(String textSentToTheEnigma, List<Rotor> rotorsInUse, PlugBoard plugBoard, Reflector reflectorInUse)
     {
 
-        final int size = textSentToTheEnigma.length();
+        final int SIZE = textSentToTheEnigma.length();
         String result = "";
 
-        for (int i = 0; i < size; i++) {
+        for (int i = 0; i < SIZE; i++) {
             result += encodingAndDecodingSingleChar(textSentToTheEnigma.charAt(i),rotorsInUse,plugBoard,reflectorInUse);
         }
         messagesDecoded++;
@@ -62,19 +62,19 @@ public class MachineImplement {
 
     private void makeRotorsMove(List<Rotor> rotorsInUse)
     {
-        final int mostRightRotor = 0;
-        final int windowIndex = 0;
-        final int size = rotorsInUse.size();
-        final int indexBeforeWindow = 1;
-        int notchLastPlace = rotorsInUse.get(mostRightRotor).getNotch();
+        final int MOST_RIGHT_ROTOR = 0;
+        final int WINDOW_INDEX = 0;
+        final int SIZE = rotorsInUse.size();
+        final int INDEX_BEFORE_WINDOW = 1;
+        int notchLastPlace = rotorsInUse.get(MOST_RIGHT_ROTOR).getNotch();
 
-        rotorsInUse.get(mostRightRotor).movePositions();
+        rotorsInUse.get(MOST_RIGHT_ROTOR).movePositions();
 
-        for (int i = 0; i < size - 1; i++) {
+        for (int i = 0; i < SIZE - 1; i++) {
 
-            boolean isNotchInWindow = rotorsInUse.get(i).getNotch() == windowIndex;
+            boolean isNotchInWindow = rotorsInUse.get(i).getNotch() == WINDOW_INDEX;
 
-            if(isNotchInWindow && notchLastPlace == indexBeforeWindow)
+            if(isNotchInWindow && notchLastPlace == INDEX_BEFORE_WINDOW)
             {
                 notchLastPlace = rotorsInUse.get(i+1).getNotch();
                 rotorsInUse.get(i+1).movePositions();
@@ -84,54 +84,62 @@ public class MachineImplement {
 
     private int rotorsTransfer(int startIndex, boolean isForward, List<Rotor> rotorsInUse)
     {
-        final int size = rotorsInUse.size();
-        final int mostRightRotor = 0;
-        final int mostLeftRotor = size - 1;
+        final int SIZE = rotorsInUse.size();
+        final int MOST_LEFT_ROTOR = SIZE - 1;
         int currStartIndex = startIndex;
         int currReturnIndex = -1;
 
         if(isForward) {
             for (Rotor rotor : rotorsInUse) {
-                currReturnIndex = rotor.convertInToOutIndexByDir(currStartIndex, isForward);
-                currStartIndex = currReturnIndex;
+                currReturnIndex = rotorsMapping(rotor,isForward,currStartIndex);
+//                rotor.setIsForwardMapping(isForward);
+//                currReturnIndex =(int)rotor.mapping(currStartIndex);
+//                currStartIndex = currReturnIndex;
             }
         }
         else {
-            for (int i = mostLeftRotor; i >= 0; i--) {
-                currReturnIndex = rotorsInUse.get(i).convertInToOutIndexByDir(currStartIndex,isForward);
-                currStartIndex = currReturnIndex;
+            for (int i = MOST_LEFT_ROTOR; i >= 0; i--) {
+                currReturnIndex = rotorsMapping(rotorsInUse.get(i),isForward,currStartIndex);
             }
         }
 
         return currReturnIndex;
     }
 
+    private int rotorsMapping(Rotor rotor, boolean isForward, int currStartIndex){
+        int currReturnIndex;
+
+        rotor.setIsForwardMapping(isForward);
+        currReturnIndex = (int)rotor.mapping(currStartIndex);
+        return currReturnIndex;
+    }
+
     private int forwardDecoding(char charInTextSentToTheEnigma, List<Rotor> rotorsInUse, PlugBoard plugBoard, Reflector reflectorInUse)
     {
-        final boolean isForward = true;
+        final boolean ISFORWARD = true;
         char charToDiscover;
         boolean isTherePlugBoard = plugBoard != null;
 
         if(isTherePlugBoard) {
-            charToDiscover = plugBoard.checkSwappingChar(charInTextSentToTheEnigma);
+            charToDiscover = (char)plugBoard.mapping(charInTextSentToTheEnigma);
         }else charToDiscover = charInTextSentToTheEnigma;
         makeRotorsMove(rotorsInUse);
         int indexOfCharToDiscover = ABC.indexOf(charToDiscover);
-        int indexToReflector = rotorsTransfer(indexOfCharToDiscover, isForward,rotorsInUse);
-        int indexOfStartBackwards = reflectorInUse.getOutReflectorIndex(indexToReflector);
+        int indexToReflector = rotorsTransfer(indexOfCharToDiscover, ISFORWARD,rotorsInUse);
+        int indexOfStartBackwards = (int)reflectorInUse.mapping(indexToReflector);
 
         return indexOfStartBackwards;
     }
 
     private char backwardDecoding(int reflectorIndex, List<Rotor> rotorsInUse, PlugBoard plugBoard)
     {
-        final boolean isForward = false;
+        final boolean ISFORWARD = false;
         char charToReturn;
         boolean isTherePlugBoard = plugBoard != null;
 
-        int indexToFinalChar = rotorsTransfer(reflectorIndex,isForward,rotorsInUse);
+        int indexToFinalChar = rotorsTransfer(reflectorIndex,ISFORWARD,rotorsInUse);
         if(isTherePlugBoard) {
-            charToReturn = plugBoard.checkSwappingChar(ABC.charAt(indexToFinalChar));
+            charToReturn = (char)plugBoard.mapping(ABC.charAt(indexToFinalChar));
         }else charToReturn = ABC.charAt(indexToFinalChar);
 
 

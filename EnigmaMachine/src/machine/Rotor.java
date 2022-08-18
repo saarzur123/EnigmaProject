@@ -2,13 +2,14 @@ package machine;
 
 import java.util.*;
 
-public class Rotor {
+public class Rotor implements Mapping {
     private int id;
     private int numberOfCharsInABC;
     private List<Character> charactersLinkedListRight = new LinkedList<>();
     private List<Character> charactersLinkedListLeft = new LinkedList<>();
     private int notchPosition;
     private char startingPosition;
+    private boolean isForwardMapping;
 
 public Rotor(int idInput, int notch, String right, String left)
 {
@@ -20,6 +21,7 @@ public Rotor(int idInput, int notch, String right, String left)
 }
 
 public char getCurrCharInWindow(){return charactersLinkedListRight.get(0);}
+    public void setIsForwardMapping(boolean isForward){isForwardMapping = isForward; }
 
 public char getStartPos(){return startingPosition;}
 
@@ -57,14 +59,16 @@ public char getStartPos(){return startingPosition;}
         return notchPosition;
     }
 
-    public int convertInToOutIndexByDir(int inputIndex, boolean isForward)
+    @Override
+    public Object mapping(Object inputIndex)
     {
-        if(isForward)
+        int inIndex =(int)inputIndex;
+        if(isForwardMapping)
         {
-            return convertInToOutIndex(charactersLinkedListRight, charactersLinkedListLeft, inputIndex);
+            return convertInToOutIndex(charactersLinkedListRight, charactersLinkedListLeft, inIndex);
         }
         else {
-            return convertInToOutIndex(charactersLinkedListLeft, charactersLinkedListRight, inputIndex);
+            return convertInToOutIndex(charactersLinkedListLeft, charactersLinkedListRight, inIndex);
         }
     }
 

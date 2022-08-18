@@ -4,14 +4,17 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
-public class PlugBoard {
+public class PlugBoard implements Mapping{
 
     private Map<Character,Character> plugSwitch = new HashMap<>();
 
     public PlugBoard(Map<Character,Character> plugBoardMapFromXML){
         plugSwitch = plugBoardMapFromXML;
     }
-    public char checkSwappingChar(char checkSign){
+    @Override
+    public Object mapping(Object inChar){
+        char checkSign = (char)inChar;
+
         Character retChar = plugSwitch.get(checkSign);
 
         if(retChar == null)
