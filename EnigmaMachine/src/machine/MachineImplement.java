@@ -87,11 +87,11 @@ public class MachineImplement {
         final int SIZE = rotorsInUse.size();
         final int MOST_LEFT_ROTOR = SIZE - 1;
         int currStartIndex = startIndex;
-        int currReturnIndex = -1;
+
 
         if(isForward) {
             for (Rotor rotor : rotorsInUse) {
-                currReturnIndex = rotorsMapping(rotor,isForward,currStartIndex);
+                currStartIndex = rotorsMapping(rotor,isForward,currStartIndex);
 //                rotor.setIsForwardMapping(isForward);
 //                currReturnIndex =(int)rotor.mapping(currStartIndex);
 //                currStartIndex = currReturnIndex;
@@ -99,11 +99,11 @@ public class MachineImplement {
         }
         else {
             for (int i = MOST_LEFT_ROTOR; i >= 0; i--) {
-                currReturnIndex = rotorsMapping(rotorsInUse.get(i),isForward,currStartIndex);
+                currStartIndex = rotorsMapping(rotorsInUse.get(i),isForward,currStartIndex);
             }
         }
 
-        return currReturnIndex;
+        return currStartIndex;
     }
 
     private int rotorsMapping(Rotor rotor, boolean isForward, int currStartIndex){
