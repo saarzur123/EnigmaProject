@@ -47,6 +47,7 @@ public class RunEnigma {
         }
         else{
             engineCommands.getRandomSecretCode();
+            System.out.println("Yay succeeded :) ");
         }
 
     }
