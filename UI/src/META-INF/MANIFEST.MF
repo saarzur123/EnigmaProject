@@ -1,4 +1,4 @@
 Manifest-Version: 1.0
 Main-Class: run.RunEnigma
-Class-Path: lib/Engine.jar;lib/EnigmaMachine.jar;
+Class-Path: Engine.jar EnigmaMachine.jar
 
