@@ -38,7 +38,7 @@ public class CheckXML {
 
     public void checkIfAllRotorsHaveUniqueIDAndNumbering(List<CTERotor> listOfRotor,List<ExceptionDTO> checkedObjectsList){
         int lengthOfTheList = listOfRotor.size();
-        List<CTERotor> indexIdOfList = new ArrayList<>();
+        List<Integer> indexIdOfList = new ArrayList<>();
         for (int i = 0; i<lengthOfTheList;i++){
             indexIdOfList.add(null);
         }
@@ -47,7 +47,7 @@ public class CheckXML {
                 checkedObjectsList.add(new ExceptionDTO(false,"rotor "+ rotor.getId()," id not according to numbering")); //חורג מהגודל המקסימלי
             if (indexIdOfList.contains(rotor.getId()-1))
                 checkedObjectsList.add(new ExceptionDTO(false,"rotor " + rotor.getId()," not unique")); //הid כבר קיים
-            indexIdOfList.set((rotor.getId()-1),rotor);
+            indexIdOfList.add(rotor.getId()-1);
         }
     }
 
