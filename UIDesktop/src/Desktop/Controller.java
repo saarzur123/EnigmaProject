@@ -55,7 +55,7 @@ public class Controller {
         }
     }
 
-public void disableBeforeMachine(){
+    public void disableBeforeMachine(){
             rotorsIdTA.setDisable(true);
             rotorsPositionsTA.setDisable(true);
             reflectorsTA.setDisable(true);
