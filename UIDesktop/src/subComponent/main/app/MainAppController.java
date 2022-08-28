@@ -9,6 +9,7 @@ import javafx.scene.layout.BorderPane;
 import subComponent.main.create.secret.code.CreateSecretCodeController;
 import subComponent.main.loadFXML.LoadFXMLController;
 import subComponent.main.machine.detail.MachineDetailsController;
+import subComponent.main.secretCode.SecretCodeController;
 
 public class MainAppController {
 
@@ -20,6 +21,9 @@ public class MainAppController {
 
     @FXML private BorderPane machineDetails;
     @FXML private MachineDetailsController machineDetailsController;
+
+    @FXML private ScrollPane secretCode;
+    @FXML private SecretCodeController secretCodeController;
 
 
     private Commander engineCommands = new Engine();
@@ -37,11 +41,10 @@ public class MainAppController {
             createSecretCodeController.setMainController(this);
             loadFXMLController.setMainController(this);
             machineDetailsController.setMainController(this);
+            secretCodeController.setMainController(this);
         }
-
     }
 
- //  @FXML private SecretCodeController secretCodeController ;
 
 
 
@@ -49,7 +52,7 @@ public class MainAppController {
     public Engine getEngine(){return engine;}
 
     public void setSecretCodeTxt(String text){
-        //secretCodeController.setCurrSecretCodeText(text);
+        secretCodeController.setCurrSecretCodeText(text);
     }
 
     public void makeSecretCodeCreationTADisabled(){

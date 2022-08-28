@@ -23,30 +23,17 @@ public class CreateSecretCodeController {
 
     @FXML
     private Label rotorIdInstructionsLBL;
+    @FXML private Label rotorsPositionLBL;
+    @FXML private Label reflectorIdLBL;
+    @FXML private Label plugsIdLBL;
+    @FXML private TextArea rotorsIdTA;
+    @FXML private TextArea rotorsPositionsTA;
+    @FXML private TextArea reflectorsTA;
+    @FXML private TextArea plugsTA;
 
-
-
-    @FXML
-    private Label rotorsPositionLBL;
-
-    @FXML
-    private Label reflectorIdLBL;
-
-    @FXML
-    private Label plugsIdLBL;
-
-    @FXML
-    private TextArea rotorsIdTA;
-
-    @FXML
-    private TextArea rotorsPositionsTA;
-
-    @FXML
-    private TextArea reflectorsTA;
-
-    @FXML
-    private TextArea plugsTA;
     private MachineImplement machine;
+
+
     public void setMainController(MainAppController main){
         mainController = main;
     }
@@ -58,7 +45,7 @@ public class CreateSecretCodeController {
             reflectorsTA.setDisable(true);
             plugsTA.setDisable(true);
             mainController.getEngineCommand().getRandomSecretCode();
-           // mainController.setSecretCodeTxt(mainController.getEngine().getSecretCode().getSecretCodeCombination());
+            mainController.setSecretCodeTxt(mainController.getEngine().getSecretCode().getSecretCodeCombination());
         }
         else{
             rotorsIdTA.setDisable(false);
@@ -67,11 +54,7 @@ public class CreateSecretCodeController {
             plugsTA.setDisable(false);
         }
     }
-
-    @FXML
-    void setSecretCodeFromUser(ActionEvent event) {
-        validateSecretCodeFromUser();
-    }
+    @FXML void setSecretCodeFromUser(ActionEvent event) { validateSecretCodeFromUser();}
 
     private void validateSecretCodeFromUser(){
         StringBuilder errorMsg = new StringBuilder();
@@ -85,10 +68,9 @@ public class CreateSecretCodeController {
             MainAppController.showErrorPopup(errorMsg.toString());
         } else{
             mainController.getEngineCommand().getSecretCodeFromUser(userDto,false);
-            //mainController.setSecretCodeTxt(mainController.getEngine().getSecretCode().getSecretCodeCombination());
+            mainController.setSecretCodeTxt(mainController.getEngine().getSecretCode().getSecretCodeCombination());
         }
     }
-
     private boolean getAndValidateRotorsId(LinkedList<Integer> rotorsId, StringBuilder errorMsg){
         boolean isValid = true;
         errorMsg.append("Invalid rotors Id's entered from following reasons:"+System.lineSeparator());
@@ -147,7 +129,6 @@ public class CreateSecretCodeController {
         return isValid;
     }
 
-
     public void setInstructionsLBLS(){
         machine = mainController.getEngine().getMachine();
         String rotorMsg = String.format("Please enter %d unique rotors id's in a decimal number that you wish to create your secret code from," +
@@ -174,7 +155,6 @@ public class CreateSecretCodeController {
                 machine.getABC());
         plugsIdLBL.setText(plugsMsg);
     }
-
     public void unableTA(){
         rotorsIdTA.setDisable(false);
         rotorsPositionsTA.setDisable(false);
