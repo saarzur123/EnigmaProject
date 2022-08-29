@@ -3,10 +3,7 @@ package subComponent.main.create.secret.code;
 import dTOUI.DTOSecretCodeFromUser;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.CheckBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.ScrollPane;
-import javafx.scene.control.TextArea;
+import javafx.scene.control.*;
 import machine.MachineImplement;
 import secret.code.validation.SecretCodeValidations;
 import subComponent.main.app.MainAppController;
@@ -161,6 +158,14 @@ public class CreateSecretCodeController {
         reflectorsTA.setDisable(false);
         plugsTA.setDisable(false);
         enableAutomationCheckBox.setDisable(false);
+    }
+
+    public static void showInstruction(String message, String whatInstruction) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle(whatInstruction);
+        alert.setHeaderText(whatInstruction + "instruction");
+        alert.setContentText(message);
+        alert.showAndWait();
     }
 
 }
