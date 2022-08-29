@@ -1,22 +1,23 @@
 package subComponent.main.app;
 
+
 import engine.Commander;
 import engine.Engine;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.control.TabPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import subComponent.main.create.secret.code.CreateSecretCodeController;
+import subComponent.main.create.secret.codes.CreateNewSecretCodeController;
 import subComponent.main.loadFXML.LoadFXMLController;
 import subComponent.main.machine.detail.MachineDetailsController;
 import subComponent.main.secretCode.SecretCodeController;
 import subComponent.main.set.secret.code.automaticlly.AutomaticSecretCodeController;
 
-public class MainAppController {
-
-    @FXML private BorderPane createSecretCode;
-    @FXML private CreateSecretCodeController  createSecretCodeController;
+public class MainScreenController {
 
     @FXML private ScrollPane loadFXML;
     @FXML private LoadFXMLController loadFXMLController;
@@ -27,31 +28,43 @@ public class MainAppController {
     @FXML private ScrollPane secretCode;
     @FXML private SecretCodeController secretCodeController;
 
-    @FXML private HBox automaticSecretCode;
-    @FXML private AutomaticSecretCodeController automaticSecretCodeController;
+    @FXML private VBox createNewSecretCode;
+    @FXML private CreateNewSecretCodeController createNewSecretCodeController;
 
+    @FXML private TabPane tabControl;
 
     private Commander engineCommands = new Engine();
 
     private Engine engine ;
 
-//    @FXML public void initialize(){
-//
-//        engine = (Engine)engineCommands;
-//
-//        if(createSecretCodeController != null &&
-//                loadFXMLController != null &&
-//                machineDetailsController != null
-//        ){
-//            createSecretCodeController.setMainController(this);
-//            loadFXMLController.setMainController(this);
-//            machineDetailsController.setMainController(this);
-//            secretCodeController.setMainController(this);
-//        }
-//    }
+
+    @FXML public void initialize(){
+
+        engine = (Engine)engineCommands;
+
+        if(createNewSecretCodeController != null &&
+                loadFXMLController != null &&
+                machineDetailsController != null
+        ){
+            createNewSecretCodeController.setMainController(this);
+            loadFXMLController.setMainController(this);
+            machineDetailsController.setMainController(this);
+            secretCodeController.setMainController(this);
 
 
+            loadFXMLController.getIsValidMachine().setValue(true);
+            tabControl.disableProperty().bind(loadFXMLController.getIsValidMachine());
+        }
+    }
 
+
+    public void setLBLToCodeCombinationBindingMain(){
+        secretCodeController.setLBLToCodeCombinationBinding();
+    }
+
+    public void resetShowSecretCode(){
+        secretCodeController.resetShowSecretCodeLBL();
+    }
 
     public Commander getEngineCommand(){return engineCommands;}
     public Engine getEngine(){return engine;}
@@ -60,13 +73,17 @@ public class MainAppController {
         secretCodeController.setCurrSecretCodeText(text);
     }
 
-    public void makeSecretCodeCreationTADisabled(){
-        createSecretCodeController.unableTA();
-    }
+    public TabPane getTabControl(){return tabControl;}
 
-    public void setSecretCodeInstructionsTxt(){
-        createSecretCodeController.setInstructionsLBLS();
-    }
+
+
+   // public void makeSecretCodeCreationTADisabled(){
+     //   createSecretCodeController.unableTA();
+   // }
+
+    //public void setSecretCodeInstructionsTxt(){
+//        createSecretCodeController.setInstructionsLBLS();
+//    }
 
     public void setCurrMachineTxt(){
         machineDetailsController.setMachineDetailsLBL();
@@ -78,5 +95,5 @@ public class MainAppController {
         alert.setContentText(message);
         alert.showAndWait();
     }
-}
 
+}
