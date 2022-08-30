@@ -18,8 +18,7 @@ public class CreateSecretCodeController {
     @FXML
     private CheckBox enableAutomationCheckBox;
 
-    @FXML
-    private Label rotorIdInstructionsLBL;
+    @FXML private Label rotorIdInstructionsLBL;
     @FXML private Label rotorsPositionLBL;
     @FXML private Label reflectorIdLBL;
     @FXML private Label plugsIdLBL;
@@ -51,6 +50,7 @@ public class CreateSecretCodeController {
             plugsTA.setDisable(false);
         }
     }
+
     @FXML void setSecretCodeFromUser(ActionEvent event) { validateSecretCodeFromUser();}
 
     private void validateSecretCodeFromUser(){

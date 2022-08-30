@@ -75,16 +75,6 @@ public class MainScreenController {
 
     public TabPane getTabControl(){return tabControl;}
 
-
-
-   // public void makeSecretCodeCreationTADisabled(){
-     //   createSecretCodeController.unableTA();
-   // }
-
-    //public void setSecretCodeInstructionsTxt(){
-//        createSecretCodeController.setInstructionsLBLS();
-//    }
-
     public void setCurrMachineTxt(){
         machineDetailsController.setMachineDetailsLBL();
     }
