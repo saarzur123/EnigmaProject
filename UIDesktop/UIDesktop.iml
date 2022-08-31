@@ -7,7 +7,6 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="module" module-name="EnigmaEngine" />
     <orderEntry type="module" module-name="EnigmaMachine" />
     <orderEntry type="module" module-name="Engine" />
     <orderEntry type="library" name="controlsfx-8.40.14" level="project" />
