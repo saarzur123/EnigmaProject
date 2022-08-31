@@ -8,17 +8,12 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
-import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-import subComponent.main.app.MainAppController;
 import subComponent.main.app.MainScreenController;
 import subComponent.main.create.secret.code.UserSecretCodeController;
-import subComponent.main.main;
 import subComponent.main.set.secret.code.automaticlly.AutomaticSecretCodeController;
-import sun.applet.Main;
 
 import java.io.IOException;
 import java.net.URL;
@@ -59,8 +54,15 @@ public class CreateNewSecretCodeController {
         stage.setScene(new Scene(root1));
         userSecretCodeController = fxmlLoader.getController();
         userSecretCodeController.setNewSecretCodeController(this);
-        userSecretCodeController.updatePlugsInstructionsLBL();
+        setUserSecretCodeController();
         stage.showAndWait();
+    }
+
+    private void setUserSecretCodeController(){
+        userSecretCodeController.setMachine(mainController.getEngine().getMachine());
+        userSecretCodeController.updatePlugsInstructionsLBL();
+        userSecretCodeController.createRotorComponents();
+        userSecretCodeController.setReflectorIdSMB();
     }
 }
 

@@ -2,25 +2,35 @@ package subComponent.main.create.secret.code;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.control.*;
 import javafx.scene.layout.FlowPane;
 import machine.MachineImplement;
 import secret.code.validation.SecretCodeValidations;
+import subComponent.main.app.MainAppController;
+import subComponent.main.create.secret.code.component.rotor.RotorComponentController;
 import subComponent.main.create.secret.codes.CreateNewSecretCodeController;
+
+import java.io.IOException;
+import java.net.URL;
+import java.util.*;
 
 public class UserSecretCodeController {
 
     @FXML    private FlowPane rotorComponentFlowPane;
-
     @FXML    private Label plugsInstructionsLBL;
-
+    @FXML    private Button rotorIdAndPositionSubmitBTN;
+    @FXML    private Button reflectorIdSubmitBTN;
     @FXML    private Button helpIdAndPositionBTN;
     @FXML    private Button helpReflectorBTN;
     @FXML    private Button helpPlugsBTN;
+    @FXML    private SplitMenuButton reflectorIdSMB;
     private CreateNewSecretCodeController createNewSecretCodeController;
+    private Map<Integer,RotorComponentController> numberFromRightToRotorComponentController = new HashMap<>();
     private MachineImplement machine;
+
+
 
 
     @FXML
@@ -30,6 +40,10 @@ public class UserSecretCodeController {
 
     public void setNewSecretCodeController(CreateNewSecretCodeController createNewSecretCodeController){
         this.createNewSecretCodeController = createNewSecretCodeController;
+    }
+
+    public MachineImplement getMachine(){
+        return machine;
     }
 
     @FXML
@@ -68,8 +82,11 @@ public class UserSecretCodeController {
         showInformationPopup(instructions.toString());
     }
 
+    public void setMachine(MachineImplement machine){
+        this.machine = machine;
+    }
     public void updatePlugsInstructionsLBL(){
-        String msg = String.format( "%s [%s]",plugsInstructionsLBL.getText(),createNewSecretCodeController.getMainController().getEngine().getMachine().getABC());
+        String msg = String.format( "%s [%s]",plugsInstructionsLBL.getText(),machine.getABC());
         plugsInstructionsLBL.setText(msg);
     }
 
@@ -79,6 +96,65 @@ public class UserSecretCodeController {
         alert.setHeaderText("Get some information :");
         alert.setContentText(msg);
         alert.showAndWait();
+    }
+
+    private void createRotorComponent(int rotorNumberFromRight){
+        try {
+            FXMLLoader loader = new FXMLLoader();
+            URL url = getClass().getResource("/subComponent/main/create/secret/code/component/rotor/rotorComponent.fxml");//
+            loader.setLocation(url);
+            Node singleRotorComponent = loader.load();
+            RotorComponentController rotorComponentController = loader.getController();
+            rotorComponentController.setUserSecretCodeController(this);
+            rotorComponentController.setAllData(rotorNumberFromRight);
+            rotorComponentFlowPane.getChildren().add(singleRotorComponent);
+            numberFromRightToRotorComponentController.put(rotorNumberFromRight,rotorComponentController);
+        }catch (IOException e){
+
+        }
+    }
+
+    public void createRotorComponents(){
+        int inUseRotors = createNewSecretCodeController.getMainController().getEngine().getMachine().getInUseRotorNumber();
+
+        for (int i = 0; i < inUseRotors; i++) {
+            createRotorComponent(i+1);
+        }
+    }
+
+    public void setReflectorIdSMB(){
+        int size = machine.getAvailableReflectors().size();
+        for (int i = 1; i <= size; i++) {
+            String id = SecretCodeValidations.chosenReflector(i);
+            MenuItem character = new MenuItem(id);
+            reflectorIdSMB.getItems().add(character);
+        }
+    }
+
+    @FXML
+    void reflectorIdSubmitAction(ActionEvent event) {
+
+    }
+
+    @FXML
+    void rotorIdAndPositionSubmitAction(ActionEvent event) {
+        LinkedList<Integer> rotorsId = new LinkedList<>();
+        int size = numberFromRightToRotorComponentController.size();
+        for (int i = 0; i < size; i++) {
+            int idToAdd = numberFromRightToRotorComponentController.get(i+1).getIdChosen().get();
+            rotorsId.add(idToAdd);
+        }
+        validateRotorsId(rotorsId);
+    }
+
+    private void validateRotorsId(LinkedList<Integer> rotorsId){
+        StringBuilder errorMsg = new StringBuilder();
+        boolean isValid = true;
+        errorMsg.append("Invalid rotors Id's entered from following reasons:"+System.lineSeparator());
+        isValid = isValid && SecretCodeValidations.rotorIdByOrderValidator(rotorsId,machine.getAvailableRotors().size(),machine.getInUseRotorNumber(),errorMsg);
+        if(!isValid){
+            MainAppController.showErrorPopup(errorMsg.toString());
+        }
     }
 
 }
