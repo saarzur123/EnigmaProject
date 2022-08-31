@@ -34,10 +34,6 @@ public class SecretCode {
     public List<Rotor> getInUseRotors(){return rotorsInUse; }
     public PlugBoard getPlugBoard() {return plugBoard;}
     public Reflector getInUseReflector(){return reflectorInUse;}
-    public String getRotorsByOrderFromRight(){return rotorsByOrder;}
-    public String getRotorsStartPositionFromRight(){return rotorsStartPosition;}
-    public String getReflectorInUseRoman(){return currReflectorRoman;}
-    public String getPlugs(){return plugs;}
     public String getSecretCodeCombination(){return secretCodeCombination;}
 
     @Override

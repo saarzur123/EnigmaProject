@@ -5,39 +5,50 @@
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.layout.ColumnConstraints?>
-<?import javafx.scene.layout.GridPane?>
-<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.FlowPane?>
+<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="270.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="subComponent.main.machine.detail.MachineDetailsController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="300.0" prefWidth="1012.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="subComponent.main.machine.detail.MachineDetailsController">
    <center>
-      <GridPane BorderPane.alignment="CENTER">
-        <columnConstraints>
-          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-        </columnConstraints>
-        <rowConstraints>
-          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-        </rowConstraints>
+      <FlowPane prefHeight="300.0" prefWidth="1000.0" BorderPane.alignment="CENTER">
          <children>
-            <ScrollPane prefHeight="489.0" prefWidth="241.0">
-               <content>
-                  <AnchorPane prefHeight="425.0" prefWidth="232.0">
+            <ScrollPane prefHeight="305.0" prefWidth="1012.0">
+              <content>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="306.0" prefWidth="1009.0">
                      <children>
-                        <Label fx:id="machineDetailsLBL" layoutY="2.0" lineSpacing="1.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="698.0" prefWidth="714.0" text="Machine Details :" wrapText="true">
-                           <font>
-                              <Font size="16.0" />
-                           </font>
+                        <VBox alignment="CENTER" prefHeight="313.0" prefWidth="1006.0" spacing="10.0">
+                           <children>
+                              <Label text="Machine Details">
+                                 <font>
+                                    <Font name="Berlin Sans FB" size="30.0" />
+                                 </font>
+                              </Label>
+                              <FlowPane prefHeight="300.0" prefWidth="995.0">
+                                 <children>
+                                    <Label fx:id="machineDetailsLBL" prefHeight="303.0" prefWidth="995.0">
+                                       <opaqueInsets>
+                                          <Insets />
+                                       </opaqueInsets>
+                                       <padding>
+                                          <Insets bottom="200.0" left="20.0" />
+                                       </padding>
+                                       <font>
+                                          <Font name="Berlin Sans FB" size="18.0" />
+                                       </font>
+                                    </Label>
+                                 </children>
+                              </FlowPane>
+                           </children>
                            <padding>
-                              <Insets bottom="470.0" left="5.0" />
+                              <Insets top="20.0" />
                            </padding>
-                        </Label>
+                        </VBox>
                      </children>
                   </AnchorPane>
-               </content>
+              </content>
             </ScrollPane>
          </children>
-      </GridPane>
+      </FlowPane>
    </center>
 </BorderPane>
