@@ -7,6 +7,8 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.layout.FlowPane;
+import javafx.scene.layout.HBox;
+import javafx.stage.Stage;
 import machine.MachineImplement;
 import secret.code.validation.SecretCodeValidations;
 import subComponent.main.app.MainAppController;
@@ -20,11 +22,11 @@ import java.util.*;
 
 public class UserSecretCodeController {
 
-    @FXML    private FlowPane rotorComponentFlowPane;
-    @FXML    private FlowPane plugBoardFlowPane;
+    //@FXML    private HBox rotorComponentHB;
+    @FXML    private FlowPane rotorComponentFP;
+    @FXML    private FlowPane PlugBoardFlowPane;
     @FXML    private Label plugsInstructionsLBL;
     @FXML    private ComboBox<String> reflectorIdCB;
-    private PlugBoardController plugBoardController;
     private CreateNewSecretCodeController createNewSecretCodeController;
     private Map<Integer,RotorComponentController> numberFromRightToRotorComponentController = new HashMap<>();
     DTOSecretCodeFromUser userDto = new DTOSecretCodeFromUser();
@@ -45,9 +47,9 @@ public class UserSecretCodeController {
             URL url = getClass().getResource("/subComponent/main/create/secret/code/plug/board/PlugBoard.fxml");//
             loader.setLocation(url);
             Node plugBoardComponent = loader.load();
-            plugBoardController = loader.getController();
+            PlugBoardController plugBoardController = loader.getController();
             plugBoardController.setUserSecretCodeController(this);
-            plugBoardFlowPane.getChildren().add(plugBoardComponent);
+            PlugBoardFlowPane.getChildren().add(plugBoardComponent);
             plugBoardController.createCharPlugBoardComponents();
         }
                 catch (IOException e){
@@ -124,7 +126,7 @@ public class UserSecretCodeController {
             RotorComponentController rotorComponentController = loader.getController();
             rotorComponentController.setUserSecretCodeController(this);
             rotorComponentController.setAllData(rotorNumberFromRight);
-            rotorComponentFlowPane.getChildren().add(singleRotorComponent);
+            rotorComponentFP.getChildren().add(singleRotorComponent);
             numberFromRightToRotorComponentController.put(rotorNumberFromRight,rotorComponentController);
         }catch (IOException e){
 
@@ -136,8 +138,8 @@ public class UserSecretCodeController {
     public void createRotorComponents(){
         int inUseRotors = createNewSecretCodeController.getMainController().getEngine().getMachine().getInUseRotorNumber();
 
-        for (int i = 0; i < inUseRotors; i++) {
-            createRotorComponent(i+1);
+        for (int i = inUseRotors; i > 0; i--) {
+            createRotorComponent(i);
         }
     }
 
@@ -148,49 +150,42 @@ public class UserSecretCodeController {
             reflectorIdCB.getItems().add(id);
         }
     }
-    @FXML
-    void reflectorIdSelectionAction(ActionEvent event) {
-        userDto.getReflectorIdChosen().add(chosenReflector(reflectorIdCB.getValue()));
-    }
 
     @FXML
     void reflectorIdSubmitAction(ActionEvent event) {
         if(reflectorIdCB.getValue() != null) {
-            userDto.getReflectorIdChosen().add(chosenReflector(reflectorIdCB.getValue()));
-//            createNewSecretCodeController.getMainController().getEngineCommand().getSecretCodeFromUser(userDto,false);
-//            createNewSecretCodeController.getMainController().setLBLToCodeCombinationBindingMain();
-        }else MainAppController.showErrorPopup("Please select reflector id.");
+            userDto.getReflectorIdChosen().add(chosenReflector(reflectorIdCB.getValue()));//TODO
+         }else MainAppController.showErrorPopup("Please select reflector id.");
     }
 
     @FXML
     void rotorIdAndPositionSubmitAction(ActionEvent event) {
         int size = numberFromRightToRotorComponentController.size();
+        StringBuilder errorMsg = new StringBuilder();
         String strPos = "";
         for (int i = 0; i < size; i++) {
-            if( numberFromRightToRotorComponentController.get(i+1).getIdChosen() == null){
-                MainAppController.showErrorPopup(String.format("Please select id to rotor %d from right",i+1));
+            if( numberFromRightToRotorComponentController.get(i+1).getChooseIdCB().getValue() == null){
+               errorMsg.append(String.format("Please select id to rotor %d from right"+System.lineSeparator(),i+1));
             } else{
                 int idToAdd = numberFromRightToRotorComponentController.get(i+1).getIdChosen().get();
                 userDto.getRotorsIdPositions().add(idToAdd);
             }
             if(numberFromRightToRotorComponentController.get(i+1).getStartPosition().get() == null){
-                MainAppController.showErrorPopup(String.format("Please select start position to rotor %d from right",i+1));
+                errorMsg.append(String.format("Please select start position to rotor %d from right"+System.lineSeparator(),i+1));
             }else{
                 strPos+= numberFromRightToRotorComponentController.get(i+1).getStartPosition().get();
                 userDto.getRotorsStartPosition().add(strPos.charAt(i));
             }
         }
-        validateRotorsId(rotorsId);
+
+        validateRotorsId(errorMsg);
     }
 
-    private void validateRotorsId(LinkedList<Integer> rotorsId){
-        StringBuilder errorMsg = new StringBuilder();
-        boolean isValid = true;
-        errorMsg.append("Invalid rotors Id's entered from following reasons:"+System.lineSeparator());
-        isValid = isValid && SecretCodeValidations.rotorIdByOrderValidator(rotorsId,machine.getAvailableRotors().size(),machine.getInUseRotorNumber(),errorMsg);
-        if(!isValid){
+    private void validateRotorsId(StringBuilder errorMsg){
+        if(errorMsg.length() != 0) {
             MainAppController.showErrorPopup(errorMsg.toString());
-            rotorsId.clear();
+            if(userDto.getRotorsIdPositions().size() != machine.getInUseRotorNumber()) userDto.getRotorsIdPositions().clear();
+            if(userDto.getRotorsStartPosition().size() != machine.getInUseRotorNumber()) userDto.getRotorsStartPosition().clear();
         }
     }
 
@@ -223,6 +218,20 @@ public class UserSecretCodeController {
 
         return romanMap.get(userReflectorChoice);
     }
+
+    @FXML
+    void userDoneSubmittionAction(ActionEvent event) {
+        final int NO_VALUE = 0;
+        boolean allFieldsComplete = userDto.getRotorsIdPositions().size() != NO_VALUE && userDto.getRotorsStartPosition().size() != NO_VALUE &&
+                userDto.getReflectorIdChosen().size() != NO_VALUE;
+        if(allFieldsComplete){
+            createNewSecretCodeController.getMainController().getEngineCommand().getSecretCodeFromUser(userDto,false);
+            createNewSecretCodeController.getMainController().setLBLToCodeCombinationBindingMain();
+            Stage stage = (Stage) reflectorIdCB.getScene().getWindow();
+            stage.close();
+        }
+    }
+
 
 
 
