@@ -1,9 +1,7 @@
 package subComponent.main.secretCode;
 
 import javafx.beans.binding.Bindings;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
-import subComponent.main.app.MainAppController;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import subComponent.main.app.MainScreenController;
@@ -15,7 +13,7 @@ public class SecretCodeController {
 
     private MainScreenController mainController;
 
-
+    private SimpleBooleanProperty noSecretCode = new SimpleBooleanProperty(true);
     @FXML private Label showSecretCodeLBL;
 
     public void resetShowSecretCodeLBL(){showSecretCodeLBL.setText("");}
@@ -27,13 +25,10 @@ public class SecretCodeController {
         );
     }
 
+    public SimpleBooleanProperty getIsSecretCodeExist(){return noSecretCode;}
 
     public void setMainController(MainScreenController controller){
         mainController = controller;
     }
 
-    public void setCurrSecretCodeText(String text){
-        String msg = "Current secret code in machine is:"+System.lineSeparator()+mainController.getEngine().getSecretCode().getSecretCodeCombination();
-        showSecretCodeLBL.setText(msg);
-    }
 }

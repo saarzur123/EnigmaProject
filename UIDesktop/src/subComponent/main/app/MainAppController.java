@@ -56,9 +56,6 @@ public class MainAppController {
     public Commander getEngineCommand(){return engineCommands;}
     public Engine getEngine(){return engine;}
 
-    public void setSecretCodeTxt(String text){
-        secretCodeController.setCurrSecretCodeText(text);
-    }
 
     public void makeSecretCodeCreationTADisabled(){
         createSecretCodeController.unableTA();

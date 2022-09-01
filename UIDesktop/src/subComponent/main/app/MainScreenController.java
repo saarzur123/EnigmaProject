@@ -50,10 +50,9 @@ public class MainScreenController {
             loadFXMLController.setMainController(this);
             machineDetailsController.setMainController(this);
             secretCodeController.setMainController(this);
-
-
             loadFXMLController.getIsValidMachine().setValue(true);
             tabControl.disableProperty().bind(loadFXMLController.getIsValidMachine());
+            tabControl.getTabs().get(1).disableProperty().bind(secretCodeController.getIsSecretCodeExist());
         }
     }
 
@@ -62,6 +61,11 @@ public class MainScreenController {
         secretCodeController.setLBLToCodeCombinationBinding();
     }
 
+    public void setSecretCodeState(boolean secretCodeState){
+        secretCodeController.getIsSecretCodeExist().setValue(secretCodeState);
+    }
+
+
     public void resetShowSecretCode(){
         secretCodeController.resetShowSecretCodeLBL();
     }
@@ -69,9 +73,6 @@ public class MainScreenController {
     public Commander getEngineCommand(){return engineCommands;}
     public Engine getEngine(){return engine;}
 
-    public void setSecretCodeTxt(String text){
-        secretCodeController.setCurrSecretCodeText(text);
-    }
 
     public TabPane getTabControl(){return tabControl;}
 

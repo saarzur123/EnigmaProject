@@ -16,6 +16,7 @@ public class AutomaticSecretCodeController {
     void setAutomationCodeAction(ActionEvent event) {
             createNewSecretCodeController.getMainController().getEngineCommand().getRandomSecretCode();
             createNewSecretCodeController.getMainController().setLBLToCodeCombinationBindingMain();
+            createNewSecretCodeController.getMainController().setSecretCodeState(false);
     }
 
     public void setCreateNewSecretCodeController(CreateNewSecretCodeController createNewSecretCodeController){

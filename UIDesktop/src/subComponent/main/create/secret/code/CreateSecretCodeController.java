@@ -41,7 +41,7 @@ public class CreateSecretCodeController {
             reflectorsTA.setDisable(true);
             plugsTA.setDisable(true);
             mainController.getEngineCommand().getRandomSecretCode();
-            mainController.setSecretCodeTxt(mainController.getEngine().getSecretCode().getSecretCodeCombination());
+           // mainController.setSecretCodeTxt(mainController.getEngine().getSecretCode().getSecretCodeCombination());
         }
         else{
             rotorsIdTA.setDisable(false);
@@ -65,7 +65,7 @@ public class CreateSecretCodeController {
             MainAppController.showErrorPopup(errorMsg.toString());
         } else{
             mainController.getEngineCommand().getSecretCodeFromUser(userDto,false);
-            mainController.setSecretCodeTxt(mainController.getEngine().getSecretCode().getSecretCodeCombination());
+           // mainController.setSecretCodeTxt(mainController.getEngine().getSecretCode().getSecretCodeCombination());
         }
     }
     private boolean getAndValidateRotorsId(LinkedList<Integer> rotorsId, StringBuilder errorMsg){

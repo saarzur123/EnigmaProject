@@ -226,6 +226,7 @@ public class UserSecretCodeController {
         if(allFieldsComplete){
             createNewSecretCodeController.getMainController().getEngineCommand().getSecretCodeFromUser(userDto,false);
             createNewSecretCodeController.getMainController().setLBLToCodeCombinationBindingMain();
+            createNewSecretCodeController.getMainController().setSecretCodeState(false);
             Stage stage = (Stage) reflectorIdCB.getScene().getWindow();
             stage.close();
         }
