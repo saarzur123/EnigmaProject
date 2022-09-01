@@ -62,7 +62,7 @@ public class CreateNewSecretCodeController {
         userSecretCodeController.setMachine(mainController.getEngine().getMachine());
         userSecretCodeController.updatePlugsInstructionsLBL();
         userSecretCodeController.createRotorComponents();
-        userSecretCodeController.setReflectorIdSMB();
+        userSecretCodeController.setReflectorIdCB();
     }
 }
 

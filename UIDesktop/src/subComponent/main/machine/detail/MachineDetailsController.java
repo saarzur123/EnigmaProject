@@ -18,7 +18,7 @@ public class MachineDetailsController {
 
     public void setMachineDetailsLBL(){
         DTOMachineDetails dtoMachineDetails = mainController.getEngine().getMachineDetailsPresenter().createCurrMachineDetails();
-        String machineDetails = String.format(mainController.getEngineCommand().showLastMachineDetails(dtoMachineDetails));
+        String machineDetails = String.format("hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh %s",mainController.getEngineCommand().showLastMachineDetails(dtoMachineDetails));
         machineDetailsLBL.setText(machineDetails);
     }
 }

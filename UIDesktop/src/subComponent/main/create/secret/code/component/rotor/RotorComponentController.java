@@ -4,23 +4,25 @@ import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.SplitMenuButton;
 import machine.MachineImplement;
 import subComponent.main.create.secret.code.UserSecretCodeController;
 
+import java.util.LinkedList;
 import java.util.List;
 
 public class RotorComponentController {
 
     @FXML private Label rotorFromRightLBL;
-    @FXML private SplitMenuButton chooseIdSMB;
-    @FXML private SplitMenuButton chooseStartPosSMB;
+    @FXML    private ComboBox<Integer> chooseIdCB;
+    @FXML    private ComboBox<Character> chooseStartPosCB;
     private UserSecretCodeController userSecretCodeController;
 
-    private SimpleIntegerProperty idChosen;
-    private SimpleStringProperty startPosition;
+    private SimpleIntegerProperty idChosen = new SimpleIntegerProperty();
+    private SimpleStringProperty startPosition = new SimpleStringProperty();
     private SimpleIntegerProperty numberFromRight;
 
     public void setUserSecretCodeController(UserSecretCodeController userSecretCodeController){
@@ -40,31 +42,34 @@ public class RotorComponentController {
 
     private void setChooseIdSMB(int size){
         for (int i = 0; i < size; i++) {
-            MenuItem id = new MenuItem(String.valueOf(i+1));
-            chooseIdSMB.getItems().add(id);
+            chooseIdCB.getItems().add(i+1);
         }
     }
 
     private void setChooseStartPosSMB(String language){
         int size = language.length();
         for (int i = 0; i < size; i++){
-            MenuItem character = new MenuItem(String.valueOf(language.charAt(i)));
-            chooseStartPosSMB.getItems().add(character);
+            chooseStartPosCB.getItems().add(language.charAt(i));
         }
     }
 
     @FXML
     void idOptionSelectionAction(ActionEvent event) {
-        idChosen.set(Integer.valueOf(chooseIdSMB.getText()));
+        if(idChosen.get() != 0) {
+            userSecretCodeController.addChosenOptionInOtherRotors(this);
+        }
+        idChosen.set(chooseIdCB.getValue());
+        userSecretCodeController.removeChosenOptionInOtherRotors(this);
     }
 
     @FXML
     void positionOptionSelectionAction(ActionEvent event) {
-        startPosition.set(chooseStartPosSMB.getText());
+        startPosition.set(String.valueOf(chooseStartPosCB.getValue()));
     }
 
     public SimpleStringProperty getStartPosition(){return startPosition;}
     public SimpleIntegerProperty getIdChosen(){return idChosen;}
+    public ComboBox<Integer> getChooseIdCB(){return chooseIdCB;}
 
 }
 

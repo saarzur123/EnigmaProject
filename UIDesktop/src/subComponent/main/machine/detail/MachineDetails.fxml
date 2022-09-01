@@ -26,7 +26,7 @@
                               </Label>
                               <FlowPane prefHeight="300.0" prefWidth="995.0">
                                  <children>
-                                    <Label fx:id="machineDetailsLBL" prefHeight="303.0" prefWidth="995.0">
+                                    <Label fx:id="machineDetailsLBL" maxHeight="300.0" maxWidth="200.0" minWidth="200.0" prefHeight="300.0" prefWidth="200.0">
                                        <opaqueInsets>
                                           <Insets />
                                        </opaqueInsets>
