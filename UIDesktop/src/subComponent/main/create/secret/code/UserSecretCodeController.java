@@ -10,6 +10,7 @@ import machine.MachineImplement;
 import secret.code.validation.SecretCodeValidations;
 import subComponent.main.app.MainAppController;
 import subComponent.main.create.secret.code.component.rotor.RotorComponentController;
+import subComponent.main.create.secret.code.plug.board.PlugBoardController;
 import subComponent.main.create.secret.codes.CreateNewSecretCodeController;
 
 import java.io.IOException;
@@ -19,6 +20,7 @@ import java.util.*;
 public class UserSecretCodeController {
 
     @FXML    private FlowPane rotorComponentFlowPane;
+    @FXML    private FlowPane PlugBoardFlowPane;
     @FXML    private Label plugsInstructionsLBL;
     @FXML    private Button rotorIdAndPositionSubmitBTN;
     @FXML    private Button reflectorIdSubmitBTN;
@@ -30,12 +32,29 @@ public class UserSecretCodeController {
     private Map<Integer,RotorComponentController> numberFromRightToRotorComponentController = new HashMap<>();
     private MachineImplement machine;
 
+    private PlugBoardController plugBoardController;
 
 
 
     @FXML
     void userSecretCodeSubmitAction(ActionEvent event) {
 
+    }
+
+    public void createPlugBoardController(){
+        try {
+            FXMLLoader loader = new FXMLLoader();
+            URL url = getClass().getResource("/subComponent/main/create/secret/code/plug/board/PlugBoard.fxml");//
+            loader.setLocation(url);
+            Node plugBoardComponent = loader.load();
+
+            plugBoardController = loader.getController();
+            PlugBoardFlowPane.getChildren().add(plugBoardComponent);
+//            plugBoardController.createCharPlugBoardComponents();
+        }
+                catch (IOException e){
+
+        }
     }
 
     public void setNewSecretCodeController(CreateNewSecretCodeController createNewSecretCodeController){
@@ -113,6 +132,8 @@ public class UserSecretCodeController {
 
         }
     }
+
+
 
     public void createRotorComponents(){
         int inUseRotors = createNewSecretCodeController.getMainController().getEngine().getMachine().getInUseRotorNumber();

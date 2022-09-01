@@ -63,6 +63,7 @@ public class CreateNewSecretCodeController {
         userSecretCodeController.updatePlugsInstructionsLBL();
         userSecretCodeController.createRotorComponents();
         userSecretCodeController.setReflectorIdSMB();
+        userSecretCodeController.createPlugBoardController();
     }
 }
 
