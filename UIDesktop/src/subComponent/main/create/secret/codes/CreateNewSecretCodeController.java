@@ -58,6 +58,7 @@ public class CreateNewSecretCodeController {
         stage.showAndWait();
     }
 
+    //TODO create plug board keyboard
     private void setUserSecretCodeController(){
         userSecretCodeController.setMachine(mainController.getEngine().getMachine());
         userSecretCodeController.updatePlugsInstructionsLBL();
