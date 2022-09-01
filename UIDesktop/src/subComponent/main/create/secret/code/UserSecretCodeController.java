@@ -1,5 +1,6 @@
 package subComponent.main.create.secret.code;
 
+import dTOUI.DTOSecretCodeFromUser;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -22,19 +23,16 @@ public class UserSecretCodeController {
     @FXML    private FlowPane rotorComponentFlowPane;
     @FXML    private FlowPane PlugBoardFlowPane;
     @FXML    private Label plugsInstructionsLBL;
-    @FXML    private Button rotorIdAndPositionSubmitBTN;
-    @FXML    private Button reflectorIdSubmitBTN;
-    @FXML    private Button helpIdAndPositionBTN;
-    @FXML    private Button helpReflectorBTN;
-    @FXML    private Button helpPlugsBTN;
-    @FXML    private SplitMenuButton reflectorIdSMB;
+    @FXML    private ComboBox<String> reflectorIdCB;
     private CreateNewSecretCodeController createNewSecretCodeController;
     private Map<Integer,RotorComponentController> numberFromRightToRotorComponentController = new HashMap<>();
-    private MachineImplement machine;
+    DTOSecretCodeFromUser userDto = new DTOSecretCodeFromUser();
+    LinkedList<Integer> rotorsId = new LinkedList<>();
 
     private PlugBoardController plugBoardController;
 
 
+    private MachineImplement machine;
 
     @FXML
     void userSecretCodeSubmitAction(ActionEvent event) {
@@ -143,27 +141,44 @@ public class UserSecretCodeController {
         }
     }
 
-    public void setReflectorIdSMB(){
+    public void setReflectorIdCB(){
         int size = machine.getAvailableReflectors().size();
         for (int i = 1; i <= size; i++) {
             String id = SecretCodeValidations.chosenReflector(i);
-            MenuItem character = new MenuItem(id);
-            reflectorIdSMB.getItems().add(character);
+            reflectorIdCB.getItems().add(id);
         }
+    }
+    @FXML
+    void reflectorIdSelectionAction(ActionEvent event) {
+        userDto.getReflectorIdChosen().add(chosenReflector(reflectorIdCB.getValue()));
     }
 
     @FXML
     void reflectorIdSubmitAction(ActionEvent event) {
-
+        if(reflectorIdCB.getValue() != null) {
+            userDto.getReflectorIdChosen().add(chosenReflector(reflectorIdCB.getValue()));
+//            createNewSecretCodeController.getMainController().getEngineCommand().getSecretCodeFromUser(userDto,false);
+//            createNewSecretCodeController.getMainController().setLBLToCodeCombinationBindingMain();
+        }else MainAppController.showErrorPopup("Please select reflector id.");
     }
 
     @FXML
     void rotorIdAndPositionSubmitAction(ActionEvent event) {
-        LinkedList<Integer> rotorsId = new LinkedList<>();
         int size = numberFromRightToRotorComponentController.size();
+        String strPos = "";
         for (int i = 0; i < size; i++) {
-            int idToAdd = numberFromRightToRotorComponentController.get(i+1).getIdChosen().get();
-            rotorsId.add(idToAdd);
+            if( numberFromRightToRotorComponentController.get(i+1).getIdChosen() == null){
+                MainAppController.showErrorPopup(String.format("Please select id to rotor %d from right",i+1));
+            } else{
+                int idToAdd = numberFromRightToRotorComponentController.get(i+1).getIdChosen().get();
+                userDto.getRotorsIdPositions().add(idToAdd);
+            }
+            if(numberFromRightToRotorComponentController.get(i+1).getStartPosition().get() == null){
+                MainAppController.showErrorPopup(String.format("Please select start position to rotor %d from right",i+1));
+            }else{
+                strPos+= numberFromRightToRotorComponentController.get(i+1).getStartPosition().get();
+                userDto.getRotorsStartPosition().add(strPos.charAt(i));
+            }
         }
         validateRotorsId(rotorsId);
     }
@@ -175,8 +190,41 @@ public class UserSecretCodeController {
         isValid = isValid && SecretCodeValidations.rotorIdByOrderValidator(rotorsId,machine.getAvailableRotors().size(),machine.getInUseRotorNumber(),errorMsg);
         if(!isValid){
             MainAppController.showErrorPopup(errorMsg.toString());
+            rotorsId.clear();
         }
     }
+
+    public void removeChosenOptionInOtherRotors(RotorComponentController rotorComponentController){
+        for(RotorComponentController controller : numberFromRightToRotorComponentController.values()) {
+            if (controller != rotorComponentController) {
+                int obj = rotorComponentController.getIdChosen().get();
+                int index = controller.getChooseIdCB().getItems().indexOf(obj);
+                controller.getChooseIdCB().getItems().remove(index);
+            }
+        }
+    }
+
+    public void addChosenOptionInOtherRotors(RotorComponentController rotorComponentController){
+        for(RotorComponentController controller : numberFromRightToRotorComponentController.values()){
+            if(controller != rotorComponentController){
+                int val = rotorComponentController.getIdChosen().get();
+                controller.getChooseIdCB().getItems().add(val);
+            }
+        }
+    }
+
+    public static int chosenReflector(String userReflectorChoice){
+        Map<String,Integer> romanMap = new HashMap<>();
+        romanMap.put("I",1);
+        romanMap.put("II",2);
+        romanMap.put("III",3);
+        romanMap.put("IV",4);
+        romanMap.put("V",5);
+
+        return romanMap.get(userReflectorChoice);
+    }
+
+
 
 }
 
