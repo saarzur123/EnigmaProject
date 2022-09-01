@@ -29,7 +29,6 @@ public class UserSecretCodeController {
     DTOSecretCodeFromUser userDto = new DTOSecretCodeFromUser();
     LinkedList<Integer> rotorsId = new LinkedList<>();
 
-    private PlugBoardController plugBoardController;
 
 
     private MachineImplement machine;
@@ -45,10 +44,10 @@ public class UserSecretCodeController {
             URL url = getClass().getResource("/subComponent/main/create/secret/code/plug/board/PlugBoard.fxml");//
             loader.setLocation(url);
             Node plugBoardComponent = loader.load();
-
-            plugBoardController = loader.getController();
+            PlugBoardController plugBoardController = loader.getController();
+            plugBoardController.setUserSecretCodeController(this);
             PlugBoardFlowPane.getChildren().add(plugBoardComponent);
-//            plugBoardController.createCharPlugBoardComponents();
+            plugBoardController.createCharPlugBoardComponents();
         }
                 catch (IOException e){
 

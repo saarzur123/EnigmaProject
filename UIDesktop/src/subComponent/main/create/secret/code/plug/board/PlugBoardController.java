@@ -21,10 +21,14 @@ public class PlugBoardController {
     private UserSecretCodeController userSecretCodeController;
     @FXML
     private FlowPane PlugBoardFlowPane;
+
+    public void setUserSecretCodeController(UserSecretCodeController userSecretCodeController){
+        this.userSecretCodeController = userSecretCodeController;
+    }
     private void createPlugBoardKeyBoard(Character character){
         try {
             FXMLLoader loader = new FXMLLoader();
-            URL url = getClass().getResource("/subComponent/main/create/secret/code/plug/board.charComponent/CharPlugBoard.fxml");//
+            URL url = getClass().getResource("/subComponent/main/create/secret/code/plug/board/charComponent/CharPlugBoard.fxml");//
             loader.setLocation(url);
             Node singlePlugBoardComponent = loader.load();
 
