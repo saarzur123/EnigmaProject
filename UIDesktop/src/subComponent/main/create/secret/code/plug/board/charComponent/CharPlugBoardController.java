@@ -9,8 +9,7 @@ import subComponent.main.create.secret.code.plug.board.PlugBoardController;
 public class CharPlugBoardController {
 
     private PlugBoardController plugBoardController;
-    @FXML
-    private Button charBTN;
+    @FXML    private Button charBTN;
 
     public void setPlugBoardController(PlugBoardController plugBoardController){
         this.plugBoardController = plugBoardController;

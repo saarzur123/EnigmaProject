@@ -19,8 +19,7 @@ import java.util.Map;
 public class PlugBoardController {
     private Map<Character, CharPlugBoardController> PlugBoardKeyBoard = new HashMap<>();
     private UserSecretCodeController userSecretCodeController;
-    @FXML
-    private FlowPane PlugBoardFlowPane;
+    @FXML    private FlowPane PlugBoardFlowPane;
 
     public void setUserSecretCodeController(UserSecretCodeController userSecretCodeController){
         this.userSecretCodeController = userSecretCodeController;
