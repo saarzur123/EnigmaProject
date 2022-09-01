@@ -1,5 +1,6 @@
 package subComponent.main.create.secret.code.plug.board.charComponent;
 
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import machine.MachineImplement;
@@ -17,5 +18,10 @@ public class CharPlugBoardController {
 
     public void setCharLBL(Character c){
         charBTN.setText(String.valueOf(c));
+    }
+
+    @FXML
+    void onClickOneBTNinPlugBoard(ActionEvent event) {
+
     }
 }

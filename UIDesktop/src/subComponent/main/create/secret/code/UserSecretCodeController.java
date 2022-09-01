@@ -5,8 +5,11 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.control.*;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.FlowPane;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
 import machine.MachineImplement;
 import secret.code.validation.SecretCodeValidations;
@@ -41,6 +44,37 @@ public class UserSecretCodeController {
 
     }
 
+    public void makeKeyBoardPlugBoard(){
+        GridPane gridPane = new GridPane();
+        gridPane.setHgap(10);
+        gridPane.setVgap(10);
+        PlugBoardFlowPane.getChildren().add(gridPane);
+        int index = 0, n = 0;
+        int numberOfABC = machine.getABC().length();
+        for (int i = 0; i < 4; i++) {
+            for (n = 0; n < numberOfABC/4; n++) {
+                Button button = new Button();
+                button.setText(String.valueOf(machine.getABC().charAt(index)));
+                button.setPrefHeight(40);
+                button.setPrefWidth(40);
+                button.setShape(new Circle(10));
+
+                gridPane.add(button, n, i);
+                index++;
+            }
+        }
+        for (int j = 0; j < numberOfABC % 4; j++) {
+            Button button = new Button();
+            button.setText(String.valueOf(machine.getABC().charAt(index)));
+            button.setPrefHeight(40);
+            button.setPrefWidth(40);
+            button.setShape(new Circle(10));
+
+            gridPane.add(button, n+ j, 3);
+            index++;
+        }
+    }
+
     public void createPlugBoardController(){
         try {
             FXMLLoader loader = new FXMLLoader();
@@ -56,6 +90,7 @@ public class UserSecretCodeController {
 
         }
     }
+
 
     public void setNewSecretCodeController(CreateNewSecretCodeController createNewSecretCodeController){
         this.createNewSecretCodeController = createNewSecretCodeController;
