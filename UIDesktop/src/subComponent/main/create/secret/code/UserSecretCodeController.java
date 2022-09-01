@@ -21,9 +21,10 @@ import java.util.*;
 public class UserSecretCodeController {
 
     @FXML    private FlowPane rotorComponentFlowPane;
-    @FXML    private FlowPane PlugBoardFlowPane;
+    @FXML    private FlowPane plugBoardFlowPane;
     @FXML    private Label plugsInstructionsLBL;
     @FXML    private ComboBox<String> reflectorIdCB;
+    private PlugBoardController plugBoardController;
     private CreateNewSecretCodeController createNewSecretCodeController;
     private Map<Integer,RotorComponentController> numberFromRightToRotorComponentController = new HashMap<>();
     DTOSecretCodeFromUser userDto = new DTOSecretCodeFromUser();
@@ -44,9 +45,9 @@ public class UserSecretCodeController {
             URL url = getClass().getResource("/subComponent/main/create/secret/code/plug/board/PlugBoard.fxml");//
             loader.setLocation(url);
             Node plugBoardComponent = loader.load();
-            PlugBoardController plugBoardController = loader.getController();
+            plugBoardController = loader.getController();
             plugBoardController.setUserSecretCodeController(this);
-            PlugBoardFlowPane.getChildren().add(plugBoardComponent);
+            plugBoardFlowPane.getChildren().add(plugBoardComponent);
             plugBoardController.createCharPlugBoardComponents();
         }
                 catch (IOException e){
