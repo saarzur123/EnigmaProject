@@ -1,5 +1,4 @@
 package subComponent.main.create.secret.code;
-
 import dTOUI.DTOSecretCodeFromUser;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -18,6 +17,7 @@ import subComponent.main.create.secret.codes.CreateNewSecretCodeController;
 
 import java.io.IOException;
 import java.net.URL;
+
 import java.util.*;
 
 public class UserSecretCodeController {
@@ -132,7 +132,6 @@ public class UserSecretCodeController {
 
         }
     }
-
 
 
     public void createRotorComponents(){
