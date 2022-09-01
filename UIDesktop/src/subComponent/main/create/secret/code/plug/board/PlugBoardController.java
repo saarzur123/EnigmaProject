@@ -5,6 +5,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.control.MenuItem;
 import javafx.scene.layout.FlowPane;
+import javafx.scene.layout.GridPane;
 import machine.MachineImplement;
 import secret.code.validation.SecretCodeValidations;
 import subComponent.main.create.secret.code.UserSecretCodeController;
@@ -20,21 +21,23 @@ public class PlugBoardController {
     private Map<Character, CharPlugBoardController> PlugBoardKeyBoard = new HashMap<>();
     private UserSecretCodeController userSecretCodeController;
     @FXML    private FlowPane PlugBoardFlowPane;
+    @FXML private GridPane plugBoardGP;
 
     public void setUserSecretCodeController(UserSecretCodeController userSecretCodeController){
         this.userSecretCodeController = userSecretCodeController;
     }
-    private void createPlugBoardKeyBoard(Character character){
+    private void createPlugBoardKeyBoard(Character character,int i, int j){
         try {
             FXMLLoader loader = new FXMLLoader();
             URL url = getClass().getResource("/subComponent/main/create/secret/code/plug/board/charComponent/CharPlugBoard.fxml");//
             loader.setLocation(url);
             Node singlePlugBoardComponent = loader.load();
-
+            PlugBoardFlowPane.getChildren().add(singlePlugBoardComponent);
             CharPlugBoardController charPlugBoardController = loader.getController();
             charPlugBoardController.setPlugBoardController(this);
             charPlugBoardController.setCharLBL(character);
-            PlugBoardFlowPane.getChildren().add(singlePlugBoardComponent);
+            plugBoardGP.add(singlePlugBoardComponent, i , j);
+           // PlugBoardFlowPane.getChildren().add(singlePlugBoardComponent);
             PlugBoardKeyBoard.put(character, charPlugBoardController);
         }catch (IOException e){
 
@@ -50,9 +53,11 @@ public class PlugBoardController {
     public void createCharPlugBoardComponents(){
         int numberOfABC = userSecretCodeController.getMachine().getABC().length();
 
-        for (int i = 0; i < numberOfABC; i++) {
+        for (int i = 0; i < 4; i++) {
+            for (int j = 0; j < numberOfABC/4; j++) {
+                createPlugBoardKeyBoard(userSecretCodeController.getMachine().getABC().charAt(i),i, j);
+            }
 
-            createPlugBoardKeyBoard(userSecretCodeController.getMachine().getABC().charAt(i));
 
         }
     }
