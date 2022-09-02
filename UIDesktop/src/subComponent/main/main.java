@@ -14,10 +14,8 @@ import static javafx.application.Application.launch;
 
 public class main extends Application {
 
-    private static Stage mainStage;
     @Override
     public void start(Stage stage) throws Exception {
-        mainStage = stage;
         FXMLLoader fxmlLoader = new FXMLLoader();
         URL url = getClass().getResource("app/mainScreen.fxml");//
         fxmlLoader.setLocation(url);
@@ -26,13 +24,6 @@ public class main extends Application {
         stage.setScene(scene);
         stage.show();
     }
-
-    public void changeScene(String fxml) throws IOException{
-        Parent pane = FXMLLoader.load(getClass().getResource(fxml));
-        mainStage.getScene().setRoot(pane);
-    }
-
-
     public static void main(String[] args) {
         launch(args);
     }

@@ -22,7 +22,7 @@ import machine.MachineImplement;
 import secret.code.validation.SecretCodeValidations;
 import subComponent.main.app.MainAppController;
 import subComponent.main.create.secret.code.component.rotor.RotorComponentController;
-import subComponent.main.create.secret.code.plug.board.PlugBoardController;
+import subComponent.main.create.secret.code.plug.board.charComponent.CharButtonController;
 import subComponent.main.create.secret.codes.CreateNewSecretCodeController;
 
 import java.io.IOException;
@@ -51,17 +51,8 @@ public class UserSecretCodeController {
     private int plugIndex = 0;
 
     public int getPlugIndex(){return plugIndex;}
-    public void setPlugIndex(){
-        plugIndex++;
-    }
-
+    public void setPlugIndex(){ plugIndex++;}
     public StringProperty getPlugString(){return plugString;}
-
-
-    @FXML
-    void userSecretCodeSubmitAction(ActionEvent event) {
-
-    }
 
     private void createPlugBoardKeyBoard(Character character){
         try {
@@ -74,14 +65,10 @@ public class UserSecretCodeController {
             PlugBoardFlowPane.getChildren().add(singlePlugBoardComponent);
             controller.setUserSecretCodeController(this);
             keyBoard.put(character, controller);
-
-
         }catch (IOException e){
 
         }
     }
-
-
 
     @FXML
     void resetPlugStringAction(ActionEvent event) {
@@ -97,8 +84,8 @@ public class UserSecretCodeController {
         button.setPrefHeight(40);
         button.setPrefWidth(40);
         button.setShape(new Circle(10));
-
     }
+
     public void setKeyBoard(GridPane gridPane){
         int index = 0,j, n = 0, numberOfABC = machine.getABC().length();
         for (int i = 0; i < 4; i++) {
