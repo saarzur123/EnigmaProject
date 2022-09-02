@@ -4,6 +4,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.shape.Circle;
+import javafx.scene.transform.Rotate;
 import subComponent.main.decrypt.DecryptionController;
 
 public class DecryptionButtonController {
@@ -27,6 +28,7 @@ public class DecryptionButtonController {
         decryptCharBTN.setPrefHeight(40);
         decryptCharBTN.setPrefWidth(40);
         decryptCharBTN.setShape(new Circle(10));
+        decryptCharBTN.getTransforms().add(new Rotate(0, 50, 50));
     }
 
 
