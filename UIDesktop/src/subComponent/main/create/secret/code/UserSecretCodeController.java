@@ -40,12 +40,14 @@ public class UserSecretCodeController {
     @FXML private Label plugBoardLBL;
     @FXML private Button userSecretCodeDoneBTN;
     private CreateNewSecretCodeController createNewSecretCodeController;
+    private boolean submitRotor = false, submitReflector = false, submitPlugBoard = true;
     private Map<Integer,RotorComponentController> numberFromRightToRotorComponentController = new HashMap<>();
     private Map<Character, CharButtonController> keyBoard = new HashMap<>();
     private DTOSecretCodeFromUser userDto = new DTOSecretCodeFromUser();
     private LinkedList<Integer> rotorsId = new LinkedList<>();
     private StringProperty plugString = new SimpleStringProperty("");
     private BooleanProperty plugStringLenOK = new SimpleBooleanProperty(true);
+    private BooleanProperty allSubmit = new SimpleBooleanProperty(true);
 
     private MachineImplement machine;
     private int plugIndex = 0;
@@ -53,7 +55,7 @@ public class UserSecretCodeController {
     public int getPlugIndex(){return plugIndex;}
     public void setPlugIndex(){ plugIndex++;}
     public StringProperty getPlugString(){return plugString;}
-
+    public BooleanProperty getAllSubmit(){return allSubmit;}
 
     private void createPlugBoardKeyBoard(Character character){
         try {
@@ -73,6 +75,11 @@ public class UserSecretCodeController {
         }
     }
 
+    public void checkIfAllSubmit(){
+        if(submitPlugBoard && submitReflector && submitRotor)
+            allSubmit.set(false);
+        else allSubmit.set(true);
+    }
 
 
     @FXML
@@ -95,12 +102,17 @@ public class UserSecretCodeController {
         return machine;
     }
 
+    public void setSubmitPlugBoard(boolean isOK){ submitPlugBoard = isOK;}
+    public void setSubmitReflector(boolean isOK){ submitReflector = isOK;}
+    public void setSubmitRotor(boolean isOK){ submitRotor = isOK;}
+
     public void createKeyBoard(){
         int numberABC = machine.getABC().length();
         PlugBoardFlowPane.setHgap(10);
         PlugBoardFlowPane.setVgap(10);
         PlugBoardFlowPane.setPrefWidth(numberABC/4);
         userSecretCodeDoneBTN.disableProperty().bind(plugStringLenOK);
+        userSecretCodeDoneBTN.disableProperty().bind(allSubmit);
         plugBoardLBL.textProperty().bind(plugString);
         for (int i = 0; i < numberABC; i++) {
             createPlugBoardKeyBoard(machine.getABC().charAt(i));
@@ -194,31 +206,46 @@ public class UserSecretCodeController {
 
     @FXML
     void reflectorIdSubmitAction(ActionEvent event) {
+        submitReflector = true;
         if(reflectorIdCB.getValue() != null) {
+            userDto.getReflectorIdChosen().clear();
             userDto.getReflectorIdChosen().add(chosenReflector(reflectorIdCB.getValue()));//TODO
-         }else MainAppController.showErrorPopup("Please select reflector id.");
+         }else {
+            MainAppController.showErrorPopup("Please select reflector id.");
+            submitReflector = false;
+        }
+        checkIfAllSubmit();
+    }
+
+    @FXML
+    void pickReflectorAction(ActionEvent event) {
+        if(!userDto.getReflectorIdChosen().contains(reflectorIdCB.getValue())) submitReflector = false;
+        checkIfAllSubmit();
     }
 
     @FXML
     void rotorIdAndPositionSubmitAction(ActionEvent event) {
+        submitRotor = true;
         int size = numberFromRightToRotorComponentController.size();
         StringBuilder errorMsg = new StringBuilder();
         String strPos = "";
         for (int i = 0; i < size; i++) {
             if( numberFromRightToRotorComponentController.get(i+1).getChooseIdCB().getValue() == null){
                errorMsg.append(String.format("Please select id to rotor %d from right"+System.lineSeparator(),i+1));
+                submitRotor = false;
             } else{
                 int idToAdd = numberFromRightToRotorComponentController.get(i+1).getIdChosen().get();
                 userDto.getRotorsIdPositions().add(idToAdd);
             }
             if(numberFromRightToRotorComponentController.get(i+1).getStartPosition().get() == null){
                 errorMsg.append(String.format("Please select start position to rotor %d from right"+System.lineSeparator(),i+1));
+                submitRotor = false;
             }else{
                 strPos+= numberFromRightToRotorComponentController.get(i+1).getStartPosition().get();
                 userDto.getRotorsStartPosition().add(strPos.charAt(i));
             }
         }
-
+        checkIfAllSubmit();
         validateRotorsId(errorMsg);
     }
 
@@ -262,16 +289,18 @@ public class UserSecretCodeController {
 
     @FXML
     void plugSubmitAction(ActionEvent event) {
+        submitPlugBoard = true;
+        allSubmit.set(false);
         int size = plugString.get().length();
-        if(size % 2 == 0) {
-            plugStringLenOK.set(false);
+        if(size % 2 != 0) {
+            submitPlugBoard = false;
         }
         for (int i = 0; i < size / 2 ; i++) {
             int j = i + 1;
             userDto.getPlugBoardFromUser().put(plugString.get().charAt(i),plugString.get().charAt(j));
             userDto.getPlugBoardFromUser().put(plugString.get().charAt(j),plugString.get().charAt(i));
         }
-
+        checkIfAllSubmit();
     }
 
     @FXML
