@@ -15,7 +15,6 @@ import machine.MachineImplement;
 import secret.code.validation.SecretCodeValidations;
 import subComponent.main.app.MainAppController;
 import subComponent.main.create.secret.code.component.rotor.RotorComponentController;
-import subComponent.main.create.secret.code.plug.board.PlugBoardController;
 import subComponent.main.create.secret.codes.CreateNewSecretCodeController;
 
 import java.io.IOException;
@@ -75,21 +74,6 @@ public class UserSecretCodeController {
         }
     }
 
-    public void createPlugBoardController(){
-        try {
-            FXMLLoader loader = new FXMLLoader();
-            URL url = getClass().getResource("/subComponent/main/create/secret/code/plug/board/PlugBoard.fxml");//
-            loader.setLocation(url);
-            Node plugBoardComponent = loader.load();
-            PlugBoardController plugBoardController = loader.getController();
-            plugBoardController.setUserSecretCodeController(this);
-            PlugBoardFlowPane.getChildren().add(plugBoardComponent);
-            plugBoardController.createCharPlugBoardComponents();
-        }
-                catch (IOException e){
-
-        }
-    }
 
 
     public void setNewSecretCodeController(CreateNewSecretCodeController createNewSecretCodeController){

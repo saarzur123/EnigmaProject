@@ -12,6 +12,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import subComponent.main.create.secret.code.CreateSecretCodeController;
 import subComponent.main.create.secret.codes.CreateNewSecretCodeController;
+import subComponent.main.decrypt.DecryptionController;
 import subComponent.main.loadFXML.LoadFXMLController;
 import subComponent.main.machine.detail.MachineDetailsController;
 import subComponent.main.secretCode.SecretCodeController;
@@ -30,6 +31,9 @@ public class MainScreenController {
 
     @FXML private VBox createNewSecretCode;
     @FXML private CreateNewSecretCodeController createNewSecretCodeController;
+
+    @FXML private ScrollPane decryption;
+    @FXML private DecryptionController decryptionController;
 
     @FXML private TabPane tabControl;
 
