@@ -23,8 +23,6 @@ public class SecretCode {
     private PlugBoard plugBoard;
     private boolean secreteCodeState;
 
-
-
     public SecretCode(MachineImplement machine){
         this.currMachine = machine;
         secreteCodeState = false;

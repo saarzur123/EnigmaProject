@@ -25,8 +25,6 @@ import subComponent.main.create.secret.code.component.rotor.RotorComponentContro
 import subComponent.main.create.secret.code.plug.board.charComponent.CharButtonController;
 import subComponent.main.create.secret.codes.CreateNewSecretCodeController;
 
-import javax.xml.soap.Text;
-import java.awt.*;
 import java.io.IOException;
 import java.net.URL;
 
@@ -53,10 +51,7 @@ public class UserSecretCodeController {
     private int plugIndex = 0;
 
     public int getPlugIndex(){return plugIndex;}
-    public void setPlugIndex(){
-        plugIndex++;
-    }
-
+    public void setPlugIndex(){ plugIndex++;}
     public StringProperty getPlugString(){return plugString;}
 
 
@@ -219,7 +214,7 @@ public class UserSecretCodeController {
             if(numberFromRightToRotorComponentController.get(i+1).getStartPosition().get() == null){
                 errorMsg.append(String.format("Please select start position to rotor %d from right"+System.lineSeparator(),i+1));
             }else{
-                strPos += numberFromRightToRotorComponentController.get(i+1).getStartPosition().get();
+                strPos+= numberFromRightToRotorComponentController.get(i+1).getStartPosition().get();
                 userDto.getRotorsStartPosition().add(strPos.charAt(i));
             }
         }

@@ -12,6 +12,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import subComponent.main.create.secret.code.CreateSecretCodeController;
 import subComponent.main.create.secret.codes.CreateNewSecretCodeController;
+import subComponent.main.decrypt.DecryptionController;
 import subComponent.main.loadFXML.LoadFXMLController;
 import subComponent.main.machine.detail.MachineDetailsController;
 import subComponent.main.secretCode.SecretCodeController;
@@ -30,6 +31,9 @@ public class MainScreenController {
 
     @FXML private VBox createNewSecretCode;
     @FXML private CreateNewSecretCodeController createNewSecretCodeController;
+
+    @FXML private ScrollPane decryption;
+    @FXML private DecryptionController decryptionController;
 
     @FXML private TabPane tabControl;
 
@@ -50,10 +54,9 @@ public class MainScreenController {
             loadFXMLController.setMainController(this);
             machineDetailsController.setMainController(this);
             secretCodeController.setMainController(this);
-
-
             loadFXMLController.getIsValidMachine().setValue(true);
             tabControl.disableProperty().bind(loadFXMLController.getIsValidMachine());
+            tabControl.getTabs().get(1).disableProperty().bind(secretCodeController.getIsSecretCodeExist());
         }
     }
 
@@ -62,6 +65,11 @@ public class MainScreenController {
         secretCodeController.setLBLToCodeCombinationBinding();
     }
 
+    public void setSecretCodeState(boolean secretCodeState){
+        secretCodeController.getIsSecretCodeExist().setValue(secretCodeState);
+    }
+
+
     public void resetShowSecretCode(){
         secretCodeController.resetShowSecretCodeLBL();
     }
@@ -69,9 +77,6 @@ public class MainScreenController {
     public Commander getEngineCommand(){return engineCommands;}
     public Engine getEngine(){return engine;}
 
-    public void setSecretCodeTxt(String text){
-        secretCodeController.setCurrSecretCodeText(text);
-    }
 
     public TabPane getTabControl(){return tabControl;}
 

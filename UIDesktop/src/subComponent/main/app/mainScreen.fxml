@@ -1,8 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="subComponent.main.app.MainScreenController">
@@ -28,7 +32,29 @@
                 </Tab>
                 <Tab text="Untitled Tab 2">
                   <content>
-                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                           <children>
+                              <BorderPane prefHeight="472.0" prefWidth="1000.0">
+                                 <center>
+                                    <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
+                                       <children>
+                                          <GridPane prefHeight="398.0" prefWidth="1000.0">
+                                            <columnConstraints>
+                                              <ColumnConstraints hgrow="SOMETIMES" maxWidth="604.0" minWidth="10.0" prefWidth="598.0" />
+                                              <ColumnConstraints hgrow="SOMETIMES" maxWidth="495.0" minWidth="10.0" prefWidth="402.0" />
+                                            </columnConstraints>
+                                            <rowConstraints>
+                                              <RowConstraints maxHeight="396.0" minHeight="10.0" prefHeight="396.0" vgrow="SOMETIMES" />
+                                            </rowConstraints>
+                                             <children>
+                                                <fx:include fx:id="decryption" prefHeight="400.0" prefWidth="600.0" source="../decrypt/decryption.fxml" />
+                                             </children>
+                                          </GridPane>
+                                       </children>
+                                    </VBox>
+                                 </center>
+                              </BorderPane>
+                           </children></AnchorPane>
                   </content>
                 </Tab>
               </tabs>
