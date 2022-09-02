@@ -48,12 +48,14 @@ public class MainScreenController {
 
         if(createNewSecretCodeController != null &&
                 loadFXMLController != null &&
-                machineDetailsController != null
+                machineDetailsController != null &&
+                decryptionController != null
         ){
             createNewSecretCodeController.setMainController(this);
             loadFXMLController.setMainController(this);
             machineDetailsController.setMainController(this);
             secretCodeController.setMainController(this);
+            decryptionController.setMainController(this);
             loadFXMLController.getIsValidMachine().setValue(true);
             tabControl.disableProperty().bind(loadFXMLController.getIsValidMachine());
             tabControl.getTabs().get(1).disableProperty().bind(secretCodeController.getIsSecretCodeExist());
