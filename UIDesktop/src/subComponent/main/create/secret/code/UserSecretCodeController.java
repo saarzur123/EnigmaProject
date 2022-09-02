@@ -1,10 +1,17 @@
 package subComponent.main.create.secret.code;
 import dTOUI.DTOSecretCodeFromUser;
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.GridPane;
@@ -15,6 +22,7 @@ import machine.MachineImplement;
 import secret.code.validation.SecretCodeValidations;
 import subComponent.main.app.MainAppController;
 import subComponent.main.create.secret.code.component.rotor.RotorComponentController;
+import subComponent.main.create.secret.code.plug.board.PlugBoardController;
 import subComponent.main.create.secret.codes.CreateNewSecretCodeController;
 
 import java.io.IOException;
@@ -29,50 +37,106 @@ public class UserSecretCodeController {
     @FXML    private FlowPane PlugBoardFlowPane;
     @FXML    private Label plugsInstructionsLBL;
     @FXML    private ComboBox<String> reflectorIdCB;
+    @FXML private Label plugBoardLBL;
+    @FXML private Button userSecretCodeDoneBTN;
     private CreateNewSecretCodeController createNewSecretCodeController;
     private Map<Integer,RotorComponentController> numberFromRightToRotorComponentController = new HashMap<>();
-    DTOSecretCodeFromUser userDto = new DTOSecretCodeFromUser();
-    LinkedList<Integer> rotorsId = new LinkedList<>();
-
-
+    private Map<Character, CharButtonController> keyBoard = new HashMap<>();
+    private DTOSecretCodeFromUser userDto = new DTOSecretCodeFromUser();
+    private LinkedList<Integer> rotorsId = new LinkedList<>();
+    private StringProperty plugString = new SimpleStringProperty("");
+    private BooleanProperty plugStringLenOK = new SimpleBooleanProperty(true);
 
     private MachineImplement machine;
+    private int plugIndex = 0;
+
+    public int getPlugIndex(){return plugIndex;}
+    public void setPlugIndex(){
+        plugIndex++;
+    }
+
+    public StringProperty getPlugString(){return plugString;}
+
 
     @FXML
     void userSecretCodeSubmitAction(ActionEvent event) {
 
     }
 
+    private void createPlugBoardKeyBoard(Character character){
+        try {
+            FXMLLoader loader = new FXMLLoader();
+            URL url = getClass().getResource("/subComponent/main/create/secret/code/plug/board/charComponent/CharPlugBoard.fxml");//
+            loader.setLocation(url);
+            Node singlePlugBoardComponent = loader.load();
+            CharButtonController controller = loader.getController();
+            setButton(controller.getCharBTN(),character);
+            PlugBoardFlowPane.getChildren().add(singlePlugBoardComponent);
+            controller.setUserSecretCodeController(this);
+            keyBoard.put(character, controller);
+
+
+        }catch (IOException e){
+
+        }
+    }
+
+
+
+    @FXML
+    void resetPlugStringAction(ActionEvent event) {
+        String s = plugString.get();
+        for (int i = 0; i < s.length(); i++) {
+            keyBoard.get(s.charAt(i)).getCharBTN().setDisable(false);
+        }
+        plugString.set("");
+    }
+
+    private void setButton(Button button, Character character){
+        button.setText(String.valueOf(character));
+        button.setPrefHeight(40);
+        button.setPrefWidth(40);
+        button.setShape(new Circle(10));
+
+    }
+    public void setKeyBoard(GridPane gridPane){
+        int index = 0,j, n = 0, numberOfABC = machine.getABC().length();
+        for (int i = 0; i < 4; i++) {
+            for (n = 1; n < numberOfABC/4 + 1 ; n++) {
+                Button button = new Button();
+                setBTNProp(button, index);
+                gridPane.add(button, n, i);
+                index++;
+            }
+        }
+        for (j = 0 ; j < numberOfABC % 4 ; j++) {
+            Button button = new Button();
+            setBTNProp(button, index);
+            gridPane.add(button, n+ j, 3);
+            index++;
+        }
+        Label plugBoardUserChoice = new Label();
+        plugBoardUserChoice.setText("Plug Board : ");
+        gridPane.add(plugBoardUserChoice,0,4);
+    }
+
+
+
+    public void setBTNProp(Button button, int index){
+        button.setText(String.valueOf(machine.getABC().charAt(index)));
+        button.setPrefHeight(40);
+        button.setPrefWidth(40);
+        button.setShape(new Circle(10));
+    }
     public void makeKeyBoardPlugBoard(){
         GridPane gridPane = new GridPane();
         gridPane.setHgap(10);
         gridPane.setVgap(10);
         PlugBoardFlowPane.getChildren().add(gridPane);
-        int index = 0, n = 0;
-        int numberOfABC = machine.getABC().length();
-        for (int i = 0; i < 4; i++) {
-            for (n = 0; n < numberOfABC/4; n++) {
-                Button button = new Button();
-                button.setText(String.valueOf(machine.getABC().charAt(index)));
-                button.setPrefHeight(40);
-                button.setPrefWidth(40);
-                button.setShape(new Circle(10));
+        setKeyBoard(gridPane);
 
-                gridPane.add(button, n, i);
-                index++;
-            }
-        }
-        for (int j = 0; j < numberOfABC % 4; j++) {
-            Button button = new Button();
-            button.setText(String.valueOf(machine.getABC().charAt(index)));
-            button.setPrefHeight(40);
-            button.setPrefWidth(40);
-            button.setShape(new Circle(10));
-
-            gridPane.add(button, n+ j, 3);
-            index++;
-        }
     }
+
 
 
 
@@ -82,6 +146,18 @@ public class UserSecretCodeController {
 
     public MachineImplement getMachine(){
         return machine;
+    }
+
+    public void createKeyBoard(){
+        int numberABC = machine.getABC().length();
+        PlugBoardFlowPane.setHgap(10);
+        PlugBoardFlowPane.setVgap(10);
+        PlugBoardFlowPane.setPrefWidth(numberABC/4);
+        userSecretCodeDoneBTN.disableProperty().bind(plugStringLenOK);
+        plugBoardLBL.textProperty().bind(plugString);
+        for (int i = 0; i < numberABC; i++) {
+            createPlugBoardKeyBoard(machine.getABC().charAt(i));
+        }
     }
 
     @FXML
@@ -238,6 +314,20 @@ public class UserSecretCodeController {
     }
 
     @FXML
+    void plugSubmitAction(ActionEvent event) {
+        int size = plugString.get().length();
+        if(size % 2 == 0) {
+            plugStringLenOK.set(false);
+        }
+        for (int i = 0; i < size / 2 ; i++) {
+            int j = i + 1;
+            userDto.getPlugBoardFromUser().put(plugString.get().charAt(i),plugString.get().charAt(j));
+            userDto.getPlugBoardFromUser().put(plugString.get().charAt(j),plugString.get().charAt(i));
+        }
+
+    }
+
+    @FXML
     void userDoneSubmittionAction(ActionEvent event) {
         final int NO_VALUE = 0;
         boolean allFieldsComplete = userDto.getRotorsIdPositions().size() != NO_VALUE && userDto.getRotorsStartPosition().size() != NO_VALUE &&
@@ -250,6 +340,8 @@ public class UserSecretCodeController {
             stage.close();
         }
     }
+
+
 
 
 
