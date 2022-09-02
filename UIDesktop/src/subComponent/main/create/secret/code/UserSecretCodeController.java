@@ -46,6 +46,7 @@ public class UserSecretCodeController {
     private LinkedList<Integer> rotorsId = new LinkedList<>();
     private StringProperty plugString = new SimpleStringProperty("");
     private BooleanProperty plugStringLenOK = new SimpleBooleanProperty(true);
+    private BooleanProperty submitPlugBoard = new SimpleBooleanProperty(true);
 
     private MachineImplement machine;
     private int plugIndex = 0;
@@ -94,6 +95,7 @@ public class UserSecretCodeController {
     public MachineImplement getMachine(){
         return machine;
     }
+    public BooleanProperty getSubmitPlugBoard(){return submitPlugBoard;}
 
     public void createKeyBoard(){
         int numberABC = machine.getABC().length();
@@ -101,6 +103,7 @@ public class UserSecretCodeController {
         PlugBoardFlowPane.setVgap(10);
         PlugBoardFlowPane.setPrefWidth(numberABC/4);
         userSecretCodeDoneBTN.disableProperty().bind(plugStringLenOK);
+        userSecretCodeDoneBTN.disableProperty().bind(submitPlugBoard);
         plugBoardLBL.textProperty().bind(plugString);
         for (int i = 0; i < numberABC; i++) {
             createPlugBoardKeyBoard(machine.getABC().charAt(i));

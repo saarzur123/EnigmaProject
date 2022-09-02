@@ -29,6 +29,7 @@ public class CharButtonController {
 
     @FXML
     void chosenPlugAction(ActionEvent event) {
+        userSecretCodeController.getSubmitPlugBoard().set(false);
         int plugIndex = userSecretCodeController.getPlugIndex();
         userSecretCodeController.setPlugIndex();
         String saver = userSecretCodeController.getPlugString().get();
