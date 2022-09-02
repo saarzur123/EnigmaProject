@@ -15,6 +15,8 @@ public class DecryptionButtonController {
         this.decryptionController = decryptionController;
     }
 
+    public Button getDecryptCharBTN(){return decryptCharBTN;}
+
     @FXML
     void decryptCharAction(ActionEvent event) {
 
@@ -26,6 +28,7 @@ public class DecryptionButtonController {
         decryptCharBTN.setPrefWidth(40);
         decryptCharBTN.setShape(new Circle(10));
     }
+
 
 
 

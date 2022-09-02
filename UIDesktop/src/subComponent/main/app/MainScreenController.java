@@ -70,7 +70,11 @@ public class MainScreenController {
     }
 
     public void setDecryptionTab(){
-        decryptionController.creatBTNsComponents();
+        decryptionController.setDecryptionFP();
+    }
+
+    public void resetSecretCodeCombination(){
+        secretCodeController.resetShowSecretCodeLBL();
     }
 
     public void setSecretCodeState(boolean secretCodeState){

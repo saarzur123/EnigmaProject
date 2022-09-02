@@ -34,6 +34,7 @@ public class SecretCode {
     public Reflector getInUseReflector(){return reflectorInUse;}
     public String getSecretCodeCombination(){return secretCodeCombination;}
 
+    public void resetSecretCodeCombination(){ secretCodeCombination = "";}
     @Override
     public String toString(){
         StringBuilder strSecretCode = new StringBuilder();

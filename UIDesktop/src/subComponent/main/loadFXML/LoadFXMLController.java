@@ -50,6 +50,7 @@ public class LoadFXMLController {
     private void setOnValidMachine(){
         isValidMachine.setValue(false);
         mainController.setCurrMachineTxt();
+        mainController.resetSecretCodeCombination();
         mainController.setDecryptionTab();
     }
 
