@@ -21,6 +21,8 @@ public class main extends Application {
         fxmlLoader.setLocation(url);
         Parent root = fxmlLoader.load(url.openStream());
         Scene scene = new Scene(root, 1000, 800);
+        //scene.getStylesheets().add(getClass().getResource(("src/subComponent/main/app/App.css")).toExternalForm());
+
         stage.setScene(scene);
         stage.show();
     }

@@ -21,7 +21,7 @@
                            <children>
                               <Label text="Machine Details">
                                  <font>
-                                    <Font name="Berlin Sans FB" size="30.0" />
+                                    <Font name="Baloo Bhai 2 ExtraBold" size="30.0" />
                                  </font>
                               </Label>
                               <FlowPane prefHeight="300.0" prefWidth="995.0">

@@ -14,17 +14,17 @@
          <children>
             <Label text="Machine ">
                <font>
-                  <Font name="Berlin Sans FB" size="41.0" />
+                  <Font name="Baloo 2 ExtraBold" size="34.0" />
                </font>
             </Label>
             <HBox prefHeight="100.0" prefWidth="200.0">
                <children>
                   <Label text="Click here to load file :">
                      <font>
-                        <Font name="Berlin Sans FB" size="21.0" />
+                        <Font name="Baloo Bhai 2 Regular" size="20.0" />
                      </font>
                      <HBox.margin>
-                        <Insets left="15.0" top="50.0" />
+                        <Insets left="15.0" top="40.0" />
                      </HBox.margin>
                   </Label>
                   <Button fx:id="selectFXMLFileBTN" mnemonicParsing="false" onAction="#selectXMLFile" text="Select File">
