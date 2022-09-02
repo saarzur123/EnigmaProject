@@ -54,6 +54,7 @@ public class UserSecretCodeController {
     public void setPlugIndex(){ plugIndex++;}
     public StringProperty getPlugString(){return plugString;}
 
+
     private void createPlugBoardKeyBoard(Character character){
         try {
             FXMLLoader loader = new FXMLLoader();
@@ -61,14 +62,18 @@ public class UserSecretCodeController {
             loader.setLocation(url);
             Node singlePlugBoardComponent = loader.load();
             CharButtonController controller = loader.getController();
-            setButton(controller.getCharBTN(),character);
+            controller.setButton(controller.getCharBTN(),character);
             PlugBoardFlowPane.getChildren().add(singlePlugBoardComponent);
             controller.setUserSecretCodeController(this);
             keyBoard.put(character, controller);
+
+
         }catch (IOException e){
 
         }
     }
+
+
 
     @FXML
     void resetPlugStringAction(ActionEvent event) {
@@ -77,51 +82,6 @@ public class UserSecretCodeController {
             keyBoard.get(s.charAt(i)).getCharBTN().setDisable(false);
         }
         plugString.set("");
-    }
-
-    private void setButton(Button button, Character character){
-        button.setText(String.valueOf(character));
-        button.setPrefHeight(40);
-        button.setPrefWidth(40);
-        button.setShape(new Circle(10));
-    }
-
-    public void setKeyBoard(GridPane gridPane){
-        int index = 0,j, n = 0, numberOfABC = machine.getABC().length();
-        for (int i = 0; i < 4; i++) {
-            for (n = 1; n < numberOfABC/4 + 1 ; n++) {
-                Button button = new Button();
-                setBTNProp(button, index);
-                gridPane.add(button, n, i);
-                index++;
-            }
-        }
-        for (j = 0 ; j < numberOfABC % 4 ; j++) {
-            Button button = new Button();
-            setBTNProp(button, index);
-            gridPane.add(button, n+ j, 3);
-            index++;
-        }
-        Label plugBoardUserChoice = new Label();
-        plugBoardUserChoice.setText("Plug Board : ");
-        gridPane.add(plugBoardUserChoice,0,4);
-    }
-
-
-
-    public void setBTNProp(Button button, int index){
-        button.setText(String.valueOf(machine.getABC().charAt(index)));
-        button.setPrefHeight(40);
-        button.setPrefWidth(40);
-        button.setShape(new Circle(10));
-    }
-    public void makeKeyBoardPlugBoard(){
-        GridPane gridPane = new GridPane();
-        gridPane.setHgap(10);
-        gridPane.setVgap(10);
-        PlugBoardFlowPane.getChildren().add(gridPane);
-        setKeyBoard(gridPane);
-
     }
 
 
@@ -322,7 +282,6 @@ public class UserSecretCodeController {
         if(allFieldsComplete){
             createNewSecretCodeController.getMainController().getEngineCommand().getSecretCodeFromUser(userDto,false);
             createNewSecretCodeController.getMainController().setLBLToCodeCombinationBindingMain();
-            createNewSecretCodeController.getMainController().setSecretCodeState(false);
             Stage stage = (Stage) reflectorIdCB.getScene().getWindow();
             stage.close();
         }
