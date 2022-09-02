@@ -29,6 +29,10 @@ public class DecryptionController {
     public void initialize(){
     }
 
+    public void setMainController(MainScreenController mainController) {
+        this.mainController = mainController;
+    }
+
     private void setDecryptionFP(){
 
     }

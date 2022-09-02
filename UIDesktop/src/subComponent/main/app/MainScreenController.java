@@ -48,37 +48,34 @@ public class MainScreenController {
 
         if(createNewSecretCodeController != null &&
                 loadFXMLController != null &&
-                machineDetailsController != null
+                machineDetailsController != null &&
+                decryptionController != null
         ){
             createNewSecretCodeController.setMainController(this);
             loadFXMLController.setMainController(this);
             machineDetailsController.setMainController(this);
             secretCodeController.setMainController(this);
+            decryptionController.setMainController(this);
             loadFXMLController.getIsValidMachine().setValue(true);
             tabControl.disableProperty().bind(loadFXMLController.getIsValidMachine());
             tabControl.getTabs().get(1).disableProperty().bind(secretCodeController.getIsSecretCodeExist());
         }
     }
 
+    public Commander getEngineCommand(){return engineCommands;}
+    public Engine getEngine(){return engine;}
 
     public void setLBLToCodeCombinationBindingMain(){
         secretCodeController.setLBLToCodeCombinationBinding();
     }
 
+    public void setDecryptionTab(){
+        decryptionController.creatBTNsComponents();
+    }
+
     public void setSecretCodeState(boolean secretCodeState){
         secretCodeController.getIsSecretCodeExist().setValue(secretCodeState);
     }
-
-
-    public void resetShowSecretCode(){
-        secretCodeController.resetShowSecretCodeLBL();
-    }
-
-    public Commander getEngineCommand(){return engineCommands;}
-    public Engine getEngine(){return engine;}
-
-
-    public TabPane getTabControl(){return tabControl;}
 
     public void setCurrMachineTxt(){
         machineDetailsController.setMachineDetailsLBL();

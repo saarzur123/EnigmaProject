@@ -25,12 +25,12 @@ public class LoadFXMLController {
     private Button selectXMLFileBTN;
     private BooleanProperty isValidMachine = new SimpleBooleanProperty();
 
-    //private BooleanExpression isValidMachine = Bindings.createBooleanBinding(()->return true)
-
     public BooleanProperty getIsValidMachine(){return isValidMachine;}
+
     public void setMainController(MainScreenController main){
         mainController = main;
     }
+
     @FXML
     void selectXMLFile(ActionEvent event) {
         FileChooser fc = new FileChooser();
@@ -39,14 +39,18 @@ public class LoadFXMLController {
             try{
                 String path = f.getAbsolutePath();
                 mainController.getEngineCommand().createMachineFromXML(path);
-                isValidMachine.setValue(false);
-                mainController.setCurrMachineTxt();
+                setOnValidMachine();
             }
             catch (XMLException error){
                 mainController.showErrorPopup(error.getMessage());
             }
         }
+    }
 
+    private void setOnValidMachine(){
+        isValidMachine.setValue(false);
+        mainController.setCurrMachineTxt();
+        mainController.setDecryptionTab();
     }
 
 }
