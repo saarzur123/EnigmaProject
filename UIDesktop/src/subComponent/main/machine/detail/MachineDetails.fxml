@@ -17,7 +17,7 @@
               <content>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="306.0" prefWidth="1009.0">
                      <children>
-                        <VBox alignment="CENTER" prefHeight="313.0" prefWidth="1006.0" spacing="10.0">
+                        <VBox fx:id="machineDetailsVBox" alignment="CENTER" prefHeight="313.0" prefWidth="1006.0" spacing="10.0">
                            <children>
                               <Label text="Machine Details">
                                  <font>
@@ -26,7 +26,7 @@
                               </Label>
                               <FlowPane prefHeight="300.0" prefWidth="995.0">
                                  <children>
-                                    <Label fx:id="machineDetailsLBL" maxHeight="300.0" maxWidth="200.0" minWidth="200.0" prefHeight="300.0" prefWidth="200.0">
+                                    <Label fx:id="machineDetailsLBL" maxHeight="578.0" maxWidth="1179.0" minWidth="200.0" prefHeight="578.0" prefWidth="1179.0">
                                        <opaqueInsets>
                                           <Insets />
                                        </opaqueInsets>
