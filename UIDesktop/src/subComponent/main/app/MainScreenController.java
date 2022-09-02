@@ -62,25 +62,20 @@ public class MainScreenController {
         }
     }
 
+    public Commander getEngineCommand(){return engineCommands;}
+    public Engine getEngine(){return engine;}
 
     public void setLBLToCodeCombinationBindingMain(){
         secretCodeController.setLBLToCodeCombinationBinding();
     }
 
+    public void setDecryptionTab(){
+        decryptionController.creatBTNsComponents();
+    }
+
     public void setSecretCodeState(boolean secretCodeState){
         secretCodeController.getIsSecretCodeExist().setValue(secretCodeState);
     }
-
-
-    public void resetShowSecretCode(){
-        secretCodeController.resetShowSecretCodeLBL();
-    }
-
-    public Commander getEngineCommand(){return engineCommands;}
-    public Engine getEngine(){return engine;}
-
-
-    public TabPane getTabControl(){return tabControl;}
 
     public void setCurrMachineTxt(){
         machineDetailsController.setMachineDetailsLBL();
