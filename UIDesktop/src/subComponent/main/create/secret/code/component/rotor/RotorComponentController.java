@@ -55,16 +55,20 @@ public class RotorComponentController {
 
     @FXML
     void idOptionSelectionAction(ActionEvent event) {
+        userSecretCodeController.setSubmitRotor(false);
         if(idChosen.get() != 0) {
             userSecretCodeController.addChosenOptionInOtherRotors(this);
         }
         idChosen.set(chooseIdCB.getValue());
         userSecretCodeController.removeChosenOptionInOtherRotors(this);
+        userSecretCodeController.checkIfAllSubmit();
     }
 
     @FXML
     void positionOptionSelectionAction(ActionEvent event) {
+        userSecretCodeController.setSubmitRotor(false);
         startPosition.set(String.valueOf(chooseStartPosCB.getValue()));
+        userSecretCodeController.checkIfAllSubmit();
     }
 
     public SimpleStringProperty getStartPosition(){return startPosition;}

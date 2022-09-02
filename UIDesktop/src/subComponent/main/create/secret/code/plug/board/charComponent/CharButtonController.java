@@ -29,12 +29,14 @@ public class CharButtonController {
 
     @FXML
     void chosenPlugAction(ActionEvent event) {
-        userSecretCodeController.getSubmitPlugBoard().set(false);
+        userSecretCodeController.setSubmitPlugBoard(false);
+        userSecretCodeController.getAllSubmit().set(true);
         int plugIndex = userSecretCodeController.getPlugIndex();
         userSecretCodeController.setPlugIndex();
         String saver = userSecretCodeController.getPlugString().get();
         userSecretCodeController.getPlugString().set(saver + charBTN.getText());
         charBTN.setDisable(true);
+        userSecretCodeController.checkIfAllSubmit();
     }
 
 
