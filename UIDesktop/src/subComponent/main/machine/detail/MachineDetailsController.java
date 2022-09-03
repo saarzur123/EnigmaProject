@@ -28,7 +28,6 @@ public class MachineDetailsController {
     public void setMachineDetailsLBL(){
         DTOMachineDetails dtoMachineDetails = mainController.getEngine().getMachineDetailsPresenter().createCurrMachineDetails();
         String machineDetails = String.format("%s",mainController.getEngineCommand().showLastMachineDetails(dtoMachineDetails));
-        int size = machineDetails.length(), i;
         TextArea textArea = new TextArea();
         textArea.setText(machineDetails);
         machineDetailsVBox.getChildren().add(textArea);

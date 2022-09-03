@@ -52,6 +52,7 @@ public class LoadFXMLController {
         mainController.setCurrMachineTxt();
         mainController.resetSecretCodeCombination();
         mainController.setDecryptionTab();
+        mainController.setHistoryTxt();
     }
 
 }

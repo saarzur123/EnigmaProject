@@ -15,6 +15,7 @@ import javafx.scene.paint.Color;
 import subComponent.main.create.secret.code.CreateSecretCodeController;
 import subComponent.main.create.secret.codes.CreateNewSecretCodeController;
 import subComponent.main.decrypt.DecryptionController;
+import subComponent.main.decrypt.history.HistoryController;
 import subComponent.main.loadFXML.LoadFXMLController;
 import subComponent.main.machine.detail.MachineDetailsController;
 import subComponent.main.secretCode.SecretCodeController;
@@ -31,6 +32,9 @@ public class MainScreenController {
     @FXML private BorderPane machineDetails;
     @FXML private MachineDetailsController machineDetailsController;
 
+    @FXML private BorderPane historyBoarderPane;
+    @FXML private HistoryController historyController;
+
     @FXML private ScrollPane secretCode;
     @FXML private SecretCodeController secretCodeController;
 
@@ -41,6 +45,8 @@ public class MainScreenController {
     @FXML private DecryptionController decryptionController;
     @FXML private BorderPane mainBoardPane;
 
+    @FXML private VBox history;
+
     @FXML private TabPane tabControl;
 
     private Commander engineCommands = new Engine();
@@ -49,23 +55,18 @@ public class MainScreenController {
 
 
     @FXML public void initialize(){
-
-//        BackgroundImage myBI= new BackgroundImage(new Image("../resource/backGround.jpeg",32,32,false,true),
-//                BackgroundRepeat.REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT,
-//                BackgroundSize.DEFAULT);
-////then you set to your node
-//        mainBoardPane.setBackground(new Background(myBI));
-
         engine = (Engine)engineCommands;
 
         if(createNewSecretCodeController != null &&
                 loadFXMLController != null &&
                 machineDetailsController != null &&
                 decryptionController != null
+
         ){
             createNewSecretCodeController.setMainController(this);
             loadFXMLController.setMainController(this);
             machineDetailsController.setMainController(this);
+            historyController.setMainController(this);
             secretCodeController.setMainController(this);
             decryptionController.setMainController(this);
             loadFXMLController.getIsValidMachine().setValue(true);
@@ -95,6 +96,10 @@ public class MainScreenController {
 
     public void setCurrMachineTxt(){
         machineDetailsController.setMachineDetailsLBL();
+    }
+
+    public void setHistoryTxt(){
+        historyController.setMachineHistoryAndShow();
     }
     public static void showErrorPopup(String message) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
