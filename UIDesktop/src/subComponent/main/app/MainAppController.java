@@ -30,6 +30,8 @@ public class MainAppController {
     @FXML private HBox automaticSecretCode;
     @FXML private AutomaticSecretCodeController automaticSecretCodeController;
 
+    @FXML private BorderPane mainBoardPane;
+
 
     private Commander engineCommands = new Engine();
 

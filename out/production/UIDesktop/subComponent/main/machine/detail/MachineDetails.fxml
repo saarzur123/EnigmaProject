@@ -24,21 +24,6 @@
                                     <Font name="Baloo Bhai 2 ExtraBold" size="30.0" />
                                  </font>
                               </Label>
-                              <FlowPane prefHeight="300.0" prefWidth="995.0">
-                                 <children>
-                                    <Label fx:id="machineDetailsLBL" maxHeight="578.0" maxWidth="1179.0" minWidth="200.0" prefHeight="578.0" prefWidth="1179.0">
-                                       <opaqueInsets>
-                                          <Insets />
-                                       </opaqueInsets>
-                                       <padding>
-                                          <Insets bottom="200.0" left="20.0" />
-                                       </padding>
-                                       <font>
-                                          <Font name="Berlin Sans FB" size="18.0" />
-                                       </font>
-                                    </Label>
-                                 </children>
-                              </FlowPane>
                            </children>
                            <padding>
                               <Insets top="20.0" />

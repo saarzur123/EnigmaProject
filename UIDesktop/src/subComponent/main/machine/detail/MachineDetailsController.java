@@ -2,8 +2,14 @@ package subComponent.main.machine.detail;
 
 import dTOUI.DTOMachineDetails;
 import javafx.fxml.FXML;
+import javafx.geometry.Insets;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextArea;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import subComponent.main.app.MainAppController;
 import subComponent.main.app.MainScreenController;
 
@@ -22,14 +28,11 @@ public class MachineDetailsController {
     public void setMachineDetailsLBL(){
         DTOMachineDetails dtoMachineDetails = mainController.getEngine().getMachineDetailsPresenter().createCurrMachineDetails();
         String machineDetails = String.format("%s",mainController.getEngineCommand().showLastMachineDetails(dtoMachineDetails));
-        //machineDetailsLBL.setText(machineDetails);
         int size = machineDetails.length(), i;
+        TextArea textArea = new TextArea();
+        textArea.setText(machineDetails);
+        machineDetailsVBox.getChildren().add(textArea);
+        textArea.setEditable(false);
 
-        for (i = 0; i < size; i++) {
-            Label label = new Label();
-            label.setText(machineDetails.substring(i,i + 7));
-            i +=7;
-            machineDetailsVBox.getChildren().add(label);
-        }
     }
 }

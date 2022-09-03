@@ -4,12 +4,14 @@ package subComponent.main.app;
 import engine.Commander;
 import engine.Engine;
 import javafx.fxml.FXML;
+import javafx.geometry.Insets;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TabPane;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
 import subComponent.main.create.secret.code.CreateSecretCodeController;
 import subComponent.main.create.secret.codes.CreateNewSecretCodeController;
 import subComponent.main.decrypt.DecryptionController;
@@ -17,6 +19,9 @@ import subComponent.main.loadFXML.LoadFXMLController;
 import subComponent.main.machine.detail.MachineDetailsController;
 import subComponent.main.secretCode.SecretCodeController;
 import subComponent.main.set.secret.code.automaticlly.AutomaticSecretCodeController;
+
+import java.awt.*;
+import java.net.URL;
 
 public class MainScreenController {
 
@@ -34,6 +39,7 @@ public class MainScreenController {
 
     @FXML private ScrollPane decryption;
     @FXML private DecryptionController decryptionController;
+    @FXML private BorderPane mainBoardPane;
 
     @FXML private TabPane tabControl;
 
@@ -43,6 +49,12 @@ public class MainScreenController {
 
 
     @FXML public void initialize(){
+
+//        BackgroundImage myBI= new BackgroundImage(new Image("../resource/backGround.jpeg",32,32,false,true),
+//                BackgroundRepeat.REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT,
+//                BackgroundSize.DEFAULT);
+////then you set to your node
+//        mainBoardPane.setBackground(new Background(myBI));
 
         engine = (Engine)engineCommands;
 
