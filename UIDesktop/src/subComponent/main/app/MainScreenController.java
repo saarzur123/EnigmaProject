@@ -84,6 +84,10 @@ public class MainScreenController {
         secretCodeController.setLBLToCodeCombinationBinding();
     }
 
+    public void changeSecretCodeLbl(){
+        secretCodeController.changeCodeLblAccordingToCodeCombination();
+    }
+
     public void setDecryptionTab(){
         decryptionController.setDecryptionFP();
     }
