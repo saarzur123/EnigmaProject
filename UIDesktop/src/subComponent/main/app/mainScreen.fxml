@@ -46,7 +46,7 @@
                                     <fx:include fx:id="decryption" source="../decrypt/decryption.fxml" />
                                  </left>
                                  <bottom>
-                                    <fx:include source="../decrypt/Restart/Restart.fxml" />
+                                    <fx:include fx:id="restartSecretCode" source="../decrypt/Restart/Restart.fxml" />
                                  </bottom>
                               </BorderPane>
                            </children></AnchorPane>
