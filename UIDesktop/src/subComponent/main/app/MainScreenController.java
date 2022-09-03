@@ -6,6 +6,7 @@ import engine.Engine;
 import javafx.beans.binding.Bindings;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
+import javafx.scene.control.*;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
@@ -86,6 +87,14 @@ public class MainScreenController {
             tabControl.disableProperty().bind(loadFXMLController.getIsValidMachine());
             tabControl.getTabs().get(1).disableProperty().bind(secretCodeController.getIsSecretCodeExist());
         }
+    }
+    public void setSelectedTab(){
+        secretCodeController.getIsSecretCodeExist().set(true);
+        SingleSelectionModel<Tab> selectionModel = tabControl.getSelectionModel();
+        selectionModel.select(0);
+    }
+    public void setNextTabOK(){
+        secretCodeController.getIsSecretCodeExist().set(false);
     }
     public DecryptionController getDecryptionController(){return decryptionController;}
     public HistoryController getHistoryController(){return historyController;}
