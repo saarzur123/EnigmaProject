@@ -58,6 +58,8 @@ public class DecryptionController {
         return showDecryptedCode;
     }
 
+    public void setShowDecryptedCode(){showDecryptedCode.setText("");}
+
     public void onEncryptAction(String charOnEncryptBtn){
         for(DecryptionButtonController controller : charToEncryptButtonController.values()){
             boolean found = controller.getDecryptCharBTN().getText().equals(charOnEncryptBtn);

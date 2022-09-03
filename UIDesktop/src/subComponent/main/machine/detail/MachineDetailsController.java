@@ -26,12 +26,21 @@ public class MachineDetailsController {
     }
 
     public void setMachineDetailsLBL(){
+        newTextArea();
+    }
+    public void updateCurrMachineDetails() {
+
+        machineDetailsVBox.getChildren().clear();
+        newTextArea();
+    }
+
+    private void newTextArea(){
         DTOMachineDetails dtoMachineDetails = mainController.getEngine().getMachineDetailsPresenter().createCurrMachineDetails();
         String machineDetails = String.format("%s",mainController.getEngineCommand().showLastMachineDetails(dtoMachineDetails));
         TextArea textArea = new TextArea();
         textArea.setText(machineDetails);
         machineDetailsVBox.getChildren().add(textArea);
         textArea.setEditable(false);
-
     }
+    public void deleteCurrMachine(){machineDetailsVBox.getChildren().clear();}
 }

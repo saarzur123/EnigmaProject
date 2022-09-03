@@ -18,13 +18,22 @@ public class HistoryController {
     }
 
     public void setMachineHistoryAndShow() {
+        newTextArea();
+    }
+
+    public void updateCurrHistory(){
+        historyVbox.getChildren().clear();
+        newTextArea();
+    }
+
+    private void newTextArea(){
         DTOHistoryStatistics dtoHistoryStatistics = mainController.getEngine().getHistoryAndStatisticsForMachine().DTOHistoryAndStatisticsMaker();
         TextArea textArea = new TextArea();
         textArea.setText(mainController.getEngine().showHistoryAnsStatistics(dtoHistoryStatistics));
         historyVbox.getChildren().add(textArea);
         textArea.setEditable(false);
-
-
     }
-
+    public void deleteCurrMachine(){
+        historyVbox.getChildren().clear();
+    }
 }
