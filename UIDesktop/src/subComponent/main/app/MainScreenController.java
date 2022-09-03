@@ -3,15 +3,19 @@ package subComponent.main.app;
 
 import engine.Commander;
 import engine.Engine;
+import javafx.beans.binding.Bindings;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TabPane;
+import javafx.scene.control.TextArea;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Text;
 import machine.MachineImplement;
 import subComponent.main.create.secret.code.CreateSecretCodeController;
 import subComponent.main.create.secret.codes.CreateNewSecretCodeController;
@@ -45,8 +49,7 @@ public class MainScreenController {
 
     @FXML private VBox restartSecretCode;
     @FXML private RestartSecretCodeController restartSecretCodeController;
-
-
+    @FXML private TextArea showDecryptionTA;
     @FXML private ScrollPane decryption;
     @FXML private DecryptionController decryptionController;
     @FXML private BorderPane mainBoardPane;
@@ -56,6 +59,7 @@ public class MainScreenController {
     @FXML private TabPane tabControl;
 
     @FXML private HBox decryptionHBOX;
+    @FXML private Label decryptShowLBL;
 
     private Commander engineCommands = new Engine();
 
@@ -91,6 +95,10 @@ public class MainScreenController {
 
     public HBox getDecryptionHBOX() {
         return decryptionHBOX;
+    }
+
+    public TextArea getDecryptShowTA() {
+        return showDecryptionTA;
     }
 
     public void setLBLToCodeCombinationBindingMain(){

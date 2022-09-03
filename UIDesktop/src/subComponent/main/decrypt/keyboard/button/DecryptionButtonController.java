@@ -23,9 +23,11 @@ public class DecryptionButtonController {
         if(decryptionController.getGoldEncryptedBtnController() != null){
             decryptionController.getGoldEncryptedBtnController().getDecryptCharBTN().setStyle("-fx-background-color: White");
         }
+        String save = decryptionController.getUserDecryptText().get() + decryptCharBTN.getText();
+        decryptionController.getUserDecryptText().set(save);
         String encryptChar = decryptionController.getMainController().getEngineCommand().processData(decryptCharBTN.getText());
         decryptionController.onEncryptAction(encryptChar);
-        String currDecryptedCode = decryptionController.getDecryptionLBL().getText()+encryptChar;
+        String currDecryptedCode = decryptionController.getDecryptionLBL().get()+encryptChar;
         decryptionController.setAfterDecryption(currDecryptedCode);
     }
 
