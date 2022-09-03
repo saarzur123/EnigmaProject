@@ -42,6 +42,9 @@ public class MainScreenController {
     @FXML private VBox createNewSecretCode;
     @FXML private CreateNewSecretCodeController createNewSecretCodeController;
 
+    @FXML private VBox restartSecretCode;
+    @FXML private RestartSecretCodeController restartSecretCodeController;
+
 
     @FXML private ScrollPane decryption;
     @FXML private DecryptionController decryptionController;
@@ -66,6 +69,7 @@ public class MainScreenController {
 
         ){
             createNewSecretCodeController.setMainController(this);
+            restartSecretCodeController.setMainController(this);
             loadFXMLController.setMainController(this);
             machineDetailsController.setMainController(this);
             historyController.setMainController(this);
