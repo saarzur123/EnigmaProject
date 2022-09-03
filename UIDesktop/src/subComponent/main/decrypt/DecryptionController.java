@@ -25,7 +25,7 @@ public class DecryptionController {
     @FXML    private ScrollPane decryptionAP;
     @FXML    private FlowPane decryptFP;
     @FXML    private FlowPane encryptFP;
-
+    private DecryptionButtonController goldEncryptedBtnController;
 
     Map<Character, DecryptionButtonController> charToDecryptButtonController = new HashMap<>();
     Map<Character, DecryptionButtonController> charToEncryptButtonController = new HashMap<>();
@@ -39,8 +39,22 @@ public class DecryptionController {
         this.mainController = mainController;
     }
 
-    public void onEncryptAction(Button button){
-        /// illuminate the encrypted button
+    public MainScreenController getMainController() {
+        return mainController;
+    }
+
+    public DecryptionButtonController getGoldEncryptedBtnController() {
+        return goldEncryptedBtnController;
+    }
+
+    public void onEncryptAction(String charOnEncryptBtn){
+        for(DecryptionButtonController controller : charToEncryptButtonController.values()){
+            boolean found = controller.getDecryptCharBTN().getText().equals(charOnEncryptBtn);
+            if(found){
+                goldEncryptedBtnController = controller;
+                controller.getDecryptCharBTN().setStyle("-fx-background-color: Gold");
+            }
+        }
     }
 
     public void setDecryptionFP(){
@@ -80,7 +94,7 @@ public class DecryptionController {
             controller.getDecryptCharBTN().setDisable(true);
             encryptFP.getChildren().add(singlePlugBoardComponent);
             controller.setDecryptionController(this);
-            charToDecryptButtonController.put(character, controller);
+            charToEncryptButtonController.put(character, controller);
         }catch (IOException e){
 
         }
