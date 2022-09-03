@@ -131,9 +131,9 @@ public class DecryptionController {
     private void setDecryptionHbox(){
         mainController.getDecryptShowTA().setFont(new Font("Verdana",20));
         mainController.getDecryptShowTA().setEditable(false);
-        mainController.getDecryptShowTA().setText("");
         mainController.getDecryptShowTA().textProperty().bind(Bindings.concat("Decrypted text: ", userDecryptText, " Encrypted text: ",showDecryptedCode));
         setClearBtn();
+        mainController.getDecryptionHBOX().getChildren().clear();
         mainController.getDecryptionHBOX().getChildren().add(clearDecryptionBtn);
     }
 
@@ -157,7 +157,7 @@ public class DecryptionController {
             }
             userDecryptText.set("");
             showDecryptedCode.set("");
-            });
+        });
     }
 
 
