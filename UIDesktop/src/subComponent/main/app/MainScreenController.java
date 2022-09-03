@@ -87,6 +87,9 @@ public class MainScreenController {
         SingleSelectionModel<Tab> selectionModel = tabControl.getSelectionModel();
         selectionModel.select(0);
     }
+    public void setNextTabOK(){
+        secretCodeController.getIsSecretCodeExist().set(false);
+    }
     public DecryptionController getDecryptionController(){return decryptionController;}
     public HistoryController getHistoryController(){return historyController;}
     public MachineDetailsController getMachineDetailsController(){return machineDetailsController;}

@@ -66,6 +66,7 @@ public class CreateNewSecretCodeController {
         userSecretCodeController.createKeyBoard();
         mainController.getMachineDetailsController().updateCurrMachineDetails();
         mainController.getDecryptionController().setShowDecryptedCode();
+        mainController.setNextTabOK();
     }
 }
 
