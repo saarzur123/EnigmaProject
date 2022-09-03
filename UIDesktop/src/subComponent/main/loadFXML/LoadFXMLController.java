@@ -48,11 +48,14 @@ public class LoadFXMLController {
     }
 
     private void setOnValidMachine(){
+        mainController.getMachineDetailsController().deleteCurrMachine();
+        mainController.getHistoryController().deleteCurrMachine();
         isValidMachine.setValue(false);
         mainController.setCurrMachineTxt();
         mainController.resetSecretCodeCombination();
         mainController.setDecryptionTab();
         mainController.setHistoryTxt();
+
     }
 
 }

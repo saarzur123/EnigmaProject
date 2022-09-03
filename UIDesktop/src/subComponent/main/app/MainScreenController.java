@@ -12,6 +12,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
+import machine.MachineImplement;
 import subComponent.main.create.secret.code.CreateSecretCodeController;
 import subComponent.main.create.secret.codes.CreateNewSecretCodeController;
 import subComponent.main.decrypt.DecryptionController;
@@ -80,7 +81,9 @@ public class MainScreenController {
             tabControl.getTabs().get(1).disableProperty().bind(secretCodeController.getIsSecretCodeExist());
         }
     }
-
+    public DecryptionController getDecryptionController(){return decryptionController;}
+    public HistoryController getHistoryController(){return historyController;}
+    public MachineDetailsController getMachineDetailsController(){return machineDetailsController;}
     public Commander getEngineCommand(){return engineCommands;}
     public Engine getEngine(){return engine;}
 
