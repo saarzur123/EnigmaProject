@@ -49,7 +49,7 @@ public class LoadFXMLController {
 
     private void setOnValidMachine(){
         mainController.getMachineDetailsController().deleteCurrMachine();
-        mainController.getHistoryController().deleteCurrMachine();
+        mainController.getHistoryController().AddLBLHistory();
         isValidMachine.setValue(false);
         mainController.setCurrMachineTxt();
         mainController.resetSecretCodeCombination();
