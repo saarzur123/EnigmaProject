@@ -60,6 +60,10 @@ public class DecryptionController {
         return showDecryptedCode;
     }
 
+    public String getUserDecryptText() {
+        return userDecryptText;
+    }
+
     public void setShowDecryptedCode(){showDecryptedCode.setText("");}
 
     public void onEncryptAction(String charOnEncryptBtn){
