@@ -37,9 +37,11 @@ public class LoadFXMLController {
         File f = fc.showOpenDialog(null);
         if(f != null){
             try{
+
                 String path = f.getAbsolutePath();
                 mainController.getEngineCommand().createMachineFromXML(path);
                 setOnValidMachine();
+                mainController.setSelectedTab();
             }
             catch (XMLException error){
                 mainController.showErrorPopup(error.getMessage());
@@ -55,6 +57,7 @@ public class LoadFXMLController {
         mainController.resetSecretCodeCombination();
         mainController.setDecryptionTab();
         mainController.setHistoryTxt();
+        mainController.getDecryptionController().setShowDecryptedCode();
 
     }
 

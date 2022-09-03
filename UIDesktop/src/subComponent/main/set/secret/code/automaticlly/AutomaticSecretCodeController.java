@@ -18,6 +18,7 @@ public class AutomaticSecretCodeController {
             createNewSecretCodeController.getMainController().setLBLToCodeCombinationBindingMain();
             createNewSecretCodeController.getMainController().setSecretCodeState(false);
             createNewSecretCodeController.getMainController().getMachineDetailsController().updateCurrMachineDetails();
+            createNewSecretCodeController.getMainController().getDecryptionController().setShowDecryptedCode();
     }
 
     public void setCreateNewSecretCodeController(CreateNewSecretCodeController createNewSecretCodeController){
