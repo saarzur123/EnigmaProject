@@ -28,7 +28,7 @@ public class DecryptionController {
     @FXML    private FlowPane decryptFP;
     @FXML    private FlowPane encryptFP;
     private DecryptionButtonController goldEncryptedBtnController;
-    private Label showDecryptedCode = new Label("");
+    private javafx.scene.control.Label showDecryptedCode = new javafx.scene.control.Label("");
 
     Map<Character, DecryptionButtonController> charToDecryptButtonController = new HashMap<>();
     Map<Character, DecryptionButtonController> charToEncryptButtonController = new HashMap<>();
@@ -50,7 +50,7 @@ public class DecryptionController {
         return goldEncryptedBtnController;
     }
 
-    public Label getDecryptionLBL() {
+    public javafx.scene.control.Label getDecryptionLBL() {
         return showDecryptedCode;
     }
 
@@ -115,6 +115,7 @@ public class DecryptionController {
             createNewDecryptBtnComponent(language.charAt(i));
             createNewEncryptBtnComponent(language.charAt(i));
         }
+        decryptionVBOX.getChildren().add(showDecryptedCode);
     }
 
 
