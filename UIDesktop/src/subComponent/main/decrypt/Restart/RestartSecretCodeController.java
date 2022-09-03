@@ -15,6 +15,7 @@ public class RestartSecretCodeController {
     @FXML
     void restartSecretCodeBTN(ActionEvent event) {
         mainController.getEngineCommand().validateUserChoiceAndResetSecretCode();
+        mainController.setLBLToCodeCombinationBindingMain();
     }
 
 }

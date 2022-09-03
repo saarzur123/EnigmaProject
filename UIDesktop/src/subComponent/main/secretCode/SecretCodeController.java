@@ -30,12 +30,9 @@ public class SecretCodeController {
         secretCodeSecretCombination.bind(
                 Bindings.concat(mainController.getEngine().getSecretCode().getSecretCodeCombination()));
         showSecretCodeLBL.textProperty().bind(showSecretCode);
-        changeCodeLblAccordingToCodeCombination();
-    }
-
-    public void changeCodeLblAccordingToCodeCombination(){
         showSecretCode.set(secretCodeSecretCombination.getValue());
     }
+
 
     public SimpleBooleanProperty getIsSecretCodeExist(){return noSecretCode;}
 
