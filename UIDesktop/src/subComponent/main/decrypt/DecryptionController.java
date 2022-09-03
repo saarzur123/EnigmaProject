@@ -1,5 +1,7 @@
 package subComponent.main.decrypt;
 
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -22,10 +24,11 @@ public class DecryptionController {
 
     private MainScreenController mainController;
 
-    @FXML    private ScrollPane decryptionAP;
+    @FXML    private VBox decryptionVBOX;
     @FXML    private FlowPane decryptFP;
     @FXML    private FlowPane encryptFP;
     private DecryptionButtonController goldEncryptedBtnController;
+    private Label showDecryptedCode = new Label("");
 
     Map<Character, DecryptionButtonController> charToDecryptButtonController = new HashMap<>();
     Map<Character, DecryptionButtonController> charToEncryptButtonController = new HashMap<>();
@@ -45,6 +48,10 @@ public class DecryptionController {
 
     public DecryptionButtonController getGoldEncryptedBtnController() {
         return goldEncryptedBtnController;
+    }
+
+    public Label getDecryptionLBL() {
+        return showDecryptedCode;
     }
 
     public void onEncryptAction(String charOnEncryptBtn){

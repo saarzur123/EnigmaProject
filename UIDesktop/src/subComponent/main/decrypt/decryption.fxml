@@ -9,7 +9,7 @@
   <content>
     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="712.0" prefWidth="994.0">
          <children>
-            <VBox alignment="TOP_CENTER" layoutY="-1.0" prefHeight="387.0" prefWidth="431.0" spacing="30.0">
+            <VBox fx:id="decryptionVBOX" alignment="TOP_CENTER" layoutY="-1.0" prefHeight="387.0" prefWidth="431.0" spacing="30.0">
                <children>
                   <FlowPane fx:id="encryptFP" alignment="CENTER" />
                   <FlowPane fx:id="decryptFP" alignment="CENTER" />

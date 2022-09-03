@@ -25,6 +25,8 @@ public class DecryptionButtonController {
         }
         String encryptChar = decryptionController.getMainController().getEngineCommand().processData(decryptCharBTN.getId());
         decryptionController.onEncryptAction(encryptChar);
+        String currDecryptedCode = decryptionController.getDecryptionLBL().getText();
+        decryptionController.getDecryptionLBL().setText(currDecryptedCode+encryptChar);
     }
 
     public void setButton(Character character){
