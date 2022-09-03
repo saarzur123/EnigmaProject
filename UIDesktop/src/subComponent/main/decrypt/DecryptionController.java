@@ -33,9 +33,10 @@ public class DecryptionController {
     private DecryptionButtonController goldEncryptedBtnController;
     private javafx.scene.control.Label showDecryptedCode = new javafx.scene.control.Label("");
     private Button clearDecryptionBtn = new Button("CLEAR");
+    private String userDecryptText = new
 
-    Map<Character, DecryptionButtonController> charToDecryptButtonController = new HashMap<>();
-    Map<Character, DecryptionButtonController> charToEncryptButtonController = new HashMap<>();
+    private Map<Character, DecryptionButtonController> charToDecryptButtonController = new HashMap<>();
+    private Map<Character, DecryptionButtonController> charToEncryptButtonController = new HashMap<>();
 
 
     @FXML
@@ -142,6 +143,9 @@ public class DecryptionController {
     public void setAfterDecryption(String currDecryptedCode){
         showDecryptedCode.setText(currDecryptedCode);
         mainController.setLBLToCodeCombinationBindingMain();
+        mainController.getHistoryController().updateCurrHistory();
+        mainController.getMachineDetailsController().updateCurrMachineDetails();
+
     }
 
     private void setClearBtn(){
