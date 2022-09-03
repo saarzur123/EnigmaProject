@@ -15,6 +15,7 @@ import javafx.scene.paint.Color;
 import subComponent.main.create.secret.code.CreateSecretCodeController;
 import subComponent.main.create.secret.codes.CreateNewSecretCodeController;
 import subComponent.main.decrypt.DecryptionController;
+import subComponent.main.decrypt.Restart.RestartSecretCodeController;
 import subComponent.main.decrypt.history.HistoryController;
 import subComponent.main.loadFXML.LoadFXMLController;
 import subComponent.main.machine.detail.MachineDetailsController;
@@ -40,6 +41,7 @@ public class MainScreenController {
 
     @FXML private VBox createNewSecretCode;
     @FXML private CreateNewSecretCodeController createNewSecretCodeController;
+
 
     @FXML private ScrollPane decryption;
     @FXML private DecryptionController decryptionController;
@@ -101,6 +103,7 @@ public class MainScreenController {
     public void setHistoryTxt(){
         historyController.setMachineHistoryAndShow();
     }
+
     public static void showErrorPopup(String message) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle("Error");

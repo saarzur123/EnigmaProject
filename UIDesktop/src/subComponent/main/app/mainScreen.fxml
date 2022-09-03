@@ -31,17 +31,23 @@
                   <content>
                     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                            <children>
-                              <BorderPane prefHeight="472.0" prefWidth="1000.0">
+                              <BorderPane prefHeight="200.0" prefWidth="1142.0">
                                  <right>
                                     <BorderPane fx:id="historyBoarderPane" prefHeight="472.0" prefWidth="378.0" BorderPane.alignment="TOP_RIGHT">
                                        <top>
                                           <fx:include fx:id="history" source="../decrypt/history/History.fxml" BorderPane.alignment="TOP_RIGHT" />
                                        </top>
+                                       <center>
+                                          <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
+                                       </center>
                                     </BorderPane>
                                  </right>
                                  <left>
                                     <fx:include fx:id="decryption" source="../decrypt/decryption.fxml" />
                                  </left>
+                                 <bottom>
+                                    <fx:include source="../decrypt/Restart/Restart.fxml" />
+                                 </bottom>
                               </BorderPane>
                            </children></AnchorPane>
                   </content>
