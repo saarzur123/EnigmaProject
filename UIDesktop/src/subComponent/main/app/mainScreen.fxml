@@ -27,20 +27,20 @@
                         </AnchorPane>
                   </content>
                 </Tab>
-                <Tab text="Untitled Tab 2">
+                <Tab text="Encryption / Decryption">
                   <content>
                     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                            <children>
                               <BorderPane prefHeight="472.0" prefWidth="1000.0">
                                  <right>
-                                    <BorderPane prefHeight="472.0" prefWidth="378.0" BorderPane.alignment="TOP_RIGHT">
+                                    <BorderPane fx:id="historyBoarderPane" prefHeight="472.0" prefWidth="378.0" BorderPane.alignment="TOP_RIGHT">
                                        <top>
-                                          <fx:include source="../decrypt/history/History.fxml" BorderPane.alignment="TOP_RIGHT" />
+                                          <fx:include fx:id="history" source="../decrypt/history/History.fxml" BorderPane.alignment="TOP_RIGHT" />
                                        </top>
                                     </BorderPane>
                                  </right>
                                  <left>
-                                    <fx:include source="../decrypt/decryption.fxml" />
+                                    <fx:include fx:id="decryption" source="../decrypt/decryption.fxml" />
                                  </left>
                               </BorderPane>
                            </children></AnchorPane>

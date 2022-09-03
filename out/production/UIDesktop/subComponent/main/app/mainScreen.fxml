@@ -1,15 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.layout.ColumnConstraints?>
-<?import javafx.scene.layout.GridPane?>
-<?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
-<?import javafx.scene.text.Font?>
 
 <BorderPane fx:id="mainBoardPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="subComponent.main.app.MainScreenController">
    <center>
@@ -32,38 +27,21 @@
                         </AnchorPane>
                   </content>
                 </Tab>
-                <Tab text="Untitled Tab 2">
+                <Tab text="Encryption / Decryption">
                   <content>
                     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                            <children>
                               <BorderPane prefHeight="472.0" prefWidth="1000.0">
-                                 <center>
-                                    <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
-                                       <children>
-                                          <GridPane prefHeight="398.0" prefWidth="1000.0">
-                                            <columnConstraints>
-                                              <ColumnConstraints hgrow="SOMETIMES" maxWidth="604.0" minWidth="10.0" prefWidth="598.0" />
-                                              <ColumnConstraints hgrow="SOMETIMES" maxWidth="495.0" minWidth="10.0" prefWidth="402.0" />
-                                            </columnConstraints>
-                                            <rowConstraints>
-                                              <RowConstraints maxHeight="396.0" minHeight="10.0" prefHeight="396.0" vgrow="SOMETIMES" />
-                                            </rowConstraints>
-                                             <children>
-                                                <fx:include fx:id="decryption" prefHeight="400.0" prefWidth="600.0" source="../decrypt/decryption.fxml" />
-                                                <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="1">
-                                                   <children>
-                                                      <Label text="History &amp; Statistics" underline="true">
-                                                         <font>
-                                                            <Font name="Baloo Bhai 2 ExtraBold" size="25.0" />
-                                                         </font>
-                                                      </Label>
-                                                   </children>
-                                                </VBox>
-                                             </children>
-                                          </GridPane>
-                                       </children>
-                                    </VBox>
-                                 </center>
+                                 <right>
+                                    <BorderPane fx:id="historyBoarderPane" prefHeight="472.0" prefWidth="378.0" BorderPane.alignment="TOP_RIGHT">
+                                       <top>
+                                          <fx:include fx:id="history" source="../decrypt/history/History.fxml" BorderPane.alignment="TOP_RIGHT" />
+                                       </top>
+                                    </BorderPane>
+                                 </right>
+                                 <left>
+                                    <fx:include fx:id="decryption" source="../decrypt/decryption.fxml" />
+                                 </left>
                               </BorderPane>
                            </children></AnchorPane>
                   </content>
