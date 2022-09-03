@@ -33,7 +33,8 @@ public class DecryptionController {
     private DecryptionButtonController goldEncryptedBtnController;
     private javafx.scene.control.Label showDecryptedCode = new javafx.scene.control.Label("");
     private Button clearDecryptionBtn = new Button("CLEAR");
-    private String userDecryptText = new
+
+    private String userDecryptText;
 
     private Map<Character, DecryptionButtonController> charToDecryptButtonController = new HashMap<>();
     private Map<Character, DecryptionButtonController> charToEncryptButtonController = new HashMap<>();
