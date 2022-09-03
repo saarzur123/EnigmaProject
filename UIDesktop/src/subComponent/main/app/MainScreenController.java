@@ -54,6 +54,8 @@ public class MainScreenController {
 
     @FXML private TabPane tabControl;
 
+    @FXML private HBox decryptionHBOX;
+
     private Commander engineCommands = new Engine();
 
     private Engine engine ;
@@ -84,10 +86,13 @@ public class MainScreenController {
     public Commander getEngineCommand(){return engineCommands;}
     public Engine getEngine(){return engine;}
 
+    public HBox getDecryptionHBOX() {
+        return decryptionHBOX;
+    }
+
     public void setLBLToCodeCombinationBindingMain(){
         secretCodeController.setLBLToCodeCombinationBinding();
     }
-
 
     public void setDecryptionTab(){
         decryptionController.setDecryptionFP();

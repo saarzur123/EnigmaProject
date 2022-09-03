@@ -2,14 +2,18 @@ package subComponent.main.decrypt;
 
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Font;
 import subComponent.main.app.MainScreenController;
 import subComponent.main.create.secret.code.plug.board.charComponent.CharButtonController;
 import subComponent.main.decrypt.keyboard.button.DecryptionButtonController;
@@ -24,11 +28,11 @@ public class DecryptionController {
 
     private MainScreenController mainController;
 
-    @FXML    private VBox decryptionVBOX;
     @FXML    private FlowPane decryptFP;
     @FXML    private FlowPane encryptFP;
     private DecryptionButtonController goldEncryptedBtnController;
     private javafx.scene.control.Label showDecryptedCode = new javafx.scene.control.Label("");
+    private Button clearDecryptionBtn = new Button("CLEAR");
 
     Map<Character, DecryptionButtonController> charToDecryptButtonController = new HashMap<>();
     Map<Character, DecryptionButtonController> charToEncryptButtonController = new HashMap<>();
@@ -115,9 +119,38 @@ public class DecryptionController {
             createNewDecryptBtnComponent(language.charAt(i));
             createNewEncryptBtnComponent(language.charAt(i));
         }
-        decryptionVBOX.getChildren().add(showDecryptedCode);
+        setDecryptionHbox();
+    }
+
+    private void setDecryptionHbox(){
+        mainController.getDecryptionHBOX().getChildren().clear();
+        mainController.getDecryptionHBOX().setSpacing(10);
+        mainController.getDecryptionHBOX().getChildren().add(textShowDecryptionLBL());
+        mainController.getDecryptionHBOX().getChildren().add(showDecryptedCode);
+        setClearBtn();
+        mainController.getDecryptionHBOX().getChildren().add(clearDecryptionBtn);
+    }
+
+    private Label textShowDecryptionLBL(){
+        Label textShow = new Label("Encrypted text :");
+        textShow.setFont(new Font("Verdana",20));
+        return textShow;
+    }
+
+    public void setAfterDecryption(String currDecryptedCode){
+        showDecryptedCode.setText(currDecryptedCode);
+        mainController.setLBLToCodeCombinationBindingMain();
+    }
+
+    private void setClearBtn(){
+        clearDecryptionBtn.setOnAction(e -> {
+            if(goldEncryptedBtnController != null){
+                goldEncryptedBtnController.getDecryptCharBTN().setStyle("-fx-background-color: White");
+            }
+            showDecryptedCode.setText("");
+            });
     }
 
 
-
 }
+
