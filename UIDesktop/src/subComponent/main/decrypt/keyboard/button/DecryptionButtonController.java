@@ -23,7 +23,7 @@ public class DecryptionButtonController {
     @FXML
     void decryptCharAction(ActionEvent event) {
         if(decryptionController.getGoldEncryptedBtnController() != null){
-            decryptionController.getGoldEncryptedBtnController().getDecryptCharBTN().setStyle("-fx-background-color: White");
+            decryptionController.getGoldEncryptedBtnController().getDecryptCharBTN().setStyle("-fx-background-color: red");
         }
         String save = decryptionController.getUserDecryptText().get() + decryptCharBTN.getText();
         decryptionController.getUserDecryptText().set(save);
