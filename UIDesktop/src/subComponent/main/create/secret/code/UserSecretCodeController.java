@@ -314,6 +314,7 @@ public class UserSecretCodeController {
             Stage stage = (Stage) reflectorIdCB.getScene().getWindow();
             stage.close();
         }
+        createNewSecretCodeController.getMainController().getMachineDetailsController().updateCurrMachineDetails();
     }
 
 
