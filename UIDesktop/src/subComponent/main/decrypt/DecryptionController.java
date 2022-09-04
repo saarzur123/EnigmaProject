@@ -129,19 +129,12 @@ public class DecryptionController {
     }
 
     private void setDecryptionHbox(){
-        mainController.getDecryptShowTA().setFont(new Font("Verdana",20));
-        mainController.getDecryptShowTA().setEditable(false);
-        mainController.getDecryptShowTA().textProperty().bind(Bindings.concat("Decrypted text: ", userDecryptText, " Encrypted text: ",showDecryptedCode));
-        setClearBtn();
         mainController.getDecryptionHBOX().getChildren().clear();
+        mainController.getDecryptionHBOX().getChildren().add(mainController.getDecryptShowTA());
+        setClearBtn();
         mainController.getDecryptionHBOX().getChildren().add(clearDecryptionBtn);
     }
 
-    private Label textShowDecryptionLBL(String text){
-        Label textShow = new Label(text);
-        textShow.setFont(new Font("Verdana",20));
-        return textShow;
-    }
 
     public void setAfterDecryption(String currDecryptedCode){
         showDecryptedCode.set(currDecryptedCode);
@@ -152,14 +145,16 @@ public class DecryptionController {
 
     private void setClearBtn(){
         clearDecryptionBtn.setOnAction(e -> {
-            if(goldEncryptedBtnController != null){
-                goldEncryptedBtnController.getDecryptCharBTN().setStyle("-fx-background-color: White");
-            }
-            userDecryptText.set("");
-            showDecryptedCode.set("");
+            onClear();
         });
     }
 
-
+    public void onClear(){
+        if(goldEncryptedBtnController != null){
+            goldEncryptedBtnController.getDecryptCharBTN().setStyle("-fx-background-color: White");
+        }
+        userDecryptText.set("");
+        showDecryptedCode.set("");
+    }
 }
 

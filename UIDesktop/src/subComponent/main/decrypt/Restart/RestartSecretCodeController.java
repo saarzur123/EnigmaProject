@@ -16,7 +16,7 @@ public class RestartSecretCodeController {
     void restartSecretCodeBTN(ActionEvent event) {
         mainController.getEngineCommand().validateUserChoiceAndResetSecretCode();
         mainController.setLBLToCodeCombinationBindingMain();
-        mainController.getDecryptionController().setShowDecryptedCode();
+        mainController.getDecryptionController().onClear();
         mainController.getMachineDetailsController().updateCurrMachineDetails();
     }
 
