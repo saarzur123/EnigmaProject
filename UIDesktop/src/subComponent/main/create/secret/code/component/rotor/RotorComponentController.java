@@ -8,6 +8,7 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.SplitMenuButton;
+import javafx.scene.image.ImageView;
 import machine.MachineImplement;
 import subComponent.main.create.secret.code.UserSecretCodeController;
 
@@ -19,6 +20,7 @@ public class RotorComponentController {
     @FXML private Label rotorFromRightLBL;
     @FXML    private ComboBox<Integer> chooseIdCB;
     @FXML    private ComboBox<Character> chooseStartPosCB;
+    @FXML private ImageView rotorIMG;
     private UserSecretCodeController userSecretCodeController;
 
     private SimpleIntegerProperty idChosen = new SimpleIntegerProperty();
@@ -28,6 +30,8 @@ public class RotorComponentController {
     public void setUserSecretCodeController(UserSecretCodeController userSecretCodeController){
         this.userSecretCodeController = userSecretCodeController;
     }
+
+    public ImageView getRotorIMG(){return rotorIMG;}
 
     private void setRotorFromRightLBL(Integer numberFromRight){
         rotorFromRightLBL.setText(String.valueOf(numberFromRight));
