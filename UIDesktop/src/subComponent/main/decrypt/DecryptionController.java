@@ -1,6 +1,9 @@
 package subComponent.main.decrypt;
 
+import javafx.animation.*;
 import javafx.beans.binding.Bindings;
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.event.ActionEvent;
@@ -13,8 +16,12 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.FlowPane;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
 import javafx.scene.text.Font;
+import javafx.util.Duration;
 import subComponent.main.app.MainScreenController;
 import subComponent.main.create.secret.code.plug.board.charComponent.CharButtonController;
 import subComponent.main.decrypt.keyboard.button.DecryptionButtonController;
@@ -65,12 +72,28 @@ public class DecryptionController {
     public void setShowDecryptedCode(){showDecryptedCode.set("");}
 
     public void onEncryptAction(String charOnEncryptBtn){
+        int i = 0;
         for(DecryptionButtonController controller : charToEncryptButtonController.values()){
             boolean found = controller.getDecryptCharBTN().getText().equals(charOnEncryptBtn);
             if(found){
                 goldEncryptedBtnController = controller;
-                controller.getDecryptCharBTN().setStyle("-fx-background-color: Gold");
+                controller.getDecryptCharBTN().setStyle("-fx-background-color: Green");
+
+                Duration duration = Duration.millis(500);
+                RotateTransition rotateTransition = new RotateTransition(duration, controller.getDecryptCharBTN());
+                rotateTransition.setByAngle(200);
+                rotateTransition.setAutoReverse(true);
+                                FadeTransition fadeOutTransition = new FadeTransition(Duration.millis(2000), controller.getDecryptCharBTN());
+                fadeOutTransition.setFromValue(1.0);
+                fadeOutTransition.setToValue(0.0);
+                fadeOutTransition.setAutoReverse(true);
+                fadeOutTransition.play();
+                                FadeTransition fadeInTransition = new FadeTransition(Duration.millis(2000), controller.getDecryptCharBTN());
+                fadeInTransition.setFromValue(0.0);
+                fadeInTransition.setToValue(1.0);
+                fadeInTransition.play();
             }
+            i++;
         }
     }
 
