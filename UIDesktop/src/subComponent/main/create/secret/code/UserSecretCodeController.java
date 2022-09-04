@@ -247,7 +247,7 @@ public class UserSecretCodeController {
                 userDto.getRotorsStartPosition().add(strPos.charAt(i));
             }
             if(submitRotor){
-                Duration duration = Duration.millis(2500);
+                Duration duration = Duration.millis(2000);
                 RotateTransition rotateTransition = new RotateTransition(duration, numberFromRightToRotorComponentController.get(i+1).getRotorIMG());
                 rotateTransition.setByAngle(360);
                 rotateTransition.play();
