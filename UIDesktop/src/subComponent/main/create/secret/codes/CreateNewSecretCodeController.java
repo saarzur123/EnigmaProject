@@ -52,6 +52,7 @@ public class CreateNewSecretCodeController {
         stage.initStyle(StageStyle.DECORATED);// now te pop up window will have a toolbar
         stage.setTitle("Manually Configuration Window");
         stage.setScene(new Scene(root1));
+        stage.getScene().getStylesheets().add("style1.css");
         userSecretCodeController = fxmlLoader.getController();
         userSecretCodeController.setNewSecretCodeController(this);
         setUserSecretCodeController();

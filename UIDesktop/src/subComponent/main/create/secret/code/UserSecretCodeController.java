@@ -1,5 +1,6 @@
 package subComponent.main.create.secret.code;
 import dTOUI.DTOSecretCodeFromUser;
+import javafx.animation.RotateTransition;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -18,6 +19,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 import machine.MachineImplement;
 import secret.code.validation.SecretCodeValidations;
 import subComponent.main.app.MainAppController;
@@ -244,7 +246,16 @@ public class UserSecretCodeController {
                 strPos+= numberFromRightToRotorComponentController.get(i+1).getStartPosition().get();
                 userDto.getRotorsStartPosition().add(strPos.charAt(i));
             }
+            if(submitRotor){
+                Duration duration = Duration.millis(2500);
+                RotateTransition rotateTransition = new RotateTransition(duration, numberFromRightToRotorComponentController.get(i+1).getRotorIMG());
+                rotateTransition.setByAngle(360);
+                rotateTransition.play();
+
+            }
         }
+
+
         checkIfAllSubmit();
         validateRotorsId(errorMsg);
     }
@@ -312,6 +323,7 @@ public class UserSecretCodeController {
             createNewSecretCodeController.getMainController().getEngineCommand().getSecretCodeFromUser(userDto,false);
             createNewSecretCodeController.getMainController().setLBLToCodeCombinationBindingMain();
             Stage stage = (Stage) reflectorIdCB.getScene().getWindow();
+
             stage.close();
         }
         createNewSecretCodeController.getMainController().getMachineDetailsController().updateCurrMachineDetails();

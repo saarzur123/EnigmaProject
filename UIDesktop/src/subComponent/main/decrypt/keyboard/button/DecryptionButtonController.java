@@ -1,10 +1,12 @@
 package subComponent.main.decrypt.keyboard.button;
 
+import javafx.animation.TranslateTransition;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.shape.Circle;
 import javafx.scene.transform.Rotate;
+import javafx.util.Duration;
 import subComponent.main.decrypt.DecryptionController;
 
 public class DecryptionButtonController {
@@ -27,6 +29,14 @@ public class DecryptionButtonController {
         decryptionController.getUserDecryptText().set(save);
         String encryptChar = decryptionController.getMainController().getEngineCommand().processData(decryptCharBTN.getText());
         decryptionController.onEncryptAction(encryptChar);
+
+        Duration duration = Duration.millis(200);
+        TranslateTransition transition = new TranslateTransition(duration, decryptCharBTN);
+        transition.setByY(20);
+        transition.setAutoReverse(true);
+        transition.setCycleCount(2);
+        transition.play();
+
         String currDecryptedCode = decryptionController.getDecryptionLBL().get()+encryptChar;
         decryptionController.setAfterDecryption(currDecryptedCode);
     }
