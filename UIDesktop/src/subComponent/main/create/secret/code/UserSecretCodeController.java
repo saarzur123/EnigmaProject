@@ -323,6 +323,7 @@ public class UserSecretCodeController {
             createNewSecretCodeController.getMainController().getEngineCommand().getSecretCodeFromUser(userDto,false);
             createNewSecretCodeController.getMainController().setLBLToCodeCombinationBindingMain();
             Stage stage = (Stage) reflectorIdCB.getScene().getWindow();
+
             stage.close();
         }
         createNewSecretCodeController.getMainController().getMachineDetailsController().updateCurrMachineDetails();
