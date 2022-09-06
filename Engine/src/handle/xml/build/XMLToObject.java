@@ -1,7 +1,9 @@
 package handle.xml.build;
+import decryption.manager.DecryptionManager;
 import enigmaException.xmlException.XMLException;
 import handle.xml.check.CheckXML;
 import enigmaException.xmlException.ExceptionDTO;
+import decryption.manager.Dictionary;
 import machine.jaxbGenerated.*;
 import machine.MachineImplement;
 import machine.Reflector;
@@ -24,6 +26,7 @@ public class XMLToObject {
     private final static String JAXB_PACKAGE_NAME = "machine.jaxbGenerated";
     private List<ExceptionDTO> checkedObjectsList = new ArrayList<>();
     private CheckXML xmlValidator = new CheckXML();
+    private CTEDecipher cteDecipher = new CTEDecipher();
 
     public MachineImplement machineFromXml(String desiredXmlPath) {
         MachineImplement machineImplement = null;
@@ -52,9 +55,8 @@ public class XMLToObject {
         JAXBContext jc = JAXBContext.newInstance(JAXB_PACKAGE_NAME);
         Unmarshaller u = jc.createUnmarshaller();
         CTEEnigma cteEnigma = (CTEEnigma) u.unmarshal(in);
-
+        cteDecipher = cteEnigma.getCTEDecipher();
         return enigmaImplementFromJAXB(cteEnigma);
-
     }
 
     private MachineImplement enigmaImplementFromJAXB(CTEEnigma cteEnigma) {
@@ -76,6 +78,16 @@ public class XMLToObject {
         if(checkedObjectsList.size() == 0)
             retMachine = new MachineImplement(rotorsList, reflectorsList, cteMachine.getRotorsCount(), cleanStringABC);
         return retMachine;
+    }
+
+    private Dictionary createDictionary(){
+        Dictionary dict = new Dictionary(cteDecipher.getCTEDictionary().getWords(),cteDecipher.getCTEDictionary().getExcludeChars());
+        return dict;
+    }
+
+    public DecryptionManager createDecryptionManager(){
+        DecryptionManager dm = new DecryptionManager(cteDecipher.getAgents(), createDictionary());
+        return dm;
     }
 
     private String cleanABC(String abcFromJAXB) {

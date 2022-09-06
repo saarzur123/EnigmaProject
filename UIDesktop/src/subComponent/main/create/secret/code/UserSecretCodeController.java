@@ -254,8 +254,6 @@ public class UserSecretCodeController {
 
             }
         }
-
-
         checkIfAllSubmit();
         validateRotorsId(errorMsg);
     }

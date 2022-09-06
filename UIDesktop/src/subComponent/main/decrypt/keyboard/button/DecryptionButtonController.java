@@ -22,6 +22,15 @@ public class DecryptionButtonController {
 
     @FXML
     void decryptCharAction(ActionEvent event) {
+        if(!decryptionController.isCompleteStringDecryption()){
+            singleCharDecryption();
+        }
+        else{
+            completeStringDecryption();
+        }
+    }
+
+    private void singleCharDecryption(){
         if(decryptionController.getGoldEncryptedBtnController() != null){
             decryptionController.getGoldEncryptedBtnController().getDecryptCharBTN().setStyle("-fx-background-color: White");
         }
@@ -38,7 +47,12 @@ public class DecryptionButtonController {
         transition.play();
 
         String currDecryptedCode = decryptionController.getDecryptionLBL().get()+encryptChar;
-        decryptionController.setAfterDecryption(currDecryptedCode);
+        decryptionController.setAfterSingleCharDecryption(currDecryptedCode);
+    }
+
+    private void completeStringDecryption(){
+        String saver = decryptionController.getUserDecryptCompleteString().get() + decryptCharBTN.getText();
+        decryptionController.getUserDecryptCompleteString().set(saver);
     }
 
     public void setButton(Character character){

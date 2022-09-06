@@ -40,7 +40,7 @@ public class RotorComponentController {
     public void setAllData(int numberFromRight){
         MachineImplement machine = userSecretCodeController.getMachine();
         setRotorFromRightLBL(numberFromRight);
-        setChooseIdSMB(machine.getInUseRotorNumber());
+        setChooseIdSMB(machine.getAvailableRotors().size());
         setChooseStartPosSMB(machine.getABC());
     }
 

@@ -4,6 +4,7 @@ package subComponent.main.app;
 import engine.Commander;
 import engine.Engine;
 import javafx.beans.binding.Bindings;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.scene.control.*;
@@ -12,6 +13,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
@@ -55,11 +57,8 @@ public class MainScreenController {
     @FXML private ScrollPane decryption;
     @FXML private DecryptionController decryptionController;
     @FXML private BorderPane mainBoardPane;
-
     @FXML private VBox history;
-
     @FXML private TabPane tabControl;
-
     @FXML private HBox decryptionHBOX;
     @FXML private Label decryptShowLBL;
 

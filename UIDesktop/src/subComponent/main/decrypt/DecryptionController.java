@@ -14,6 +14,7 @@ import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.Pane;
@@ -37,16 +38,26 @@ public class DecryptionController {
     private MainScreenController mainController;
     @FXML    private FlowPane decryptFP;
     @FXML    private FlowPane encryptFP;
+    @FXML private javafx.scene.control.TextField userDecryptedStringTF;
+    @FXML private TextField userEncryptedStringTF;
+    @FXML private Button decryptStringBTN;
+    private boolean isCompleteStringDecryption = false;
     private DecryptionButtonController goldEncryptedBtnController;
     private StringProperty showDecryptedCode = new SimpleStringProperty("");
     private Button clearDecryptionBtn = new Button("CLEAR");
     private StringProperty userDecryptText = new SimpleStringProperty("");
+    private StringProperty userDecryptCompleteString = new SimpleStringProperty("");
+
     private Map<Character, DecryptionButtonController> charToDecryptButtonController = new HashMap<>();
     private Map<Character, DecryptionButtonController> charToEncryptButtonController = new HashMap<>();
 
 
     @FXML
     public void initialize(){
+        userDecryptedStringTF.setEditable(false);
+        userEncryptedStringTF.setEditable(false);
+        userDecryptedStringTF.textProperty().bind(userDecryptCompleteString);
+        disableStringDecryption(!isCompleteStringDecryption);
     }
 
     public void setMainController(MainScreenController mainController) {
@@ -67,6 +78,14 @@ public class DecryptionController {
 
     public StringProperty getUserDecryptText() {
         return userDecryptText;
+    }
+
+    public boolean isCompleteStringDecryption() {
+        return isCompleteStringDecryption;
+    }
+
+    public StringProperty getUserDecryptCompleteString(){
+        return userDecryptCompleteString;
     }
 
     public void setShowDecryptedCode(){showDecryptedCode.set("");}
@@ -159,14 +178,36 @@ public class DecryptionController {
     }
 
 
-    public void setAfterDecryption(String currDecryptedCode){
-        showDecryptedCode.set(currDecryptedCode);
+    public void setAfterDecryption(){
         mainController.setLBLToCodeCombinationBindingMain();
         mainController.getHistoryController().updateCurrHistory();
         mainController.getMachineDetailsController().updateCurrMachineDetails();
     }
 
+    public void setAfterSingleCharDecryption(String currDecryptedCode){
+        showDecryptedCode.set(currDecryptedCode);
+        setAfterDecryption();
+    }
+
+    @FXML
+    void completeStringDecryptionCheckBoxAction(ActionEvent event) {
+        isCompleteStringDecryption = !isCompleteStringDecryption;
+        disableStringDecryption(!isCompleteStringDecryption);
+    }
+
+    @FXML
+    void userStringDecryptBtnAction(ActionEvent event) {
+        String encrypted = "";
+        String decrypted = userDecryptedStringTF.getText();
+        if( decrypted != ""){
+            encrypted = mainController.getEngineCommand().processData(decrypted.toUpperCase());
+            setAfterDecryption();
+        }
+        userEncryptedStringTF.setText(encrypted);
+    }
+
     private void setClearBtn(){
+        clearDecryptionBtn.setPrefWidth(100);
         clearDecryptionBtn.setOnAction(e -> {
             onClear();
         });
@@ -178,6 +219,14 @@ public class DecryptionController {
         }
         userDecryptText.set("");
         showDecryptedCode.set("");
+        userEncryptedStringTF.setText("");
+        userDecryptCompleteString.set("");
+    }
+
+    private void disableStringDecryption(boolean state){
+        userDecryptedStringTF.setDisable(state);
+        userEncryptedStringTF.setDisable(state);
+        decryptStringBTN.setDisable(state);
     }
 }
 

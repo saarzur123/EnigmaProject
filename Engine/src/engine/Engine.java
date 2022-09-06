@@ -3,6 +3,7 @@ package engine;
 import dTOUI.DTOHistoryStatistics;
 import dTOUI.DTOMachineDetails;
 import dTOUI.DTOSecretCodeFromUser;
+import decryption.manager.DecryptionManager;
 import history.statistics.HistoryAndStatisticsForMachine;
 import history.statistics.mapSourceDecodedAndTime.SourceAndDecodedAndTime;
 import history.statistics.sourceAndDecoded.SourceAndDecodedString;
@@ -20,6 +21,7 @@ public class Engine implements Commander {
     private MachineImplement machine;
     private SecretCode secretCode;
     private MachineDetails machineDetailsPresenter;
+    private DecryptionManager decryptionManager;
     private HistoryAndStatisticsForMachine historyAndStatisticsForMachine = new HistoryAndStatisticsForMachine();
     private SecretCodeRandomAutomation secretCodeRandomAutomation = new SecretCodeRandomAutomation();
 
@@ -37,6 +39,8 @@ public class Engine implements Commander {
                 this.secretCode = null;
                 this.machineDetailsPresenter = new MachineDetails(machine, secretCode);
                 this.historyAndStatisticsForMachine = new HistoryAndStatisticsForMachine();
+                this.decryptionManager = converter.createDecryptionManager();
+                decryptionManager.setMachine(machine);
             }
 
         return machine;
@@ -102,10 +106,10 @@ public class Engine implements Commander {
     @Override
     public void getRandomSecretCode(){
         secretCode = new SecretCode(machine);
-
         secretCode = secretCodeRandomAutomation.getSecretCodeAutomation(machine);
         updateAfterSecretCode();
     }
+
     private void updateAfterSecretCode(){
         if(secretCode != null){
             machineDetailsPresenter.addSecretCode(secretCode);
