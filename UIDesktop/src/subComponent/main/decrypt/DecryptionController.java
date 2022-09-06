@@ -97,12 +97,7 @@ public class DecryptionController {
             if(found){
                 goldEncryptedBtnController = controller;
                 controller.getDecryptCharBTN().setStyle("-fx-background-color: Green");
-
-                Duration duration = Duration.millis(500);
-                RotateTransition rotateTransition = new RotateTransition(duration, controller.getDecryptCharBTN());
-                rotateTransition.setByAngle(200);
-                rotateTransition.setAutoReverse(true);
-                                FadeTransition fadeOutTransition = new FadeTransition(Duration.millis(2000), controller.getDecryptCharBTN());
+                FadeTransition fadeOutTransition = new FadeTransition(Duration.millis(2000), controller.getDecryptCharBTN());
                 fadeOutTransition.setFromValue(1.0);
                 fadeOutTransition.setToValue(0.0);
                 fadeOutTransition.setAutoReverse(true);
@@ -215,7 +210,7 @@ public class DecryptionController {
 
     public void onClear(){
         if(goldEncryptedBtnController != null){
-            goldEncryptedBtnController.getDecryptCharBTN().setStyle("-fx-background-color: White");
+            goldEncryptedBtnController.getDecryptCharBTN().setStyle("-fx-background-color: red");
         }
         userDecryptText.set("");
         showDecryptedCode.set("");
