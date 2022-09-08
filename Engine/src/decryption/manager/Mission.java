@@ -20,14 +20,18 @@ public class Mission implements Runnable{
     private Dictionary dictionary;
     private List<Integer> rotorsIdList;
     private Integer reflectorId;
+    private BlockingQueue<DTOMissionResult> candidateQueue;
 
-    public Mission(List<Integer> rotorsIdList,Integer reflectorId, int missionSize,MachineImplement machine, String userDecryptedString, Dictionary dictionary, int[] startIndexes){
-        this.missionSize = missionSize;
+    public Mission(MissionArguments missionArguments, String userDecryptedString,int[] startIndexes,BlockingQueue<DTOMissionResult> candidateQueue){
+        this.missionSize = missionArguments.getMissionSize();
+        createMachineCopy(missionArguments.getMachine());
         this.language = machine.getABC();
-        createMachineCopy(machine);
+        this.candidateQueue = candidateQueue;
         this.userDecryptedString = userDecryptedString;
         this.startIndexes = startIndexes;
-        this.dictionary = dictionary;
+        this.dictionary = missionArguments.getDictionary();
+        this.rotorsIdList = missionArguments.getRotors();
+        this.reflectorId = missionArguments.getReflector();
     }
 
     private void createMachineCopy(MachineImplement machine){
@@ -51,33 +55,26 @@ public class Mission implements Runnable{
 //        int size = codesToCheck.size();
 //       for (int i = 0; i < size; i++) {
 //         MissionArguments missionArguments = codesToCheck.get(i);
-           SecretCode currSecretCode = new SecretCode(machine);
-           currSecretCode.determineSecretCode(missionArguments.getRotors(),missionArguments.getStartPos(),missionArguments.getReflectors().get(0),new HashMap<>());
-//           String stringToCheckInDictionary = machine.encodingAndDecoding(userDecryptedString,currSecretCode.getInUseRotors(),currSecretCode.getPlugBoard(),currSecretCode.getInUseReflector());
-//           boolean isStringOnDictionary = dictionary.isStringInDictionary(stringToCheckInDictionary);
-//           if(isStringOnDictionary){////////ask
-//
-//           }
+
 //       }
    }
 
 
-    private static void makeBruteForce(int length, char[] pool,int[] indexes,int missionSize) {
-        String word="";
+    private void makeBruteForce(int length, char[] pool,int[] indexes,int missionSize) {
+        DTOMissionResult results = new DTOMissionResult();
         int wordIndex = 0;
-        List<String> allStartPos = new ArrayList<>();
+        List<Character> startPos = new ArrayList<>();
 
         int pMax = pool.length;  // stored to speed calculation
         while (indexes[0] < pMax && wordIndex<missionSize) { //if the first index is bigger then pMax we are done
-            word="";
             // print the current permutation
             for (int i = 0; i < length; i++) {
                 System.out.print(pool[indexes[i]]);//print each character
-                word+=pool[indexes[i]];
+                startPos.add(pool[indexes[i]]);
             }
-            System.out.println(); //print end of line
+
+            runCurrSecretCode(startPos,results);
             wordIndex++;
-            allStartPos.add(word);
 
             // increment indexes
             indexes[length - 1]++; // increment the last index
@@ -86,5 +83,27 @@ public class Mission implements Runnable{
                 indexes[i] = 0;   // set current index to zero
             }
         }
+//////////////////////////////////////TODO check if this in synchronized is ok
+        pushResultsToCandidateQueue(results);
+
     }
+
+    private void runCurrSecretCode(List<Character> startPos,DTOMissionResult results) {
+        SecretCode currSecretCode = new SecretCode(machine);
+        currSecretCode.determineSecretCode(rotorsIdList, startPos, reflectorId, new HashMap<>());
+           String stringToCheckInDictionary = machine.encodingAndDecoding(userDecryptedString,currSecretCode.getInUseRotors(),currSecretCode.getPlugBoard(),currSecretCode.getInUseReflector());
+           boolean isStringOnDictionary = dictionary.isStringInDictionary(stringToCheckInDictionary);
+           if(isStringOnDictionary){
+                results.addCandidate(stringToCheckInDictionary);
+           }
+    }
+
+    private void pushResultsToCandidateQueue(DTOMissionResult results){
+        if(results.getEncryptionCandidates().size() > 0){
+            synchronized (this){
+                candidateQueue.add(results);
+            }
+        }
+    }
+
 }

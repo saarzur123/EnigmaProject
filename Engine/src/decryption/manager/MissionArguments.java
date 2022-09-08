@@ -1,28 +1,42 @@
 package decryption.manager;
 
+import machine.MachineImplement;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class MissionArguments {
-   private  java.util.List<Integer> rotors = new ArrayList<>();
-    private List<Character> startPos = new ArrayList<>();
-    private List<Integer> reflectors = new ArrayList<>();
+   private  List<Integer> rotors = new ArrayList<>();
+    private int reflector;
+    private  int missionSize;
+    private MachineImplement machine;
+    private Dictionary dictionary;
 
-    public MissionArguments(List<Integer> rotors, List<Character> startPos, List<Integer> reflectors){
+    public MissionArguments(List<Integer> rotors, int reflector, MachineImplement machine,Dictionary dictionary, int missionSize){
         this.rotors = rotors;
-        this.startPos = startPos;
-        this.reflectors = reflectors;
+        this.reflector = reflector;
+        this.machine = machine;
+        this.dictionary = dictionary;
+        this.missionSize = missionSize;
     }
 
     public List<Integer> getRotors() {
         return rotors;
     }
 
-    public List<Character> getStartPos() {
-        return startPos;
+    public int getReflector() {
+        return reflector;
     }
 
-    public List<Integer> getReflectors() {
-        return reflectors;
+    public MachineImplement getMachine() {
+        return machine;
+    }
+
+    public Dictionary getDictionary() {
+        return dictionary;
+    }
+
+    public int getMissionSize() {
+        return missionSize;
     }
 }

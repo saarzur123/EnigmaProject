@@ -14,11 +14,9 @@ public class DecryptionManager {
     private MachineImplement machine;
     private SecretCode machineSecretCode;
     private int missionSize;
-
-    private BlockingQueue<Runnable> missionGetterQueue = new ArrayBlockingQueue<>(1000);
-    private BlockingQueue<String> encryptionGetterQueue = new LinkedBlockingQueue<>();
+    private BlockingQueue<Runnable> missionGetterQueue = new LinkedBlockingQueue<>(1000);
+    private BlockingQueue<DTOMissionResult> candidateQueue = new LinkedBlockingQueue<>();
     private ThreadPoolExecutor threadPool;
-
     private Dictionary dictionary;
     public DecryptionManager(int agentNumber, Dictionary dictionary){
         this.agentNumber = agentNumber;
@@ -52,12 +50,11 @@ public class DecryptionManager {
 
         //TODO make the level selection at the run method of pushMissionThread instead in here
         if(level == 1){
-            makeBruteForce(machineSecretCode.machine.getInUseRotorNumber(),machine.getABC().toCharArray(),10,decryptUserInput);
-
+            MissionArguments missionArguments = new MissionArguments(machineSecretCode.getRotorsIdList(),machineSecretCode.getReflectorId(),machine,dictionary,missionSize);
         }
     }
 
-    private void handOutMissions(int length, char[] pool, int missionSize,String userDecryptedString) {
+    private void handOutMissions(int length, char[] pool, int missionSize,String userDecryptedString,MissionArguments missionArguments) {
         String word="";
         int wordIndex = 0;
         int[] indexes = new int[length];
@@ -74,13 +71,13 @@ public class DecryptionManager {
             }
 
             if(wordIndex % missionSize == 0){
-                Mission mission = new Mission(missionSize,machine,userDecryptedString,dictionary,indexes);
+
+                Mission mission = new Mission(missionArguments,userDecryptedString,indexes,candidateQueue);
                 try {
                     missionGetterQueue.put(mission);
                 } catch (InterruptedException e) {
                     throw new RuntimeException(e);
                 }
-
             }
 
             System.out.println(); //print end of line
@@ -97,15 +94,15 @@ public class DecryptionManager {
 
 
 
-    private List<MissionArguments> createCodesForLevelOne(List<String> missionStartPositions){
-        List<MissionArguments> codes = new ArrayList<>();
-        for (int i = 0; i < missionSize; i++) {
-            codes.add(createCodeForLevelOne(missionStartPositions.get(i)));
-        }
-        return codes;
-    }
+//    private List<MissionArguments> createCodesForLevelOne(List<String> missionStartPositions){
+//        List<MissionArguments> codes = new ArrayList<>();
+//        for (int i = 0; i < missionSize; i++) {
+//            codes.add(createCodeForLevelOne(missionStartPositions.get(i)));
+//        }
+//        return codes;
+//    }
 
-    private MissionArguments createCodeForLevelOne(String startPositionFromArray){
+    private void createCodeForLevelOne(String startPositionFromArray){
         List<Integer> rotorsId = new ArrayList<>();
         for(Integer id : machine.getAvailableRotors().keySet()){
             rotorsId.add(id);
@@ -121,8 +118,8 @@ public class DecryptionManager {
             startPos.add(startPositionFromArray.charAt(i));
         }
 
-        MissionArguments missionArguments = new MissionArguments(rotorsId,startPos,reflectorsId);
-        return missionArguments;
+        //MissionArguments missionArguments = new MissionArguments(rotorsId,startPos,reflectorsId);
+        //return missionArguments;
     }
 
 
