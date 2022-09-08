@@ -29,7 +29,6 @@ public class MachineDetailsController {
         newTextArea();
     }
     public void updateCurrMachineDetails() {
-
         machineDetailsVBox.getChildren().clear();
         newTextArea();
     }

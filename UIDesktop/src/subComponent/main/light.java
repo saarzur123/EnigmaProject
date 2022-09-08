@@ -1,5 +1,7 @@
 package subComponent.main;
 
+import decryption.manager.Mission;
+import decryption.manager.MissionArguments;
 import javafx.application.Application;
 import javafx.beans.value.ObservableValue;
 import javafx.event.Event;
@@ -27,101 +29,59 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
-public class light  {
-    private static String[] ABC = {"A","B","C","D"};
-
-    public static void swap(String[] arr, int x, int y) {
-        String temp = arr[x];
-        arr[x] = arr[y];
-        arr[y] = temp;
-    }
-//
-//
-//    public static void permute(String[] arr) {
-//        permute(arr, 0, arr.length - 1);
-//        permute(arr, 0, 0);
-//    }
-//
-//
-//     public static void permute(String[] arr, int i, int n) {
-//        int j;
-//        if (i == n)
-//            System.out.println(Arrays.toString(arr));
-//        else {
-//            for (j = i; j <= n; j++) {
-//                swap(arr, i, j);
-//                permute(arr, i + 1, n);
-//                swap(arr, i, j); // backtrack
-//            }
-//        }
-//    }
+public class light{
 
 
-    public static void generate(int n, int r) {
-        List<int[]> combinations = new ArrayList<>();
-        int[] combination = new int[r];
+    /**
+     * @web http://java-buddy.blogspot.com/
+     */
 
-        // initialize with lowest lexicographic combination
-        for (int i = 0; i < r; i++) {
-            combination[i] = i;
-        }
 
-        while (combination[r - 1] < n) {
-            combinations.add(combination.clone());
 
-            // generate next combination in lexicographic order
-            int t = r - 1;
-            while (t != 0 && combination[t] == n - r + t) {
-                t--;
-            }
-            combination[t]++;
-            for (int i = t + 1; i < r; i++) {
-                combination[i] = combination[i - 1] + 1;
-            }
-        }
-
-        System.out.println(Arrays.stream(combination).toArray());
-    }
-
-    public static void baba(String[] arr, int size){
-
-        if(size == 0)
-            System.out.println(Arrays.toString(arr));
-        else {
-            for(int m = 0; m <size;m++) {
-                for(int l = 0;l <size; l++) {
-                    System.out.println(Arrays.toString(arr));
-                    swap(arr,l,m);
-                }
-                c(arr,m);
-                baba(arr, size--);
-
-            }
-
-        }
-    }
-    public static String[] combinations(String[] array) {
-        String[] res = new String[-1 >>> -array.length];
-        for (int i = array.length, k = 0; --i >= 0;) {
-            String s = res[k] = array[i].toString();
-            for (int j = 0, x = k++; j < x;)
-                res[k++] = s + res[j++];
-        }
-        return res;
-    }
-    public static void c(String[] abc, int i){
-        String[] h = abc;
-        h[i+1] =h[i];
-        if(i+1 < abc.length)
-            baba(abc, i+1);
-    }
         public static void main(String[] args) {
-
-            combinations(ABC);
+            int size =3;
+            List<Integer> currInd = new ArrayList<>();
+            currInd.add(1);
+            String[] check = {"A","B","C","D","E"};
+            char[] pool = new char[]{'A', 'B', 'C', 'D'};
+            int[] arr = makeBruteForce(3,pool,new int[] {0,0,3},10);
+//            for (int t = 0; t < arr.length; t++) {
+//                            String d = String.format("%s",arr[t]);
+//                            System.out.println(d);
+//                        }
         }
+
+    private static int[] makeBruteForce(int length, char[] pool,int[] indexes,int missionSize) {
+        String word="";
+        int wordIndex = 0;
+        List<String> allStartPos = new ArrayList<>();
+        // In Java all values in new array are set to zero by default
+        // in other languages you may have to loop through and set them.
+
+        int pMax = pool.length;  // stored to speed calculation
+        while (indexes[0] < pMax && wordIndex<missionSize) { //if the first index is bigger then pMax we are done
+            word="";
+            // print the current permutation
+            for (int i = 0; i < length; i++) {
+                System.out.print(pool[indexes[i]]);//print each character
+                word+=pool[indexes[i]];
+            }
+            System.out.println(); //print end of line
+            wordIndex++;
+            allStartPos.add(word);
+
+            // increment indexes
+            indexes[length - 1]++; // increment the last index
+            for (int i = length - 1; indexes[i] == pMax && i > 0; i--) { // if increment overflows
+                indexes[i - 1]++;  // increment previous index
+                indexes[i] = 0;   // set current index to zero
+            }
+        }
+        return indexes;
+    }
+
 
     }
 

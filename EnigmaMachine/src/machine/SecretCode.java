@@ -33,7 +33,8 @@ public class SecretCode {
     public PlugBoard getPlugBoard() {return plugBoard;}
     public Reflector getInUseReflector(){return reflectorInUse;}
     public String getSecretCodeCombination(){return secretCodeCombination;}
-
+    private List<Integer> rotorsIdList;
+    private Integer reflectorId;
     public void resetSecretCodeCombination(){ secretCodeCombination = "";}
     @Override
     public String toString(){
@@ -41,8 +42,18 @@ public class SecretCode {
         strSecretCode.append(secretCodeCombination);
         return strSecretCode.toString();
     }
+
+    public List<Integer> getRotorsIdList() {
+        return rotorsIdList;
+    }
+
+    public Integer getReflectorId() {
+        return reflectorId;
+    }
+
     private void setRotorsInCodeOrder(List<Integer> rotorsIdPositions)
     {
+        rotorsIdList = rotorsIdPositions;
         rotorsIdPositions.forEach(indexOfID ->
                 rotorsInUse.add(currMachine.getAvailableRotors().get(indexOfID)));
     }
@@ -58,6 +69,7 @@ public class SecretCode {
 
     private void setCodeReflector(int reflectorId)
     {
+        this.reflectorId = reflectorId;
         reflectorInUse = currMachine.getAvailableReflectors().get(reflectorId);
     }
 
