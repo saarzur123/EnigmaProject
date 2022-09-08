@@ -18,10 +18,13 @@ public class DecryptionManager {
     private BlockingQueue<DTOMissionResult> candidateQueue = new LinkedBlockingQueue<>();
     private ThreadPoolExecutor threadPool;
     private Dictionary dictionary;
+
+    private MissionArguments missionArguments;
     public DecryptionManager(int agentNumber, Dictionary dictionary){
         this.agentNumber = agentNumber;
         this.dictionary = dictionary;
         this.threadPool = new ThreadPoolExecutor(agentNumber,agentNumber,10, TimeUnit.SECONDS,missionGetterQueue);
+        threadPool.prestartAllCoreThreads();
     }
 
     public int getMissionSize() {
@@ -42,20 +45,16 @@ public class DecryptionManager {
 
     //TODO make filter userInput
     public void findSecretCode(String userInput,int level){
-
-
+    missionSize=10;
         String decryptUserInput = machine.encodingAndDecoding(userInput,machineSecretCode.getInUseRotors(),machineSecretCode.getPlugBoard(),machineSecretCode.getInUseReflector());
 
-        Thread pushMissionsThread = new Thread(createPushMissionRunnable(decryptUserInput));
-
+        Thread pushMissionsThread = new Thread(createPushMissionRunnable(decryptUserInput, level));
+        pushMissionsThread.start();
         //TODO make the level selection at the run method of pushMissionThread instead in here
-        if(level == 1){
-            MissionArguments missionArguments = new MissionArguments(machineSecretCode.getRotorsIdList(),machineSecretCode.getReflectorId(),machine,dictionary,missionSize);
-        }
+
     }
 
     private void handOutMissions(int length, char[] pool, int missionSize,String userDecryptedString,MissionArguments missionArguments) {
-        String word="";
         int wordIndex = 0;
         int[] indexes = new int[length];
         // In Java all values in new array are set to zero by default
@@ -63,11 +62,9 @@ public class DecryptionManager {
 
         int pMax = pool.length;  // stored to speed calculation
         while (indexes[0] < pMax) { //if the first index is bigger then pMax we are done
-            word="";
             // print the current permutation
             for (int i = 0; i < length; i++) {
-                System.out.print(pool[indexes[i]]);//print each character
-                word+=pool[indexes[i]];
+                //System.out.print(pool[indexes[i]]);//print each character
             }
 
             if(wordIndex % missionSize == 0){
@@ -80,7 +77,7 @@ public class DecryptionManager {
                 }
             }
 
-            System.out.println(); //print end of line
+          //  System.out.println(); //print end of line
             wordIndex++;
 
             // increment indexes
@@ -92,42 +89,14 @@ public class DecryptionManager {
         }
     }
 
-
-
-//    private List<MissionArguments> createCodesForLevelOne(List<String> missionStartPositions){
-//        List<MissionArguments> codes = new ArrayList<>();
-//        for (int i = 0; i < missionSize; i++) {
-//            codes.add(createCodeForLevelOne(missionStartPositions.get(i)));
-//        }
-//        return codes;
-//    }
-
-    private void createCodeForLevelOne(String startPositionFromArray){
-        List<Integer> rotorsId = new ArrayList<>();
-        for(Integer id : machine.getAvailableRotors().keySet()){
-            rotorsId.add(id);
-        }
-
-        List<Integer> reflectorsId = new ArrayList<>();
-        for(Integer id : machine.getAvailableReflectors().keySet()){
-            reflectorsId.add(id);
-        }
-
-        List<Character> startPos = new ArrayList<>();
-        for (int i = 0; i < startPositionFromArray.length(); i++) {
-            startPos.add(startPositionFromArray.charAt(i));
-        }
-
-        //MissionArguments missionArguments = new MissionArguments(rotorsId,startPos,reflectorsId);
-        //return missionArguments;
-    }
-
-
-
-    private Runnable createPushMissionRunnable(String userDecryptedString){
+    private Runnable createPushMissionRunnable(String userDecryptedString, int level){
         return new Runnable() {
             @Override
             public void run() {
+                if(level == 1){
+                    missionArguments = new MissionArguments(machineSecretCode.getRotorsIdList(),machineSecretCode.getReflectorId(),machine,dictionary,missionSize);
+                    handOutMissions(machine.getInUseRotorNumber(),machine.getABC().toCharArray() ,missionSize, userDecryptedString, missionArguments );
+                }
 
             }
         };

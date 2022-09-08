@@ -52,50 +52,49 @@ public class Mission implements Runnable{
    @Override
     public void run(){
        makeBruteForce(machine.getInUseRotorNumber(),language.toCharArray(),startIndexes,missionSize);
-//        int size = codesToCheck.size();
-//       for (int i = 0; i < size; i++) {
-//         MissionArguments missionArguments = codesToCheck.get(i);
-
-//       }
    }
 
 
     private void makeBruteForce(int length, char[] pool,int[] indexes,int missionSize) {
-        DTOMissionResult results = new DTOMissionResult();
-        int wordIndex = 0;
-        List<Character> startPos = new ArrayList<>();
+        synchronized(dictionary) {
+            DTOMissionResult results = new DTOMissionResult();
+            int wordIndex = 0;
+            List<Character> startPos = new ArrayList<>();
 
-        int pMax = pool.length;  // stored to speed calculation
-        while (indexes[0] < pMax && wordIndex<missionSize) { //if the first index is bigger then pMax we are done
-            // print the current permutation
-            for (int i = 0; i < length; i++) {
-                System.out.print(pool[indexes[i]]);//print each character
-                startPos.add(pool[indexes[i]]);
+            int pMax = pool.length;  // stored to speed calculation
+            while (indexes[0] < pMax && wordIndex < missionSize) { //if the first index is bigger then pMax we are done
+                // print the current permutation
+                for (int i = 0; i < length; i++) {
+                    System.out.print(pool[indexes[i]]);//print each character
+                    startPos.add(pool[indexes[i]]);
+                }
+
+                runCurrSecretCode(startPos, results);
+                wordIndex++;
+
+                // increment indexes
+                indexes[length - 1]++; // increment the last index
+                for (int i = length - 1; indexes[i] == pMax && i > 0; i--) { // if increment overflows
+                    indexes[i - 1]++;  // increment previous index
+                    indexes[i] = 0;   // set current index to zero
+                }
             }
-
-            runCurrSecretCode(startPos,results);
-            wordIndex++;
-
-            // increment indexes
-            indexes[length - 1]++; // increment the last index
-            for (int i = length - 1; indexes[i] == pMax && i > 0; i--) { // if increment overflows
-                indexes[i - 1]++;  // increment previous index
-                indexes[i] = 0;   // set current index to zero
-            }
-        }
 //////////////////////////////////////TODO check if this in synchronized is ok
-        pushResultsToCandidateQueue(results);
+            //  pushResultsToCandidateQueue(results);
+        }
 
     }
 
-    private void runCurrSecretCode(List<Character> startPos,DTOMissionResult results) {
-        SecretCode currSecretCode = new SecretCode(machine);
-        currSecretCode.determineSecretCode(rotorsIdList, startPos, reflectorId, new HashMap<>());
-           String stringToCheckInDictionary = machine.encodingAndDecoding(userDecryptedString,currSecretCode.getInUseRotors(),currSecretCode.getPlugBoard(),currSecretCode.getInUseReflector());
+    private synchronized void runCurrSecretCode(List<Character> startPos,DTOMissionResult results) {
+       synchronized (dictionary) {
+           SecretCode currSecretCode = new SecretCode(machine);
+           currSecretCode.determineSecretCode(rotorsIdList, startPos, reflectorId, new HashMap<>());
+           String stringToCheckInDictionary = machine.encodingAndDecoding(userDecryptedString, currSecretCode.getInUseRotors(), currSecretCode.getPlugBoard(), currSecretCode.getInUseReflector());
            boolean isStringOnDictionary = dictionary.isStringInDictionary(stringToCheckInDictionary);
-           if(isStringOnDictionary){
-                results.addCandidate(stringToCheckInDictionary);
+           if (isStringOnDictionary) {
+               results.addCandidate(stringToCheckInDictionary);
            }
+       }
     }
 
     private void pushResultsToCandidateQueue(DTOMissionResult results){
