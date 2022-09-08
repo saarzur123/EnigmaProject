@@ -49,10 +49,7 @@ public class light {
         int[] arr = new int []{1,2,3};
         List<List<Integer>> rotorIdCombination = possibleRotorIdPositions(arr);
         int[] arr1 = makeBruteForce(3, pool, new int[]{0, 0, 3}, 10);
-//            for (int t = 0; t < arr.length; t++) {
-//                            String d = String.format("%s",arr[t]);
-//                            System.out.println(d);
-//                        }
+
     }
 
     private static int[] makeBruteForce(int length, char[] pool, int[] indexes, int missionSize) {
