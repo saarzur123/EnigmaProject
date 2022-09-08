@@ -20,24 +20,44 @@ public class Dictionary {
     }
 
     private void setFilteredDictionary(String dictionaryWords){
-        int i;
         String[] wordsArr = dictionaryWords.split(" ");
         for(String word : wordsArr){
             word = word.trim();
-            int size = word.length();
-            for (i = 0; i+1 < size; i++) {
-                if(excludeWords.contains(word.charAt(i))){
-                    String start = word.substring(0,i);
-                    String end = word.substring(i+1,size);
-                    word = start.concat(end);
-                    i--;
-                    size--;
-                }
-            }
-            if(excludeWords.contains(word.charAt(i))) {
-                word = word.substring(0, i);
-            }
+            word = filterWords(word);
             if(word != "") dictionaryFilteredWords.add(word);
         }
+    }
+
+    private String filterWords(String wordToFilter){
+        String word = wordToFilter;
+        int size = word.length();
+        int i;
+        for (i = 0; i+1 < size; i++) {
+            if(excludeWords.contains(word.charAt(i))){
+                String start = word.substring(0,i);
+                String end = word.substring(i+1,size);
+                word = start.concat(end);
+                i--;
+                size--;
+            }
+        }
+        if(excludeWords.contains(word.charAt(i))) {
+            word = word.substring(0, i);
+        }
+        return word;
+    }
+
+    public boolean isStringInDictionary(String stringToCheckInDictionary){
+        String[] wordsArr = stringToCheckInDictionary.split(" ");
+        for(String word : wordsArr){
+            word = word.trim();
+            word = filterWords(word);
+            if(word != "") {
+                if(!dictionaryFilteredWords.contains(word)){
+                    return false;
+                }
+            }
+        }
+        return true;
     }
 }

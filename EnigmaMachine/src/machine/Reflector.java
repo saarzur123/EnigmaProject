@@ -17,6 +17,10 @@ public class Reflector implements Mapping{
 
     public int getId () {return id; }
 
+    public List<Integer> getReflectInAndOut() {
+        return reflectInAndOut;
+    }
+
     @Override
     public Object mapping(Object inIndex) {
         return reflectInAndOut.get((int)inIndex);

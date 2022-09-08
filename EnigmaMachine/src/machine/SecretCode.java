@@ -33,7 +33,6 @@ public class SecretCode {
     public PlugBoard getPlugBoard() {return plugBoard;}
     public Reflector getInUseReflector(){return reflectorInUse;}
     public String getSecretCodeCombination(){return secretCodeCombination;}
-
     public void resetSecretCodeCombination(){ secretCodeCombination = "";}
     @Override
     public String toString(){

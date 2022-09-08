@@ -10,11 +10,17 @@ public class Rotor implements Mapping {
     private int notchPosition;
     private char startingPosition;
     private boolean isForwardMapping;
+    private int startNotchPosition;
+    private String startRightCharacters;
+    private String startLeftCharacters;
 
 public Rotor(int idInput, int notch, String right, String left)
 {
     this.id = idInput;
     this.notchPosition = notch;
+    this.startNotchPosition = notch;
+    this.startRightCharacters = right;
+    this.startLeftCharacters = left;
     initCharsLinkedList(right,charactersLinkedListRight);
     initCharsLinkedList(left, charactersLinkedListLeft);
     numberOfCharsInABC = charactersLinkedListLeft.size();
@@ -24,6 +30,18 @@ public char getCurrCharInWindow(){return charactersLinkedListRight.get(0);}
     public void setIsForwardMapping(boolean isForward){isForwardMapping = isForward; }
 
 public char getStartPos(){return startingPosition;}
+
+    public int getStartNotchPosition() {
+        return startNotchPosition;
+    }
+
+    public String getStartRightCharacters() {
+        return startRightCharacters;
+    }
+
+    public String getStartLeftCharacters() {
+        return startLeftCharacters;
+    }
 
     private void initCharsLinkedList(String dataOfChars, List<Character> currentList){
         int size = dataOfChars.length();

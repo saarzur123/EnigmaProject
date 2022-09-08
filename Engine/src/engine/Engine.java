@@ -29,6 +29,11 @@ public class Engine implements Commander {
     public SecretCode getSecretCode(){return secretCode;}
     public MachineDetails getMachineDetailsPresenter(){return machineDetailsPresenter;}
     public HistoryAndStatisticsForMachine getHistoryAndStatisticsForMachine(){return historyAndStatisticsForMachine;}
+
+    public DecryptionManager getDecryptionManager() {
+        return decryptionManager;
+    }
+
     @Override
     public MachineImplement createMachineFromXML(String path){
         XMLToObject converter = new XMLToObject();
@@ -115,6 +120,7 @@ public class Engine implements Commander {
             machineDetailsPresenter.addSecretCode(secretCode);
             historyAndStatisticsForMachine.addSecretCodeToMachineHistory(secretCode);
             historyAndStatisticsForMachine.getDataForEachSecretCode().put(historyAndStatisticsForMachine.getSecretCodeHistory().indexOf(secretCode), new ArrayList<>());
+            decryptionManager.setSecretCode(secretCode);
         }
     }
 

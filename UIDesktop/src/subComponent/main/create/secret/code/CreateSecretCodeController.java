@@ -41,7 +41,8 @@ public class CreateSecretCodeController {
             reflectorsTA.setDisable(true);
             plugsTA.setDisable(true);
             mainController.getEngineCommand().getRandomSecretCode();
-           // mainController.setSecretCodeTxt(mainController.getEngine().getSecretCode().getSecretCodeCombination());
+
+            // mainController.setSecretCodeTxt(mainController.getEngine().getSecretCode().getSecretCodeCombination());
         }
         else{
             rotorsIdTA.setDisable(false);

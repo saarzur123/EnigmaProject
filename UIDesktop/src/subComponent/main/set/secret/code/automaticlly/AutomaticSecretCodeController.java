@@ -19,6 +19,8 @@ public class AutomaticSecretCodeController {
             createNewSecretCodeController.getMainController().setSecretCodeState(false);
             createNewSecretCodeController.getMainController().getMachineDetailsController().updateCurrMachineDetails();
             createNewSecretCodeController.getMainController().getDecryptionController().setShowDecryptedCode();
+        createNewSecretCodeController.getMainController().getEngine().getDecryptionManager().findSecretCode("HELLO WORLD",1);
+
     }
 
     public void setCreateNewSecretCodeController(CreateNewSecretCodeController createNewSecretCodeController){
