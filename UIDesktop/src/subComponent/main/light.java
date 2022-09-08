@@ -26,155 +26,101 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
-public class light extends Application {
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+public class light  {
+    private static String[] ABC = {"A","B","C","D"};
+
+    public static void swap(String[] arr, int x, int y) {
+        String temp = arr[x];
+        arr[x] = arr[y];
+        arr[y] = temp;
+    }
+//
+//
+//    public static void permute(String[] arr) {
+//        permute(arr, 0, arr.length - 1);
+//        permute(arr, 0, 0);
+//    }
+//
+//
+//     public static void permute(String[] arr, int i, int n) {
+//        int j;
+//        if (i == n)
+//            System.out.println(Arrays.toString(arr));
+//        else {
+//            for (j = i; j <= n; j++) {
+//                swap(arr, i, j);
+//                permute(arr, i + 1, n);
+//                swap(arr, i, j); // backtrack
+//            }
+//        }
+//    }
 
 
-    /**
-     * @web http://java-buddy.blogspot.com/
-     */
+    public static void generate(int n, int r) {
+        List<int[]> combinations = new ArrayList<>();
+        int[] combination = new int[r];
 
-
-        @Override
-        public void start(Stage primaryStage) {
-
-            //Light.Point: Represents a light source at a given position in 3D space.
-            Light.Point lightPoint = new Light.Point();
-            lightPoint.setX(50);
-            lightPoint.setY(500);
-            lightPoint.setZ(500);
-            lightPoint.setColor(Color.GOLD);
-            Lighting lighting = new Lighting();
-            lighting.setLight(lightPoint);
-            lighting.setSurfaceScale(8.0);
-            lighting.setDiffuseConstant(1.0);
-
-            ColorPicker colorPicker = new ColorPicker(Color.GOLD);
-            colorPicker.setOnAction(new EventHandler() {
-                @Override
-                public void handle(Event t) {
-                    lightPoint.setColor(colorPicker.getValue());
-                }
-            });
-
-            Button btn = new Button("Button with Lighting");
-            btn.setEffect(lighting);
-
-            TextField textField = new TextField("TextField with Lighting");
-            textField.setEffect(lighting);
-
-            Text text = new Text("Text with lighting");
-            text.setFont(Font.font ("Verdana", FontWeight.BOLD, 40));
-            text.setFill(Color.WHITE);
-            text.setEffect(lighting);
-
-            Circle circle = new Circle(20,Color.WHITE);
-            circle.setEffect(lighting);
-
-            Rectangle rectangle = new Rectangle(50, 50, Color.WHITE);
-            rectangle.setEffect(lighting);
-
-            ImageView imageView = new ImageView(new Image("http://goo.gl/kYEQl"));
-            imageView.setEffect(lighting);
-
-            HBox hBoxShape = new HBox();
-            hBoxShape.getChildren().addAll(rectangle, circle, imageView);
-
-            /*Label labelX = new Label("X: "
-                    + "The x coordinate of the light position.");
-            Slider sliderX = new Slider();
-            sliderX.setMin(0);
-            sliderX.setMax(900.0);
-            sliderX.setValue(0);
-            sliderX.setMajorTickUnit(100);
-            sliderX.setMinorTickCount(2);
-            sliderX.setShowTickLabels(true);
-            sliderX.setShowTickMarks(true);
-            sliderX.valueProperty().addListener(
-                    (ObservableValue<? extends Number> ov,
-                     Number old_val, Number new_val) -> {
-                        lightPoint.setX((Double)new_val);
-                    });
-
-            Label labelY = new Label("Y: "
-                    + "The y coordinate of the light position.");
-            Slider sliderY = new Slider();
-            sliderY.setMin(0);
-            sliderY.setMax(500.0);
-            sliderY.setValue(0);
-            sliderY.setMajorTickUnit(100);
-            sliderY.setMinorTickCount(2);
-            sliderY.setShowTickLabels(true);
-            sliderY.setShowTickMarks(true);
-            sliderY.valueProperty().addListener(
-                    (ObservableValue<? extends Number> ov,
-                     Number old_val, Number new_val) -> {
-                        lightPoint.setY((Double)new_val);
-                    });
-
-            Label labelZ = new Label("Z: "
-                    + "The z coordinate of the light position.");
-            Slider sliderZ = new Slider();
-            sliderZ.setMin(0);
-            sliderZ.setMax(500.0);
-            sliderZ.setValue(0);
-            sliderZ.setMajorTickUnit(100);
-            sliderZ.setMinorTickCount(2);
-            sliderZ.setShowTickLabels(true);
-            sliderZ.setShowTickMarks(true);
-            sliderZ.valueProperty().addListener(
-                    (ObservableValue<? extends Number> ov,
-                     Number old_val, Number new_val) -> {
-                        lightPoint.setZ((Double)new_val);
-                    });
-
-            Label labelSurfaceScale = new Label("SurfaceScale");
-            Slider sliderSurfaceScale = new Slider();
-            sliderSurfaceScale.setMin(0);
-            sliderSurfaceScale.setMax(10);
-            sliderSurfaceScale.setValue(1.5);
-            sliderSurfaceScale.setMajorTickUnit(1);
-            sliderSurfaceScale.setMinorTickCount(2);
-            sliderSurfaceScale.setShowTickLabels(true);
-            sliderSurfaceScale.setShowTickMarks(true);
-            sliderSurfaceScale.valueProperty().addListener(
-                    (ObservableValue<? extends Number> ov,
-                     Number old_val, Number new_val) -> {
-                        lighting.setSurfaceScale((Double)new_val);
-                    });
-
-            Label labelDiffuse = new Label("DiffuseConstant");
-            Slider sliderDiffuse = new Slider();
-            sliderDiffuse.setMin(0);
-            sliderDiffuse.setMax(2);
-            sliderDiffuse.setValue(1);
-            sliderDiffuse.setMajorTickUnit(1);
-            sliderDiffuse.setMinorTickCount(4);
-            sliderDiffuse.setShowTickLabels(true);
-            sliderDiffuse.setShowTickMarks(true);
-            sliderDiffuse.valueProperty().addListener(
-                    (ObservableValue<? extends Number> ov,
-                     Number old_val, Number new_val) -> {
-                        lighting.setDiffuseConstant((Double)new_val);
-                    });*/
-
-            VBox vBox = new VBox();
-         vBox.setPadding(new Insets(10, 10, 10, 10));
-           vBox.getChildren().addAll(colorPicker, btn, text, textField, hBoxShape);
-//                    labelX, sliderX, labelY, sliderY, labelZ, sliderZ,
-//                    labelSurfaceScale, sliderSurfaceScale, labelDiffuse, sliderDiffuse);
-
-            StackPane root = new StackPane();
-            root.getChildren().add(vBox);
-
-            Scene scene = new Scene(root, 900, 500);
-
-            primaryStage.setTitle("java-buddy.blogspot.com");
-            primaryStage.setScene(scene);
-            primaryStage.show();
+        // initialize with lowest lexicographic combination
+        for (int i = 0; i < r; i++) {
+            combination[i] = i;
         }
 
+        while (combination[r - 1] < n) {
+            combinations.add(combination.clone());
+
+            // generate next combination in lexicographic order
+            int t = r - 1;
+            while (t != 0 && combination[t] == n - r + t) {
+                t--;
+            }
+            combination[t]++;
+            for (int i = t + 1; i < r; i++) {
+                combination[i] = combination[i - 1] + 1;
+            }
+        }
+
+        System.out.println(Arrays.stream(combination).toArray());
+    }
+
+    public static void baba(String[] arr, int size){
+
+        if(size == 0)
+            System.out.println(Arrays.toString(arr));
+        else {
+            for(int m = 0; m <size;m++) {
+                for(int l = 0;l <size; l++) {
+                    System.out.println(Arrays.toString(arr));
+                    swap(arr,l,m);
+                }
+                c(arr,m);
+                baba(arr, size--);
+
+            }
+
+        }
+    }
+    public static String[] combinations(String[] array) {
+        String[] res = new String[-1 >>> -array.length];
+        for (int i = array.length, k = 0; --i >= 0;) {
+            String s = res[k] = array[i].toString();
+            for (int j = 0, x = k++; j < x;)
+                res[k++] = s + res[j++];
+        }
+        return res;
+    }
+    public static void c(String[] abc, int i){
+        String[] h = abc;
+        h[i+1] =h[i];
+        if(i+1 < abc.length)
+            baba(abc, i+1);
+    }
         public static void main(String[] args) {
-            launch(args);
+
+            combinations(ABC);
         }
 
     }
