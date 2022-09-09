@@ -7,6 +7,7 @@ import javafx.beans.binding.Bindings;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
@@ -67,10 +68,16 @@ public class MainScreenController {
 
     private Engine engine ;
 
-
+    @FXML public void styleChooserAction(){
+        loadFXML.getScene().getStylesheets().clear();
+        loadFXML.getScene().getStylesheets().add(cssCB.getValue() + ".css");
+    }
+    public Scene getSceneABA(){return loadFXML.getScene();}
     @FXML public void initialize(){
         engine = (Engine)engineCommands;
         cssCB.getItems().add("style1");
+        cssCB.getItems().add("style2");
+        cssCB.getItems().add("style3");
 
         if(createNewSecretCodeController != null &&
                 loadFXMLController != null &&

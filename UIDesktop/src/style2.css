@@ -1,0 +1,13 @@
+.button {
+   -fx-background-color: linear-gradient(to right, red, blue);
+   -fx-text-fill: white;
+}
+
+.root{
+-fx-font-family : "HanziPen SC";
+}
+
+.label{
+-fx-font-family : "HanziPen SC";
+
+}

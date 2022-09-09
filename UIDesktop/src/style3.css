@@ -1,0 +1,12 @@
+.button {
+   -fx-background-color: pink;
+}
+
+.root{
+-fx-font-family : "Baoli SC";
+}
+
+.label{
+-fx-font-family : "Baoli SC";
+
+}
