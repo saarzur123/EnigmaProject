@@ -24,7 +24,7 @@ public class Mission implements Runnable{
 
     public Mission(MissionArguments missionArguments, String userDecryptedString,int[] startIndexes,BlockingQueue<DTOMissionResult> candidateQueue){
         this.missionSize = missionArguments.getMissionSize();
-        createMachineCopy(missionArguments.getMachine());
+        machine = createMachineCopy(missionArguments.getMachine());
         this.language = machine.getABC();
         this.candidateQueue = candidateQueue;
         this.userDecryptedString = userDecryptedString;
@@ -34,7 +34,7 @@ public class Mission implements Runnable{
         this.reflectorId = missionArguments.getReflector();
     }
 
-    private void createMachineCopy(MachineImplement machine){
+    public static MachineImplement createMachineCopy(MachineImplement machine){
         List<Rotor> rotors = new ArrayList<>();
         for(Rotor rotor : machine.getAvailableRotors().values()){
             rotors.add(new Rotor(rotor.getId(), rotor.getStartNotchPosition(),rotor.getStartRightCharacters(),rotor.getStartLeftCharacters()));
@@ -44,7 +44,7 @@ public class Mission implements Runnable{
             reflectors.add(new Reflector(reflector.getReflectInAndOut(), reflector.getId()));
         }
 
-        this.machine = new MachineImplement(rotors,reflectors, machine.getInUseRotorNumber(), machine.getABC());
+        return new MachineImplement(rotors,reflectors, machine.getInUseRotorNumber(), machine.getABC());
     }
 
 
@@ -56,7 +56,6 @@ public class Mission implements Runnable{
 
 
     private void makeBruteForce(int length, char[] pool,int[] indexes,int missionSize) {
-        synchronized(dictionary) {
             DTOMissionResult results = new DTOMissionResult();
             int wordIndex = 0;
             List<Character> startPos = new ArrayList<>();
@@ -83,10 +82,9 @@ public class Mission implements Runnable{
             //  pushResultsToCandidateQueue(results);
         }
 
-    }
+
 
     private synchronized void runCurrSecretCode(List<Character> startPos,DTOMissionResult results) {
-       synchronized (dictionary) {
            SecretCode currSecretCode = new SecretCode(machine);
            currSecretCode.determineSecretCode(rotorsIdList, startPos, reflectorId, new HashMap<>());
            String stringToCheckInDictionary = machine.encodingAndDecoding(userDecryptedString, currSecretCode.getInUseRotors(), currSecretCode.getPlugBoard(), currSecretCode.getInUseReflector());
@@ -94,7 +92,7 @@ public class Mission implements Runnable{
            if (isStringOnDictionary) {
                results.addCandidate(stringToCheckInDictionary);
            }
-       }
+
     }
 
     private void pushResultsToCandidateQueue(DTOMissionResult results){

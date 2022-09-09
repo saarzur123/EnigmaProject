@@ -20,6 +20,19 @@ public class MissionArguments {
         this.missionSize = missionSize;
     }
 
+    public static MissionArguments deepCopy(MissionArguments missionArguments){
+        List<Integer> rotorsCopy = new ArrayList<>();
+        for(Integer id : missionArguments.getRotors()){
+            rotorsCopy.add(id);
+        }
+        int reflectorId = missionArguments.getReflector();
+        MachineImplement machineCopy = Mission.createMachineCopy(missionArguments.getMachine());
+        Dictionary dictionaryCopy = Dictionary.dictionaryCopy(missionArguments.getDictionary());
+        int missionSizeCopy = missionArguments.getMissionSize();
+
+        return new MissionArguments(rotorsCopy,reflectorId,machineCopy,dictionaryCopy,missionSizeCopy);
+    }
+
     public List<Integer> getRotors() {
         return rotors;
     }

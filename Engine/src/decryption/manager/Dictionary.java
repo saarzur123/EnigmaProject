@@ -6,11 +6,31 @@ import java.util.Set;
 public class Dictionary {
     private Set<String> dictionaryFilteredWords = new HashSet<>();
     private Set<Character> excludeWords = new HashSet<>();
+    private String dictionaryWords;
+    private String excludeWordsStr;
 
     public Dictionary(String dictionaryWords, String excludeWords){
+        this.dictionaryWords = dictionaryWords;
+        this.excludeWordsStr = excludeWords;
         setExcludeWords(excludeWords);
         setFilteredDictionary(dictionaryWords);
     }
+
+    public String getDictionaryWords() {
+        return dictionaryWords;
+    }
+
+    public String getExcludeWordsStr() {
+        return excludeWordsStr;
+    }
+
+    public static Dictionary dictionaryCopy(Dictionary dictionary){
+        String dictWords = dictionary.getDictionaryWords();
+        String excWords = dictionary.getExcludeWordsStr();
+        return new Dictionary(dictWords,excWords);
+    }
+
+
 
     private void setExcludeWords(String excludeWords){
         int size = excludeWords.length();

@@ -68,8 +68,10 @@ public class DecryptionManager {
             }
 
             if(wordIndex % missionSize == 0){
-
-                Mission mission = new Mission(missionArguments,userDecryptedString,indexes,candidateQueue);
+                String userDecryptCopy = userDecryptedString;
+                int[] newIndexes = new int[indexes.length];
+                System.arraycopy(indexes, 0, newIndexes, 0, indexes.length);
+                Mission mission = new Mission(MissionArguments.deepCopy(missionArguments),userDecryptCopy,newIndexes,candidateQueue);
                 try {
                     missionGetterQueue.put(mission);
                 } catch (InterruptedException e) {
