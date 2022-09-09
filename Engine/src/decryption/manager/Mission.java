@@ -24,7 +24,7 @@ public class Mission implements Runnable{
 
     public Mission(MissionArguments missionArguments, String userDecryptedString,int[] startIndexes,BlockingQueue<DTOMissionResult> candidateQueue){
         this.missionSize = missionArguments.getMissionSize();
-        machine = createMachineCopy(missionArguments.getMachine());
+        machine = missionArguments.getMachine();
         this.language = machine.getABC();
         this.candidateQueue = candidateQueue;
         this.userDecryptedString = userDecryptedString;

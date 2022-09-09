@@ -1,9 +1,10 @@
 package decryption.manager;
 
+import java.io.*;
 import java.util.HashSet;
 import java.util.Set;
 
-public class Dictionary {
+public class Dictionary implements Serializable{
     private Set<String> dictionaryFilteredWords = new HashSet<>();
     private Set<Character> excludeWords = new HashSet<>();
     private String dictionaryWords;
@@ -24,11 +25,13 @@ public class Dictionary {
         return excludeWordsStr;
     }
 
-    public static Dictionary dictionaryCopy(Dictionary dictionary){
-        String dictWords = dictionary.getDictionaryWords();
-        String excWords = dictionary.getExcludeWordsStr();
-        return new Dictionary(dictWords,excWords);
-    }
+//    public static Dictionary dictionaryCopy(Dictionary dictionary){
+//        String dictWords = dictionary.getDictionaryWords();
+//        String excWords = dictionary.getExcludeWordsStr();
+//        return new Dictionary(dictWords,excWords);
+//    }
+
+
 
 
 

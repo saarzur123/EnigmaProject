@@ -23,7 +23,7 @@ public class DecryptionManager {
     public DecryptionManager(int agentNumber, Dictionary dictionary){
         this.agentNumber = agentNumber;
         this.dictionary = dictionary;
-        this.threadPool = new ThreadPoolExecutor(agentNumber,agentNumber,10, TimeUnit.SECONDS,missionGetterQueue);
+        this.threadPool = new ThreadPoolExecutor(agentNumber,agentNumber,0L, TimeUnit.SECONDS,missionGetterQueue);
         threadPool.prestartAllCoreThreads();
     }
 
@@ -70,9 +70,11 @@ public class DecryptionManager {
             if(wordIndex % missionSize == 0){
 
                 String userDecryptCopy = userDecryptedString;
-                int[] newIndexes = new int[indexes.length];
-                System.arraycopy(indexes, 0, newIndexes, 0, indexes.length);
-                Mission mission = new Mission(MissionArguments.deepCopy(missionArguments),userDecryptCopy,newIndexes,candidateQueue);
+                int[] newIndexes = new int[length];
+                for (int j = 0; j < length; j++) {
+                   newIndexes[j] = indexes[j];
+                }
+                Mission mission = new Mission(missionArguments.cloneMissionArguments(),userDecryptCopy,newIndexes,candidateQueue);
                 try {
                     missionGetterQueue.put(mission);
                 } catch (InterruptedException e) {
@@ -134,7 +136,7 @@ public class DecryptionManager {
     }
 
     private void pushMissions(List < Integer > rotorIdForSecretCode,int reflectorIdForSecretCode, String userDecryptedString){
-            missionArguments = new MissionArguments(machineSecretCode.getRotorsIdList(), machineSecretCode.getReflectorId(), machine, dictionary, missionSize);
+            missionArguments = new MissionArguments(rotorIdForSecretCode,reflectorIdForSecretCode, machine, dictionary, missionSize);
             handOutMissions(machine.getInUseRotorNumber(), machine.getABC().toCharArray(), missionSize, userDecryptedString, missionArguments);
         }
 

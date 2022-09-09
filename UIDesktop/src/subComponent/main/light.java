@@ -2,6 +2,8 @@ package subComponent.main;
 
 import decryption.manager.Mission;
 import decryption.manager.MissionArguments;
+import implement.trie.TrieImplement;
+import implement.trie.TrieTreeNode;
 import javafx.application.Application;
 import javafx.beans.value.ObservableValue;
 import javafx.event.Event;
@@ -47,8 +49,30 @@ public class light {
         String[] check = {"A", "B", "C", "D", "E"};
         char[] pool = new char[]{'A', 'B', 'C', 'D'};
         int[] arr = new int []{1,2,3};
-        List<List<Integer>> rotorIdCombination = possibleRotorIdPositions(arr);
-        int[] arr1 = makeBruteForce(3, pool, new int[]{0, 0, 3}, 10);
+        //List<List<Integer>> rotorIdCombination = possibleRotorIdPositions(arr);
+       // int[] arr1 = makeBruteForce(3, pool, new int[]{0, 0, 3}, 10);
+
+        TrieImplement trie = new TrieImplement();
+        trie.addWord("Java");
+        trie.addWord("JavaOne");
+        trie.addWord("JavaTwo");
+        trie.addWord("JavaThree");
+        trie.addWord("JavaFour");
+        trie.addWord("JavaFive");
+
+
+        List<String> matches = trie.search("tJa");
+        if(matches==null || matches.size() == 0)
+        {
+            System.out.println("Noh found");
+        }
+        else
+        {
+            for(String str:matches)
+            {
+                System.out.println(str);
+            }
+        }
 
     }
 

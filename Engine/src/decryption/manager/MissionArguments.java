@@ -2,10 +2,11 @@ package decryption.manager;
 
 import machine.MachineImplement;
 
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MissionArguments {
+public class MissionArguments  implements Serializable{
    private  List<Integer> rotors = new ArrayList<>();
     private int reflector;
     private  int missionSize;
@@ -20,18 +21,18 @@ public class MissionArguments {
         this.missionSize = missionSize;
     }
 
-    public static MissionArguments deepCopy(MissionArguments missionArguments){
-        List<Integer> rotorsCopy = new ArrayList<>();
-        for(Integer id : missionArguments.getRotors()){
-            rotorsCopy.add(id);
-        }
-        int reflectorId = missionArguments.getReflector();
-        MachineImplement machineCopy = Mission.createMachineCopy(missionArguments.getMachine());
-        Dictionary dictionaryCopy = Dictionary.dictionaryCopy(missionArguments.getDictionary());
-        int missionSizeCopy = missionArguments.getMissionSize();
-
-        return new MissionArguments(rotorsCopy,reflectorId,machineCopy,dictionaryCopy,missionSizeCopy);
-    }
+//    public static MissionArguments deepCopy(MissionArguments missionArguments){
+//        List<Integer> rotorsCopy = new ArrayList<>();
+//        for(Integer id : missionArguments.getRotors()){
+//            rotorsCopy.add(id);
+//        }
+//        int reflectorId = missionArguments.getReflector();
+//        MachineImplement machineCopy = Mission.createMachineCopy(missionArguments.getMachine());
+//        Dictionary dictionaryCopy = Dictionary.dictionaryCopy(missionArguments.getDictionary());
+//        int missionSizeCopy = missionArguments.getMissionSize();
+//
+//        return new MissionArguments(rotorsCopy,reflectorId,machineCopy,dictionaryCopy,missionSizeCopy);
+//    }
 
     public List<Integer> getRotors() {
         return rotors;
@@ -52,4 +53,20 @@ public class MissionArguments {
     public int getMissionSize() {
         return missionSize;
     }
+
+    public MissionArguments cloneMissionArguments() {
+        try {
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            ObjectOutputStream oos = new ObjectOutputStream(baos);
+            oos.writeObject(this);
+            ByteArrayInputStream bais = new ByteArrayInputStream(baos.toByteArray());
+            ObjectInputStream ois = new ObjectInputStream(bais);
+            return (MissionArguments) ois.readObject();
+        } catch (IOException e) {
+            return null;
+        } catch (ClassNotFoundException e) {
+            return null;
+        }
+    }
+
 }
