@@ -35,6 +35,7 @@ import java.awt.*;
 import java.net.URL;
 
 public class MainScreenController {
+    @FXML private ComboBox<String> cssCB;
 
     @FXML private ScrollPane loadFXML;
     @FXML private LoadFXMLController loadFXMLController;
@@ -69,6 +70,7 @@ public class MainScreenController {
 
     @FXML public void initialize(){
         engine = (Engine)engineCommands;
+        cssCB.getItems().add("style1");
 
         if(createNewSecretCodeController != null &&
                 loadFXMLController != null &&
