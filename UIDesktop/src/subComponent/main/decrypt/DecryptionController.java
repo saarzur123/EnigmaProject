@@ -210,7 +210,8 @@ public class DecryptionController {
 
     public void onClear(){
         if(goldEncryptedBtnController != null){
-            goldEncryptedBtnController.getDecryptCharBTN().setStyle("-fx-background-color: red");
+            goldEncryptedBtnController.getDecryptCharBTN().setStyle(mainController.getStyleBTN());
+            goldEncryptedBtnController.getDecryptCharBTN().setDisable(true);
         }
         userDecryptText.set("");
         showDecryptedCode.set("");

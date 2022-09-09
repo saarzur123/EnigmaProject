@@ -24,6 +24,7 @@ public class DecryptionButtonController {
     void decryptCharAction(ActionEvent event) {
         if(!decryptionController.isCompleteStringDecryption()){
             singleCharDecryption();
+            decryptionController.getGoldEncryptedBtnController().getDecryptCharBTN().setDisable(true);
         }
         else{
             completeStringDecryption();
@@ -32,7 +33,8 @@ public class DecryptionButtonController {
 
     private void singleCharDecryption(){
         if(decryptionController.getGoldEncryptedBtnController() != null){
-            decryptionController.getGoldEncryptedBtnController().getDecryptCharBTN().setStyle("-fx-background-color: red");
+            decryptionController.getGoldEncryptedBtnController().getDecryptCharBTN().setStyle(decryptionController.getMainController().getStyleBTN());
+            decryptionController.getGoldEncryptedBtnController().getDecryptCharBTN().setDisable(true);
         }
         String save = decryptionController.getUserDecryptText().get() + decryptCharBTN.getText();
         decryptionController.getUserDecryptText().set(save);

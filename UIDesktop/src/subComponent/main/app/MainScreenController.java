@@ -73,6 +73,7 @@ public class MainScreenController {
         loadFXML.getScene().getStylesheets().add(cssCB.getValue() + ".css");
     }
     public Scene getSceneABA(){return loadFXML.getScene();}
+    public String getStyleBTN(){return cssCB.getValue();}
     @FXML public void initialize(){
         engine = (Engine)engineCommands;
         cssCB.getItems().add("style1");
