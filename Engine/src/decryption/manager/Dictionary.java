@@ -68,8 +68,10 @@ public class Dictionary implements Serializable{
                 size--;
             }
         }
-        if(excludeWords.contains(word.charAt(i))) {
-            word = word.substring(0, i);
+        if(i == size - 1 && size > 0) {
+            if(excludeWords.contains(word.charAt(i))){
+                word = word.substring(0, i);
+            }
         }
         return word;
     }

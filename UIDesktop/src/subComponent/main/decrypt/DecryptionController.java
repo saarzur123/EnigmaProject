@@ -172,16 +172,12 @@ public class DecryptionController {
         mainController.getMachineDetailsController().updateCurrMachineDetails();
     }
 
-    public void setAfterSingleCharDecryption(String currDecryptedCode){
-        userDecryptedStringTF.setText(currDecryptedCode);
-    }
 
     @FXML
     void completeStringDecryptionCheckBoxAction(ActionEvent event) {
         isCompleteStringDecryption = !isCompleteStringDecryption;
         disableProcessBtn.set(!isCompleteStringDecryption);
         disableDoneSingleBtn.set(isCompleteStringDecryption);
-        decryptStringBTN.setDisable(!isCompleteStringDecryption);
     }
 
     @FXML

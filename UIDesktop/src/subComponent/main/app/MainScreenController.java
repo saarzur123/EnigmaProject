@@ -62,14 +62,11 @@ public class MainScreenController {
 
     @FXML private VBox restartSecretCode;
     @FXML private RestartSecretCodeController restartSecretCodeController;
-    @FXML private TextArea showDecryptionTA;
     @FXML private ScrollPane decryption;
     @FXML private DecryptionController decryptionController;
     @FXML private BorderPane mainBoardPane;
     @FXML private VBox history;
     @FXML private TabPane tabControl;
-    @FXML private HBox decryptionHBOX;
-    @FXML private Label decryptShowLBL;
 
     private Commander engineCommands = new Engine();
 
@@ -106,7 +103,6 @@ public class MainScreenController {
             tabControl.disableProperty().bind(loadFXMLController.getIsValidMachine());
             tabControl.getTabs().get(1).disableProperty().bind(secretCodeController.getIsSecretCodeExist());
             tabControl.getTabs().get(2).disableProperty().bind(secretCodeController.getIsSecretCodeExist());
-            setDecryptionTA();
         }
     }
     public void setSelectedTab(){
@@ -125,14 +121,6 @@ public class MainScreenController {
     public MachineDetailsController getMachineDetailsController(){return machineDetailsController;}
     public Commander getEngineCommand(){return engineCommands;}
     public Engine getEngine(){return engine;}
-
-    public HBox getDecryptionHBOX() {
-        return decryptionHBOX;
-    }
-
-    public TextArea getDecryptShowTA() {
-        return showDecryptionTA;
-    }
 
     public void setLBLToCodeCombinationBindingMain(){
         secretCodeController.setLBLToCodeCombinationBinding();
@@ -160,12 +148,6 @@ public class MainScreenController {
 
     public DictionaryController getDictionaryController() {
         return dictionaryController;
-    }
-
-    private void setDecryptionTA(){
-        showDecryptionTA.setFont(new Font("Verdana",20));
-        showDecryptionTA.setEditable(false);
-        showDecryptionTA.textProperty().bind(Bindings.concat("Decrypted text: ", decryptionController.getUserDecryptText(), " Encrypted text: ",decryptionController.getDecryptionLBL()));
     }
 
     public static void showErrorPopup(String message) {
