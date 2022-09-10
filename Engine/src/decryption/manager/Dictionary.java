@@ -51,7 +51,7 @@ public class Dictionary implements Serializable{
         }
     }
 
-    private String filterWords(String wordToFilter){
+    public String filterWords(String wordToFilter){
         String word = wordToFilter;
         int size = word.length();
         int i;

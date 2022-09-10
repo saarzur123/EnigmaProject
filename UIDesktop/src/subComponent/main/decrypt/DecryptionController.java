@@ -212,7 +212,8 @@ public class DecryptionController {
             String decrypted = userDecryptedStringTF.getText();
             if (decrypted != "") {
                // validateText(decrypted);
-                encrypted = mainController.getEngineCommand().processData(decrypted.toUpperCase());
+                encrypted = mainController.getEngineCommand().processData(decrypted.toUpperCase(), true);
+                mainController.getHistoryController().updateCurrHistory();
                 setAfterDecryption();
             }
             userEncryptedStringTF.setText(encrypted);
@@ -235,8 +236,9 @@ public class DecryptionController {
 
     }
     private void singleKeyboardCharDecryption(String lastCharFromKeyBoard) {
-        String encryptChar = mainController.getEngineCommand().processData(lastCharFromKeyBoard.toUpperCase());
-        String save = userEncryptedStringTF.getText() + encryptChar;
+        String encryptChar = mainController.getEngineCommand().processData(lastCharFromKeyBoard.toUpperCase(), false);
+        //mainController.getEngine().getHistoryAndStatisticsForMachine().getDataForEachSecretCode().
+        String save= userEncryptedStringTF.getText() + encryptChar;
         userEncryptedStringTF.setText(save);
         mainController.setLBLToCodeCombinationBindingMain();
         mainController.getMachineDetailsController().updateCurrMachineDetails();
@@ -244,9 +246,11 @@ public class DecryptionController {
 
     @FXML
     void onFinishSingleCharsActionBTN(ActionEvent event) {
+        String encryptChar = mainController.getEngineCommand().processData(userEncryptedStringTF.getText(), true);
         if(!isCompleteStringDecryption){
             if(userEncryptedStringTF.getText() != ""){
                 mainController.getHistoryController().updateCurrHistory();
+                setAfterDecryption();
             }
             userDecryptedStringTF.setText("");
             userEncryptedStringTF.setText("");
@@ -269,8 +273,8 @@ public class DecryptionController {
         if(!isCompleteStringDecryption) {
             String decrypted = userDecryptedStringTF.getText();
             if (decrypted != "") {
-                encrypted = mainController.getEngineCommand().processData(decrypted.toUpperCase());
-                setAfterDecryption();
+                //encrypted = mainController.getEngineCommand().processData(decrypted.toUpperCase());
+                //setAfterDecryption();
             }
             userEncryptedStringTF.setText(encrypted);
         }
