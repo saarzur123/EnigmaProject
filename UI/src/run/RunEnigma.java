@@ -128,7 +128,7 @@ public class RunEnigma {
         else if(dto.getClass() == DTOInputProcessing.class)
         {
             String inStr = menu.getInputHandler().handleInputToEncodingOrDecoding((DTOInputProcessing) dto);
-            System.out.println(engineCommands.processData(inStr));
+            System.out.println(engineCommands.processData(inStr,true));
         }
     }
 
