@@ -100,6 +100,8 @@
                                                       </AnchorPane>
                                                   </content>
                                                 </ScrollPane>
+                                                <fx:include fx:id="agents" source="../brute/force/agents/Agents.fxml" />
+                                                <Separator orientation="VERTICAL" prefHeight="200.0" />
                                              </children>
                                           </HBox>
                                        </children>

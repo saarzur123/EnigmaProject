@@ -21,6 +21,7 @@ public class DictionaryController {
     public void setMainController(MainScreenController main){
         mainController = main;
     }
+    private List<String> data;
     private Trie trie;
     public void SetDictionaryController(){
         List<String>  listAllDictionary = new ArrayList<>();
@@ -31,7 +32,24 @@ public class DictionaryController {
         trie = new Trie(listAllDictionary);
 
     }
+    @FXML
+    public void initialize(){
+        searchTF.textProperty().addListener((obs, oldText, newText) -> {
+                String temp = searchTF.getText();
+                data = trie.suggest(temp);
+            setUpdateData();
 
+        });
+    }
+
+    private void setUpdateData(){
+        listOfDataVB.getChildren().clear();
+        List<String>  listAllDictionary = new ArrayList<>();
+        for (String s :data){
+            listAllDictionary.add(s);
+            listOfDataVB.getChildren().add(new Label(s));
+        }
+    }
 
 
 

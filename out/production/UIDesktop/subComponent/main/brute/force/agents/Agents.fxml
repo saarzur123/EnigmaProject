@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Slider?>
+<?import javafx.scene.layout.FlowPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+
+<FlowPane alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="144.0" prefWidth="342.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="subComponent.main.brute.force.agents.AgentsController">
+   <children>
+      <VBox prefHeight="142.0" prefWidth="343.0">
+         <children>
+            <HBox alignment="CENTER" prefHeight="74.0" prefWidth="343.0" spacing="12.0">
+               <children>
+                  <Label text="Number of agents :">
+                     <font>
+                        <Font size="17.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="numberOfAgents" text="1">
+                     <font>
+                        <Font size="15.0" />
+                     </font>
+                  </Label>
+               </children>
+            </HBox>
+            <Slider fx:id="agentsSlider" prefHeight="16.0" prefWidth="279.0" />
+         </children>
+      </VBox>
+   </children>
+</FlowPane>
