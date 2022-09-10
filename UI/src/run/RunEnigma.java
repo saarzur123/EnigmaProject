@@ -132,6 +132,7 @@ public class RunEnigma {
         }
     }
 
+
     private void getSecretCodeFromUser(){
         DTOSecretCodeFromUser userDto = new DTOSecretCodeFromUser();
         Engine engine = (Engine)engineCommands;
