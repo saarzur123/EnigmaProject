@@ -300,9 +300,9 @@ public class DecryptionController {
 
     @FXML
     void virtualKeyboardSelectedActionCB(ActionEvent event) {
-        if(isCompleteStringDecryption){
+
             isTextFromVirtualKeyboard.set(!isTextFromVirtualKeyboard.get());
-        }
+
     }
 
     private boolean isCharTypedInLanguage(String userChar){
