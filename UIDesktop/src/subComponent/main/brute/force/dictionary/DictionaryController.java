@@ -6,6 +6,7 @@ import javafx.scene.control.TextField;
 
 public class DictionaryController {
 
+
     @FXML
     private TextField searchTF;
 
