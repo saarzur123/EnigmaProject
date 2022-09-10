@@ -54,7 +54,7 @@ public class DecryptionManager {
     //TODO make filter userInput
     public void findSecretCode(String userInput,int level){
     missionSize=10;
-        String decryptUserInput = machine.encodingAndDecoding(userInput,machineSecretCode.getInUseRotors(),machineSecretCode.getPlugBoard(),machineSecretCode.getInUseReflector());
+        String decryptUserInput = machine.encodingAndDecoding(userInput.toUpperCase(),machineSecretCode.getInUseRotors(),machineSecretCode.getPlugBoard(),machineSecretCode.getInUseReflector());
 
         Thread pushMissionsThread = new Thread(createPushMissionRunnable(decryptUserInput.toUpperCase(), level));
         pushMissionsThread.start();

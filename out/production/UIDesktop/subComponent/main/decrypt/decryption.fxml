@@ -25,7 +25,7 @@
                   </Label>
                   <CheckBox fx:id="isTextFromVirtualKeyboardCb" mnemonicParsing="false" onAction="#virtualKeyboardSelectedActionCB" text="Enter text from virtual keyboard">
                      <VBox.margin>
-                        <Insets bottom="100.0" />
+                        <Insets />
                      </VBox.margin>
                   </CheckBox>
                   <FlowPane fx:id="encryptFP" alignment="CENTER" />
