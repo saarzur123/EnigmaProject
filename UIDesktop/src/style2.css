@@ -1,0 +1,14 @@
+.button {
+   -fx-background-color: linear-gradient(to right, red, blue);
+   -fx-text-fill: white;
+}
+
+
+.root{
+-fx-font-family : "Verdana";
+}
+
+.label{
+-fx-font-family : "Verdana";
+
+}

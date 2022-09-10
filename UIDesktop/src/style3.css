@@ -1,0 +1,13 @@
+.button {
+   -fx-background-color: pink;
+}
+
+.root{
+-fx-font-family : "Comic Sans MS";
+}
+
+
+.label{
+-fx-font-family : "Comic Sans MS";
+
+}
