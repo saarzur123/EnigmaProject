@@ -17,6 +17,10 @@ public class Dictionary implements Serializable{
         setFilteredDictionary(dictionaryWords);
     }
 
+    public Set<String> getDictionaryFilteredWords() {
+        return dictionaryFilteredWords;
+    }
+
     public String getDictionaryWords() {
         return dictionaryWords;
     }

@@ -95,7 +95,7 @@
                                                   <content>
                                                     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="333.0" prefWidth="345.0">
                                                          <children>
-                                                            <fx:include source="../brute/force/dictionary/Dictionary.fxml" />
+                                                            <fx:include fx:id="dictionary" source="../brute/force/dictionary/Dictionary.fxml" />
                                                          </children>
                                                       </AnchorPane>
                                                   </content>
