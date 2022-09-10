@@ -59,10 +59,9 @@ public class Mission implements Runnable{
             DTOMissionResult results = new DTOMissionResult();
             int wordIndex = 0;
             List<Character> startPos = new ArrayList<>();
-
             int pMax = pool.length;  // stored to speed calculation
+
             while (indexes[0] < pMax && wordIndex < missionSize) { //if the first index is bigger then pMax we are done
-                // print the current permutation
                 startPos.clear();
                 for (int i = 0; i < length; i++) {
                     startPos.add(pool[indexes[i]]);
@@ -79,11 +78,10 @@ public class Mission implements Runnable{
                 }
             }
 
-        System.out.println(
-                "Current Thread ID: "
-                        + Thread.currentThread().getId());
+        System.out.println("Current Thread ID: "    + Thread.currentThread().getId());
+
 //////////////////////////////////////TODO check if this in synchronized is ok
-            //  pushResultsToCandidateQueue(results);
+            pushResultsToCandidateQueue(results);
         }
 
 
@@ -92,18 +90,16 @@ public class Mission implements Runnable{
            SecretCode currSecretCode = new SecretCode(machine);
            currSecretCode.determineSecretCode(rotorsIdList, startPos, reflectorId, new HashMap<>());
            String stringToCheckInDictionary = machine.encodingAndDecoding(userDecryptedString, currSecretCode.getInUseRotors(), currSecretCode.getPlugBoard(), currSecretCode.getInUseReflector());
-           boolean isStringOnDictionary = dictionary.isStringInDictionary(stringToCheckInDictionary);
+           boolean isStringOnDictionary = dictionary.isStringInDictionary(stringToCheckInDictionary.toLowerCase());
            if (isStringOnDictionary) {
                results.addCandidate(stringToCheckInDictionary);
            }
 
     }
 
-    private void pushResultsToCandidateQueue(DTOMissionResult results){
+    private synchronized void pushResultsToCandidateQueue(DTOMissionResult results){
         if(results.getEncryptionCandidates().size() > 0){
-            synchronized (this){
                 candidateQueue.add(results);
-            }
         }
     }
 

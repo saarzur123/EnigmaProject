@@ -56,7 +56,7 @@ public class DecryptionManager {
     missionSize=10;
         String decryptUserInput = machine.encodingAndDecoding(userInput,machineSecretCode.getInUseRotors(),machineSecretCode.getPlugBoard(),machineSecretCode.getInUseReflector());
 
-        Thread pushMissionsThread = new Thread(createPushMissionRunnable(decryptUserInput, level));
+        Thread pushMissionsThread = new Thread(createPushMissionRunnable(decryptUserInput.toUpperCase(), level));
         pushMissionsThread.start();
         //TODO make the level selection at the run method of pushMissionThread instead in here
 
@@ -90,7 +90,6 @@ public class DecryptionManager {
                 }
             }
 
-          //  System.out.println(); //print end of line
             wordIndex++;
 
             // increment indexes
