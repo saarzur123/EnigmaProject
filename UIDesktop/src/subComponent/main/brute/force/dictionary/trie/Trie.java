@@ -1,70 +1,100 @@
 package subComponent.main.brute.force.dictionary.trie;
-
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
-class TrieNode{
-    private  TrieNode childran[] =new TrieNode[26];
-    private boolean isEndOfWord;
-
-    public TrieNode[] getChildran() {
-        return childran;
-    }
-
-    public boolean isEndOfWord() {
-        return isEndOfWord;
-    }
-
-    public void setEndOfWord(boolean endOfWord) {
-        isEndOfWord = endOfWord;
-    }
-}
 public class Trie {
+
+    public class TrieNode {
+        Map<Character, TrieNode> children;
+        char c;
+        boolean isWord;
+
+        public TrieNode(char c) {
+            this.c = c;
+            children = new HashMap<>();
+        }
+
+        public TrieNode() {
+            children = new HashMap<>();
+        }
+
+        public void insert(String word) {
+            if (word == null || word.isEmpty())
+                return;
+            char firstChar = word.charAt(0);
+            TrieNode child = children.get(firstChar);
+            if (child == null) {
+                child = new TrieNode(firstChar);
+                children.put(firstChar, child);
+            }
+
+            if (word.length() > 1)
+                child.insert(word.substring(1));
+            else
+                child.isWord = true;
+        }
+
+    }
 
     private TrieNode root;
 
-    public Trie(){
+    public Trie(List<String> words) {
         root = new TrieNode();
+        for (String word : words)
+            root.insert(word);
+
     }
 
-    public void insert(String word){
-        TrieNode node = root;
-        for (int i = 0; i < word.length(); i++) {
-            if(node.getChildran()[word.charAt(i) - 'a'] == null){
-                node.getChildran()[word.charAt(i) - 'a'] = new TrieNode();
-            }
-            node = node.getChildran()[word.charAt(i) - 'a'];
-        }
-        node.setEndOfWord(true);
-    }
-
-    public boolean search(String word){
-        TrieNode node = root;
-        for (int i = 0; i < word.length(); i++) {
-            if(node.getChildran()[word.charAt(i) - 'a'] == null){
+    public boolean find(String prefix, boolean exact) {
+        TrieNode lastNode = root;
+        for (char c : prefix.toCharArray()) {
+            lastNode = lastNode.children.get(c);
+            if (lastNode == null)
                 return false;
-            }
-            node = node.getChildran()[word.charAt(i) - 'a'];
         }
-        return node.isEndOfWord();
+        return !exact || lastNode.isWord;
     }
 
-//    public List<String> startWith(String prefix){
-//        TrieNode node = root;
-//        ArrayList<String> startWithList = new ArrayList<>();
-//        for (int i = 0; i < prefix.length(); i++) {
-//            if(node.getChildran()[prefix.charAt(i) - 'a'] == null){
-//                return false;
-//            }
-//            node = node.getChildran()[prefix.charAt(i) - 'a'];
-//        }
-//        return true;
-//    }
-    public static void main(String[] args){
-        Trie obj = new Trie();
-        obj.insert("ab");
-        obj.insert("abati");
-        boolean ans = obj.search("ab");
-        //boolean ans1 = obj.startWith("aba");
+    public boolean find(String prefix) {
+        return find(prefix, false);
     }
+
+    public void suggestHelper(TrieNode root, List<String> list, StringBuffer curr) {
+        if (root.isWord) {
+            list.add(curr.toString());
+        }
+
+        if (root.children == null || root.children.isEmpty())
+            return;
+
+        for (TrieNode child : root.children.values()) {
+            suggestHelper(child, list, curr.append(child.c));
+            curr.setLength(curr.length() - 1);
+        }
+    }
+
+    public List<String> suggest(String prefix) {
+        List<String> list = new ArrayList<>();
+        TrieNode lastNode = root;
+        StringBuffer curr = new StringBuffer();
+        for (char c : prefix.toCharArray()) {
+            lastNode = lastNode.children.get(c);
+            if (lastNode == null)
+                return list;
+            curr.append(c);
+        }
+        suggestHelper(lastNode, list, curr);
+        return list;
+    }
+
+
+    public static void main(String[] args) {
+        //List<String> words = List.of("hello", "dog", "hell", "cat", "a", "hel","help","helps","helping");
+        //Trie trie = new Trie(words);
+
+        //System.out.println(trie.suggest("hel"));
+    }
+
 }

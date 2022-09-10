@@ -22,6 +22,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import machine.MachineImplement;
+import subComponent.main.brute.force.dictionary.DictionaryController;
 import subComponent.main.brute.force.encrypt.EncryptController;
 import subComponent.main.create.secret.code.CreateSecretCodeController;
 import subComponent.main.create.secret.codes.CreateNewSecretCodeController;
@@ -41,6 +42,8 @@ public class MainScreenController {
 
     @FXML private HBox stringEncryptBruteForce;
     @FXML private EncryptController stringEncryptBruteForceController;
+    @FXML private VBox dictionary;
+    @FXML private DictionaryController dictionaryController;
 
     @FXML private ScrollPane loadFXML;
     @FXML private LoadFXMLController loadFXMLController;
@@ -90,6 +93,7 @@ public class MainScreenController {
                 decryptionController != null
 
         ){
+            dictionaryController.setMainController(this);
             createNewSecretCodeController.setMainController(this);
             stringEncryptBruteForceController.setMainController(this);
             restartSecretCodeController.setMainController(this);
@@ -102,6 +106,7 @@ public class MainScreenController {
             tabControl.disableProperty().bind(loadFXMLController.getIsValidMachine());
             tabControl.getTabs().get(1).disableProperty().bind(secretCodeController.getIsSecretCodeExist());
             tabControl.getTabs().get(2).disableProperty().bind(secretCodeController.getIsSecretCodeExist());
+            setDecryptionTA();
         }
     }
     public void setSelectedTab(){
@@ -153,6 +158,15 @@ public class MainScreenController {
         historyController.setMachineHistoryAndShow();
     }
 
+    public DictionaryController getDictionaryController() {
+        return dictionaryController;
+    }
+
+    private void setDecryptionTA(){
+        showDecryptionTA.setFont(new Font("Verdana",20));
+        showDecryptionTA.setEditable(false);
+        showDecryptionTA.textProperty().bind(Bindings.concat("Decrypted text: ", decryptionController.getUserDecryptText(), " Encrypted text: ",decryptionController.getDecryptionLBL()));
+    }
 
     public static void showErrorPopup(String message) {
         Alert alert = new Alert(Alert.AlertType.ERROR);

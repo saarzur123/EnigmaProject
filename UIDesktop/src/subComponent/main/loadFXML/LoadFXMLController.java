@@ -43,6 +43,7 @@ public class LoadFXMLController {
                 setOnValidMachine();
                 mainController.setSelectedTab();
                 mainController.clearAllTFInEncrypt();
+                mainController.getDictionaryController().SetDictionaryController();
             }
             catch (XMLException error){
                 mainController.showErrorPopup(error.getMessage());

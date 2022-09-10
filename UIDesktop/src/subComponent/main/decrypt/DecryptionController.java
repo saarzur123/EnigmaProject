@@ -221,7 +221,9 @@ public class DecryptionController {
 
     @FXML
     void onFinishSingleCharsActionBTN(ActionEvent event) {
-        String encryptChar = mainController.getEngineCommand().processData(userEncryptedStringTF.getText(), true);
+        userDecryptedStringTF.setText(userDecryptedStringTF.getText().toUpperCase());
+        String encryptChar = mainController.getEngineCommand().processData(userDecryptedStringTF.getText(), true);
+
         if(!isCompleteStringDecryption){
             if(userEncryptedStringTF.getText() != ""){
                 mainController.getHistoryController().updateCurrHistory();
