@@ -22,6 +22,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import machine.MachineImplement;
+import subComponent.main.brute.force.agents.AgentsController;
 import subComponent.main.brute.force.dictionary.DictionaryController;
 import subComponent.main.brute.force.encrypt.EncryptController;
 import subComponent.main.create.secret.code.CreateSecretCodeController;
@@ -39,6 +40,8 @@ import java.net.URL;
 
 public class MainScreenController {
     @FXML private ComboBox<String> cssCB;
+    @FXML private FlowPane agents;
+    @FXML private AgentsController agentsController;
 
     @FXML private HBox stringEncryptBruteForce;
     @FXML private EncryptController stringEncryptBruteForceController;
@@ -76,6 +79,11 @@ public class MainScreenController {
         loadFXML.getScene().getStylesheets().clear();
         loadFXML.getScene().getStylesheets().add(cssCB.getValue() + ".css");
     }
+
+    public AgentsController getAgentsController() {
+        return agentsController;
+    }
+
     public Scene getSceneABA(){return loadFXML.getScene();}
     public String getStyleBTN(){return cssCB.getValue();}
     @FXML public void initialize(){
@@ -90,6 +98,7 @@ public class MainScreenController {
                 decryptionController != null
 
         ){
+            agentsController.setMainController(this);
             dictionaryController.setMainController(this);
             createNewSecretCodeController.setMainController(this);
             stringEncryptBruteForceController.setMainController(this);

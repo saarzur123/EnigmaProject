@@ -27,6 +27,10 @@ public class DecryptionManager {
         threadPool.prestartAllCoreThreads();
     }
 
+    public int getAgentNumber() {
+        return agentNumber;
+    }
+
     public Dictionary getDictionary() {
         return dictionary;
     }

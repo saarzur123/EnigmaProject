@@ -1,10 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TextArea?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
 <BorderPane fx:id="mainBoardPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="subComponent.main.app.MainScreenController">
@@ -51,6 +55,23 @@
                                     <VBox maxHeight="470.0" minHeight="470.0" prefHeight="470.0" prefWidth="543.0" BorderPane.alignment="CENTER">
                                        <children>
                                           <fx:include fx:id="decryption" source="../decrypt/decryption.fxml" />
+                                          <ScrollPane prefHeight="200.0" prefWidth="200.0">
+                                            <content>
+                                              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="107.0" prefWidth="541.0">
+                                                   <children>
+                                                      <VBox prefHeight="112.0" prefWidth="437.0">
+                                                         <children>
+                                                            <HBox fx:id="decryptionHBOX" prefHeight="74.0" prefWidth="526.0">
+                                                               <children>
+                                                                  <TextArea fx:id="showDecryptionTA" prefWidth="576.0" />
+                                                               </children>
+                                                            </HBox>
+                                                         </children>
+                                                      </VBox>
+                                                   </children>
+                                                </AnchorPane>
+                                            </content>
+                                          </ScrollPane>
                                        </children>
                                     </VBox>
                                  </left>
@@ -58,6 +79,39 @@
                            </children></AnchorPane>
                   </content>
                 </Tab>
+                  <Tab text="Brute Force">
+                     <content>
+                        <AnchorPane prefHeight="200.0" prefWidth="200.0">
+                           <children>
+                              <BorderPane prefHeight="453.0" prefWidth="1000.0">
+                                 <center>
+                                    <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
+                                       <children>
+                                          <fx:include fx:id="stringEncryptBruteForce" source="../brute/force/encrypt/Encrypt.fxml" />
+                                          <Separator prefWidth="200.0" />
+                                          <HBox prefHeight="342.0" prefWidth="1000.0">
+                                             <children>
+                                                <ScrollPane prefHeight="342.0" prefWidth="347.0">
+                                                  <content>
+                                                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="333.0" prefWidth="345.0">
+                                                         <children>
+                                                            <fx:include fx:id="dictionary" source="../brute/force/dictionary/Dictionary.fxml" />
+                                                         </children>
+                                                      </AnchorPane>
+                                                  </content>
+                                                </ScrollPane>
+                                                <fx:include fx:id="agents" source="../brute/force/agents/Agents.fxml" />
+                                                <Separator orientation="VERTICAL" prefHeight="200.0" />
+                                             </children>
+                                          </HBox>
+                                       </children>
+                                    </VBox>
+                                 </center>
+                              </BorderPane>
+                           </children>
+                        </AnchorPane>
+                     </content>
+                  </Tab>
               </tabs>
             </TabPane>
          </children>

@@ -44,6 +44,7 @@ public class LoadFXMLController {
                 mainController.setSelectedTab();
                 mainController.clearAllTFInEncrypt();
                 mainController.getDictionaryController().SetDictionaryController();
+                mainController.getAgentsController().setAgentsMaxSlider();
             }
             catch (XMLException error){
                 mainController.showErrorPopup(error.getMessage());
