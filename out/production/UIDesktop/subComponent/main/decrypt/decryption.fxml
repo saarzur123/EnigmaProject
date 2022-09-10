@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.Label?>
@@ -15,7 +16,7 @@
   <content>
     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="712.0" prefWidth="994.0">
          <children>
-            <VBox fx:id="decryptionVBOX" alignment="TOP_CENTER" layoutY="-1.0" prefHeight="387.0" prefWidth="431.0" spacing="30.0">
+            <VBox fx:id="decryptionVBOX" alignment="TOP_CENTER" layoutY="-1.0" prefHeight="407.0" prefWidth="574.0" spacing="30.0">
                <children>
                   <Label text="Use the keyboard to decrypt!">
                      <font>
@@ -27,17 +28,24 @@
                   <CheckBox mnemonicParsing="false" onAction="#completeStringDecryptionCheckBoxAction" text="Decrypt complete string" />
                   <HBox fx:id="decryptUserStringHBOX" prefHeight="38.0" prefWidth="431.0" spacing="10.0">
                      <children>
-                        <Label prefHeight="21.0" prefWidth="147.0" text="Enter string:" />
-                        <TextField fx:id="userDecryptedStringTF" prefHeight="31.0" prefWidth="201.0" />
-                        <Button fx:id="decryptStringBTN" mnemonicParsing="false" onAction="#userStringDecryptBtnAction" prefHeight="31.0" prefWidth="115.0" text="DECRYPT!" />
+                        <Label prefHeight="21.0" prefWidth="112.0" text="Enter string:" />
+                        <TextField fx:id="userDecryptedStringTF" onAction="#enterSingleCharacterActionTF" prefHeight="31.0" prefWidth="201.0" />
+                        <Button fx:id="decryptStringBTN" mnemonicParsing="false" onAction="#userStringDecryptBtnAction" prefHeight="31.0" prefWidth="115.0" text="PROCESS!" />
+                        <Button mnemonicParsing="false" onAction="#onClearDecryptionActionBTN" prefHeight="31.0" prefWidth="65.0" text="CLEAR" />
                      </children>
                   </HBox>
-                  <HBox prefHeight="53.0" prefWidth="431.0">
+                  <HBox prefHeight="53.0" prefWidth="431.0" spacing="10.0">
                      <children>
-                        <Label prefHeight="21.0" prefWidth="138.0" text="Encrypted string:" />
-                        <TextField fx:id="userEncryptedStringTF" />
+                        <Label prefHeight="21.0" prefWidth="113.0" text="Encrypted string:" />
+                        <TextField fx:id="userEncryptedStringTF" prefHeight="31.0" prefWidth="204.0" />
+                        <Button mnemonicParsing="false" onAction="#onFinishSingleCharsActionBTN" text="Done enter single characters" />
                      </children>
                   </HBox>
+                  <CheckBox fx:id="isTextFromVirtualKeyboardCb" mnemonicParsing="false" onAction="#virtualKeyboardSelectedActionCB" text="Enter text from virtual keyboard">
+                     <VBox.margin>
+                        <Insets bottom="100.0" />
+                     </VBox.margin>
+                  </CheckBox>
                </children>
             </VBox>
          </children></AnchorPane>

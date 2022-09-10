@@ -53,8 +53,8 @@ public class DecryptionButtonController {
     }
 
     private void completeStringDecryption(){
-        String saver = decryptionController.getUserDecryptCompleteString().get() + decryptCharBTN.getText();
-        decryptionController.getUserDecryptCompleteString().set(saver);
+        String saver = decryptionController.getUserDecryptedStringTF().getText() + decryptCharBTN.getText();
+        decryptionController.getUserDecryptedStringTF().setText(saver);
     }
 
     public void setButton(Character character){

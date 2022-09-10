@@ -1,8 +1,9 @@
 package machine;
 
+import java.io.Serializable;
 import java.util.*;
 
-public class Rotor implements Mapping {
+public class Rotor implements Mapping, Serializable {
     private int id;
     private int numberOfCharsInABC;
     private List<Character> charactersLinkedListRight = new LinkedList<>();

@@ -1,10 +1,11 @@
 package machine;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public class Reflector implements Mapping{
+public class Reflector implements Mapping, Serializable {
     private List<Integer> reflectInAndOut = new ArrayList<Integer>();
     private int id;
 
