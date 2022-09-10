@@ -34,7 +34,6 @@ import java.util.*;
 
 public class UserSecretCodeController {
 
-    //@FXML    private HBox rotorComponentHB;
     @FXML    private FlowPane rotorComponentFP;
     @FXML    private FlowPane PlugBoardFlowPane;
     @FXML    private Label plugsInstructionsLBL;
@@ -319,6 +318,7 @@ public class UserSecretCodeController {
                 userDto.getReflectorIdChosen().size() != NO_VALUE;
         if(allFieldsComplete){
             createNewSecretCodeController.getMainController().getEngineCommand().getSecretCodeFromUser(userDto,false);
+            createNewSecretCodeController.getMainController().getEngine().getDecryptionManager().findSecretCode("german poland",1);
             createNewSecretCodeController.getMainController().setLBLToCodeCombinationBindingMain();
             Stage stage = (Stage) reflectorIdCB.getScene().getWindow();
 
