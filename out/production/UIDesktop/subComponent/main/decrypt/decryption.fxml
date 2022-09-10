@@ -38,7 +38,7 @@
                      <children>
                         <Label prefHeight="21.0" prefWidth="113.0" text="Encrypted string:" />
                         <TextField fx:id="userEncryptedStringTF" prefHeight="31.0" prefWidth="204.0" />
-                        <Button mnemonicParsing="false" onAction="#onFinishSingleCharsActionBTN" text="Done enter single characters" />
+                        <Button fx:id="doneSingleCharBTN" mnemonicParsing="false" onAction="#onFinishSingleCharsActionBTN" text="Done enter single characters" />
                      </children>
                   </HBox>
                   <CheckBox fx:id="isTextFromVirtualKeyboardCb" mnemonicParsing="false" onAction="#virtualKeyboardSelectedActionCB" text="Enter text from virtual keyboard">

@@ -41,6 +41,7 @@ public class DecryptionController {
     @FXML private javafx.scene.control.TextField userDecryptedStringTF;
     @FXML private TextField userEncryptedStringTF;
     @FXML private Button decryptStringBTN;
+    @FXML    private Button doneSingleCharBTN;
     @FXML    private CheckBox isTextFromVirtualKeyboardCb;
     private boolean isCompleteStringDecryption = false;
     private DecryptionButtonController goldEncryptedBtnController;
@@ -49,7 +50,8 @@ public class DecryptionController {
     private Button clearDecryptionBtn = new Button("CLEAR");
     private StringProperty userDecryptText = new SimpleStringProperty("");
     private BooleanProperty isTextFromVirtualKeyboard = new SimpleBooleanProperty(true);
-    private BooleanProperty isTfEditable = new SimpleBooleanProperty(true);
+    private BooleanProperty disableProcessBtn = new SimpleBooleanProperty(true);
+    private BooleanProperty disableDoneSingleBtn = new SimpleBooleanProperty(false);
 
     private Map<Character, DecryptionButtonController> charToDecryptButtonController = new HashMap<>();
     private Map<Character, DecryptionButtonController> charToEncryptButtonController = new HashMap<>();
@@ -58,6 +60,8 @@ public class DecryptionController {
     @FXML
     public void initialize(){
         userDecryptedStringTF.editableProperty().bind(isTextFromVirtualKeyboard);
+        decryptStringBTN.disableProperty().bind(disableProcessBtn);
+        doneSingleCharBTN.disableProperty().bind(disableDoneSingleBtn);
         userEncryptedStringTF.setEditable(false);
         userDecryptedStringTF.textProperty().addListener((obs, oldText, newText) -> {
             String temp = userDecryptedStringTF.getText();
@@ -196,6 +200,8 @@ public class DecryptionController {
     @FXML
     void completeStringDecryptionCheckBoxAction(ActionEvent event) {
         isCompleteStringDecryption = !isCompleteStringDecryption;
+        disableProcessBtn.set(!isCompleteStringDecryption);
+        disableDoneSingleBtn.set(isCompleteStringDecryption);
         decryptStringBTN.setDisable(!isCompleteStringDecryption);
     }
 
@@ -249,7 +255,12 @@ public class DecryptionController {
 
     @FXML
     void onClearDecryptionActionBTN(ActionEvent event) {
-
+        if(goldEncryptedBtnController != null){
+            goldEncryptedBtnController.getDecryptCharBTN().setStyle(mainController.getStyleBTN());
+            goldEncryptedBtnController.getDecryptCharBTN().setDisable(true);
+        }
+        userDecryptedStringTF.setText("");
+        userEncryptedStringTF.setText("");
     }
 
     @FXML
