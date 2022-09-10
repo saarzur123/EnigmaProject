@@ -22,6 +22,7 @@ public class HistoryAndStatisticsForMachine {
     public DTOHistoryStatistics DTOHistoryAndStatisticsMaker(){
         return new DTOHistoryStatistics(7, secretCodesHistory, dataForEachSecretCode);
     }
+
     public void addSecretCodeToMachineHistory(SecretCode secretCode)
     {
         secretCodesHistory.add(secretCode);

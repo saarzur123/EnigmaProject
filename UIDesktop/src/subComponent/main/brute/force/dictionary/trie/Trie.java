@@ -49,22 +49,22 @@ public class Trie {
         return node.isEndOfWord();
     }
 
-    public List<String> startWith(String prefix){
-        TrieNode node = root;
-        ArrayList<String> startWithList = new ArrayList<>();
-        for (int i = 0; i < prefix.length(); i++) {
-            if(node.getChildran()[prefix.charAt(i) - 'a'] == null){
-                return false;
-            }
-            node = node.getChildran()[prefix.charAt(i) - 'a'];
-        }
-        return true;
-    }
+//    public List<String> startWith(String prefix){
+//        TrieNode node = root;
+//        ArrayList<String> startWithList = new ArrayList<>();
+//        for (int i = 0; i < prefix.length(); i++) {
+//            if(node.getChildran()[prefix.charAt(i) - 'a'] == null){
+//                return false;
+//            }
+//            node = node.getChildran()[prefix.charAt(i) - 'a'];
+//        }
+//        return true;
+//    }
     public static void main(String[] args){
         Trie obj = new Trie();
         obj.insert("ab");
         obj.insert("abati");
         boolean ans = obj.search("ab");
-        boolean ans1 = obj.startWith("aba");
+        //boolean ans1 = obj.startWith("aba");
     }
 }

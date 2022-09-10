@@ -85,7 +85,7 @@ public class Engine implements Commander {
     }
 
     @Override
-    public String processData(String inStr){
+    public String processData(String inStr, boolean addToHistory){
         String outStr = "";
         if(inStr != null) {
             long start = System.nanoTime();
@@ -93,7 +93,8 @@ public class Engine implements Commander {
                     secretCode.getInUseReflector()));
             long end = System.nanoTime();
             int indexInSecretCodeList = historyAndStatisticsForMachine.getSecretCodeHistory().indexOf(secretCode);
-            historyAndStatisticsForMachine.getDataForEachSecretCode().get(indexInSecretCodeList).add(new SourceAndDecodedAndTime(new SourceAndDecodedString(inStr, outStr), end - start));
+            if(addToHistory)
+                historyAndStatisticsForMachine.getDataForEachSecretCode().get(indexInSecretCodeList).add(new SourceAndDecodedAndTime(new SourceAndDecodedString(inStr, outStr), end - start));
             secretCode.changeNotchInSchema();
         }
         return outStr;

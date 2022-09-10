@@ -38,7 +38,7 @@ public class DecryptionButtonController {
         }
         String save = decryptionController.getUserDecryptText().get() + decryptCharBTN.getText();
         decryptionController.getUserDecryptText().set(save);
-        String encryptChar = decryptionController.getMainController().getEngineCommand().processData(decryptCharBTN.getText());
+        String encryptChar = decryptionController.getMainController().getEngineCommand().processData(decryptCharBTN.getText(), false);
         decryptionController.onEncryptAction(encryptChar);
 
         Duration duration = Duration.millis(200);
