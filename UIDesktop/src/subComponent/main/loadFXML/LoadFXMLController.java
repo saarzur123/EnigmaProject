@@ -42,6 +42,7 @@ public class LoadFXMLController {
                 mainController.getEngineCommand().createMachineFromXML(path);
                 setOnValidMachine();
                 mainController.setSelectedTab();
+                mainController.clearAllTFInEncrypt();
             }
             catch (XMLException error){
                 mainController.showErrorPopup(error.getMessage());

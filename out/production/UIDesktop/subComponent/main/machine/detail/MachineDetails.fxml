@@ -10,6 +10,7 @@
 <?import javafx.scene.text.Font?>
 
 
+
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="300.0" prefWidth="1012.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="subComponent.main.machine.detail.MachineDetailsController">
    <center>
       <FlowPane prefHeight="300.0" prefWidth="1000.0" BorderPane.alignment="CENTER">

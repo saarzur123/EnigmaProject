@@ -24,6 +24,7 @@ public class Engine implements Commander {
     private DecryptionManager decryptionManager;
     private HistoryAndStatisticsForMachine historyAndStatisticsForMachine = new HistoryAndStatisticsForMachine();
     private SecretCodeRandomAutomation secretCodeRandomAutomation = new SecretCodeRandomAutomation();
+    public DecryptionManager getDM(){return decryptionManager;}
 
     public MachineImplement getMachine(){return machine;}
     public SecretCode getSecretCode(){return secretCode;}

@@ -22,6 +22,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import machine.MachineImplement;
+import subComponent.main.brute.force.encrypt.EncryptController;
 import subComponent.main.create.secret.code.CreateSecretCodeController;
 import subComponent.main.create.secret.codes.CreateNewSecretCodeController;
 import subComponent.main.decrypt.DecryptionController;
@@ -37,6 +38,9 @@ import java.net.URL;
 
 public class MainScreenController {
     @FXML private ComboBox<String> cssCB;
+
+    @FXML private HBox stringEncryptBruteForce;
+    @FXML private EncryptController stringEncryptBruteForceController;
 
     @FXML private ScrollPane loadFXML;
     @FXML private LoadFXMLController loadFXMLController;
@@ -87,6 +91,7 @@ public class MainScreenController {
 
         ){
             createNewSecretCodeController.setMainController(this);
+            stringEncryptBruteForceController.setMainController(this);
             restartSecretCodeController.setMainController(this);
             loadFXMLController.setMainController(this);
             machineDetailsController.setMainController(this);
@@ -96,6 +101,7 @@ public class MainScreenController {
             loadFXMLController.getIsValidMachine().setValue(true);
             tabControl.disableProperty().bind(loadFXMLController.getIsValidMachine());
             tabControl.getTabs().get(1).disableProperty().bind(secretCodeController.getIsSecretCodeExist());
+            tabControl.getTabs().get(2).disableProperty().bind(secretCodeController.getIsSecretCodeExist());
             setDecryptionTA();
         }
     }
@@ -103,6 +109,9 @@ public class MainScreenController {
         secretCodeController.getIsSecretCodeExist().set(true);
         SingleSelectionModel<Tab> selectionModel = tabControl.getSelectionModel();
         selectionModel.select(0);
+    }
+    public void clearAllTFInEncrypt(){
+        stringEncryptBruteForceController.clearAllTF();
     }
     public void setNextTabOK(){
         secretCodeController.getIsSecretCodeExist().set(false);

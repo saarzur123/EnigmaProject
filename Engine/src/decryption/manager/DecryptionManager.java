@@ -27,6 +27,10 @@ public class DecryptionManager {
         threadPool.prestartAllCoreThreads();
     }
 
+    public Dictionary getDictionary() {
+        return dictionary;
+    }
+
     public int getMissionSize() {
         return missionSize;
     }
