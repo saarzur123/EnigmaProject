@@ -2,19 +2,19 @@ package subComponent.main.decrypt;
 
 import javafx.animation.*;
 import javafx.beans.binding.Bindings;
-import javafx.beans.property.ObjectProperty;
-import javafx.beans.property.SimpleObjectProperty;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
+import javafx.beans.property.*;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
+import javafx.scene.control.*;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
+import javafx.scene.input.InputMethodEvent;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.Pane;
@@ -41,12 +41,15 @@ public class DecryptionController {
     @FXML private javafx.scene.control.TextField userDecryptedStringTF;
     @FXML private TextField userEncryptedStringTF;
     @FXML private Button decryptStringBTN;
+    @FXML    private CheckBox isTextFromVirtualKeyboardCb;
     private boolean isCompleteStringDecryption = false;
     private DecryptionButtonController goldEncryptedBtnController;
+    private boolean isCharOnLanguage = true;
     private StringProperty showDecryptedCode = new SimpleStringProperty("");
     private Button clearDecryptionBtn = new Button("CLEAR");
     private StringProperty userDecryptText = new SimpleStringProperty("");
-    private StringProperty userDecryptCompleteString = new SimpleStringProperty("");
+    private BooleanProperty isTextFromVirtualKeyboard = new SimpleBooleanProperty(true);
+    private BooleanProperty isTfEditable = new SimpleBooleanProperty(true);
 
     private Map<Character, DecryptionButtonController> charToDecryptButtonController = new HashMap<>();
     private Map<Character, DecryptionButtonController> charToEncryptButtonController = new HashMap<>();
@@ -54,10 +57,12 @@ public class DecryptionController {
 
     @FXML
     public void initialize(){
-        userDecryptedStringTF.setEditable(false);
+        userDecryptedStringTF.editableProperty().bind(isTextFromVirtualKeyboard);
         userEncryptedStringTF.setEditable(false);
-        userDecryptedStringTF.textProperty().bind(userDecryptCompleteString);
-        disableStringDecryption(!isCompleteStringDecryption);
+        userDecryptedStringTF.textProperty().addListener((obs, oldText, newText) -> {
+            String temp = userDecryptedStringTF.getText();
+             decryptEncryptProcess(temp);
+        });
     }
 
     public void setMainController(MainScreenController mainController) {
@@ -84,8 +89,11 @@ public class DecryptionController {
         return isCompleteStringDecryption;
     }
 
-    public StringProperty getUserDecryptCompleteString(){
-        return userDecryptCompleteString;
+
+
+
+    public TextField getUserDecryptedStringTF() {
+        return userDecryptedStringTF;
     }
 
     public void setShowDecryptedCode(){showDecryptedCode.set("");}
@@ -162,6 +170,7 @@ public class DecryptionController {
             createNewDecryptBtnComponent(language.charAt(i));
             createNewEncryptBtnComponent(language.charAt(i));
         }
+        decryptFP.disableProperty().bind(isTextFromVirtualKeyboard);
         setDecryptionHbox();
     }
 
@@ -187,18 +196,73 @@ public class DecryptionController {
     @FXML
     void completeStringDecryptionCheckBoxAction(ActionEvent event) {
         isCompleteStringDecryption = !isCompleteStringDecryption;
-        disableStringDecryption(!isCompleteStringDecryption);
+        decryptStringBTN.setDisable(!isCompleteStringDecryption);
     }
 
     @FXML
     void userStringDecryptBtnAction(ActionEvent event) {
         String encrypted = "";
-        String decrypted = userDecryptedStringTF.getText();
-        if( decrypted != ""){
-            encrypted = mainController.getEngineCommand().processData(decrypted.toUpperCase());
-            setAfterDecryption();
+        if(isCompleteStringDecryption) {
+            String decrypted = userDecryptedStringTF.getText();
+            if (decrypted != "") {
+               // validateText(decrypted);
+                encrypted = mainController.getEngineCommand().processData(decrypted.toUpperCase());
+                setAfterDecryption();
+            }
+            userEncryptedStringTF.setText(encrypted);
         }
-        userEncryptedStringTF.setText(encrypted);
+    }
+
+    private void decryptEncryptProcess(String decrypted){
+
+        if(!isCompleteStringDecryption){
+            isCharOnLanguage = isCharTypedInLanguage(String.valueOf(decrypted.charAt(decrypted.length()-1)));
+            if(!isCharOnLanguage){
+                decrypted = decrypted.substring(0,decrypted.length()-1);
+                userDecryptedStringTF.setText(decrypted);
+            }
+            singleKeyboardCharDecryption(String.valueOf(decrypted.charAt(decrypted.length()-1)));
+        }
+        else{
+            //completeStringDecryption();
+        }
+
+    }
+    private void singleKeyboardCharDecryption(String lastCharFromKeyBoard) {
+        String encryptChar = mainController.getEngineCommand().processData(lastCharFromKeyBoard.toUpperCase());
+        String save = userEncryptedStringTF.getText() + encryptChar;
+        userEncryptedStringTF.setText(save);
+        mainController.setLBLToCodeCombinationBindingMain();
+        mainController.getMachineDetailsController().updateCurrMachineDetails();
+    }
+
+    @FXML
+    void onFinishSingleCharsActionBTN(ActionEvent event) {
+        if(!isCompleteStringDecryption){
+            if(userEncryptedStringTF.getText() != ""){
+                mainController.getHistoryController().updateCurrHistory();
+            }
+            userDecryptedStringTF.setText("");
+            userEncryptedStringTF.setText("");
+        }
+    }
+
+    @FXML
+    void onClearDecryptionActionBTN(ActionEvent event) {
+
+    }
+
+    @FXML
+    void enterSingleCharacterActionTF(ActionEvent event) {
+        String encrypted = "";
+        if(!isCompleteStringDecryption) {
+            String decrypted = userDecryptedStringTF.getText();
+            if (decrypted != "") {
+                encrypted = mainController.getEngineCommand().processData(decrypted.toUpperCase());
+                setAfterDecryption();
+            }
+            userEncryptedStringTF.setText(encrypted);
+        }
     }
 
     private void setClearBtn(){
@@ -215,8 +279,36 @@ public class DecryptionController {
         }
         userDecryptText.set("");
         showDecryptedCode.set("");
+        userDecryptedStringTF.setText("");
         userEncryptedStringTF.setText("");
-        userDecryptCompleteString.set("");
+    }
+
+    @FXML
+    void virtualKeyboardSelectedActionCB(ActionEvent event) {
+        if(isCompleteStringDecryption){
+            isTextFromVirtualKeyboard.set(!isTextFromVirtualKeyboard.get());
+        }
+    }
+
+    private boolean isCharTypedInLanguage(String userChar){
+        boolean ret = true;
+        String language  = mainController.getEngine().getMachine().getABC();
+            if(!language.contains(String.valueOf(userChar.toUpperCase()))){
+                ret = false;
+                MainScreenController.showErrorPopup(String.format("The character %s is not in the language: [%s]",userChar,language));
+            }
+            return ret;
+    }
+
+    private void validateText(String decrypted){
+        String language  = mainController.getEngine().getMachine().getABC();
+        int size = decrypted.length();
+
+        for (int i = 0; i < size; i++) {
+            if(!language.contains(String.valueOf(decrypted.charAt(i)))){
+               MainScreenController.showErrorPopup(String.format("The character %c is not in the language: [%s]",decrypted.charAt(i),language));
+            }
+        }
     }
 
     private void disableStringDecryption(boolean state){

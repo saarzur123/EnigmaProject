@@ -63,6 +63,7 @@ public class Mission implements Runnable{
             int pMax = pool.length;  // stored to speed calculation
             while (indexes[0] < pMax && wordIndex < missionSize) { //if the first index is bigger then pMax we are done
                 // print the current permutation
+                startPos.clear();
                 for (int i = 0; i < length; i++) {
                     System.out.print(pool[indexes[i]]);//print each character
                     startPos.add(pool[indexes[i]]);

@@ -63,7 +63,11 @@ public class SecretCode {
         int size = rotorsStartingPos.size();
 
         for (int i   = 0; i < size; i++) {
-            rotorsInUse.get(i).setRotorToStartPosition(rotorsStartingPos.get(i));
+            rotorsInUse
+                    .get(i)
+                    .setRotorToStartPosition(
+                            rotorsStartingPos
+                                    .get(i));
         }
     }
 
