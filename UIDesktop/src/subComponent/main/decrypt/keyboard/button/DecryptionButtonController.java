@@ -29,6 +29,8 @@ public class DecryptionButtonController {
         else{
             completeStringDecryption();
         }
+        decryptionController.getMainController().setLBLToCodeCombinationBindingMain();
+        decryptionController.getMainController().getMachineDetailsController().updateCurrMachineDetails();
     }
 
     private void singleCharDecryption(){
@@ -36,9 +38,9 @@ public class DecryptionButtonController {
             decryptionController.getGoldEncryptedBtnController().getDecryptCharBTN().setStyle(decryptionController.getMainController().getStyleBTN());
             decryptionController.getGoldEncryptedBtnController().getDecryptCharBTN().setDisable(true);
         }
-        String save = decryptionController.getUserDecryptText().get() + decryptCharBTN.getText();
-        decryptionController.getUserDecryptText().set(save);
-        String encryptChar = decryptionController.getMainController().getEngineCommand().processData(decryptCharBTN.getText(), false);
+        String save = decryptionController.getUserDecryptedStringTF().getText() + decryptCharBTN.getText();
+        decryptionController.getUserDecryptedStringTF().setText(save);
+        String encryptChar = decryptionController.getMainController().getEngineCommand().(decryptCharBTN.getText(), false);
         decryptionController.onEncryptAction(encryptChar);
 
         Duration duration = Duration.millis(200);
@@ -48,8 +50,8 @@ public class DecryptionButtonController {
         transition.setCycleCount(2);
         transition.play();
 
-        String currDecryptedCode = decryptionController.getDecryptionLBL().get()+encryptChar;
-        decryptionController.setAfterSingleCharDecryption(currDecryptedCode);
+        String temp = decryptionController.getUserEncryptedStringTF().getText() + encryptChar;
+        decryptionController.getUserEncryptedStringTF().setText(temp);
     }
 
     private void completeStringDecryption(){
@@ -64,9 +66,5 @@ public class DecryptionButtonController {
         decryptCharBTN.setShape(new Circle(10));
         decryptCharBTN.getTransforms().add(new Rotate(0, 50, 50));
     }
-
-
-
-
 }
 

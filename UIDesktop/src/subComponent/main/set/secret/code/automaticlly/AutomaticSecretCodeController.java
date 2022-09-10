@@ -18,7 +18,6 @@ public class AutomaticSecretCodeController {
             createNewSecretCodeController.getMainController().setLBLToCodeCombinationBindingMain();
             createNewSecretCodeController.getMainController().setSecretCodeState(false);
             createNewSecretCodeController.getMainController().getMachineDetailsController().updateCurrMachineDetails();
-            createNewSecretCodeController.getMainController().getDecryptionController().setShowDecryptedCode();
         createNewSecretCodeController.getMainController().getEngine().getDecryptionManager().findSecretCode("HELLO WORLD",1);
 
     }

@@ -42,13 +42,9 @@ public class DecryptionController {
     @FXML private TextField userEncryptedStringTF;
     @FXML private Button decryptStringBTN;
     @FXML    private Button doneSingleCharBTN;
-    @FXML    private CheckBox isTextFromVirtualKeyboardCb;
     private boolean isCompleteStringDecryption = false;
     private DecryptionButtonController goldEncryptedBtnController;
     private boolean isCharOnLanguage = true;
-    private StringProperty showDecryptedCode = new SimpleStringProperty("");
-    private Button clearDecryptionBtn = new Button("CLEAR");
-    private StringProperty userDecryptText = new SimpleStringProperty("");
     private BooleanProperty isTextFromVirtualKeyboard = new SimpleBooleanProperty(true);
     private BooleanProperty disableProcessBtn = new SimpleBooleanProperty(true);
     private BooleanProperty disableDoneSingleBtn = new SimpleBooleanProperty(false);
@@ -64,8 +60,10 @@ public class DecryptionController {
         doneSingleCharBTN.disableProperty().bind(disableDoneSingleBtn);
         userEncryptedStringTF.setEditable(false);
         userDecryptedStringTF.textProperty().addListener((obs, oldText, newText) -> {
-            String temp = userDecryptedStringTF.getText();
-             decryptEncryptProcess(temp);
+            if(isTextFromVirtualKeyboard.get()) {
+                String temp = userDecryptedStringTF.getText();
+                decryptEncryptProcess(temp);
+            }
         });
     }
 
@@ -81,26 +79,17 @@ public class DecryptionController {
         return goldEncryptedBtnController;
     }
 
-    public StringProperty getDecryptionLBL() {
-        return showDecryptedCode;
-    }
-
-    public StringProperty getUserDecryptText() {
-        return userDecryptText;
+    public TextField getUserEncryptedStringTF() {
+        return userEncryptedStringTF;
     }
 
     public boolean isCompleteStringDecryption() {
         return isCompleteStringDecryption;
     }
-
-
-
-
     public TextField getUserDecryptedStringTF() {
         return userDecryptedStringTF;
     }
 
-    public void setShowDecryptedCode(){showDecryptedCode.set("");}
 
     public void onEncryptAction(String charOnEncryptBtn){
         int i = 0;
@@ -175,16 +164,7 @@ public class DecryptionController {
             createNewEncryptBtnComponent(language.charAt(i));
         }
         decryptFP.disableProperty().bind(isTextFromVirtualKeyboard);
-        setDecryptionHbox();
     }
-
-    private void setDecryptionHbox(){
-        mainController.getDecryptionHBOX().getChildren().clear();
-        mainController.getDecryptionHBOX().getChildren().add(mainController.getDecryptShowTA());
-        setClearBtn();
-        mainController.getDecryptionHBOX().getChildren().add(clearDecryptionBtn);
-    }
-
 
     public void setAfterDecryption(){
         mainController.setLBLToCodeCombinationBindingMain();
@@ -193,8 +173,7 @@ public class DecryptionController {
     }
 
     public void setAfterSingleCharDecryption(String currDecryptedCode){
-        showDecryptedCode.set(currDecryptedCode);
-        setAfterDecryption();
+        userDecryptedStringTF.setText(currDecryptedCode);
     }
 
     @FXML
@@ -230,14 +209,10 @@ public class DecryptionController {
             }
             singleKeyboardCharDecryption(String.valueOf(decrypted.charAt(decrypted.length()-1)));
         }
-        else{
-            //completeStringDecryption();
-        }
-
     }
+
     private void singleKeyboardCharDecryption(String lastCharFromKeyBoard) {
         String encryptChar = mainController.getEngineCommand().processData(lastCharFromKeyBoard.toUpperCase(), false);
-        //mainController.getEngine().getHistoryAndStatisticsForMachine().getDataForEachSecretCode().
         String save= userEncryptedStringTF.getText() + encryptChar;
         userEncryptedStringTF.setText(save);
         mainController.setLBLToCodeCombinationBindingMain();
@@ -259,6 +234,10 @@ public class DecryptionController {
 
     @FXML
     void onClearDecryptionActionBTN(ActionEvent event) {
+       onClear();
+    }
+
+    public void onClear(){
         if(goldEncryptedBtnController != null){
             goldEncryptedBtnController.getDecryptCharBTN().setStyle(mainController.getStyleBTN());
             goldEncryptedBtnController.getDecryptCharBTN().setDisable(true);
@@ -280,29 +259,10 @@ public class DecryptionController {
         }
     }
 
-    private void setClearBtn(){
-        clearDecryptionBtn.setPrefWidth(100);
-        clearDecryptionBtn.setOnAction(e -> {
-            onClear();
-        });
-    }
-
-    public void onClear(){
-        if(goldEncryptedBtnController != null){
-            goldEncryptedBtnController.getDecryptCharBTN().setStyle(mainController.getStyleBTN());
-            goldEncryptedBtnController.getDecryptCharBTN().setDisable(true);
-        }
-        userDecryptText.set("");
-        showDecryptedCode.set("");
-        userDecryptedStringTF.setText("");
-        userEncryptedStringTF.setText("");
-    }
 
     @FXML
     void virtualKeyboardSelectedActionCB(ActionEvent event) {
-
             isTextFromVirtualKeyboard.set(!isTextFromVirtualKeyboard.get());
-
     }
 
     private boolean isCharTypedInLanguage(String userChar){

@@ -102,7 +102,6 @@ public class MainScreenController {
             tabControl.disableProperty().bind(loadFXMLController.getIsValidMachine());
             tabControl.getTabs().get(1).disableProperty().bind(secretCodeController.getIsSecretCodeExist());
             tabControl.getTabs().get(2).disableProperty().bind(secretCodeController.getIsSecretCodeExist());
-            setDecryptionTA();
         }
     }
     public void setSelectedTab(){
@@ -154,11 +153,6 @@ public class MainScreenController {
         historyController.setMachineHistoryAndShow();
     }
 
-    private void setDecryptionTA(){
-        showDecryptionTA.setFont(new Font("Verdana",20));
-        showDecryptionTA.setEditable(false);
-        showDecryptionTA.textProperty().bind(Bindings.concat("Decrypted text: ", decryptionController.getUserDecryptText(), " Encrypted text: ",decryptionController.getDecryptionLBL()));
-    }
 
     public static void showErrorPopup(String message) {
         Alert alert = new Alert(Alert.AlertType.ERROR);

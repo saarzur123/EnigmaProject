@@ -58,7 +58,6 @@ public class LoadFXMLController {
         mainController.resetSecretCodeCombination();
         mainController.setDecryptionTab();
         mainController.setHistoryTxt();
-        mainController.getDecryptionController().setShowDecryptedCode();
     }
 
 }
