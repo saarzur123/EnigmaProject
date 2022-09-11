@@ -103,32 +103,6 @@ public class DecryptionManager {
         System.out.println("");
     }
 
-
-    public static List<List<Integer>> possibleRotorIdPositions(int[] num) {
-        List<List<Integer>> result = new ArrayList<List<Integer>>();
-
-        //start from an empty list
-        result.add(new ArrayList<Integer>());
-        List<List<Integer>> current = new ArrayList<List<Integer>>();
-        for (int i = 0; i < num.length; i++) {
-            //list of list in current iteration of the array num
-            current.clear();
-            for (List<Integer> l : result) {
-                // # of locations to insert is largest index + 1
-                for (int j = 0; j < l.size()+1; j++) {
-                    // + add num[i] to different locations
-                    l.add(j, num[i]);
-                    ArrayList<Integer> temp = new ArrayList<Integer>(l);
-                    current.add(temp);
-                    l.remove(j);
-                }
-            }
-            result = new ArrayList<List<Integer>>(current);
-        }
-        System.out.println(result.toString());
-        return result;
-    }
-
     private Runnable createPushMissionRunnable(String userDecryptedString, int level) {
         return new Runnable() {
             @Override
@@ -136,8 +110,16 @@ public class DecryptionManager {
                 if (level == 1) {
                     pushMissions(machineSecretCode.getRotorsIdList(), machineSecretCode.getReflectorId(), userDecryptedString);
                 }
-                if (level == 2) {
-                    level2(userDecryptedString);
+                else if (level == 2) {
+                    level2(machineSecretCode.getRotorsIdList(),userDecryptedString);
+                }
+                else if(level == 3){
+                    level3(machineSecretCode.getRotorsIdList(),userDecryptedString);
+                }
+                else if(level == 4){
+                    int rotorInUse = machine.getInUseRotorNumber();
+                    int rotorsAvailable = machine.getAvailableRotors().size();
+                    level4(userDecryptedString,rotorsAvailable,rotorInUse);
                 }
 
             }
@@ -149,16 +131,67 @@ public class DecryptionManager {
             handOutMissions(machine.getInUseRotorNumber(), machine.getABC().toCharArray(), missionSize, userDecryptedString, missionArguments);
         }
 
-        private void level2(String userDecryptedString){
+        private void level2(List < Integer > rotorIdForSecretCode, String userDecryptedString){
             for (int k = 0; k < machine.getAvailableReflectors().size(); k++) {
-                pushMissions(machineSecretCode.getRotorsIdList(),machine.getAvailableReflectors().get(k).getId(), userDecryptedString );
+                pushMissions(rotorIdForSecretCode,machine.getAvailableReflectors().get(k).getId(), userDecryptedString );
             }
         }
 
-        private void level3(String userDecryptedString){
+        private void level3(List < Integer > rotorIdInUse, String userDecryptedString){
+            List<List<Integer>> result = new ArrayList<List<Integer>>();
+            //start from an empty list
+            result.add(new ArrayList<Integer>());
+            List<List<Integer>> current = new ArrayList<List<Integer>>();
+            for (int i = 0; i < rotorIdInUse.size(); i++) {
+                //list of list in current iteration of the array num
+                current.clear();
+                for (List<Integer> l : result) {
+                    // # of locations to insert is largest index + 1
+                    for (int j = 0; j < l.size()+1; j++) {
+                        // + add num[i] to different locations
+                        l.add(j, rotorIdInUse.get(i));
+                        ArrayList<Integer> temp = new ArrayList<Integer>(l);
+                        current.add(temp);
+                        if(i == rotorIdInUse.size() - 1){
+                            level2(temp,userDecryptedString);
+                        }
+                        l.remove(j);
+                    }
+                }
+                result = new ArrayList<List<Integer>>(current);
+            }
+            System.out.println(result.toString());
 
         }
 
+        private void level4(String userDecryptedString, int numberOfOptions, int numberToChoose){
+                List<int[]> combinations = new ArrayList<>();
+                int[] combination = new int[numberToChoose];
+
+                // initialize with lowest lexicographic combination
+                for (int i = 0; i < numberToChoose; i++) {
+                    combination[i] = i;
+                }
+
+                while (combination[numberToChoose - 1] < numberOfOptions) {
+                    List<Integer> rotorsChosen = new ArrayList<>();
+                    for (int k = 0; k < numberToChoose; k++) {
+                        rotorsChosen.add(combination[k]+1);
+                    }
+
+                    level3(rotorsChosen,userDecryptedString);
+
+                    // generate next combination in lexicographic order
+                    int t = numberToChoose - 1;
+                    while (t != 0 && combination[t] == numberOfOptions - numberToChoose + t) {
+                        t--;
+                    }
+                    combination[t]++;
+                    for (int i = t + 1; i < numberToChoose; i++) {
+                        combination[i] = combination[i - 1] + 1;
+                    }
+            }
+        }
 
 
 }
