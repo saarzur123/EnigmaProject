@@ -6,6 +6,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.InputMethodEvent;
 import machine.SecretCode;
 import subComponent.main.app.MainScreenController;
+import subComponent.main.decrypt.DecryptionController;
 
 public class EncryptController {
 
