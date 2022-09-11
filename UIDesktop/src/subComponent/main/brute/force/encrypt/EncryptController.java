@@ -15,6 +15,22 @@ public class EncryptController {
     private TextField userDecryptStringTF;
     private MainScreenController mainController;
     private SecretCode secretCode;
+    private boolean isCharOnLanguage = true;
+
+    @FXML
+    public void initialize(){
+        userEncryptStringTF.textProperty().addListener((obs, oldText, newText) -> {
+            String curText = userEncryptStringTF.getText();
+            if(curText.length() > 0) {
+                isCharOnLanguage = isCharTypedInLanguage(String.valueOf(curText.charAt(curText.length() - 1)));
+                if (!isCharOnLanguage) {
+                    curText = curText.substring(0, curText.length() - 1);
+                    userEncryptStringTF.setText(curText);
+                }
+            }
+        });
+    }
+
     @FXML
     void userChooseStringToEncryptAction(ActionEvent event) {
         userEncryptStringTF.setText(userEncryptStringTF.getText().toLowerCase());
@@ -43,6 +59,16 @@ public class EncryptController {
     public void clearAllTF(){
         userDecryptStringTF.setText("");
         userEncryptStringTF.setText("");
+    }
+
+    private boolean isCharTypedInLanguage(String userChar){
+        boolean ret = true;
+        String language  = mainController.getEngine().getMachine().getABC();
+        if(!language.contains(String.valueOf(userChar.toUpperCase()))){
+            ret = false;
+            MainScreenController.showErrorPopup(String.format("The character %s is not in the language: [%s]",userChar,language));
+        }
+        return ret;
     }
 
 }
