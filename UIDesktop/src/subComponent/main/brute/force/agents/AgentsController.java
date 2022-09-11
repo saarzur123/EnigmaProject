@@ -45,6 +45,16 @@ public class AgentsController {
         });
     }
 
+    @FXML
+    void startBruteForceBTN(ActionEvent event) {
+
+    }
+
+    @FXML
+    void stopBruteForceBTN(ActionEvent event) {
+
+    }
+
     public Integer getDifficultLevel() {
         return difficultLevel;
     }
@@ -55,6 +65,7 @@ public class AgentsController {
 
     public void setAgentsMaxSlider() {
         agentsSlider.setMax(mainController.getEngine().getDecryptionManager().getAgentNumber());
+        agentsSlider.setMin(1);
     }
 
     private void setDifficultyLevelCB(){
