@@ -50,30 +50,37 @@ public class light {
         char[] pool = new char[]{'A', 'B', 'C', 'D'};
         int[] arr = new int []{1,2,3};
         List<List<Integer>> rotorIdCombination = possibleRotorIdPositions(arr);
+        List<int[]> choosingCombination = chooseRotorToUseFromAllRotors(5,3);
        // int[] arr1 = makeBruteForce(3, pool, new int[]{0, 0, 3}, 10);
 
-        TrieImplement trie = new TrieImplement();
-        trie.addWord("Java");
-        trie.addWord("JavaOne");
-        trie.addWord("JavaTwo");
-        trie.addWord("JavaThree");
-        trie.addWord("JavaFour");
-        trie.addWord("JavaFive");
 
 
-        List<String> matches = trie.search("tJa");
-        if(matches==null || matches.size() == 0)
-        {
-            System.out.println("Noh found");
+    }
+
+    public static List<int[]> chooseRotorToUseFromAllRotors(int numberOfOptions, int numberToChoose) {
+        List<int[]> combinations = new ArrayList<>();
+        int[] combination = new int[numberToChoose];
+
+        // initialize with lowest lexicographic combination
+        for (int i = 0; i < numberToChoose; i++) {
+            combination[i] = i;
         }
-        else
-        {
-            for(String str:matches)
-            {
-                System.out.println(str);
+
+        while (combination[numberToChoose - 1] < numberOfOptions) {
+            combinations.add(combination.clone());
+
+            // generate next combination in lexicographic order
+            int t = numberToChoose - 1;
+            while (t != 0 && combination[t] == numberOfOptions - numberToChoose + t) {
+                t--;
+            }
+            combination[t]++;
+            for (int i = t + 1; i < numberToChoose; i++) {
+                combination[i] = combination[i - 1] + 1;
             }
         }
 
+        return combinations;
     }
 
     private static int[] makeBruteForce(int length, char[] pool, int[] indexes, int missionSize) {

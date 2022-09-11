@@ -116,6 +116,11 @@ public class DecryptionManager {
                 else if(level == 3){
                     level3(machineSecretCode.getRotorsIdList(),userDecryptedString);
                 }
+                else if(level == 4){
+                    int rotorInUse = machine.getInUseRotorNumber();
+                    int rotorsAvailable = machine.getAvailableRotors().size();
+                    level4(userDecryptedString,rotorsAvailable,rotorInUse);
+                }
 
             }
         };
@@ -159,8 +164,33 @@ public class DecryptionManager {
 
         }
 
-        private void level4(String userDecryptedString){
+        private void level4(String userDecryptedString, int numberOfOptions, int numberToChoose){
+                List<int[]> combinations = new ArrayList<>();
+                int[] combination = new int[numberToChoose];
 
+                // initialize with lowest lexicographic combination
+                for (int i = 0; i < numberToChoose; i++) {
+                    combination[i] = i;
+                }
+
+                while (combination[numberToChoose - 1] < numberOfOptions) {
+                    List<Integer> rotorsChosen = new ArrayList<>();
+                    for (int k = 0; k < numberToChoose; k++) {
+                        rotorsChosen.add(combination[k]+1);
+                    }
+
+                    level3(rotorsChosen,userDecryptedString);
+
+                    // generate next combination in lexicographic order
+                    int t = numberToChoose - 1;
+                    while (t != 0 && combination[t] == numberOfOptions - numberToChoose + t) {
+                        t--;
+                    }
+                    combination[t]++;
+                    for (int i = t + 1; i < numberToChoose; i++) {
+                        combination[i] = combination[i - 1] + 1;
+                    }
+            }
         }
 
 
