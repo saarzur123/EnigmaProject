@@ -43,6 +43,7 @@ public class AgentsController {
     private void setDifficultyLevelCB(){
         for (int i = 1; i <= 4; i++) {
             difficultyLevelCB.getItems().add(i);
+
         }
     }
 }
