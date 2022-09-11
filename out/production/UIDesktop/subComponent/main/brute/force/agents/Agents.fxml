@@ -30,7 +30,7 @@
                </children>
             </HBox>
             <Slider fx:id="agentsSlider" prefHeight="16.0" prefWidth="279.0" />
-            <ComboBox fx:id="difficultyLevelCB" prefWidth="150.0" promptText="Difficulty level">
+            <ComboBox fx:id="difficultyLevelCB" onAction="#onDifficultyLevelAction" prefWidth="150.0" promptText="Difficulty level">
                <VBox.margin>
                   <Insets top="10.0" />
                </VBox.margin></ComboBox>
@@ -39,8 +39,8 @@
                   <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="10.0">
                      <children>
                         <Label alignment="CENTER" text="Mission size :" />
-                        <TextField prefHeight="31.0" prefWidth="64.0" />
-                        <Button mnemonicParsing="false" text="SUBMIT" />
+                        <TextField fx:id="missionSizeTF" prefHeight="31.0" prefWidth="64.0" />
+                        <Button mnemonicParsing="false" onAction="#onSubmitMissionSizeAction" text="SUBMIT" />
                      </children>
                   </HBox>
                </children>
