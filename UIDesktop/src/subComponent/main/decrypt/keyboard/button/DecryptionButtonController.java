@@ -20,6 +20,7 @@ public class DecryptionButtonController {
 
     public Button getDecryptCharBTN(){return decryptCharBTN;}
 
+
     @FXML
     void decryptCharAction(ActionEvent event) {
         if(!decryptionController.isCompleteStringDecryption()){
@@ -42,6 +43,7 @@ public class DecryptionButtonController {
         decryptionController.getUserDecryptedStringTF().setText(save);
         String encryptChar = decryptionController.getMainController().getEngineCommand().processData(decryptCharBTN.getText(), false);
         decryptionController.onEncryptAction(encryptChar);
+
 
         Duration duration = Duration.millis(200);
         TranslateTransition transition = new TranslateTransition(duration, decryptCharBTN);

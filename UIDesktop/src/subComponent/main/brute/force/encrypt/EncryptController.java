@@ -23,13 +23,23 @@ public class EncryptController {
         if(mainController.getEngine().getDecryptionManager().getDictionary().isStringInDictionary(userEncryptStringTF.getText())) {
             userEncryptStringTF.setText((mainController.getEngine().getDecryptionManager().getDictionary().filterWords(userEncryptStringTF.getText())));
             userEncryptStringTF.setText(userEncryptStringTF.getText().toUpperCase());
-            String decrypt = mainController.getEngine().getMachine().encodingAndDecoding(userEncryptStringTF.getText(), mainController.getEngine().getSecretCode().getInUseRotors(), mainController.getEngine().getSecretCode().getPlugBoard(), mainController.getEngine().getSecretCode().getInUseReflector());
+            String decrypt = mainController.getEngineCommand().processData(userEncryptStringTF.getText(), false);
             userDecryptStringTF.setText(decrypt);
+            mainController.setLBLToCodeCombinationBindingMain();
         }
         else {
             mainController.showErrorPopup("There is no such word in the dictionary !");
             userEncryptStringTF.setText("");
         }
+    }
+
+    @FXML
+    void restartSecretCodeBTN(ActionEvent event) {
+        clearAllTF();
+        mainController.getEngineCommand().validateUserChoiceAndResetSecretCode();
+        mainController.setLBLToCodeCombinationBindingMain();
+        mainController.getDecryptionController().onClear();
+        mainController.getMachineDetailsController().updateCurrMachineDetails();
     }
 
     @FXML

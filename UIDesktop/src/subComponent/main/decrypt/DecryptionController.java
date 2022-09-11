@@ -97,6 +97,7 @@ public class DecryptionController {
             boolean found = controller.getDecryptCharBTN().getText().equals(charOnEncryptBtn);
             if(found){
                 goldEncryptedBtnController = controller;
+
                 controller.getDecryptCharBTN().setStyle("-fx-background-color: Green");
                 FadeTransition fadeOutTransition = new FadeTransition(Duration.millis(2000), controller.getDecryptCharBTN());
                 fadeOutTransition.setFromValue(1.0);
