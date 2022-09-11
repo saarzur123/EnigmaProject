@@ -49,7 +49,7 @@ public class light {
         String[] check = {"A", "B", "C", "D", "E"};
         char[] pool = new char[]{'A', 'B', 'C', 'D'};
         int[] arr = new int []{1,2,3};
-        //List<List<Integer>> rotorIdCombination = possibleRotorIdPositions(arr);
+        List<List<Integer>> rotorIdCombination = possibleRotorIdPositions(arr);
        // int[] arr1 = makeBruteForce(3, pool, new int[]{0, 0, 3}, 10);
 
         TrieImplement trie = new TrieImplement();
@@ -121,6 +121,7 @@ public class light {
                     l.add(j, num[i]);
                     ArrayList<Integer> temp = new ArrayList<Integer>(l);
                     current.add(temp);
+
                     l.remove(j);
                 }
             }
