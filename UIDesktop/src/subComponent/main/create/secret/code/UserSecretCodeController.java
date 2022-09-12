@@ -318,7 +318,7 @@ public class UserSecretCodeController {
                 userDto.getReflectorIdChosen().size() != NO_VALUE;
         if(allFieldsComplete){
             createNewSecretCodeController.getMainController().getEngineCommand().getSecretCodeFromUser(userDto,false);
-            createNewSecretCodeController.getMainController().getEngine().getDecryptionManager().findSecretCode("german poland",1);
+           // createNewSecretCodeController.getMainController().getEngine().getDecryptionManager().findSecretCode("german poland",1);
             createNewSecretCodeController.getMainController().setLBLToCodeCombinationBindingMain();
             Stage stage = (Stage) reflectorIdCB.getScene().getWindow();
 

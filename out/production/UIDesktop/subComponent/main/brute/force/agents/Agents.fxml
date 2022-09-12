@@ -43,6 +43,12 @@
                         <Button mnemonicParsing="false" onAction="#onSubmitMissionSizeAction" text="SUBMIT" />
                      </children>
                   </HBox>
+                  <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="20.0">
+                     <children>
+                        <Button mnemonicParsing="false" onAction="#startBruteForceBTN" text="Start" />
+                        <Button mnemonicParsing="false" onAction="#stopBruteForceBTN" text="Stop" />
+                     </children>
+                  </HBox>
                </children>
             </VBox>
          </children>

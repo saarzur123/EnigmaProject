@@ -39,6 +39,7 @@ public class EncryptController {
             userEncryptStringTF.setText((mainController.getEngine().getDecryptionManager().getDictionary().filterWords(userEncryptStringTF.getText())));
             userEncryptStringTF.setText(userEncryptStringTF.getText().toUpperCase());
             String decrypt = mainController.getEngineCommand().processData(userEncryptStringTF.getText(), false);
+            mainController.setDecryptedStringToFindInAgentController(decrypt);
             userDecryptStringTF.setText(decrypt);
             mainController.setLBLToCodeCombinationBindingMain();
         }

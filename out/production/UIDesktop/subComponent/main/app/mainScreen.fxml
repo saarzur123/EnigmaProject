@@ -40,14 +40,16 @@
                               <BorderPane prefHeight="200.0" prefWidth="1142.0">
                                  <right>
                                     <BorderPane fx:id="historyBoarderPane" prefHeight="472.0" prefWidth="378.0" BorderPane.alignment="TOP_RIGHT">
-                                       <top>
-                                          <fx:include fx:id="history" source="../decrypt/history/History.fxml" BorderPane.alignment="TOP_RIGHT" />
-                                       </top>
+                                       <left>
+                                          <VBox BorderPane.alignment="CENTER">
+                                             <children>
+                                                <fx:include fx:id="history" source="../decrypt/history/History.fxml" BorderPane.alignment="TOP_RIGHT" />
+                                                <fx:include fx:id="restartSecretCode" source="../decrypt/Restart/Restart.fxml" />
+                                             </children>
+                                          </VBox>
+                                       </left>
                                     </BorderPane>
                                  </right>
-                                 <bottom>
-                                    <fx:include fx:id="restartSecretCode" source="../decrypt/Restart/Restart.fxml" />
-                                 </bottom>
                                  <left>
                                     <VBox maxHeight="470.0" minHeight="470.0" prefHeight="470.0" prefWidth="543.0" BorderPane.alignment="CENTER">
                                        <children>

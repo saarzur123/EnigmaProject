@@ -20,6 +20,7 @@ public class Mission implements Runnable{
     private Dictionary dictionary;
     private List<Integer> rotorsIdList;
     private Integer reflectorId;
+    private DecryptionManager DM;
     private BlockingQueue<DTOMissionResult> candidateQueue;
 
     public Mission(MissionArguments missionArguments, String userDecryptedString,int[] startIndexes,BlockingQueue<DTOMissionResult> candidateQueue){
@@ -32,6 +33,10 @@ public class Mission implements Runnable{
         this.dictionary = missionArguments.getDictionary();
         this.rotorsIdList = missionArguments.getRotors();
         this.reflectorId = missionArguments.getReflector();
+    }
+
+    public void setDM(DecryptionManager DM) {
+        this.DM = DM;
     }
 
     public static MachineImplement createMachineCopy(MachineImplement machine){
@@ -86,20 +91,24 @@ public class Mission implements Runnable{
 
 
 
-    private synchronized void runCurrSecretCode(List<Character> startPos,DTOMissionResult results) {
-           SecretCode currSecretCode = new SecretCode(machine);
-           currSecretCode.determineSecretCode(rotorsIdList, startPos, reflectorId, new HashMap<>());
-           String stringToCheckInDictionary = machine.encodingAndDecoding(userDecryptedString, currSecretCode.getInUseRotors(), currSecretCode.getPlugBoard(), currSecretCode.getInUseReflector());
-           boolean isStringOnDictionary = dictionary.isStringInDictionary(stringToCheckInDictionary.toLowerCase());
-           if (isStringOnDictionary) {
-               results.addCandidate(stringToCheckInDictionary);
-           }
-
+    private void runCurrSecretCode(List<Character> startPos,DTOMissionResult results) {
+        synchronized (DM) {
+            SecretCode currSecretCode = new SecretCode(machine);
+            currSecretCode.determineSecretCode(rotorsIdList, startPos, reflectorId, new HashMap<>());
+            String stringToCheckInDictionary = machine.encodingAndDecoding(userDecryptedString.toUpperCase(), currSecretCode.getInUseRotors(), currSecretCode.getPlugBoard(), currSecretCode.getInUseReflector());
+            boolean isStringOnDictionary = dictionary.isStringInDictionary(stringToCheckInDictionary.toLowerCase());
+            if (isStringOnDictionary) {
+                results.addCandidate(stringToCheckInDictionary);
+              }
+        }
     }
 
-    private synchronized void pushResultsToCandidateQueue(DTOMissionResult results){
-        if(results.getEncryptionCandidates().size() > 0){
+    private void pushResultsToCandidateQueue(DTOMissionResult results){
+        synchronized (DM) {
+            if (results.getEncryptionCandidates().size() > 0) {
                 candidateQueue.add(results);
+                System.out.println("********************");
+            }
         }
     }
 

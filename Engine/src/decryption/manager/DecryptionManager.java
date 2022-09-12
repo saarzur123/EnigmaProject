@@ -1,6 +1,7 @@
 package decryption.manager;
 
 import machine.MachineImplement;
+import machine.Reflector;
 import machine.SecretCode;
 
 import java.util.ArrayList;
@@ -14,12 +15,13 @@ public class DecryptionManager {
     private MachineImplement machine;
     private SecretCode machineSecretCode;
     private int missionSize;
+    private int level;
     private BlockingQueue<Runnable> missionGetterQueue = new LinkedBlockingQueue<>(1000);
     private BlockingQueue<DTOMissionResult> candidateQueue = new LinkedBlockingQueue<>();
     private ThreadPoolExecutor threadPool;
     private Dictionary dictionary;
-
     private MissionArguments missionArguments;
+
     public DecryptionManager(int agentNumber, Dictionary dictionary){
         this.agentNumber = agentNumber;
         this.dictionary = dictionary;
@@ -43,6 +45,10 @@ public class DecryptionManager {
         this.missionSize = missionSize;
     }
 
+    public void setLevel(int level) {
+        this.level = level;
+    }
+
     public void setMachine(MachineImplement machine) {
         this.machine = machine;
     }
@@ -53,10 +59,10 @@ public class DecryptionManager {
 
     //TODO make filter userInput
     public void findSecretCode(String userInput,int level){
-    missionSize=10;
-        String decryptUserInput = machine.encodingAndDecoding(userInput.toUpperCase(),machineSecretCode.getInUseRotors(),machineSecretCode.getPlugBoard(),machineSecretCode.getInUseReflector());
+   // missionSize=10;
+       // String decryptUserInput = machine.encodingAndDecoding(userInput.toUpperCase(),machineSecretCode.getInUseRotors(),machineSecretCode.getPlugBoard(),machineSecretCode.getInUseReflector());
 
-        Thread pushMissionsThread = new Thread(createPushMissionRunnable(decryptUserInput.toUpperCase(), level));
+        Thread pushMissionsThread = new Thread(createPushMissionRunnable(userInput.toUpperCase(), level));
         pushMissionsThread.start();
         //TODO make the level selection at the run method of pushMissionThread instead in here
 
@@ -82,7 +88,10 @@ public class DecryptionManager {
                 for (int j = 0; j < length; j++) {
                    newIndexes[j] = indexes[j];
                 }
+
                 Mission mission = new Mission(missionArguments.cloneMissionArguments(),userDecryptCopy,newIndexes,candidateQueue);
+                mission.setDM(this);
+
                 try {
                     missionGetterQueue.put(mission);
                 } catch (InterruptedException e) {
@@ -132,8 +141,11 @@ public class DecryptionManager {
         }
 
         private void level2(List < Integer > rotorIdForSecretCode, String userDecryptedString){
-            for (int k = 0; k < machine.getAvailableReflectors().size(); k++) {
-                pushMissions(rotorIdForSecretCode,machine.getAvailableReflectors().get(k).getId(), userDecryptedString );
+            for (int k = 1; k <= machine.getAvailableReflectors().size(); k++) {
+                Reflector id = machine
+                        .getAvailableReflectors().get(k);
+                int d = id.getId();
+                pushMissions(rotorIdForSecretCode,d, userDecryptedString );
             }
         }
 

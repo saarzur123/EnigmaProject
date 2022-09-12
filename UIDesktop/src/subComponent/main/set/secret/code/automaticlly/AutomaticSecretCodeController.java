@@ -18,7 +18,7 @@ public class AutomaticSecretCodeController {
             createNewSecretCodeController.getMainController().setLBLToCodeCombinationBindingMain();
             createNewSecretCodeController.getMainController().setSecretCodeState(false);
             createNewSecretCodeController.getMainController().getMachineDetailsController().updateCurrMachineDetails();
-        createNewSecretCodeController.getMainController().getEngine().getDecryptionManager().findSecretCode("german poland",1);
+      //  createNewSecretCodeController.getMainController().getEngine().getDecryptionManager().findSecretCode("german poland",1);
 
     }
 

@@ -17,12 +17,10 @@ public class AgentsController {
     @FXML    private Slider agentsSlider;
     @FXML
     private TextField missionSizeTF;
-
-
-
     private Integer missionSize = -1;
     private Integer difficultLevel = -1;
     private boolean isCharOnLanguage = true;
+    private String userStringToSearchFor;
     private MainScreenController mainController;
     public void setMainController(MainScreenController main){
         mainController = main;
@@ -33,6 +31,7 @@ public class AgentsController {
             Integer num =Integer.valueOf((int)agentsSlider.getValue());
             numberOfAgents.setText(num.toString());
         });
+        setDifficultyLevelCB();
         missionSizeTF.textProperty().addListener((obs, oldText, newText) -> {
             String curText = missionSizeTF.getText();
             if(curText.length() > 0) {
@@ -47,7 +46,11 @@ public class AgentsController {
 
     @FXML
     void startBruteForceBTN(ActionEvent event) {
-
+        mainController.setLevelInDM(difficultLevel);
+        mainController.setMissionSize(missionSize);
+        if(userStringToSearchFor != null){
+        mainController.getEngine().getDecryptionManager().findSecretCode(userStringToSearchFor,difficultLevel);
+        }
     }
 
     @FXML
@@ -71,18 +74,23 @@ public class AgentsController {
     private void setDifficultyLevelCB(){
         for (int i = 1; i <= 4; i++) {
             difficultyLevelCB.getItems().add(i);
-
         }
+    }
+
+    public void setStringToFind(String userEncryptedString){
+        userStringToSearchFor = userEncryptedString;
     }
 
     @FXML
     void onDifficultyLevelAction(ActionEvent event) {
         difficultLevel = difficultyLevelCB.getValue();
+        /////check input
     }
 
     @FXML
     void onSubmitMissionSizeAction(ActionEvent event) {
         missionSize = Integer.valueOf(missionSizeTF.getText());
+        /////////check input
     }
 
     private boolean isCharTypedInLanguage(char userChar){

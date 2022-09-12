@@ -147,6 +147,18 @@ public class MainScreenController {
         secretCodeController.getIsSecretCodeExist().setValue(secretCodeState);
     }
 
+    public void setLevelInDM(int level){
+        engine.getDecryptionManager().setLevel(level);
+    }
+
+    public void setMissionSize(int missionSize){
+        engine.getDecryptionManager().setMissionSize(missionSize);
+    }
+
+    public void setDecryptedStringToFindInAgentController(String userDecryptedString){
+        agentsController.setStringToFind(userDecryptedString);
+    }
+
     public void setCurrMachineTxt(){
         machineDetailsController.setMachineDetailsLBL();
     }
