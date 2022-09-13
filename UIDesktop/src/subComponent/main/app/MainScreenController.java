@@ -23,6 +23,7 @@ import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import machine.MachineImplement;
 import subComponent.main.brute.force.agents.AgentsController;
+import subComponent.main.brute.force.candidate.CandidateController;
 import subComponent.main.brute.force.dictionary.DictionaryController;
 import subComponent.main.brute.force.encrypt.EncryptController;
 import subComponent.main.create.secret.code.CreateSecretCodeController;
@@ -42,6 +43,8 @@ public class MainScreenController {
     @FXML private ComboBox<String> cssCB;
     @FXML private FlowPane agents;
     @FXML private AgentsController agentsController;
+    @FXML private VBox candidate;
+    @FXML private CandidateController candidateController;
 
     @FXML private HBox stringEncryptBruteForce;
     @FXML private EncryptController stringEncryptBruteForceController;
@@ -98,6 +101,7 @@ public class MainScreenController {
                 decryptionController != null
 
         ){
+            candidateController.setMainController(this);
             agentsController.setMainController(this);
             dictionaryController.setMainController(this);
             createNewSecretCodeController.setMainController(this);
@@ -130,6 +134,10 @@ public class MainScreenController {
     public MachineDetailsController getMachineDetailsController(){return machineDetailsController;}
     public Commander getEngineCommand(){return engineCommands;}
     public Engine getEngine(){return engine;}
+
+    public CandidateController getCandidateController() {
+        return candidateController;
+    }
 
     public void setLBLToCodeCombinationBindingMain(){
         secretCodeController.setLBLToCodeCombinationBinding();

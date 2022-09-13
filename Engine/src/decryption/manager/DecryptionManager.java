@@ -15,6 +15,7 @@ public class DecryptionManager {
     private MachineImplement machine;
     private SecretCode machineSecretCode;
     private int missionSize;
+    private boolean isTakeOutMissions = true ;
     private int level;
     private BlockingQueue<Runnable> missionGetterQueue = new LinkedBlockingQueue<>(1000);
     private BlockingQueue<DTOMissionResult> candidateQueue = new LinkedBlockingQueue<>();
@@ -57,11 +58,27 @@ public class DecryptionManager {
         this.machineSecretCode = machineSecretCode;
     }
 
-    //TODO make filter userInput
-    public void findSecretCode(String userInput,int level){
-   // missionSize=10;
-       // String decryptUserInput = machine.encodingAndDecoding(userInput.toUpperCase(),machineSecretCode.getInUseRotors(),machineSecretCode.getPlugBoard(),machineSecretCode.getInUseReflector());
+    public Runnable createTakeMissionsFromQueueRunnable(Consumer<DTOMissionResult> consumer){
+       return new Runnable() {
+           @Override
+           public void run() {
+               while (isTakeOutMissions || !candidateQueue.isEmpty()){
+                   try {
+                       DTOMissionResult missionResult = candidateQueue.take();
+                       consumer.accept(missionResult);
+                   } catch (InterruptedException e) {
+                       throw new RuntimeException(e);
+                   }
+               }
+           }
+       };
+    }
 
+    //TODO make filter userInput
+    public void findSecretCode(String userInput,int level,Consumer<DTOMissionResult> consumer){
+
+        Thread takeMissionsThread = new Thread(createTakeMissionsFromQueueRunnable(consumer));
+        takeMissionsThread.start();
         Thread pushMissionsThread = new Thread(createPushMissionRunnable(userInput.toUpperCase(), level));
         pushMissionsThread.start();
         //TODO make the level selection at the run method of pushMissionThread instead in here
@@ -204,6 +221,7 @@ public class DecryptionManager {
                     }
             }
         }
+
 
 
 }

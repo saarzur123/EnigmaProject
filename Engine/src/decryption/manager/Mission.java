@@ -98,7 +98,7 @@ public class Mission implements Runnable{
             String stringToCheckInDictionary = machine.encodingAndDecoding(userDecryptedString.toUpperCase(), currSecretCode.getInUseRotors(), currSecretCode.getPlugBoard(), currSecretCode.getInUseReflector());
             boolean isStringOnDictionary = dictionary.isStringInDictionary(stringToCheckInDictionary.toLowerCase());
             if (isStringOnDictionary) {
-                results.addCandidate(stringToCheckInDictionary);
+                results.addCandidate(currSecretCode.getSecretCodeCombination(), Thread.currentThread().getId());
               }
         }
     }
