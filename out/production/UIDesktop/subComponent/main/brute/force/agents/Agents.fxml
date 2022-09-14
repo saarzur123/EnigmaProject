@@ -29,7 +29,7 @@
                   </Label>
                </children>
             </HBox>
-            <Slider fx:id="agentsSlider" prefHeight="16.0" prefWidth="279.0" />
+            <Slider fx:id="agentsSlider" onDragDetected="#onSlideAction" prefHeight="16.0" prefWidth="279.0" />
             <ComboBox fx:id="difficultyLevelCB" onAction="#onDifficultyLevelAction" prefWidth="150.0" promptText="Difficulty level">
                <VBox.margin>
                   <Insets top="10.0" />
@@ -46,7 +46,6 @@
                   <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="20.0">
                      <children>
                         <Button mnemonicParsing="false" onAction="#startBruteForceBTN" text="Start" />
-                        <Button mnemonicParsing="false" onAction="#stopBruteForceBTN" text="Stop" />
                      </children>
                   </HBox>
                </children>

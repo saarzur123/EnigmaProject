@@ -67,6 +67,8 @@ public class Mission implements Runnable{
             int pMax = pool.length;  // stored to speed calculation
 
             while (indexes[0] < pMax && wordIndex < missionSize) { //if the first index is bigger then pMax we are done
+
+                isMissionPaused();
                 startPos.clear();
                 for (int i = 0; i < length; i++) {
                     startPos.add(pool[indexes[i]]);
@@ -111,5 +113,23 @@ public class Mission implements Runnable{
             }
         }
     }
+
+    public void isMissionPaused(){
+        synchronized (this){
+        while (DM.isExit()){
+                try {
+                    this.wait();
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+            this.notifyAll();
+        }
+
+    }
+
+
+
+
 
 }

@@ -33,22 +33,25 @@ public class CandidateController {
 
     @FXML    private ProgressBar progressBarPB;
     private Map<String,TileController> codeConfigurationToTileController = new HashMap<>();
-    private Task<Boolean> currentRunningTask;
 
     private MainScreenController mainController;
 
     @FXML
     void onPauseAction(ActionEvent event) {
-
+        mainController.getEngine().getDecryptionManager().setExit(true);
     }
 
     @FXML
     void onResumeAction(ActionEvent event) {
-
+        mainController.getEngine().getDecryptionManager().setExit(false);
     }
 
     @FXML
     void onStopAction(ActionEvent event) {
+
+    }
+
+    public void stopThreads(){
 
     }
 
@@ -72,7 +75,6 @@ public class CandidateController {
 
             Platform.runLater(() -> {
             tilesCandidatesFP.getChildren().add(singleTileComponent);
-
             });
         }catch (IOException e){
 
