@@ -12,6 +12,7 @@ import java.util.function.Consumer;
 
 public class DecryptionManager {
     private int agentNumber;
+    private boolean exit;
     private MachineImplement machine;
     private SecretCode machineSecretCode;
     private int missionSize;
@@ -28,6 +29,13 @@ public class DecryptionManager {
         this.dictionary = dictionary;
         this.threadPool = new ThreadPoolExecutor(agentNumber,agentNumber,0L, TimeUnit.SECONDS,missionGetterQueue);
         threadPool.prestartAllCoreThreads();
+    }
+
+    public boolean isExit() {
+        return exit;
+    }
+    public void setExit(boolean isExit){
+        exit = isExit;
     }
 
     public int getAgentNumber() {
@@ -92,7 +100,7 @@ public class DecryptionManager {
         // in other languages you may have to loop through and set them.
 
         int pMax = pool.length;  // stored to speed calculation
-        while (indexes[0] < pMax) { //if the first index is bigger then pMax we are done
+        while (indexes[0] < pMax && !exit) { //if the first index is bigger then pMax we are done
             // print the current permutation
             for (int i = 0; i < length; i++) {
                 //System.out.print(pool[indexes[i]]);//print each character
@@ -133,19 +141,18 @@ public class DecryptionManager {
         return new Runnable() {
             @Override
             public void run() {
-                if (level == 1) {
-                    pushMissions(machineSecretCode.getRotorsIdList(), machineSecretCode.getReflectorId(), userDecryptedString);
-                }
-                else if (level == 2) {
-                    level2(machineSecretCode.getRotorsIdList(),userDecryptedString);
-                }
-                else if(level == 3){
-                    level3(machineSecretCode.getRotorsIdList(),userDecryptedString);
-                }
-                else if(level == 4){
-                    int rotorInUse = machine.getInUseRotorNumber();
-                    int rotorsAvailable = machine.getAvailableRotors().size();
-                    level4(userDecryptedString,rotorsAvailable,rotorInUse);
+                while (!exit) {
+                    if (level == 1) {
+                        pushMissions(machineSecretCode.getRotorsIdList(), machineSecretCode.getReflectorId(), userDecryptedString);
+                    } else if (level == 2) {
+                        level2(machineSecretCode.getRotorsIdList(), userDecryptedString);
+                    } else if (level == 3) {
+                        level3(machineSecretCode.getRotorsIdList(), userDecryptedString);
+                    } else if (level == 4) {
+                        int rotorInUse = machine.getInUseRotorNumber();
+                        int rotorsAvailable = machine.getAvailableRotors().size();
+                        level4(userDecryptedString, rotorsAvailable, rotorInUse);
+                    }
                 }
 
             }

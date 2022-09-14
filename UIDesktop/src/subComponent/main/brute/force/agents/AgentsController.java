@@ -62,14 +62,10 @@ public class AgentsController {
         mainController.setMissionSize(missionSize);
         //mainController.getCandidateController().bindTaskToUIComponents(calculateMissionTask,);
         if(userStringToSearchFor != null){
+            mainController.getEngine().getDecryptionManager().setExit(false);
             Consumer<DTOMissionResult> consumer = s->mainController.getCandidateController().createNewCandidateTilesComponents(s);
             mainController.getEngine().getDecryptionManager().findSecretCode(userStringToSearchFor,difficultLevel,consumer);
         }
-    }
-
-    @FXML
-    void stopBruteForceBTN(ActionEvent event) {
-
     }
 
     public Integer getDifficultLevel() {
