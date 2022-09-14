@@ -4,10 +4,7 @@ package subComponent.main.brute.force.agents;
 import decryption.manager.DTOMissionResult;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.Slider;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.input.DragEvent;
 import subComponent.main.app.MainScreenController;
 
@@ -19,6 +16,8 @@ public class AgentsController {
     @FXML    private ComboBox<Integer> difficultyLevelCB;
     @FXML    private Slider agentsSlider;
     @FXML    private TextField missionSizeTF;
+    @FXML
+    private Button startBTN;
     private Integer missionSize = -1;
     private Integer difficultLevel = -1;
     private int totalMissionNumber;
@@ -29,6 +28,11 @@ public class AgentsController {
     public void setMainController(MainScreenController main){
         mainController = main;
     }
+
+    public Button getStartBTN() {
+        return startBTN;
+    }
+
     @FXML
     public void initialize(){
         agentsSlider.valueProperty().addListener((obs, oldText, newText) -> {
@@ -58,6 +62,12 @@ public class AgentsController {
 
     @FXML
     void startBruteForceBTN(ActionEvent event) {
+        //AfterStop
+        mainController.getCandidateController().getTilesCandidatesFP().getChildren().clear();
+        startBTN.setDisable(true);
+        mainController.getCandidateController().getPauseBTN().setDisable(false);
+        mainController.getCandidateController().getStopBTN().setDisable(false);
+        mainController.getEngine().getDecryptionManager().setStopAll(false);
         mainController.setLevelInDM(difficultLevel);
         mainController.setMissionSize(missionSize);
         //mainController.getCandidateController().bindTaskToUIComponents(calculateMissionTask,);

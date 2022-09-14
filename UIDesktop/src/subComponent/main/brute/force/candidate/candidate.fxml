@@ -11,9 +11,9 @@
    <children>
       <HBox alignment="CENTER" prefHeight="57.0" prefWidth="304.0" spacing="20.0">
          <children>
-            <Button mnemonicParsing="false" onAction="#onStopAction" text="STOP" />
-            <Button mnemonicParsing="false" onAction="#onPauseAction" text="PAUSE" />
-            <Button mnemonicParsing="false" onAction="#onResumeAction" text="RESUME" />
+            <Button fx:id="stopBTN" mnemonicParsing="false" onAction="#onStopAction" text="STOP" />
+            <Button fx:id="pauseBTN" mnemonicParsing="false" onAction="#onPauseAction" text="PAUSE" />
+            <Button fx:id="resumeBTN" mnemonicParsing="false" onAction="#onResumeAction" text="RESUME" />
          </children>
       </HBox>
       <HBox prefHeight="42.0" prefWidth="304.0">
