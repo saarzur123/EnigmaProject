@@ -202,7 +202,18 @@ public class DecryptionManager {
                 sizeAllMissions =mustUseRotor*(int)Math.pow(sizeABC, mustUseRotor);
                 break;
             case 3:
+                int factorial = factorial();
+                sizeABC = machine.getABC().length();
+                mustUseRotor = machine.getInUseRotorNumber();
+                sizeAllMissions =factorial*mustUseRotor*(int)Math.pow(sizeABC, mustUseRotor);
         }
+    }
+    private int factorial(){
+        int fact = 0, i;
+        for(i = 1; i <= machine.getInUseRotorNumber(); i++){
+            fact=fact*i;
+        }
+        return fact;
     }
 
     private void pushMissions(List < Integer > rotorIdForSecretCode,int reflectorIdForSecretCode, String userDecryptedString){

@@ -125,6 +125,7 @@ public class CandidateController {
         }
     }
 
+
     private void createNewComponent(String codeConfiguration,Long agentId){
         try {
             FXMLLoader loader = new FXMLLoader();

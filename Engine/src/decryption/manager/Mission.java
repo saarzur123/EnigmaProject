@@ -61,6 +61,7 @@ public class Mission implements Runnable{
    }
 
 
+
     private void makeBruteForce(int length, char[] pool,int[] indexes,int missionSize) {
             DTOMissionResult results = new DTOMissionResult();
             int wordIndex = 0;
