@@ -124,6 +124,7 @@ public class Mission implements Runnable{
                 }
             }
             this.notifyAll();
+        
         }
 
     }

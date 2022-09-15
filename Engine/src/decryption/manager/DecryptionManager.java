@@ -29,6 +29,7 @@ public class DecryptionManager {
         this.dictionary = dictionary;
         this.threadPool = new ThreadPoolExecutor(agentNumber,agentNumber,0L, TimeUnit.SECONDS,missionGetterQueue);
         threadPool.prestartAllCoreThreads();
+
     }
 
     public boolean isExit() {
