@@ -34,8 +34,10 @@ public class EncryptController {
 
     @FXML
     void userChooseStringToEncryptAction(ActionEvent event) {
+
         userEncryptStringTF.setText(userEncryptStringTF.getText().toLowerCase());
         if(mainController.getEngine().getDecryptionManager().getDictionary().isStringInDictionary(userEncryptStringTF.getText())) {
+            mainController.getAgentsController().getStartBTN().setDisable(false);
             userEncryptStringTF.setText((mainController.getEngine().getDecryptionManager().getDictionary().filterWords(userEncryptStringTF.getText())));
             userEncryptStringTF.setText(userEncryptStringTF.getText().toUpperCase());
             String decrypt = mainController.getEngineCommand().processData(userEncryptStringTF.getText(), false);

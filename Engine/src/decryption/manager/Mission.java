@@ -22,6 +22,7 @@ public class Mission implements Runnable{
     private Integer reflectorId;
     private DecryptionManager DM;
     private BlockingQueue<DTOMissionResult> candidateQueue;
+    private boolean wasExit=false;
 
     public Mission(MissionArguments missionArguments, String userDecryptedString,int[] startIndexes,BlockingQueue<DTOMissionResult> candidateQueue){
         this.missionSize = missionArguments.getMissionSize();
@@ -65,30 +66,37 @@ public class Mission implements Runnable{
             int wordIndex = 0;
             List<Character> startPos = new ArrayList<>();
             int pMax = pool.length;  // stored to speed calculation
+        if (DM.isStopAll()) {
+            Thread.currentThread().interrupt();
+            System.out.println("################### KILLLLL " + Thread.currentThread().getId() + "#########");
+        }
+            while (indexes[0] < pMax && wordIndex < missionSize && !DM.isStopAll()) { //if the first index is bigger then pMax we are done
 
-            while (indexes[0] < pMax && wordIndex < missionSize) { //if the first index is bigger then pMax we are done
+                    isMissionPaused();
+                    startPos.clear();
+                    for (int i = 0; i < length; i++) {
+                        startPos.add(pool[indexes[i]]);
+                    }
 
-                isMissionPaused();
-                startPos.clear();
-                for (int i = 0; i < length; i++) {
-                    startPos.add(pool[indexes[i]]);
-                }
+                    runCurrSecretCode(startPos, results);
+                    wordIndex++;
 
-                runCurrSecretCode(startPos, results);
-                wordIndex++;
+                    // increment indexes
+                    indexes[length - 1]++; // increment the last index
+                    for (int i = length - 1; indexes[i] == pMax && i > 0; i--) { // if increment overflows
+                        indexes[i - 1]++;  // increment previous index
+                        indexes[i] = 0;   // set current index to zero
+                    }
 
-                // increment indexes
-                indexes[length - 1]++; // increment the last index
-                for (int i = length - 1; indexes[i] == pMax && i > 0; i--) { // if increment overflows
-                    indexes[i - 1]++;  // increment previous index
-                    indexes[i] = 0;   // set current index to zero
-                }
             }
 
-        System.out.println("Current Thread ID: "    + Thread.currentThread().getId());
+
+        //System.out.println("Current Thread ID: "    + Thread.currentThread().getId());
 
 //////////////////////////////////////TODO check if this in synchronized is ok
+        if(!DM.isStopAll()) {
             pushResultsToCandidateQueue(results);
+        }
         }
 
 
@@ -117,14 +125,18 @@ public class Mission implements Runnable{
     public void isMissionPaused(){
         synchronized (this){
         while (DM.isExit()){
+            wasExit = true;
                 try {
                     this.wait();
                 } catch (InterruptedException e) {
                     throw new RuntimeException(e);
                 }
             }
+        if(wasExit) {
+            System.out.println("hey*************************************************************############");
             this.notifyAll();
-        
+            wasExit = false;
+        }
         }
 
     }

@@ -13,6 +13,7 @@ import java.util.function.Consumer;
 public class DecryptionManager {
     private int agentNumber;
     private boolean exit;
+    private boolean stopAll;
     private MachineImplement machine;
     private SecretCode machineSecretCode;
     private int missionSize;
@@ -37,6 +38,12 @@ public class DecryptionManager {
     }
     public void setExit(boolean isExit){
         exit = isExit;
+    }
+    public boolean isStopAll() {
+        return stopAll;
+    }
+    public void setStopAll(boolean stopAll){
+        this.stopAll = stopAll;
     }
 
     public int getAgentNumber() {
@@ -101,7 +108,7 @@ public class DecryptionManager {
         // in other languages you may have to loop through and set them.
 
         int pMax = pool.length;  // stored to speed calculation
-        while (indexes[0] < pMax && !exit) { //if the first index is bigger then pMax we are done
+        while (indexes[0] < pMax && !exit && !stopAll) { //if the first index is bigger then pMax we are done
             // print the current permutation
             for (int i = 0; i < length; i++) {
                 //System.out.print(pool[indexes[i]]);//print each character
@@ -142,7 +149,7 @@ public class DecryptionManager {
         return new Runnable() {
             @Override
             public void run() {
-                while (!exit) {
+                while (!exit && !stopAll) {
                     if (level == 1) {
                         pushMissions(machineSecretCode.getRotorsIdList(), machineSecretCode.getReflectorId(), userDecryptedString);
                     } else if (level == 2) {

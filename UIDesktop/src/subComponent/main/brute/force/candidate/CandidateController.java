@@ -10,6 +10,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.layout.FlowPane;
@@ -25,6 +26,14 @@ import java.util.Optional;
 import java.util.function.Consumer;
 
 public class CandidateController {
+    @FXML
+    private Button stopBTN;
+
+    @FXML
+    private Button pauseBTN;
+
+    @FXML
+    private Button resumeBTN;
 
     @FXML    private Label candidateNumberLBL;
 
@@ -37,22 +46,52 @@ public class CandidateController {
     private MainScreenController mainController;
 
     @FXML
+    public void initialize() {
+        resumeBTN.setDisable(true);
+        stopBTN.setDisable(true);
+        pauseBTN.setDisable(true);
+    }
+
+    @FXML
     void onPauseAction(ActionEvent event) {
+        resumeBTN.setDisable(false);
+        pauseBTN.setDisable(true);
+        mainController.getAgentsController().getStartBTN().setDisable(false);
         mainController.getEngine().getDecryptionManager().setExit(true);
     }
 
     @FXML
     void onResumeAction(ActionEvent event) {
+        pauseBTN.setDisable(false);
+        resumeBTN.setDisable(true);
+        stopBTN.setDisable(false);
+        mainController.getAgentsController().getStartBTN().setDisable(false);
         mainController.getEngine().getDecryptionManager().setExit(false);
     }
 
     @FXML
     void onStopAction(ActionEvent event) {
+        stopBTN.setDisable(true);
+        pauseBTN.setDisable(true);
+        resumeBTN.setDisable(true);
+        mainController.getAgentsController().getStartBTN().setDisable(false);
+        mainController.getEngine().getDecryptionManager().setStopAll(true);
+    }
 
+    public Button getPauseBTN() {
+        return pauseBTN;
+    }
+
+    public Button getStopBTN() {
+        return stopBTN;
     }
 
     public void stopThreads(){
 
+    }
+
+    public FlowPane getTilesCandidatesFP() {
+        return tilesCandidatesFP;
     }
 
     public void createNewCandidateTilesComponents(DTOMissionResult missionResult){
@@ -72,7 +111,6 @@ public class CandidateController {
             tileController.setCandidateController(this);
             tileController.setAllData(codeConfiguration,agentId);
             codeConfigurationToTileController.put(codeConfiguration,tileController);
-
             Platform.runLater(() -> {
             tilesCandidatesFP.getChildren().add(singleTileComponent);
             });

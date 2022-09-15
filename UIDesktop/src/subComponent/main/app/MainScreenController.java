@@ -73,6 +73,7 @@ public class MainScreenController {
     @FXML private BorderPane mainBoardPane;
     @FXML private VBox history;
     @FXML private TabPane tabControl;
+    private boolean styleOn = false;
 
     private Commander engineCommands = new Engine();
 
@@ -81,6 +82,11 @@ public class MainScreenController {
     @FXML public void styleChooserAction(){
         loadFXML.getScene().getStylesheets().clear();
         loadFXML.getScene().getStylesheets().add(cssCB.getValue() + ".css");
+        styleOn = true;
+    }
+
+    public boolean isStyleOn() {
+        return styleOn;
     }
 
     public AgentsController getAgentsController() {
