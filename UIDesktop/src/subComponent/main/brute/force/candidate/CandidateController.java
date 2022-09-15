@@ -83,11 +83,11 @@ public class CandidateController {
         mainController.getEngine().getDecryptionManager().setStopAll(true);
     }
     public void updateProgressBarMax(){
-        int i = mainController.getEngine().getDecryptionManager().getMissionDoneUntilNow();
-        int j = mainController.getEngine().getDecryptionManager().getSizeAllMissions();
+        long i = mainController.getEngine().getDecryptionManager().getMissionDoneUntilNow();
+        long j = mainController.getEngine().getDecryptionManager().getSizeAllMissions();
         double m = i*100/(double)j;
         m = Math.ceil(m);
-        progressBarPB.setProgress(m);
+        progressBarPB.setProgress(i/(double)j);
         String s = String.valueOf(m + "%.0f");
         progressPercentLBL.setText(s);
     }
@@ -138,8 +138,7 @@ public class CandidateController {
             codeConfigurationToTileController.put(codeConfiguration,tileController);
             Platform.runLater(() -> {
             tilesCandidatesFP.getChildren().add(singleTileComponent);
-                if(mainController.getEngine().getDecryptionManager().getSizeAllMissions()!=null)
-                    updateProgressBarMax();
+            updateProgressBarMax();
             });
         }catch (IOException e){
 
