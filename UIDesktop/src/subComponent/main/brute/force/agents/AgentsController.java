@@ -63,6 +63,7 @@ public class AgentsController {
     @FXML
     void startBruteForceBTN(ActionEvent event) {
         //AfterStop
+        mainController.getCandidateController().resetProgress();
         mainController.getCandidateController().getTilesCandidatesFP().getChildren().clear();
         startBTN.setDisable(true);
         mainController.getCandidateController().getPauseBTN().setDisable(false);
@@ -104,6 +105,8 @@ public class AgentsController {
     @FXML
     void onDifficultyLevelAction(ActionEvent event) {
         difficultLevel = difficultyLevelCB.getValue();
+        mainController.getEngine().getDecryptionManager().resetAllMissionSize();
+        mainController.getEngine().getDecryptionManager().resetMissionDoneUntilNow();
         /////check input
     }
 

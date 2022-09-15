@@ -71,7 +71,7 @@ public class Mission implements Runnable{
             System.out.println("################### KILLLLL " + Thread.currentThread().getId() + "#########");
         }
             while (indexes[0] < pMax && wordIndex < missionSize && !DM.isStopAll()) { //if the first index is bigger then pMax we are done
-
+                    DM.setMissionDoneUntilNow();
                     isMissionPaused();
                     startPos.clear();
                     for (int i = 0; i < length; i++) {

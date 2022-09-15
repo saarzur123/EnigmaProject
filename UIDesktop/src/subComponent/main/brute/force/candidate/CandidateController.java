@@ -24,6 +24,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.function.Consumer;
+import java.util.function.LongBinaryOperator;
+
+import static javafx.scene.input.KeyCode.F;
 
 public class CandidateController {
     @FXML
@@ -50,6 +53,8 @@ public class CandidateController {
         resumeBTN.setDisable(true);
         stopBTN.setDisable(true);
         pauseBTN.setDisable(true);
+        tilesCandidatesFP.setVgap(10);
+        tilesCandidatesFP.setHgap(10);
     }
 
     @FXML
@@ -77,9 +82,27 @@ public class CandidateController {
         mainController.getAgentsController().getStartBTN().setDisable(false);
         mainController.getEngine().getDecryptionManager().setStopAll(true);
     }
-
+    public void updateProgressBarMax(){
+        int i = mainController.getEngine().getDecryptionManager().getMissionDoneUntilNow();
+        int j = mainController.getEngine().getDecryptionManager().getSizeAllMissions();
+        double m = i*100/(double)j;
+        m = Math.ceil(m);
+        progressBarPB.setProgress(m);
+        String s = String.valueOf(m + "%.0f");
+        progressPercentLBL.setText(s);
+    }
     public Button getPauseBTN() {
         return pauseBTN;
+    }
+    public void resetProgress(){
+        mainController.getEngine().getDecryptionManager().resetMissionDoneUntilNow();
+        progressBarPB.setProgress(0);
+        progressPercentLBL.setText("0.0");
+        try {
+            Thread.sleep(2000);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public Button getStopBTN() {
@@ -95,6 +118,7 @@ public class CandidateController {
     }
 
     public void createNewCandidateTilesComponents(DTOMissionResult missionResult){
+
         Map<String,Long> candidates = missionResult.getEncryptionCandidates();
         for(String str : candidates.keySet()){
             createNewComponent(str,candidates.get(str));
@@ -113,6 +137,8 @@ public class CandidateController {
             codeConfigurationToTileController.put(codeConfiguration,tileController);
             Platform.runLater(() -> {
             tilesCandidatesFP.getChildren().add(singleTileComponent);
+                if(mainController.getEngine().getDecryptionManager().getSizeAllMissions()!=null)
+                    updateProgressBarMax();
             });
         }catch (IOException e){
 

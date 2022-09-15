@@ -24,6 +24,8 @@ public class DecryptionManager {
     private ThreadPoolExecutor threadPool;
     private Dictionary dictionary;
     private MissionArguments missionArguments;
+    private Integer sizeAllMissions;
+    private Integer missionDoneUntilNow = 0;
 
     public DecryptionManager(int agentNumber, Dictionary dictionary){
         this.agentNumber = agentNumber;
@@ -31,6 +33,19 @@ public class DecryptionManager {
         this.threadPool = new ThreadPoolExecutor(agentNumber,agentNumber,0L, TimeUnit.SECONDS,missionGetterQueue);
         threadPool.prestartAllCoreThreads();
     }
+
+    public Integer getMissionDoneUntilNow() {
+        return missionDoneUntilNow;
+    }
+
+    public void setMissionDoneUntilNow(){missionDoneUntilNow++;}
+    public void resetMissionDoneUntilNow(){
+        missionDoneUntilNow = 0;
+    }
+    public void resetAllMissionSize(){
+        sizeAllMissions = 0;
+    }
+
 
     public boolean isExit() {
         return exit;
@@ -43,6 +58,10 @@ public class DecryptionManager {
     }
     public void setStopAll(boolean stopAll){
         this.stopAll = stopAll;
+    }
+
+    public Integer getSizeAllMissions() {
+        return sizeAllMissions;
     }
 
     public int getAgentNumber() {
@@ -149,6 +168,7 @@ public class DecryptionManager {
         return new Runnable() {
             @Override
             public void run() {
+                countAndUpdateSizeAllMission();
                 if (!exit && !stopAll) {
                     if (level == 1) {
                         pushMissions(machineSecretCode.getRotorsIdList(), machineSecretCode.getReflectorId(), userDecryptedString);
@@ -166,6 +186,23 @@ public class DecryptionManager {
             }
 
         };
+    }
+
+    public void countAndUpdateSizeAllMission(){
+        int sizeABC = 0, mustUseRotor = 0;
+        switch (level){
+            case 1:
+                sizeABC = machine.getABC().length();
+                mustUseRotor = machine.getInUseRotorNumber();
+                sizeAllMissions =(int)Math.pow(sizeABC, mustUseRotor);
+                break;
+            case 2:
+                sizeABC = machine.getABC().length();
+                mustUseRotor = machine.getInUseRotorNumber();
+                sizeAllMissions =mustUseRotor*(int)Math.pow(sizeABC, mustUseRotor);
+                break;
+            case 3:
+        }
     }
 
     private void pushMissions(List < Integer > rotorIdForSecretCode,int reflectorIdForSecretCode, String userDecryptedString){
