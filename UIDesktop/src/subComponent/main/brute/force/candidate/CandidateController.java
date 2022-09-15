@@ -58,6 +58,7 @@ public class CandidateController {
         pauseBTN.setDisable(true);
         mainController.getAgentsController().getStartBTN().setDisable(false);
         mainController.getEngine().getDecryptionManager().setExit(true);
+
     }
 
     @FXML
@@ -67,6 +68,7 @@ public class CandidateController {
         stopBTN.setDisable(false);
         mainController.getAgentsController().getStartBTN().setDisable(false);
         mainController.getEngine().getDecryptionManager().setExit(false);
+        mainController.getEngine().getDecryptionManager().resumeMission( mainController.getEngine().getDecryptionManager());
     }
 
     @FXML

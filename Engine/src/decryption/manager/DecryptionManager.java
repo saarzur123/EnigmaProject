@@ -4,9 +4,7 @@ import machine.MachineImplement;
 import machine.Reflector;
 import machine.SecretCode;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 import java.util.concurrent.*;
 import java.util.function.Consumer;
 
@@ -23,6 +21,7 @@ public class DecryptionManager {
     private BlockingQueue<DTOMissionResult> candidateQueue = new LinkedBlockingQueue<>();
     private ThreadPoolExecutor threadPool;
     private Dictionary dictionary;
+    private Map<Mission,Thread> missionResumedToExecutableThreadMap = new HashMap<>();
     private MissionArguments missionArguments;
 
     public DecryptionManager(int agentNumber, Dictionary dictionary){
@@ -74,6 +73,10 @@ public class DecryptionManager {
         this.machineSecretCode = machineSecretCode;
     }
 
+    public Map<Mission, Thread> getMissionResumedToExecutableThreadMap() {
+        return missionResumedToExecutableThreadMap;
+    }
+
     public Runnable createTakeMissionsFromQueueRunnable(Consumer<DTOMissionResult> consumer){
        return new Runnable() {
            @Override
@@ -108,11 +111,7 @@ public class DecryptionManager {
         // in other languages you may have to loop through and set them.
 
         int pMax = pool.length;  // stored to speed calculation
-        while (indexes[0] < pMax && !exit && !stopAll) { //if the first index is bigger then pMax we are done
-            // print the current permutation
-            for (int i = 0; i < length; i++) {
-                //System.out.print(pool[indexes[i]]);//print each character
-            }
+        while (indexes[0] < pMax && !stopAll) { //if the first index is bigger then pMax we are done
 
             if(wordIndex % missionSize == 0){
 
@@ -149,7 +148,7 @@ public class DecryptionManager {
         return new Runnable() {
             @Override
             public void run() {
-                while (!exit && !stopAll) {
+                if (!stopAll) {
                     if (level == 1) {
                         pushMissions(machineSecretCode.getRotorsIdList(), machineSecretCode.getReflectorId(), userDecryptedString);
                     } else if (level == 2) {
@@ -162,7 +161,6 @@ public class DecryptionManager {
                         level4(userDecryptedString, rotorsAvailable, rotorInUse);
                     }
                 }
-
             }
         };
     }
@@ -237,6 +235,30 @@ public class DecryptionManager {
             }
         }
 
+    public void isMissionPaused(DecryptionManager obj){
+        synchronized (obj){
+            while (obj.isExit()){
+                try {
+                    obj.wait();
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        }
+    }
+
+    public void resumeMission(DecryptionManager obj){
+        synchronized (obj) {
+            try {
+                obj.notifyAll();
+                System.out.println("hey*************************************************************############");
+            }
+            catch (Exception e){
+                System.out.println("shit happenes" + e.getMessage());
+            }
+        }
+
+    }
 
 
 }

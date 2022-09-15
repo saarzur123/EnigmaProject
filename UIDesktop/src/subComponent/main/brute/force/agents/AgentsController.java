@@ -16,14 +16,11 @@ public class AgentsController {
     @FXML    private ComboBox<Integer> difficultyLevelCB;
     @FXML    private Slider agentsSlider;
     @FXML    private TextField missionSizeTF;
-    @FXML
-    private Button startBTN;
+    @FXML    private Button startBTN;
     private Integer missionSize = -1;
     private Integer difficultLevel = -1;
-    private int totalMissionNumber;
     private boolean isCharOnLanguage = true;
     private String userStringToSearchFor;
-    //private CalculateMissionTask calculateMissionTask;
     private MainScreenController mainController;
     public void setMainController(MainScreenController main){
         mainController = main;
@@ -50,10 +47,6 @@ public class AgentsController {
                 }
             }
         });
-
-
-       // Consumer<DTOMissionResult> c = s->mainController.getCandidateController().createNewCandidateTilesComponents(s);
-       // foo(c)
     }
 
     private void foo(Consumer<String> x) {
