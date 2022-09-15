@@ -117,7 +117,7 @@ public class Mission implements Runnable{
         synchronized (DM) {
             if (results.getEncryptionCandidates().size() > 0) {
                 candidateQueue.add(results);
-                System.out.println("********************");
+
             }
         }
     }

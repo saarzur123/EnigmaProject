@@ -77,7 +77,8 @@ public class DecryptionManager {
        return new Runnable() {
            @Override
            public void run() {
-               while (isTakeOutMissions || !candidateQueue.isEmpty()){
+               isTakeOutMissions = true;
+               while (isTakeOutMissions|| !candidateQueue.isEmpty() ){
                    try {
                        DTOMissionResult missionResult = candidateQueue.take();
                        consumer.accept(missionResult);
@@ -148,7 +149,7 @@ public class DecryptionManager {
         return new Runnable() {
             @Override
             public void run() {
-                while (!exit && !stopAll) {
+                if (!exit && !stopAll) {
                     if (level == 1) {
                         pushMissions(machineSecretCode.getRotorsIdList(), machineSecretCode.getReflectorId(), userDecryptedString);
                     } else if (level == 2) {
@@ -161,8 +162,9 @@ public class DecryptionManager {
                         level4(userDecryptedString, rotorsAvailable, rotorInUse);
                     }
                 }
-
+                  isTakeOutMissions = false;
             }
+
         };
     }
 
