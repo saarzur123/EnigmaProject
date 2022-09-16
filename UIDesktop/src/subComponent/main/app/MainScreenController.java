@@ -26,7 +26,6 @@ import subComponent.main.brute.force.agents.AgentsController;
 import subComponent.main.brute.force.candidate.CandidateController;
 import subComponent.main.brute.force.dictionary.DictionaryController;
 import subComponent.main.brute.force.encrypt.EncryptController;
-import subComponent.main.create.secret.code.CreateSecretCodeController;
 import subComponent.main.create.secret.codes.CreateNewSecretCodeController;
 import subComponent.main.decrypt.DecryptionController;
 import subComponent.main.decrypt.Restart.RestartSecretCodeController;
