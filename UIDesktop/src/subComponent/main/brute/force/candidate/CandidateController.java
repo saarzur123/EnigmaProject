@@ -32,7 +32,6 @@ import static javafx.scene.input.KeyCode.F;
 
 public class CandidateController {
     @FXML    private Button stopBTN;
-
     @FXML    private Button pauseBTN;
     @FXML    private Button resumeBTN;
     @FXML    private Label candidateNumberLBL;
@@ -53,8 +52,6 @@ public class CandidateController {
         tilesCandidatesFP.setHgap(10);
         candidateNumberLBL.textProperty().bind(candidateNumberText);
     }
-
-
 
     public void resetCandidateNumber() {
         candidateNumber = 0;
@@ -129,7 +126,6 @@ public class CandidateController {
 
         }
     }
-
 
     private void createNewComponent(String codeConfiguration,Long agentId){
         try {
