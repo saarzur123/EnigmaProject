@@ -13,6 +13,7 @@ import java.util.concurrent.BlockingQueue;
 
 public class Mission implements Runnable{
     private int missionSize;
+
     private MachineImplement machine;
     private String language;
     private int[] startIndexes;

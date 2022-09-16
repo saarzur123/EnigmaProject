@@ -10,6 +10,7 @@ import java.util.function.Consumer;
 
 public class DecryptionManager {
     private int agentNumber;
+
     private boolean exit;
     private boolean stopAll;
     private MachineImplement machine;

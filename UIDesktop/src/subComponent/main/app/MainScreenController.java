@@ -180,6 +180,7 @@ public class MainScreenController {
         engine.getDecryptionManager().createThreadPool(agentNumberSelected);
     }
 
+
     public void setCurrMachineTxt(){
         machineDetailsController.setMachineDetailsLBL();
     }
