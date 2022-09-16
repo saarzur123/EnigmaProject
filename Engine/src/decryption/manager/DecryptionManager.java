@@ -314,7 +314,7 @@ public class DecryptionManager {
                 System.out.println("hey*************************************************************############");
             }
             catch (Exception e){
-                System.out.println("shit happenes" + e.getMessage());
+                System.out.println("shit happens" + e.getMessage());
             }
         }
     }
