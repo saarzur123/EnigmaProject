@@ -23,7 +23,7 @@ public class AgentsController {
     private BooleanProperty missionSizeClick = new SimpleBooleanProperty(false);
     private Integer missionSize = -1;
     private Integer difficultLevel = -1;
-    private int agentNumberSelected = 1;
+    private int agentNumberSelected = 2;
     private boolean isCharOnLanguage = true;
     private String userStringToSearchFor;
     private MainScreenController mainController;
