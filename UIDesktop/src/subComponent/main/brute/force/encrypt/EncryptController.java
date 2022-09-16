@@ -16,6 +16,7 @@ public class EncryptController {
     private TextField userDecryptStringTF;
     private MainScreenController mainController;
     private SecretCode secretCode;
+    private boolean clickedAndEncrypt =false;
     private boolean isCharOnLanguage = true;
 
     @FXML
@@ -44,6 +45,8 @@ public class EncryptController {
             mainController.setDecryptedStringToFindInAgentController(decrypt);
             userDecryptStringTF.setText(decrypt);
             mainController.setLBLToCodeCombinationBindingMain();
+            clickedAndEncrypt = true;
+            mainController.getAgentsController().checkIfAllNeededIsOk();
         }
         else {
             mainController.showErrorPopup("There is no such word in the dictionary !");
@@ -68,6 +71,10 @@ public class EncryptController {
     public void setMainController(MainScreenController main) {
         mainController = main;
         userDecryptStringTF.setEditable(false);
+    }
+
+    public boolean isClickedAndEncrypt() {
+        return clickedAndEncrypt;
     }
 
     public void clearAllTF(){

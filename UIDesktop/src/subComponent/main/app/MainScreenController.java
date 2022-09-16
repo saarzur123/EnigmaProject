@@ -85,6 +85,10 @@ public class MainScreenController {
         styleOn = true;
     }
 
+    public EncryptController getStringEncryptBruteForceController() {
+        return stringEncryptBruteForceController;
+    }
+
     public boolean isStyleOn() {
         return styleOn;
     }

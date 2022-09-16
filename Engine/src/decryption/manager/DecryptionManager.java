@@ -231,6 +231,7 @@ public class DecryptionManager {
                 + binomial(n - 1, k);
     }
 
+
     private void pushMissions(List < Integer > rotorIdForSecretCode,int reflectorIdForSecretCode, String userDecryptedString){
             missionArguments = new MissionArguments(rotorIdForSecretCode,reflectorIdForSecretCode, machine, dictionary, missionSize);
             handOutMissions(machine.getInUseRotorNumber(), machine.getABC().toCharArray(), missionSize, userDecryptedString, missionArguments);
