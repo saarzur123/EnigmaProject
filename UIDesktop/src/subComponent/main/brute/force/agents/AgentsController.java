@@ -23,7 +23,7 @@ public class AgentsController {
     private BooleanProperty missionSizeClick = new SimpleBooleanProperty(false);
     private Integer missionSize = -1;
     private Integer difficultLevel = -1;
-    private int agentNumberSelected = 1;
+    private int agentNumberSelected = 2;
     private boolean isCharOnLanguage = true;
     private String userStringToSearchFor;
     private MainScreenController mainController;
@@ -58,6 +58,7 @@ public class AgentsController {
 
     @FXML
     void startBruteForceBTN(ActionEvent event) {
+        mainController.getCandidateController().updateProgressBarMax();
         mainController.createDMThreadPool(agentNumberSelected);
         mainController.getCandidateController().resetCandidateNumber();
         mainController.getCandidateController().resetProgress();
@@ -95,7 +96,7 @@ public class AgentsController {
 
     public void setAgentsMaxSlider() {
         agentsSlider.setMax(mainController.getEngine().getDecryptionManager().getAgentNumber());
-        agentsSlider.setMin(1);
+        agentsSlider.setMin(2);
     }
 
     private void setDifficultyLevelCB(){
@@ -120,6 +121,7 @@ public class AgentsController {
 
     @FXML
     void onSubmitMissionSizeAction(ActionEvent event) {
+        startBTN.setDisable(false);
         missionSize = Integer.valueOf(missionSizeTF.getText());
         missionSizeClick.set(true);
         checkIfAllNeededIsOk();
@@ -136,6 +138,7 @@ public class AgentsController {
 
     public void onSliderChange(javafx.scene.input.MouseEvent mouseEvent) {
         agentNumberSelected = (int) agentsSlider.getValue();
+        startBTN.setDisable(false);
     }
 }
 
