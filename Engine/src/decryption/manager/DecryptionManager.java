@@ -4,9 +4,7 @@ import machine.MachineImplement;
 import machine.Reflector;
 import machine.SecretCode;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 import java.util.concurrent.*;
 import java.util.function.Consumer;
 
@@ -24,21 +22,21 @@ public class DecryptionManager {
     private ThreadPoolExecutor threadPool;
     private Dictionary dictionary;
     private MissionArguments missionArguments;
-    private Integer sizeAllMissions;
-    private Integer missionDoneUntilNow = 0;
+    private long sizeAllMissions;
+    private long missionDoneUntilNow = 0;
+    private Thread takeMissionsThread;
 
     public DecryptionManager(int agentNumber, Dictionary dictionary){
         this.agentNumber = agentNumber;
         this.dictionary = dictionary;
-        this.threadPool = new ThreadPoolExecutor(agentNumber,agentNumber,0L, TimeUnit.SECONDS,missionGetterQueue);
-        threadPool.prestartAllCoreThreads();
     }
 
-    public Integer getMissionDoneUntilNow() {
+    public long getMissionDoneUntilNow() {
         return missionDoneUntilNow;
     }
 
     public void setMissionDoneUntilNow(){missionDoneUntilNow++;}
+
     public void resetMissionDoneUntilNow(){
         missionDoneUntilNow = 0;
     }
@@ -60,7 +58,7 @@ public class DecryptionManager {
         this.stopAll = stopAll;
     }
 
-    public Integer getSizeAllMissions() {
+    public long getSizeAllMissions() {
         return sizeAllMissions;
     }
 
@@ -70,10 +68,6 @@ public class DecryptionManager {
 
     public Dictionary getDictionary() {
         return dictionary;
-    }
-
-    public int getMissionSize() {
-        return missionSize;
     }
 
     public void setMissionSize(int missionSize) {
@@ -92,12 +86,18 @@ public class DecryptionManager {
         this.machineSecretCode = machineSecretCode;
     }
 
+    public void createThreadPool(int agentNumberFromUser){
+        missionGetterQueue.clear();
+        candidateQueue.clear();
+        this.threadPool = new ThreadPoolExecutor(agentNumberFromUser,agentNumberFromUser,0L, TimeUnit.SECONDS,missionGetterQueue);
+        threadPool.prestartAllCoreThreads();
+    }
+
     public Runnable createTakeMissionsFromQueueRunnable(Consumer<DTOMissionResult> consumer){
        return new Runnable() {
            @Override
            public void run() {
-               isTakeOutMissions = true;
-               while (isTakeOutMissions|| !candidateQueue.isEmpty() ){
+               while (isTakeOutMissions || !candidateQueue.isEmpty()){
                    try {
                        DTOMissionResult missionResult = candidateQueue.take();
                        consumer.accept(missionResult);
@@ -111,27 +111,22 @@ public class DecryptionManager {
 
     //TODO make filter userInput
     public void findSecretCode(String userInput,int level,Consumer<DTOMissionResult> consumer){
-
-        Thread takeMissionsThread = new Thread(createTakeMissionsFromQueueRunnable(consumer));
+        if(takeMissionsThread != null){
+            takeMissionsThread.interrupt();
+        }
+        takeMissionsThread = new Thread(createTakeMissionsFromQueueRunnable(consumer));
         takeMissionsThread.start();
         Thread pushMissionsThread = new Thread(createPushMissionRunnable(userInput.toUpperCase(), level));
         pushMissionsThread.start();
-        //TODO make the level selection at the run method of pushMissionThread instead in here
 
     }
 
     private void handOutMissions(int length, char[] pool, int missionSize,String userDecryptedString,MissionArguments missionArguments) {
         int wordIndex = 0;
         int[] indexes = new int[length];
-        // In Java all values in new array are set to zero by default
-        // in other languages you may have to loop through and set them.
 
         int pMax = pool.length;  // stored to speed calculation
-        while (indexes[0] < pMax && !exit && !stopAll) { //if the first index is bigger then pMax we are done
-            // print the current permutation
-            for (int i = 0; i < length; i++) {
-                //System.out.print(pool[indexes[i]]);//print each character
-            }
+        while (indexes[0] < pMax && !stopAll) { //if the first index is bigger then pMax we are done
 
             if(wordIndex % missionSize == 0){
 
@@ -168,6 +163,7 @@ public class DecryptionManager {
         return new Runnable() {
             @Override
             public void run() {
+                if (!stopAll) {
                 countAndUpdateSizeAllMission();
                 if (!exit && !stopAll) {
                     if (level == 1) {
@@ -182,39 +178,54 @@ public class DecryptionManager {
                         level4(userDecryptedString, rotorsAvailable, rotorInUse);
                     }
                 }
-                  isTakeOutMissions = false;
             }
-
+        }
         };
     }
 
     public void countAndUpdateSizeAllMission(){
-        int sizeABC = 0, mustUseRotor = 0;
+        int mustUseRotor = machine.getInUseRotorNumber();
         switch (level){
             case 1:
-                sizeABC = machine.getABC().length();
-                mustUseRotor = machine.getInUseRotorNumber();
-                sizeAllMissions =(int)Math.pow(sizeABC, mustUseRotor);
+                sizeAllMissions = calcLevel1();
                 break;
             case 2:
-                sizeABC = machine.getABC().length();
-                mustUseRotor = machine.getInUseRotorNumber();
-                sizeAllMissions =mustUseRotor*(int)Math.pow(sizeABC, mustUseRotor);
+                sizeAllMissions = calcLevel1() * mustUseRotor;
                 break;
             case 3:
-                int factorial = factorial();
-                sizeABC = machine.getABC().length();
-                mustUseRotor = machine.getInUseRotorNumber();
-                sizeAllMissions =factorial*mustUseRotor*(int)Math.pow(sizeABC, mustUseRotor);
+                sizeAllMissions = calcLevel1() * mustUseRotor * factorial();
+                break;
+            case 4:
+                sizeAllMissions = calcLevel1() * mustUseRotor * factorial() * binomial(machine.getAvailableRotors().size(), mustUseRotor);
         }
     }
-    private int factorial(){
-        int fact = 0, i;
+    private long calcLevel1(){
+        int sizeABC = machine.getABC().length();
+        int mustUseRotor = machine.getInUseRotorNumber();
+        return mustUseRotor*(int)Math.pow(sizeABC, mustUseRotor);
+    }
+    private long factorial(){
+        long fact = 1, i;
         for(i = 1; i <= machine.getInUseRotorNumber(); i++){
             fact=fact*i;
         }
         return fact;
     }
+
+    private long binomial(int n, int k)
+    {
+
+        // Base Cases
+        if (k > n)
+            return 0;
+        if (k == 0 || k == n)
+            return 1;
+
+        // Recur
+        return binomial(n - 1, k - 1)
+                + binomial(n - 1, k);
+    }
+
 
     private void pushMissions(List < Integer > rotorIdForSecretCode,int reflectorIdForSecretCode, String userDecryptedString){
             missionArguments = new MissionArguments(rotorIdForSecretCode,reflectorIdForSecretCode, machine, dictionary, missionSize);
@@ -254,8 +265,7 @@ public class DecryptionManager {
                 result = new ArrayList<List<Integer>>(current);
             }
             System.out.println(result.toString());
-
-        }
+    }
 
         private void level4(String userDecryptedString, int numberOfOptions, int numberToChoose){
                 List<int[]> combinations = new ArrayList<>();
@@ -286,6 +296,27 @@ public class DecryptionManager {
             }
         }
 
+    public void isMissionPaused(DecryptionManager obj){
+        synchronized (obj){
+            while (obj.isExit()){
+                try {
+                    obj.wait();
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        }
+    }
 
-
+    public void resumeMission(DecryptionManager obj){
+        synchronized (obj) {
+            try {
+                obj.notifyAll();
+                System.out.println("hey*************************************************************############");
+            }
+            catch (Exception e){
+                System.out.println("shit happenes" + e.getMessage());
+            }
+        }
+    }
 }
