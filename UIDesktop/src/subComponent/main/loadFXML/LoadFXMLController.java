@@ -1,19 +1,12 @@
 package subComponent.main.loadFXML;
 
-import engine.Engine;
 import enigmaException.xmlException.XMLException;
-import javafx.beans.Observable;
-import javafx.beans.binding.Bindings;
-import javafx.beans.binding.BooleanBinding;
-import javafx.beans.binding.BooleanExpression;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
-import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.stage.FileChooser;
-import subComponent.main.app.MainAppController;
 import subComponent.main.app.MainScreenController;
 
 import java.io.File;

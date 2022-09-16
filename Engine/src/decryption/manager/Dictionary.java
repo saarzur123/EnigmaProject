@@ -89,4 +89,16 @@ public class Dictionary implements Serializable{
         }
         return true;
     }
+
+    public boolean isNoneFilterStringInDictionary(String strToSearch){
+        String[] wordsArr = strToSearch.split(" ");
+        for(String word : wordsArr){
+            if(word != "") {
+                if(!dictionaryFilteredWords.contains(word)){
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
 }

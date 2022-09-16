@@ -4,9 +4,7 @@ import machine.MachineImplement;
 import machine.Reflector;
 import machine.SecretCode;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 import java.util.concurrent.*;
 import java.util.function.Consumer;
 
@@ -30,8 +28,7 @@ public class DecryptionManager {
     public DecryptionManager(int agentNumber, Dictionary dictionary){
         this.agentNumber = agentNumber;
         this.dictionary = dictionary;
-        this.threadPool = new ThreadPoolExecutor(agentNumber,agentNumber,0L, TimeUnit.SECONDS,missionGetterQueue);
-        threadPool.prestartAllCoreThreads();
+
     }
 
     public long getMissionDoneUntilNow() {
@@ -39,6 +36,7 @@ public class DecryptionManager {
     }
 
     public void setMissionDoneUntilNow(){missionDoneUntilNow++;}
+
     public void resetMissionDoneUntilNow(){
         missionDoneUntilNow = 0;
     }
@@ -72,10 +70,6 @@ public class DecryptionManager {
         return dictionary;
     }
 
-    public int getMissionSize() {
-        return missionSize;
-    }
-
     public void setMissionSize(int missionSize) {
         this.missionSize = missionSize;
     }
@@ -92,12 +86,16 @@ public class DecryptionManager {
         this.machineSecretCode = machineSecretCode;
     }
 
+    public void createThreadPool(int agentNumberFromUser){
+        this.threadPool = new ThreadPoolExecutor(agentNumberFromUser,agentNumber,0L, TimeUnit.SECONDS,missionGetterQueue);
+        threadPool.prestartAllCoreThreads();
+    }
+
     public Runnable createTakeMissionsFromQueueRunnable(Consumer<DTOMissionResult> consumer){
        return new Runnable() {
            @Override
            public void run() {
-               isTakeOutMissions = true;
-               while (isTakeOutMissions|| !candidateQueue.isEmpty() ){
+               while (isTakeOutMissions || !candidateQueue.isEmpty()){
                    try {
                        DTOMissionResult missionResult = candidateQueue.take();
                        consumer.accept(missionResult);
@@ -116,22 +114,15 @@ public class DecryptionManager {
         takeMissionsThread.start();
         Thread pushMissionsThread = new Thread(createPushMissionRunnable(userInput.toUpperCase(), level));
         pushMissionsThread.start();
-        //TODO make the level selection at the run method of pushMissionThread instead in here
 
     }
 
     private void handOutMissions(int length, char[] pool, int missionSize,String userDecryptedString,MissionArguments missionArguments) {
         int wordIndex = 0;
         int[] indexes = new int[length];
-        // In Java all values in new array are set to zero by default
-        // in other languages you may have to loop through and set them.
 
         int pMax = pool.length;  // stored to speed calculation
-        while (indexes[0] < pMax && !exit && !stopAll) { //if the first index is bigger then pMax we are done
-            // print the current permutation
-            for (int i = 0; i < length; i++) {
-                //System.out.print(pool[indexes[i]]);//print each character
-            }
+        while (indexes[0] < pMax && !stopAll) { //if the first index is bigger then pMax we are done
 
             if(wordIndex % missionSize == 0){
 
@@ -168,6 +159,7 @@ public class DecryptionManager {
         return new Runnable() {
             @Override
             public void run() {
+                if (!stopAll) {
                 countAndUpdateSizeAllMission();
                 if (!exit && !stopAll) {
                     if (level == 1) {
@@ -182,9 +174,8 @@ public class DecryptionManager {
                         level4(userDecryptedString, rotorsAvailable, rotorInUse);
                     }
                 }
-                  isTakeOutMissions = false;
             }
-
+        }
         };
     }
 
@@ -270,8 +261,7 @@ public class DecryptionManager {
                 result = new ArrayList<List<Integer>>(current);
             }
             System.out.println(result.toString());
-
-        }
+    }
 
         private void level4(String userDecryptedString, int numberOfOptions, int numberToChoose){
                 List<int[]> combinations = new ArrayList<>();
@@ -302,6 +292,27 @@ public class DecryptionManager {
             }
         }
 
+    public void isMissionPaused(DecryptionManager obj){
+        synchronized (obj){
+            while (obj.isExit()){
+                try {
+                    obj.wait();
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        }
+    }
 
-
+    public void resumeMission(DecryptionManager obj){
+        synchronized (obj) {
+            try {
+                obj.notifyAll();
+                System.out.println("hey*************************************************************############");
+            }
+            catch (Exception e){
+                System.out.println("shit happenes" + e.getMessage());
+            }
+        }
+    }
 }

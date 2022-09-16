@@ -177,6 +177,10 @@ public class MainScreenController {
         agentsController.setStringToFind(userDecryptedString);
     }
 
+    public void createDMThreadPool(int agentNumberSelected){
+        engine.getDecryptionManager().createThreadPool(agentNumberSelected);
+    }
+
     public void setCurrMachineTxt(){
         machineDetailsController.setMachineDetailsLBL();
     }

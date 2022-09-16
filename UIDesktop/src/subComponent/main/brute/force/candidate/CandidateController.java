@@ -5,6 +5,8 @@ import com.sun.org.apache.xpath.internal.operations.Bool;
 import decryption.manager.DTOMissionResult;
 import javafx.application.Platform;
 import javafx.beans.binding.Bindings;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -29,23 +31,17 @@ import java.util.function.LongBinaryOperator;
 import static javafx.scene.input.KeyCode.F;
 
 public class CandidateController {
-    @FXML
-    private Button stopBTN;
+    @FXML    private Button stopBTN;
 
-    @FXML
-    private Button pauseBTN;
-
-    @FXML
-    private Button resumeBTN;
-
+    @FXML    private Button pauseBTN;
+    @FXML    private Button resumeBTN;
     @FXML    private Label candidateNumberLBL;
-
     @FXML    private Label progressPercentLBL;
     @FXML    private FlowPane tilesCandidatesFP;
-
     @FXML    private ProgressBar progressBarPB;
     private Map<String,TileController> codeConfigurationToTileController = new HashMap<>();
-
+    private StringProperty candidateNumberText = new SimpleStringProperty("0");
+   private int candidateNumber=0;
     private MainScreenController mainController;
 
     @FXML
@@ -55,6 +51,13 @@ public class CandidateController {
         pauseBTN.setDisable(true);
         tilesCandidatesFP.setVgap(10);
         tilesCandidatesFP.setHgap(10);
+        candidateNumberLBL.textProperty().bind(candidateNumberText);
+    }
+
+
+
+    public void resetCandidateNumber() {
+        candidateNumber = 0;
     }
 
     @FXML
@@ -72,6 +75,7 @@ public class CandidateController {
         stopBTN.setDisable(false);
         mainController.getAgentsController().getStartBTN().setDisable(false);
         mainController.getEngine().getDecryptionManager().setExit(false);
+        mainController.getEngine().getDecryptionManager().resumeMission( mainController.getEngine().getDecryptionManager());
     }
 
     @FXML
@@ -82,6 +86,7 @@ public class CandidateController {
         mainController.getAgentsController().getStartBTN().setDisable(false);
         mainController.getEngine().getDecryptionManager().setStopAll(true);
     }
+
     public void updateProgressBarMax(){
         long i = mainController.getEngine().getDecryptionManager().getMissionDoneUntilNow();
         long j = mainController.getEngine().getDecryptionManager().getSizeAllMissions();
@@ -109,19 +114,19 @@ public class CandidateController {
         return stopBTN;
     }
 
-    public void stopThreads(){
-
-    }
-
     public FlowPane getTilesCandidatesFP() {
         return tilesCandidatesFP;
     }
 
     public void createNewCandidateTilesComponents(DTOMissionResult missionResult){
-
         Map<String,Long> candidates = missionResult.getEncryptionCandidates();
         for(String str : candidates.keySet()){
-            createNewComponent(str,candidates.get(str));
+            candidateNumber++;
+            Platform.runLater(() -> {
+                        candidateNumberText.set(String.valueOf(candidateNumber));
+                    });
+                createNewComponent(str, candidates.get(str));
+
         }
     }
 
@@ -136,7 +141,7 @@ public class CandidateController {
             tileController.setCandidateController(this);
             tileController.setAllData(codeConfiguration,agentId);
             codeConfigurationToTileController.put(codeConfiguration,tileController);
-            Platform.runLater(() -> {
+           Platform.runLater(() -> {
             tilesCandidatesFP.getChildren().add(singleTileComponent);
             updateProgressBarMax();
             });
@@ -145,54 +150,7 @@ public class CandidateController {
         }
     }
 
-
-
     public void setMainController(MainScreenController main){
         mainController = main;
     }
-
-    public void collectMetadata(Consumer<Long> totalWordsDelegate, Consumer<Long> totalLinesDelegate, Runnable onFinish) {
-
-        Consumer<Long> totalWordsConsumer = tw -> {
-          //  this.totalWords = tw;
-            totalWordsDelegate.accept(tw);
-        };
-
-//        currentRunningTask = new CollectMetaDataTask(fileName.get(), totalWordsConsumer, totalLinesDelegate);
-//
-//        bindTaskToUIComponents(currentRunningTask, onFinish);
-//
-//        new Thread(currentRunningTask).start();
-    }
-
-    public void bindTaskToUIComponents(Task<Boolean> aTask, Runnable onFinish) {
-        // task message
-        candidateNumberLBL.textProperty().bind(aTask.messageProperty());
-
-        // task progress bar
-        progressBarPB.progressProperty().bind(aTask.progressProperty());
-
-        // task percent label
-        progressPercentLBL.textProperty().bind(
-                Bindings.concat(
-                        Bindings.format(
-                                "%.0f",
-                                Bindings.multiply(
-                                        aTask.progressProperty(),
-                                        100)),
-                        " %"));
-
-        // task cleanup upon finish
-        aTask.valueProperty().addListener((observable, oldValue, newValue) -> {
-            onTaskFinished(Optional.ofNullable(onFinish));
-        });
-    }
-
-    public void onTaskFinished(Optional<Runnable> onFinish) {
-        this.candidateNumberLBL.textProperty().unbind();
-        this.progressPercentLBL.textProperty().unbind();
-        this.progressBarPB.progressProperty().unbind();
-        onFinish.ifPresent(Runnable::run);
-    }
-
 }
