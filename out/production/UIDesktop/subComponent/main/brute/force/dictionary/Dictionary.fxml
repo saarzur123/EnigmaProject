@@ -4,12 +4,10 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.TextField?>
-<?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.FlowPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
-
 
 <VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="351.0" prefWidth="342.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="subComponent.main.brute.force.dictionary.DictionaryController">
    <children>
@@ -31,32 +29,28 @@
             <Insets left="10.0" />
          </padding>
       </HBox>
-      <FlowPane prefHeight="463.0" prefWidth="456.0">
-         <children>
-            <ScrollPane prefHeight="305.0" prefWidth="343.0">
-              <content>
-                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="640.0" prefWidth="775.0">
+      <ScrollPane prefHeight="254.0" prefWidth="342.0">
+         <content>
+            <FlowPane prefWidth="342.0">
+               <children>
+                  <VBox alignment="TOP_CENTER" prefWidth="342.0">
                      <children>
-                        <VBox alignment="TOP_CENTER" layoutX="-3.0" prefHeight="653.0" prefWidth="343.0">
+                        <HBox alignment="CENTER" prefHeight="44.0" prefWidth="342.0">
                            <children>
-                              <HBox alignment="CENTER" prefHeight="44.0" prefWidth="343.0">
-                                 <children>
-                                    <Label text="Search :" />
-                                    <TextField fx:id="searchTF" onAction="#searchInDictionaryAction">
-                                       <HBox.margin>
-                                          <Insets left="10.0" />
-                                       </HBox.margin>
-                                    </TextField>
-                                 </children>
-                              </HBox>
-                              <VBox fx:id="listOfDataVB" alignment="CENTER" prefHeight="259.0" prefWidth="405.0" />
+                              <Label text="Search :" />
+                              <TextField fx:id="searchTF" onAction="#searchInDictionaryAction">
+                                 <HBox.margin>
+                                    <Insets left="10.0" />
+                                 </HBox.margin>
+                              </TextField>
                            </children>
-                        </VBox>
+                        </HBox>
+                        <VBox fx:id="listOfDataVB" alignment="CENTER" prefWidth="405.0" />
                      </children>
-                  </AnchorPane>
-              </content>
-            </ScrollPane>
-         </children>
-      </FlowPane>
+                  </VBox>
+               </children>
+            </FlowPane>
+         </content>
+      </ScrollPane>
    </children>
 </VBox>

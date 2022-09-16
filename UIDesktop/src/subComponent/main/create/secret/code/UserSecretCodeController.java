@@ -8,6 +8,7 @@ import javafx.beans.property.StringProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Orientation;
 import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.control.Button;
@@ -52,6 +53,12 @@ public class UserSecretCodeController {
     public void setPlugIndex(){ plugIndex++;}
     public StringProperty getPlugString(){return plugString;}
     public BooleanProperty getAllSubmit(){return allSubmit;}
+
+    @FXML
+    public void initialize(){
+        rotorComponentFP.setOrientation(Orientation.VERTICAL);
+    }
+
 
     private void createPlugBoardKeyBoard(Character character){
         try {
@@ -225,6 +232,7 @@ public class UserSecretCodeController {
         int size = numberFromRightToRotorComponentController.size();
         StringBuilder errorMsg = new StringBuilder();
         String strPos = "";
+        int strPosIndex=0;
         for (int i = 0; i < size; i++) {
             if( numberFromRightToRotorComponentController.get(i+1).getChooseIdCB().getValue() == null){
                errorMsg.append(String.format("Please select id to rotor %d from right"+System.lineSeparator(),i+1));
@@ -238,7 +246,8 @@ public class UserSecretCodeController {
                 submitRotor = false;
             }else{
                 strPos+= numberFromRightToRotorComponentController.get(i+1).getStartPosition().get();
-                userDto.getRotorsStartPosition().add(strPos.charAt(i));
+                userDto.getRotorsStartPosition().add(strPos.charAt(strPosIndex));
+                strPosIndex++;
             }
             if(submitRotor){
                 Duration duration = Duration.millis(2000);

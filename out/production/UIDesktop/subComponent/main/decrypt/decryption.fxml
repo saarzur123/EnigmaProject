@@ -6,17 +6,16 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.TextField?>
-<?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.FlowPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<ScrollPane fx:id="decryptionAP" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="440.0" prefWidth="542.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="subComponent.main.decrypt.DecryptionController">
-  <content>
-    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="712.0" prefWidth="994.0">
+<ScrollPane fx:id="decryptionAP" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="580.0" prefHeight="470.0" prefWidth="580.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="subComponent.main.decrypt.DecryptionController">
+   <content>
+      <FlowPane prefHeight="200.0" prefWidth="200.0">
          <children>
-            <VBox fx:id="decryptionVBOX" alignment="TOP_CENTER" layoutY="-1.0" prefHeight="407.0" prefWidth="574.0" spacing="30.0">
+            <VBox fx:id="decryptionVBOX" alignment="TOP_CENTER" prefWidth="580.0" spacing="30.0">
                <children>
                   <Label text="Use the keyboard to decrypt!">
                      <font>
@@ -35,8 +34,8 @@
                      <children>
                         <Label prefHeight="21.0" prefWidth="112.0" text="Enter string:" />
                         <TextField fx:id="userDecryptedStringTF" onAction="#enterSingleCharacterActionTF" prefHeight="31.0" prefWidth="201.0" />
-                        <Button fx:id="decryptStringBTN" mnemonicParsing="false" onAction="#userStringDecryptBtnAction" prefHeight="31.0" prefWidth="115.0" text="PROCESS!" />
-                        <Button mnemonicParsing="false" onAction="#onClearDecryptionActionBTN" prefHeight="31.0" prefWidth="65.0" text="CLEAR" />
+                        <Button fx:id="decryptStringBTN" mnemonicParsing="false" onAction="#userStringDecryptBtnAction" text="PROCESS!" />
+                        <Button mnemonicParsing="false" onAction="#onClearDecryptionActionBTN" text="CLEAR" />
                      </children>
                   </HBox>
                   <HBox prefHeight="53.0" prefWidth="431.0" spacing="10.0">
@@ -48,6 +47,7 @@
                   </HBox>
                </children>
             </VBox>
-         </children></AnchorPane>
-  </content>
+         </children>
+      </FlowPane>
+   </content>
 </ScrollPane>
