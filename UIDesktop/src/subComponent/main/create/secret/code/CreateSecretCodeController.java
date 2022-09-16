@@ -13,9 +13,7 @@ import java.util.Map;
 import java.util.Scanner;
 
 public class CreateSecretCodeController {
-    private MainAppController mainController;
-    @FXML
-    private CheckBox enableAutomationCheckBox;
+    @FXML    private CheckBox enableAutomationCheckBox;
 
     @FXML private Label rotorIdInstructionsLBL;
     @FXML private Label rotorsPositionLBL;
