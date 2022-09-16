@@ -36,6 +36,7 @@ public class CandidateController {
     @FXML    private Button resumeBTN;
     @FXML    private Label candidateNumberLBL;
     @FXML    private Label progressPercentLBL;
+    @FXML    private Label averageTimeLBL;
     @FXML    private FlowPane tilesCandidatesFP;
     @FXML    private ProgressBar progressBarPB;
     private Map<String,TileController> codeConfigurationToTileController = new HashMap<>();
@@ -146,6 +147,10 @@ public class CandidateController {
         }catch (IOException e){
 
         }
+    }
+
+    public void updateAverageMissionsTimeLabel(double averageTime){
+        Platform.runLater(() -> {averageTimeLBL.setText(String.valueOf(averageTime) + " ms");});
     }
 
     public void setMainController(MainScreenController main){

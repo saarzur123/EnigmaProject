@@ -10,7 +10,6 @@ import java.util.function.Consumer;
 
 public class DecryptionManager {
     private int agentNumber;
-
     private boolean exit;
     private boolean stopAll;
     private MachineImplement machine;
@@ -26,6 +25,9 @@ public class DecryptionManager {
     private long sizeAllMissions;
     private long missionDoneUntilNow = 0;
     private Thread takeMissionsThread;
+    private List<Long> missionsTime = new ArrayList<>();
+    private Long missionsAverageTime;
+    private Consumer<Double> updateAverageMissionTime;
 
     public DecryptionManager(int agentNumber, Dictionary dictionary){
         this.agentNumber = agentNumber;
@@ -44,7 +46,6 @@ public class DecryptionManager {
     public void resetAllMissionSize(){
         sizeAllMissions = 0;
     }
-
 
     public boolean isExit() {
         return exit;
@@ -111,10 +112,11 @@ public class DecryptionManager {
     }
 
     //TODO make filter userInput
-    public void findSecretCode(String userInput,int level,Consumer<DTOMissionResult> consumer){
+    public void findSecretCode(String userInput,int level,Consumer<DTOMissionResult> consumer,Consumer<Double> updateMissionTime){
         if(takeMissionsThread != null){
             takeMissionsThread.interrupt();
         }
+        updateAverageMissionTime = updateMissionTime;
         takeMissionsThread = new Thread(createTakeMissionsFromQueueRunnable(consumer));
         takeMissionsThread.start();
         Thread pushMissionsThread = new Thread(createPushMissionRunnable(userInput.toUpperCase(), level));
@@ -237,7 +239,7 @@ public class DecryptionManager {
                 Reflector id = machine
                         .getAvailableReflectors().get(k);
                 int d = id.getId();
-                pushMissions(rotorIdForSecretCode,d, userDecryptedString );
+                pushMissions(rotorIdForSecretCode,d, userDecryptedString);
             }
         }
 
@@ -319,4 +321,20 @@ public class DecryptionManager {
             }
         }
     }
+
+    public void addMissionTime(long missionTime){
+        missionsTime.add(missionTime);
+    }
+
+    public void calculateAverageMissionsTime(){
+        double sum = 0;
+        if(missionDoneUntilNow == sizeAllMissions){
+            for(Long missionTime : missionsTime){
+                sum+=missionTime;
+            }
+            updateAverageMissionTime.accept(sum/(double)missionDoneUntilNow);
+        }
+    }
+
+    public void resetMissionAverageTime(){missionsAverageTime = (long)0;}
 }

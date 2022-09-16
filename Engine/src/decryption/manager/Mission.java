@@ -10,6 +10,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.BlockingDeque;
 import java.util.concurrent.BlockingQueue;
+import java.util.function.Consumer;
 
 public class Mission implements Runnable{
     private int missionSize;
@@ -26,7 +27,7 @@ public class Mission implements Runnable{
 
     private boolean wasExit=false;
 
-    public Mission(MissionArguments missionArguments, String userDecryptedString,int[] startIndexes,BlockingQueue<DTOMissionResult> candidateQueue){
+    public Mission(MissionArguments missionArguments, String userDecryptedString, int[] startIndexes, BlockingQueue<DTOMissionResult> candidateQueue){
         this.missionSize = missionArguments.getMissionSize();
         machine = missionArguments.getMachine();
         this.language = machine.getABC();
@@ -58,7 +59,11 @@ public class Mission implements Runnable{
    @Override
     public void run(){
         synchronized (DM) {
+            long start = System.currentTimeMillis();
             makeBruteForce(machine.getInUseRotorNumber(), language.toCharArray(), startIndexes, missionSize);
+            long end = System.currentTimeMillis();
+            DM.addMissionTime(end-start);
+            DM.calculateAverageMissionsTime();
         }
     }
 

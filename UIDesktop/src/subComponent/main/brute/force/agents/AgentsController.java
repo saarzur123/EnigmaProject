@@ -72,7 +72,8 @@ public class AgentsController {
         if(userStringToSearchFor != null){
             mainController.getEngine().getDecryptionManager().setExit(false);
             Consumer<DTOMissionResult> consumer = s->mainController.getCandidateController().createNewCandidateTilesComponents(s);
-            mainController.getEngine().getDecryptionManager().findSecretCode(userStringToSearchFor,difficultLevel,consumer);
+            Consumer<Double> updateAverageMissionTimeConsumer = l -> mainController.getCandidateController().updateAverageMissionsTimeLabel(l);
+            mainController.getEngine().getDecryptionManager().findSecretCode(userStringToSearchFor,difficultLevel,consumer,updateAverageMissionTimeConsumer);
         }
     }
     public void checkIfAllNeededIsOk(){

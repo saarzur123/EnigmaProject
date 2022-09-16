@@ -44,7 +44,6 @@ public class MachineImplement implements Serializable {
 
     public String encodingAndDecoding(String textSentToTheEnigma, List<Rotor> rotorsInUse, PlugBoard plugBoard, Reflector reflectorInUse)
     {
-
         final int SIZE = textSentToTheEnigma.length();
         String result = "";
 
