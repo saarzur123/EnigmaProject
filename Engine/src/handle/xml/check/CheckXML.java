@@ -8,6 +8,12 @@ import java.util.*;
 
 public class CheckXML {
 
+    public void checkIfTheNumberOfAgentIsOk(int numberOfAgent, List<ExceptionDTO> checkedObjectsList){
+        if(!(numberOfAgent >= 2 && numberOfAgent <= 50)) {
+            checkedObjectsList.add(new ExceptionDTO(false, "number of agent", " not in range (<=50 and >=2) "));
+        }
+
+    }
     public void checkIfTheFileExist(String path, List<ExceptionDTO> checkedObjectsList){
         File file = new File(path);
         if(!file.exists())

@@ -62,7 +62,6 @@ public class Mission implements Runnable{
         }
     }
 
-
     private void makeBruteForce(int length, char[] pool,int[] indexes,int missionSize) {
         synchronized (DM) {
             DTOMissionResult results = new DTOMissionResult();
@@ -74,6 +73,7 @@ public class Mission implements Runnable{
                 System.out.println("################### KILLLLL " + Thread.currentThread().getId() + "#########");
             } else {
                 while (indexes[0] < pMax && wordIndex < missionSize) { //if the first index is bigger then pMax we are done
+                    DM.setMissionDoneUntilNow();
                     DM.isMissionPaused(DM);
                     startPos.clear();
                     for (int i = 0; i < length; i++) {

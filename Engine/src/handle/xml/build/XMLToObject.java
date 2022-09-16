@@ -82,10 +82,15 @@ public class XMLToObject {
 
     private Dictionary createDictionary(){
         Dictionary dict = new Dictionary(cteDecipher.getCTEDictionary().getWords(),cteDecipher.getCTEDictionary().getExcludeChars());
+        if(checkedObjectsList.size()>0) {
+            dict = null;
+            throw new XMLException(checkedObjectsList);
+        }
         return dict;
     }
 
     public DecryptionManager createDecryptionManager(){
+        xmlValidator.checkIfTheNumberOfAgentIsOk(cteDecipher.getAgents(), checkedObjectsList);
         DecryptionManager dm = new DecryptionManager(cteDecipher.getAgents(), createDictionary());
         return dm;
     }
