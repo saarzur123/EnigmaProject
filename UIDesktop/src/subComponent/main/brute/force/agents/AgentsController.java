@@ -2,6 +2,8 @@ package subComponent.main.brute.force.agents;
 
 //import decryption.manager.CalculateMissionTask;
 import decryption.manager.DTOMissionResult;
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -17,6 +19,9 @@ public class AgentsController {
     @FXML    private Slider agentsSlider;
     @FXML    private TextField missionSizeTF;
     @FXML    private Button startBTN;
+    private BooleanProperty difficultLevelClick = new SimpleBooleanProperty(false);
+
+    private BooleanProperty missionSizeClick = new SimpleBooleanProperty(false);
     private Integer missionSize = -1;
     private Integer difficultLevel = -1;
     private int agentNumberSelected = 1;
@@ -33,6 +38,7 @@ public class AgentsController {
 
     @FXML
     public void initialize(){
+        startBTN.setDisable(true);
         agentsSlider.valueProperty().addListener((obs, oldText, newText) -> {
             Integer num =Integer.valueOf((int)agentsSlider.getValue());
             numberOfAgents.setText(num.toString());
@@ -69,6 +75,16 @@ public class AgentsController {
             mainController.getEngine().getDecryptionManager().findSecretCode(userStringToSearchFor,difficultLevel,consumer);
         }
     }
+    public void checkIfAllNeededIsOk(){
+        if( mainController.getStringEncryptBruteForceController().isClickedAndEncrypt() &&
+            difficultLevelClick.get() &&
+            missionSizeClick.get()
+        )
+            startBTN.setDisable(false);
+        else {
+            startBTN.setDisable(true);
+        }
+    }
     @FXML
     void onSliderChange(MouseEvent event) {
         agentNumberSelected = (int) agentsSlider.getValue();
@@ -103,15 +119,16 @@ public class AgentsController {
         difficultLevel = difficultyLevelCB.getValue();
         mainController.getEngine().getDecryptionManager().resetAllMissionSize();
         mainController.getEngine().getDecryptionManager().resetMissionDoneUntilNow();
-        /////check input
+        difficultLevelClick.set(true);
+        checkIfAllNeededIsOk();
     }
 
     @FXML
     void onSubmitMissionSizeAction(ActionEvent event) {
         missionSize = Integer.valueOf(missionSizeTF.getText());
-        /////////check input
+        missionSizeClick.set(true);
+        checkIfAllNeededIsOk();
     }
-
 
     private boolean isCharTypedInLanguage(char userChar){
         boolean ret = true;
@@ -123,5 +140,9 @@ public class AgentsController {
     }
 
 
+    public void onSliderChange(javafx.scene.input.MouseEvent mouseEvent) {
+        agentNumberSelected = (int) agentsSlider.getValue();
+
+    }
 }
 

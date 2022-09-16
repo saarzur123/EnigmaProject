@@ -26,7 +26,6 @@ import subComponent.main.brute.force.agents.AgentsController;
 import subComponent.main.brute.force.candidate.CandidateController;
 import subComponent.main.brute.force.dictionary.DictionaryController;
 import subComponent.main.brute.force.encrypt.EncryptController;
-import subComponent.main.create.secret.code.CreateSecretCodeController;
 import subComponent.main.create.secret.codes.CreateNewSecretCodeController;
 import subComponent.main.decrypt.DecryptionController;
 import subComponent.main.decrypt.Restart.RestartSecretCodeController;
@@ -83,6 +82,10 @@ public class MainScreenController {
         loadFXML.getScene().getStylesheets().clear();
         loadFXML.getScene().getStylesheets().add(cssCB.getValue() + ".css");
         styleOn = true;
+    }
+
+    public EncryptController getStringEncryptBruteForceController() {
+        return stringEncryptBruteForceController;
     }
 
     public boolean isStyleOn() {

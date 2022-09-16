@@ -17,6 +17,7 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 import machine.MachineImplement;
 import secret.code.validation.SecretCodeValidations;
+import subComponent.main.app.MainScreenController;
 import subComponent.main.create.secret.code.component.rotor.RotorComponentController;
 import subComponent.main.create.secret.code.plug.board.charComponent.CharButtonController;
 import subComponent.main.create.secret.codes.CreateNewSecretCodeController;
@@ -206,7 +207,7 @@ public class UserSecretCodeController {
             userDto.getReflectorIdChosen().clear();
             userDto.getReflectorIdChosen().add(chosenReflector(reflectorIdCB.getValue()));//TODO
          }else {
-            MainAppController.showErrorPopup("Please select reflector id.");
+            MainScreenController.showErrorPopup("Please select reflector id.");
             submitReflector = false;
         }
         checkIfAllSubmit();
@@ -253,7 +254,7 @@ public class UserSecretCodeController {
 
     private void validateRotorsId(StringBuilder errorMsg){
         if(errorMsg.length() != 0) {
-            MainAppController.showErrorPopup(errorMsg.toString());
+            MainScreenController.showErrorPopup(errorMsg.toString());
             if(userDto.getRotorsIdPositions().size() != machine.getInUseRotorNumber()) userDto.getRotorsIdPositions().clear();
             if(userDto.getRotorsStartPosition().size() != machine.getInUseRotorNumber()) userDto.getRotorsStartPosition().clear();
         }
