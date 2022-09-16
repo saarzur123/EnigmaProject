@@ -20,7 +20,6 @@ public class AgentsController {
     @FXML    private TextField missionSizeTF;
     @FXML    private Button startBTN;
     private BooleanProperty difficultLevelClick = new SimpleBooleanProperty(false);
-
     private BooleanProperty missionSizeClick = new SimpleBooleanProperty(false);
     private Integer missionSize = -1;
     private Integer difficultLevel = -1;
@@ -85,11 +84,6 @@ public class AgentsController {
             startBTN.setDisable(true);
         }
     }
-    @FXML
-    void onSliderChange(MouseEvent event) {
-        agentNumberSelected = (int) agentsSlider.getValue();
-    }
-
 
     public Integer getDifficultLevel() {
         return difficultLevel;
@@ -142,7 +136,6 @@ public class AgentsController {
 
     public void onSliderChange(javafx.scene.input.MouseEvent mouseEvent) {
         agentNumberSelected = (int) agentsSlider.getValue();
-
     }
 }
 

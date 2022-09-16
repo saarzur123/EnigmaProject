@@ -24,11 +24,11 @@ public class DecryptionManager {
     private MissionArguments missionArguments;
     private long sizeAllMissions;
     private long missionDoneUntilNow = 0;
+    private Thread takeMissionsThread;
 
     public DecryptionManager(int agentNumber, Dictionary dictionary){
         this.agentNumber = agentNumber;
         this.dictionary = dictionary;
-
     }
 
     public long getMissionDoneUntilNow() {
@@ -87,7 +87,9 @@ public class DecryptionManager {
     }
 
     public void createThreadPool(int agentNumberFromUser){
-        this.threadPool = new ThreadPoolExecutor(agentNumberFromUser,agentNumber,0L, TimeUnit.SECONDS,missionGetterQueue);
+        missionGetterQueue.clear();
+        candidateQueue.clear();
+        this.threadPool = new ThreadPoolExecutor(agentNumberFromUser,agentNumberFromUser,0L, TimeUnit.SECONDS,missionGetterQueue);
         threadPool.prestartAllCoreThreads();
     }
 
@@ -109,8 +111,10 @@ public class DecryptionManager {
 
     //TODO make filter userInput
     public void findSecretCode(String userInput,int level,Consumer<DTOMissionResult> consumer){
-
-        Thread takeMissionsThread = new Thread(createTakeMissionsFromQueueRunnable(consumer));
+        if(takeMissionsThread != null){
+            takeMissionsThread.interrupt();
+        }
+        takeMissionsThread = new Thread(createTakeMissionsFromQueueRunnable(consumer));
         takeMissionsThread.start();
         Thread pushMissionsThread = new Thread(createPushMissionRunnable(userInput.toUpperCase(), level));
         pushMissionsThread.start();
