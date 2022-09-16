@@ -61,6 +61,7 @@ public class Mission implements Runnable{
         }
     }
 
+
     private void makeBruteForce(int length, char[] pool,int[] indexes,int missionSize) {
         synchronized (DM) {
             DTOMissionResult results = new DTOMissionResult();

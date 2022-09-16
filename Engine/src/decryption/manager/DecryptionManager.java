@@ -22,8 +22,8 @@ public class DecryptionManager {
     private ThreadPoolExecutor threadPool;
     private Dictionary dictionary;
     private MissionArguments missionArguments;
-    private Integer sizeAllMissions;
-    private Integer missionDoneUntilNow = 0;
+    private long sizeAllMissions;
+    private long missionDoneUntilNow = 0;
 
     public DecryptionManager(int agentNumber, Dictionary dictionary){
         this.agentNumber = agentNumber;
@@ -31,7 +31,7 @@ public class DecryptionManager {
 
     }
 
-    public Integer getMissionDoneUntilNow() {
+    public long getMissionDoneUntilNow() {
         return missionDoneUntilNow;
     }
 
@@ -58,7 +58,7 @@ public class DecryptionManager {
         this.stopAll = stopAll;
     }
 
-    public Integer getSizeAllMissions() {
+    public long getSizeAllMissions() {
         return sizeAllMissions;
     }
 
@@ -180,20 +180,46 @@ public class DecryptionManager {
     }
 
     public void countAndUpdateSizeAllMission(){
-        int sizeABC = 0, mustUseRotor = 0;
+        int mustUseRotor = machine.getInUseRotorNumber();
         switch (level){
             case 1:
-                sizeABC = machine.getABC().length();
-                mustUseRotor = machine.getInUseRotorNumber();
-                sizeAllMissions =(int)Math.pow(sizeABC, mustUseRotor);
+                sizeAllMissions = calcLevel1();
                 break;
             case 2:
-                sizeABC = machine.getABC().length();
-                mustUseRotor = machine.getInUseRotorNumber();
-                sizeAllMissions =mustUseRotor*(int)Math.pow(sizeABC, mustUseRotor);
+                sizeAllMissions = calcLevel1() * mustUseRotor;
                 break;
             case 3:
+                sizeAllMissions = calcLevel1() * mustUseRotor * factorial();
+                break;
+            case 4:
+                sizeAllMissions = calcLevel1() * mustUseRotor * factorial() * binomial(machine.getAvailableRotors().size(), mustUseRotor);
         }
+    }
+    private long calcLevel1(){
+        int sizeABC = machine.getABC().length();
+        int mustUseRotor = machine.getInUseRotorNumber();
+        return mustUseRotor*(int)Math.pow(sizeABC, mustUseRotor);
+    }
+    private long factorial(){
+        long fact = 1, i;
+        for(i = 1; i <= machine.getInUseRotorNumber(); i++){
+            fact=fact*i;
+        }
+        return fact;
+    }
+
+    private long binomial(int n, int k)
+    {
+
+        // Base Cases
+        if (k > n)
+            return 0;
+        if (k == 0 || k == n)
+            return 1;
+
+        // Recur
+        return binomial(n - 1, k - 1)
+                + binomial(n - 1, k);
     }
 
     private void pushMissions(List < Integer > rotorIdForSecretCode,int reflectorIdForSecretCode, String userDecryptedString){
