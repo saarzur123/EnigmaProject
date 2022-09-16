@@ -139,7 +139,7 @@ public class AgentsController {
 
     public void onSliderChange(javafx.scene.input.MouseEvent mouseEvent) {
         agentNumberSelected = (int) agentsSlider.getValue();
-        startBTN.setDisable(false);
+        checkIfAllNeededIsOk();
     }
 }
 
