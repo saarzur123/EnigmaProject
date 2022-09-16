@@ -59,6 +59,8 @@ public class AgentsController {
 
     @FXML
     void startBruteForceBTN(ActionEvent event) {
+        mainController.getCandidateController().updateProgressBarMax();
+        mainController.getEngine().getDecryptionManager().setProgress(mainController.getCandidateController().getProgressBarPB(), mainController.getCandidateController().getProgressPercentLBL());
         mainController.createDMThreadPool(agentNumberSelected);
         mainController.getCandidateController().resetCandidateNumber();
         mainController.getCandidateController().resetProgress();
