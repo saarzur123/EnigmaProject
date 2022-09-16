@@ -83,8 +83,8 @@ public class CandidateController {
         mainController.getEngine().getDecryptionManager().setStopAll(true);
     }
     public void updateProgressBarMax(){
-        int i = mainController.getEngine().getDecryptionManager().getMissionDoneUntilNow();
-        int j = mainController.getEngine().getDecryptionManager().getSizeAllMissions();
+        long i = mainController.getEngine().getDecryptionManager().getMissionDoneUntilNow();
+        long j = mainController.getEngine().getDecryptionManager().getSizeAllMissions();
         double m = i*100/(double)j;
         m = Math.ceil(m);
         progressBarPB.setProgress(m);
@@ -138,7 +138,6 @@ public class CandidateController {
             codeConfigurationToTileController.put(codeConfiguration,tileController);
             Platform.runLater(() -> {
             tilesCandidatesFP.getChildren().add(singleTileComponent);
-                if(mainController.getEngine().getDecryptionManager().getSizeAllMissions()!=null)
                     updateProgressBarMax();
             });
         }catch (IOException e){
@@ -152,42 +151,6 @@ public class CandidateController {
         mainController = main;
     }
 
-    public void collectMetadata(Consumer<Long> totalWordsDelegate, Consumer<Long> totalLinesDelegate, Runnable onFinish) {
-
-        Consumer<Long> totalWordsConsumer = tw -> {
-          //  this.totalWords = tw;
-            totalWordsDelegate.accept(tw);
-        };
-
-//        currentRunningTask = new CollectMetaDataTask(fileName.get(), totalWordsConsumer, totalLinesDelegate);
-//
-//        bindTaskToUIComponents(currentRunningTask, onFinish);
-//
-//        new Thread(currentRunningTask).start();
-    }
-
-    public void bindTaskToUIComponents(Task<Boolean> aTask, Runnable onFinish) {
-        // task message
-        candidateNumberLBL.textProperty().bind(aTask.messageProperty());
-
-        // task progress bar
-        progressBarPB.progressProperty().bind(aTask.progressProperty());
-
-        // task percent label
-        progressPercentLBL.textProperty().bind(
-                Bindings.concat(
-                        Bindings.format(
-                                "%.0f",
-                                Bindings.multiply(
-                                        aTask.progressProperty(),
-                                        100)),
-                        " %"));
-
-        // task cleanup upon finish
-        aTask.valueProperty().addListener((observable, oldValue, newValue) -> {
-            onTaskFinished(Optional.ofNullable(onFinish));
-        });
-    }
 
     public void onTaskFinished(Optional<Runnable> onFinish) {
         this.candidateNumberLBL.textProperty().unbind();

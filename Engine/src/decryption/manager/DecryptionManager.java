@@ -202,7 +202,7 @@ public class DecryptionManager {
     private long calcLevel1(){
         int sizeABC = machine.getABC().length();
         int mustUseRotor = machine.getInUseRotorNumber();
-        return mustUseRotor*(int)Math.pow(sizeABC, mustUseRotor);
+        return (int)Math.pow(sizeABC, mustUseRotor);
     }
     private long factorial(){
         long fact = 1, i;
