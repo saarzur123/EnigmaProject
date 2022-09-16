@@ -104,6 +104,7 @@ public class AgentsController {
         }
     }
 
+
     public void setStringToFind(String userEncryptedString){
         userStringToSearchFor = userEncryptedString;
     }

@@ -53,6 +53,7 @@ public class CandidateController {
         candidateNumberLBL.textProperty().bind(candidateNumberText);
     }
 
+
     public void resetCandidateNumber() {
         candidateNumber = 0;
     }
