@@ -6,6 +6,7 @@
 
 .root{
 -fx-font-family : "Verdana";
+-fx-background-color: Tomato;
 }
 
 .label{

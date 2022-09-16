@@ -15,6 +15,7 @@ public class TileController {
     @FXML    private TextField codeConfigurationTF;
 
     @FXML    private TextField agentIdTF;
+    @FXML private Label decryptLBL;
 
     @FXML public void initialize(){
         tileVB.setBorder(new Border(new BorderStroke(Color.BLACK,
@@ -27,17 +28,11 @@ public class TileController {
         this.candidateController = candidateController;
     }
 
-    public TextField getAgentIdTF() {
-        return agentIdTF;
-    }
 
-    public TextField getCodeConfigurationTF() {
-        return codeConfigurationTF;
-    }
-
-    public void setAllData(String codeConfiguration, Long agentId){
+    public void setAllData(String codeConfiguration, Long agentId, String dec){
         codeConfigurationTF.setText(codeConfiguration);
         agentIdTF.setText(String.valueOf(agentId));
+        decryptLBL.setText(dec);
     }
 
 }

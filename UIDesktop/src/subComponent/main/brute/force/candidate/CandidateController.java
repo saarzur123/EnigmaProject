@@ -124,13 +124,13 @@ public class CandidateController {
             Platform.runLater(() -> {
                         candidateNumberText.set(String.valueOf(candidateNumber));
                     });
-                createNewComponent(str, candidates.get(str));
+                createNewComponent(str, candidates.get(str), missionResult.getDecryptString());
 
         }
     }
 
 
-    private void createNewComponent(String codeConfiguration,Long agentId){
+    private void createNewComponent(String codeConfiguration,Long agentId, String decrypt){
         try {
             FXMLLoader loader = new FXMLLoader();
             URL url = getClass().getResource("/subComponent/main/brute/force/candidate/tile.fxml");//
@@ -138,7 +138,7 @@ public class CandidateController {
             Node singleTileComponent = loader.load();
             TileController tileController = loader.getController();
             tileController.setCandidateController(this);
-            tileController.setAllData(codeConfiguration,agentId);
+            tileController.setAllData(codeConfiguration,agentId, decrypt);
             codeConfigurationToTileController.put(codeConfiguration,tileController);
            Platform.runLater(() -> {
             tilesCandidatesFP.getChildren().add(singleTileComponent);
