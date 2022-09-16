@@ -97,7 +97,8 @@ public class AgentsController {
 
     public void setAgentsMaxSlider() {
         agentsSlider.setMax(mainController.getEngine().getDecryptionManager().getAgentNumber());
-        agentsSlider.setMin(1);
+        agentsSlider.setMin(2);
+
     }
 
     private void setDifficultyLevelCB(){
@@ -121,6 +122,7 @@ public class AgentsController {
 
     @FXML
     void onSubmitMissionSizeAction(ActionEvent event) {
+        startBTN.setDisable(false);
         missionSize = Integer.valueOf(missionSizeTF.getText());
         missionSizeClick.set(true);
         checkIfAllNeededIsOk();
@@ -138,6 +140,7 @@ public class AgentsController {
 
     public void onSliderChange(javafx.scene.input.MouseEvent mouseEvent) {
         agentNumberSelected = (int) agentsSlider.getValue();
+        startBTN.setDisable(false);
     }
 }
 

@@ -3,6 +3,7 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ProgressBar?>
+<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.layout.FlowPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
@@ -32,6 +33,10 @@
             <ProgressBar fx:id="progressBarPB" prefHeight="23.0" prefWidth="247.0" progress="0.0" />
          </children>
       </HBox>
-      <FlowPane fx:id="tilesCandidatesFP" prefHeight="213.0" prefWidth="304.0" />
+      <ScrollPane prefHeight="200.0" prefWidth="200.0">
+         <content>
+            <FlowPane fx:id="tilesCandidatesFP" prefHeight="197.0" prefWidth="301.0" />
+         </content>
+      </ScrollPane>
    </children>
 </VBox>
