@@ -19,6 +19,7 @@ public class AgentsController {
     @FXML    private Button startBTN;
     private Integer missionSize = -1;
     private Integer difficultLevel = -1;
+    private int agentNumberSelected = 1;
     private boolean isCharOnLanguage = true;
     private String userStringToSearchFor;
     private MainScreenController mainController;
@@ -49,13 +50,12 @@ public class AgentsController {
         });
     }
 
-    private void foo(Consumer<String> x) {
-        x.accept("hello");
-    }
 
     @FXML
     void startBruteForceBTN(ActionEvent event) {
-        //AfterStop
+        mainController.createDMThreadPool(agentNumberSelected);
+        mainController.getCandidateController().resetCandidateNumber();
+        mainController.getCandidateController().resetProgress();
         mainController.getCandidateController().getTilesCandidatesFP().getChildren().clear();
         startBTN.setDisable(true);
         mainController.getCandidateController().getPauseBTN().setDisable(false);
@@ -63,13 +63,17 @@ public class AgentsController {
         mainController.getEngine().getDecryptionManager().setStopAll(false);
         mainController.setLevelInDM(difficultLevel);
         mainController.setMissionSize(missionSize);
-        //mainController.getCandidateController().bindTaskToUIComponents(calculateMissionTask,);
         if(userStringToSearchFor != null){
             mainController.getEngine().getDecryptionManager().setExit(false);
             Consumer<DTOMissionResult> consumer = s->mainController.getCandidateController().createNewCandidateTilesComponents(s);
             mainController.getEngine().getDecryptionManager().findSecretCode(userStringToSearchFor,difficultLevel,consumer);
         }
     }
+    @FXML
+    void onSliderChange(MouseEvent event) {
+        agentNumberSelected = (int) agentsSlider.getValue();
+    }
+
 
     public Integer getDifficultLevel() {
         return difficultLevel;
@@ -97,6 +101,8 @@ public class AgentsController {
     @FXML
     void onDifficultyLevelAction(ActionEvent event) {
         difficultLevel = difficultyLevelCB.getValue();
+        mainController.getEngine().getDecryptionManager().resetAllMissionSize();
+        mainController.getEngine().getDecryptionManager().resetMissionDoneUntilNow();
         /////check input
     }
 

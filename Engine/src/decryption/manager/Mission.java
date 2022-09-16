@@ -22,6 +22,7 @@ public class Mission implements Runnable{
     private Integer reflectorId;
     private DecryptionManager DM;
     private BlockingQueue<DTOMissionResult> candidateQueue;
+
     private boolean wasExit=false;
 
     public Mission(MissionArguments missionArguments, String userDecryptedString,int[] startIndexes,BlockingQueue<DTOMissionResult> candidateQueue){
@@ -53,15 +54,12 @@ public class Mission implements Runnable{
         return new MachineImplement(rotors,reflectors, machine.getInUseRotorNumber(), machine.getABC());
     }
 
-
-    //TODO put the brute force here and inside the brute force try to run different codes and encrypt with dictionary
    @Override
     public void run(){
         synchronized (DM) {
             makeBruteForce(machine.getInUseRotorNumber(), language.toCharArray(), startIndexes, missionSize);
         }
     }
-
 
     private void makeBruteForce(int length, char[] pool,int[] indexes,int missionSize) {
         synchronized (DM) {
@@ -98,14 +96,12 @@ public class Mission implements Runnable{
         }
     }
 
-
-
     private void runCurrSecretCode(List<Character> startPos,DTOMissionResult results) {
         synchronized (DM) {
             SecretCode currSecretCode = new SecretCode(machine);
             currSecretCode.determineSecretCode(rotorsIdList, startPos, reflectorId, new HashMap<>());
             String stringToCheckInDictionary = machine.encodingAndDecoding(userDecryptedString.toUpperCase(), currSecretCode.getInUseRotors(), currSecretCode.getPlugBoard(), currSecretCode.getInUseReflector());
-            boolean isStringOnDictionary = dictionary.isStringInDictionary(stringToCheckInDictionary.toLowerCase());
+            boolean isStringOnDictionary = dictionary.isNoneFilterStringInDictionary(stringToCheckInDictionary.toLowerCase());
             if (isStringOnDictionary) {
                 results.addCandidate(currSecretCode.getSecretCodeCombination(), Thread.currentThread().getId());
               }
@@ -116,7 +112,7 @@ public class Mission implements Runnable{
         synchronized (DM) {
             if (results.getEncryptionCandidates().size() > 0) {
                 candidateQueue.add(results);
-                System.out.println("********************");
+
             }
         }
     }

@@ -6,7 +6,6 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import machine.MachineImplement;
 import secret.code.validation.SecretCodeValidations;
-import subComponent.main.app.MainAppController;
 
 import java.util.LinkedList;
 import java.util.List;

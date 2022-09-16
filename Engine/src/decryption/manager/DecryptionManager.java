@@ -21,16 +21,29 @@ public class DecryptionManager {
     private BlockingQueue<DTOMissionResult> candidateQueue = new LinkedBlockingQueue<>();
     private ThreadPoolExecutor threadPool;
     private Dictionary dictionary;
-    private Map<Mission,Thread> missionResumedToExecutableThreadMap = new HashMap<>();
     private MissionArguments missionArguments;
+    private Integer sizeAllMissions;
+    private Integer missionDoneUntilNow = 0;
 
     public DecryptionManager(int agentNumber, Dictionary dictionary){
         this.agentNumber = agentNumber;
         this.dictionary = dictionary;
-        this.threadPool = new ThreadPoolExecutor(agentNumber,agentNumber,0L, TimeUnit.SECONDS,missionGetterQueue);
-        threadPool.prestartAllCoreThreads();
 
     }
+
+    public Integer getMissionDoneUntilNow() {
+        return missionDoneUntilNow;
+    }
+
+    public void setMissionDoneUntilNow(){missionDoneUntilNow++;}
+
+    public void resetMissionDoneUntilNow(){
+        missionDoneUntilNow = 0;
+    }
+    public void resetAllMissionSize(){
+        sizeAllMissions = 0;
+    }
+
 
     public boolean isExit() {
         return exit;
@@ -45,16 +58,16 @@ public class DecryptionManager {
         this.stopAll = stopAll;
     }
 
+    public Integer getSizeAllMissions() {
+        return sizeAllMissions;
+    }
+
     public int getAgentNumber() {
         return agentNumber;
     }
 
     public Dictionary getDictionary() {
         return dictionary;
-    }
-
-    public int getMissionSize() {
-        return missionSize;
     }
 
     public void setMissionSize(int missionSize) {
@@ -73,8 +86,9 @@ public class DecryptionManager {
         this.machineSecretCode = machineSecretCode;
     }
 
-    public Map<Mission, Thread> getMissionResumedToExecutableThreadMap() {
-        return missionResumedToExecutableThreadMap;
+    public void createThreadPool(int agentNumberFromUser){
+        this.threadPool = new ThreadPoolExecutor(agentNumberFromUser,agentNumber,0L, TimeUnit.SECONDS,missionGetterQueue);
+        threadPool.prestartAllCoreThreads();
     }
 
     public Runnable createTakeMissionsFromQueueRunnable(Consumer<DTOMissionResult> consumer){
@@ -100,15 +114,12 @@ public class DecryptionManager {
         takeMissionsThread.start();
         Thread pushMissionsThread = new Thread(createPushMissionRunnable(userInput.toUpperCase(), level));
         pushMissionsThread.start();
-        //TODO make the level selection at the run method of pushMissionThread instead in here
 
     }
 
     private void handOutMissions(int length, char[] pool, int missionSize,String userDecryptedString,MissionArguments missionArguments) {
         int wordIndex = 0;
         int[] indexes = new int[length];
-        // In Java all values in new array are set to zero by default
-        // in other languages you may have to loop through and set them.
 
         int pMax = pool.length;  // stored to speed calculation
         while (indexes[0] < pMax && !stopAll) { //if the first index is bigger then pMax we are done
@@ -149,6 +160,8 @@ public class DecryptionManager {
             @Override
             public void run() {
                 if (!stopAll) {
+                countAndUpdateSizeAllMission();
+                if (!exit && !stopAll) {
                     if (level == 1) {
                         pushMissions(machineSecretCode.getRotorsIdList(), machineSecretCode.getReflectorId(), userDecryptedString);
                     } else if (level == 2) {
@@ -162,7 +175,25 @@ public class DecryptionManager {
                     }
                 }
             }
+        }
         };
+    }
+
+    public void countAndUpdateSizeAllMission(){
+        int sizeABC = 0, mustUseRotor = 0;
+        switch (level){
+            case 1:
+                sizeABC = machine.getABC().length();
+                mustUseRotor = machine.getInUseRotorNumber();
+                sizeAllMissions =(int)Math.pow(sizeABC, mustUseRotor);
+                break;
+            case 2:
+                sizeABC = machine.getABC().length();
+                mustUseRotor = machine.getInUseRotorNumber();
+                sizeAllMissions =mustUseRotor*(int)Math.pow(sizeABC, mustUseRotor);
+                break;
+            case 3:
+        }
     }
 
     private void pushMissions(List < Integer > rotorIdForSecretCode,int reflectorIdForSecretCode, String userDecryptedString){
@@ -203,8 +234,7 @@ public class DecryptionManager {
                 result = new ArrayList<List<Integer>>(current);
             }
             System.out.println(result.toString());
-
-        }
+    }
 
         private void level4(String userDecryptedString, int numberOfOptions, int numberToChoose){
                 List<int[]> combinations = new ArrayList<>();
@@ -257,8 +287,5 @@ public class DecryptionManager {
                 System.out.println("shit happenes" + e.getMessage());
             }
         }
-
     }
-
-
 }

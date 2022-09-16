@@ -5,6 +5,8 @@ import com.sun.org.apache.xpath.internal.operations.Bool;
 import decryption.manager.DTOMissionResult;
 import javafx.application.Platform;
 import javafx.beans.binding.Bindings;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -24,25 +26,22 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.function.Consumer;
+import java.util.function.LongBinaryOperator;
+
+import static javafx.scene.input.KeyCode.F;
 
 public class CandidateController {
-    @FXML
-    private Button stopBTN;
+    @FXML    private Button stopBTN;
 
-    @FXML
-    private Button pauseBTN;
-
-    @FXML
-    private Button resumeBTN;
-
+    @FXML    private Button pauseBTN;
+    @FXML    private Button resumeBTN;
     @FXML    private Label candidateNumberLBL;
-
     @FXML    private Label progressPercentLBL;
     @FXML    private FlowPane tilesCandidatesFP;
-
     @FXML    private ProgressBar progressBarPB;
     private Map<String,TileController> codeConfigurationToTileController = new HashMap<>();
-
+    private StringProperty candidateNumberText = new SimpleStringProperty("0");
+   private int candidateNumber=0;
     private MainScreenController mainController;
 
     @FXML
@@ -50,6 +49,15 @@ public class CandidateController {
         resumeBTN.setDisable(true);
         stopBTN.setDisable(true);
         pauseBTN.setDisable(true);
+        tilesCandidatesFP.setVgap(10);
+        tilesCandidatesFP.setHgap(10);
+        candidateNumberLBL.textProperty().bind(candidateNumberText);
+    }
+
+
+
+    public void resetCandidateNumber() {
+        candidateNumber = 0;
     }
 
     @FXML
@@ -58,7 +66,6 @@ public class CandidateController {
         pauseBTN.setDisable(true);
         mainController.getAgentsController().getStartBTN().setDisable(false);
         mainController.getEngine().getDecryptionManager().setExit(true);
-
     }
 
     @FXML
@@ -80,16 +87,31 @@ public class CandidateController {
         mainController.getEngine().getDecryptionManager().setStopAll(true);
     }
 
+    public void updateProgressBarMax(){
+        int i = mainController.getEngine().getDecryptionManager().getMissionDoneUntilNow();
+        int j = mainController.getEngine().getDecryptionManager().getSizeAllMissions();
+        double m = i*100/(double)j;
+        m = Math.ceil(m);
+        progressBarPB.setProgress(m);
+        String s = String.valueOf(m + "%.0f");
+        progressPercentLBL.setText(s);
+    }
     public Button getPauseBTN() {
         return pauseBTN;
+    }
+    public void resetProgress(){
+        mainController.getEngine().getDecryptionManager().resetMissionDoneUntilNow();
+        progressBarPB.setProgress(0);
+        progressPercentLBL.setText("0.0");
+        try {
+            Thread.sleep(2000);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public Button getStopBTN() {
         return stopBTN;
-    }
-
-    public void stopThreads(){
-
     }
 
     public FlowPane getTilesCandidatesFP() {
@@ -99,7 +121,12 @@ public class CandidateController {
     public void createNewCandidateTilesComponents(DTOMissionResult missionResult){
         Map<String,Long> candidates = missionResult.getEncryptionCandidates();
         for(String str : candidates.keySet()){
-            createNewComponent(str,candidates.get(str));
+            candidateNumber++;
+            Platform.runLater(() -> {
+                        candidateNumberText.set(String.valueOf(candidateNumber));
+                    });
+                createNewComponent(str, candidates.get(str));
+
         }
     }
 
@@ -113,62 +140,17 @@ public class CandidateController {
             tileController.setCandidateController(this);
             tileController.setAllData(codeConfiguration,agentId);
             codeConfigurationToTileController.put(codeConfiguration,tileController);
-            Platform.runLater(() -> {
+           Platform.runLater(() -> {
             tilesCandidatesFP.getChildren().add(singleTileComponent);
+                if(mainController.getEngine().getDecryptionManager().getSizeAllMissions()!=null)
+                    updateProgressBarMax();
             });
         }catch (IOException e){
 
         }
     }
 
-
-
     public void setMainController(MainScreenController main){
         mainController = main;
     }
-
-    public void collectMetadata(Consumer<Long> totalWordsDelegate, Consumer<Long> totalLinesDelegate, Runnable onFinish) {
-
-        Consumer<Long> totalWordsConsumer = tw -> {
-          //  this.totalWords = tw;
-            totalWordsDelegate.accept(tw);
-        };
-
-//        currentRunningTask = new CollectMetaDataTask(fileName.get(), totalWordsConsumer, totalLinesDelegate);
-//
-//        bindTaskToUIComponents(currentRunningTask, onFinish);
-//
-//        new Thread(currentRunningTask).start();
-    }
-
-    public void bindTaskToUIComponents(Task<Boolean> aTask, Runnable onFinish) {
-        // task message
-        candidateNumberLBL.textProperty().bind(aTask.messageProperty());
-
-        // task progress bar
-        progressBarPB.progressProperty().bind(aTask.progressProperty());
-
-        // task percent label
-        progressPercentLBL.textProperty().bind(
-                Bindings.concat(
-                        Bindings.format(
-                                "%.0f",
-                                Bindings.multiply(
-                                        aTask.progressProperty(),
-                                        100)),
-                        " %"));
-
-        // task cleanup upon finish
-        aTask.valueProperty().addListener((observable, oldValue, newValue) -> {
-            onTaskFinished(Optional.ofNullable(onFinish));
-        });
-    }
-
-    public void onTaskFinished(Optional<Runnable> onFinish) {
-        this.candidateNumberLBL.textProperty().unbind();
-        this.progressPercentLBL.textProperty().unbind();
-        this.progressBarPB.progressProperty().unbind();
-        onFinish.ifPresent(Runnable::run);
-    }
-
 }
