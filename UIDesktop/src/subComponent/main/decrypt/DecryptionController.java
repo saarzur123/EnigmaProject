@@ -44,6 +44,7 @@ public class DecryptionController {
     @FXML private Button decryptStringBTN;
     @FXML    private Button doneSingleCharBTN;
     private boolean isCompleteStringDecryption = false;
+    private boolean doneBTNIsOn = false;
     private DecryptionButtonController goldEncryptedBtnController;
     private boolean isCharOnLanguage = true;
     private BooleanProperty isTextFromVirtualKeyboard = new SimpleBooleanProperty(true);
@@ -62,8 +63,12 @@ public class DecryptionController {
         userEncryptedStringTF.setEditable(false);
         userDecryptedStringTF.textProperty().addListener((obs, oldText, newText) -> {
             if(isTextFromVirtualKeyboard.get()) {
-                String temp = userDecryptedStringTF.getText();
-                decryptEncryptProcess(temp);
+                if(!doneBTNIsOn) {
+                    String temp = userDecryptedStringTF.getText();
+                    if (temp != "") {
+                        decryptEncryptProcess(temp);
+                    }
+                }
             }
         });
     }
@@ -199,13 +204,17 @@ public class DecryptionController {
 
     private void decryptEncryptProcess(String decrypted){
 
-        if(!isCompleteStringDecryption){
-            isCharOnLanguage = isCharTypedInLanguage(String.valueOf(decrypted.charAt(decrypted.length()-1)));
+        if(!isCompleteStringDecryption && decrypted != ""){
+            int charToCheckIndex;
+            if(decrypted.length() > 1){
+                charToCheckIndex  = decrypted.length()-1;
+            }else charToCheckIndex = 0;
+            isCharOnLanguage = isCharTypedInLanguage(String.valueOf(decrypted.charAt(charToCheckIndex)));
             if(!isCharOnLanguage){
-                decrypted = decrypted.substring(0,decrypted.length()-1);
+                decrypted = decrypted.substring(0,charToCheckIndex);
                 userDecryptedStringTF.setText(decrypted);
             }
-            singleKeyboardCharDecryption(String.valueOf(decrypted.charAt(decrypted.length()-1)));
+            singleKeyboardCharDecryption(String.valueOf(decrypted.charAt(charToCheckIndex)));
         }
     }
 
@@ -219,6 +228,7 @@ public class DecryptionController {
 
     @FXML
     void onFinishSingleCharsActionBTN(ActionEvent event) {
+        doneBTNIsOn = true;
         userDecryptedStringTF.setText(userDecryptedStringTF.getText().toUpperCase());
         String encryptChar = mainController.getEngineCommand().processData(userDecryptedStringTF.getText(), true);
 
@@ -230,6 +240,7 @@ public class DecryptionController {
             userDecryptedStringTF.setText("");
             userEncryptedStringTF.setText("");
         }
+        doneBTNIsOn = false;
     }
 
     @FXML
@@ -248,15 +259,15 @@ public class DecryptionController {
 
     @FXML
     void enterSingleCharacterActionTF(ActionEvent event) {
-        String encrypted = "";
-        if(!isCompleteStringDecryption) {
-            String decrypted = userDecryptedStringTF.getText();
-            if (decrypted != "") {
-                //encrypted = mainController.getEngineCommand().processData(decrypted.toUpperCase());
-                //setAfterDecryption();
-            }
-            userEncryptedStringTF.setText(encrypted);
-        }
+//        String encrypted = "";
+//        if(!isCompleteStringDecryption) {
+//            String decrypted = userDecryptedStringTF.getText();
+//            if (decrypted != "") {
+//                //encrypted = mainController.getEngineCommand().processData(decrypted.toUpperCase());
+//                //setAfterDecryption();
+//            }
+//            userEncryptedStringTF.setText(encrypted);
+//        }
     }
 
 

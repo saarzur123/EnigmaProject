@@ -57,6 +57,7 @@ public class CandidateController {
 
     public void resetCandidateNumber() {
         candidateNumber = 0;
+        candidateNumberText.set("0");
     }
 
     @FXML
@@ -86,15 +87,6 @@ public class CandidateController {
         mainController.getEngine().getDecryptionManager().setStopAll(true);
     }
 
-//    public void updateProgressBarMax(){
-//        long missionDoneUntilNow = mainController.getEngine().getDecryptionManager().getMissionDoneUntilNow();
-//        long sizeAllMissions = mainController.getEngine().getDecryptionManager().getSizeAllMissions();
-//        double m = missionDoneUntilNow * 100/(double)sizeAllMissions;
-//        m = Math.ceil(m);
-//        progressBarPB.setProgress(missionDoneUntilNow/(double)sizeAllMissions);
-//        String s = String.valueOf(m + "%.0f");
-//        progressPercentLBL.setText(s);
-//    }
     public Button getPauseBTN() {
         return pauseBTN;
     }
