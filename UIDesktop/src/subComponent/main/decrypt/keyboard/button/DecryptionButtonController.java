@@ -20,7 +20,6 @@ public class DecryptionButtonController {
 
     public Button getDecryptCharBTN(){return decryptCharBTN;}
 
-
     @FXML
     void decryptCharAction(ActionEvent event) {
         if(!decryptionController.isCompleteStringDecryption()){
