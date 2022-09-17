@@ -45,6 +45,7 @@ public class EncryptController {
             mainController.setDecryptedStringToFindInAgentController(decrypt);
             userDecryptStringTF.setText(decrypt);
             mainController.setLBLToCodeCombinationBindingMain();
+            mainController.getMachineDetailsController().updateCurrMachineDetails();
             clickedAndEncrypt = true;
             mainController.getAgentsController().checkIfAllNeededIsOk();
         }

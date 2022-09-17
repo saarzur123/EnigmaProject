@@ -28,6 +28,7 @@ public class DecryptionManager {
     private List<Long> missionsTime = new ArrayList<>();
     private Long missionsAverageTime;
     private Consumer<Double> updateAverageMissionTime;
+    private Consumer<Double> updateProgressBar;
 
     public DecryptionManager(int agentNumber, Dictionary dictionary){
         this.agentNumber = agentNumber;
@@ -38,7 +39,12 @@ public class DecryptionManager {
         return missionDoneUntilNow;
     }
 
-    public void setMissionDoneUntilNow(){missionDoneUntilNow++;}
+    public void setMissionDoneUntilNow(){
+        synchronized (this) {
+            missionDoneUntilNow++;
+            updateProgressBar.accept(missionDoneUntilNow/(double)sizeAllMissions);
+        }
+    }
 
     public void resetMissionDoneUntilNow(){
         missionDoneUntilNow = 0;
@@ -112,11 +118,10 @@ public class DecryptionManager {
     }
 
     //TODO make filter userInput
-    public void findSecretCode(String userInput,int level,Consumer<DTOMissionResult> consumer,Consumer<Double> updateMissionTime){
-        if(takeMissionsThread != null){
-            takeMissionsThread.interrupt();
-        }
-        updateAverageMissionTime = updateMissionTime;
+    public void findSecretCode(String userInput,int level,Consumer<DTOMissionResult> consumer,Consumer<Double> updateMissionTime,Consumer<Double> updateProgressBar){
+      updateAverageMissionTime = updateMissionTime;
+      this.updateProgressBar = updateProgressBar;
+      isTakeOutMissions = true;
         takeMissionsThread = new Thread(createTakeMissionsFromQueueRunnable(consumer));
         takeMissionsThread.start();
         Thread pushMissionsThread = new Thread(createPushMissionRunnable(userInput.toUpperCase(), level));
@@ -333,7 +338,13 @@ public class DecryptionManager {
                 sum+=missionTime;
             }
             updateAverageMissionTime.accept(sum/(double)missionDoneUntilNow);
+            threadPool.shutdown();
+            isTakeOutMissions = false;
         }
+    }
+
+    public Consumer<Double> getUpdateProgressBar() {
+        return updateProgressBar;
     }
 
     public void resetMissionAverageTime(){missionsAverageTime = (long)0;}
