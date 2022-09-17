@@ -10,5 +10,9 @@
 
 .label{
 -fx-font-family : "Comic Sans MS";
-
 }
+
+#tile{
+    -fx-background-color: pink;
+}
+

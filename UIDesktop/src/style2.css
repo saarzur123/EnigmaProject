@@ -11,5 +11,8 @@
 
 .label{
 -fx-font-family : "Verdana";
+}
 
+#tile{
+    -fx-background-color: linear-gradient(to right, red, blue);
 }

@@ -11,3 +11,7 @@
 -fx-font-family : "Impact";
 
 }
+
+#tile{
+    -fx-background-color: aqua;
+}

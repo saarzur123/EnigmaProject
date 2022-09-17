@@ -129,6 +129,7 @@ public class CandidateController {
             Node singleTileComponent = loader.load();
             TileController tileController = loader.getController();
             tileController.setCandidateController(this);
+
             tileController.setAllData(codeConfiguration,agentId, decrypt);
             codeConfigurationToTileController.put(codeConfiguration,tileController);
            Platform.runLater(() -> {

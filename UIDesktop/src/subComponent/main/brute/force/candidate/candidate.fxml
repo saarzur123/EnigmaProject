@@ -41,7 +41,7 @@
       </HBox>
       <ScrollPane prefHeight="200.0" prefWidth="200.0">
          <content>
-            <FlowPane fx:id="tilesCandidatesFP" prefHeight="197.0" prefWidth="301.0" />
+            <FlowPane fx:id="tilesCandidatesFP" alignment="CENTER" prefHeight="197.0" prefWidth="301.0" />
          </content>
       </ScrollPane>
    </children>

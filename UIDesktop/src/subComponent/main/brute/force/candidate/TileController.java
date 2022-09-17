@@ -33,6 +33,7 @@ public class TileController {
         codeConfigurationTF.setText(codeConfiguration);
         agentIdTF.setText(String.valueOf(agentId));
         decryptLBL.setText(dec);
+        tileVB.setId("tile");
     }
 
 }
