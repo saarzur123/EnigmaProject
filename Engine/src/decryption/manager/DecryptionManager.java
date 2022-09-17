@@ -337,15 +337,12 @@ public class DecryptionManager {
             for(Long missionTime : missionsTime){
                 sum+=missionTime;
             }
-            updateAverageMissionTime.accept(sum/(double)missionDoneUntilNow);
+            updateAverageMissionTime.accept(Math.ceil(sum/(double)missionDoneUntilNow));
             threadPool.shutdown();
             isTakeOutMissions = false;
         }
     }
 
-    public Consumer<Double> getUpdateProgressBar() {
-        return updateProgressBar;
-    }
 
     public void resetMissionAverageTime(){missionsAverageTime = (long)0;}
 }

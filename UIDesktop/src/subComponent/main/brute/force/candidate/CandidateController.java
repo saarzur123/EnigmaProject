@@ -155,4 +155,7 @@ public class CandidateController {
     public void setMainController(MainScreenController main){
         mainController = main;
     }
+    public void resetAverageMissionsTimeLBL(){
+        averageTimeLBL.setText("0");
+    }
 }

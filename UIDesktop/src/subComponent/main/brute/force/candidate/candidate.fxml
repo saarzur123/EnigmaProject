@@ -19,7 +19,7 @@
       </HBox>
       <HBox prefWidth="200.0" spacing="10.0">
          <children>
-            <Label text="Last mission average time:" />
+            <Label text="Last missions average time:" />
             <Label fx:id="averageTimeLBL" text="0" />
          </children>
       </HBox>

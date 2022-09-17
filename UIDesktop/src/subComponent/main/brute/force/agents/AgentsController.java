@@ -61,6 +61,7 @@ public class AgentsController {
         mainController.createDMThreadPool(agentNumberSelected);
         mainController.getCandidateController().resetCandidateNumber();
         mainController.getCandidateController().resetProgress();
+        mainController.getCandidateController().resetAverageMissionsTimeLBL();
         mainController.getCandidateController().getTilesCandidatesFP().getChildren().clear();
         startBTN.setDisable(true);
         mainController.getCandidateController().getPauseBTN().setDisable(false);
