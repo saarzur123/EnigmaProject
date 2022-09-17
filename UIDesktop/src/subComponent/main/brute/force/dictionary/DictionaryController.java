@@ -4,6 +4,7 @@ import com.sun.javafx.scene.control.skin.LabeledText;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
@@ -41,7 +42,9 @@ public class DictionaryController {
 
                 if(n instanceof LabeledText) {
                     String currSelected = ((LabeledText) n).getText();
-                    searchTF.setText(currSelected);
+                    mainController.getStringEncryptBruteForceController().getUserDecryptStringTF().setText("");
+                    mainController.getStringEncryptBruteForceController().getUserEncryptStringTF().setText(currSelected);
+                    mainController.getStringEncryptBruteForceController().getUserEncryptStringTF().fireEvent(new ActionEvent());
                     System.out.println(currSelected);
                 }
 

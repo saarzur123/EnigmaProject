@@ -74,6 +74,14 @@ public class EncryptController {
         userDecryptStringTF.setEditable(false);
     }
 
+    public TextField getUserEncryptStringTF() {
+        return userEncryptStringTF;
+    }
+
+    public TextField getUserDecryptStringTF() {
+        return userDecryptStringTF;
+    }
+
     public boolean isClickedAndEncrypt() {
         return clickedAndEncrypt;
     }
