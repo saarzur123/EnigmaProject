@@ -36,6 +36,7 @@ public class CandidateController {
     @FXML    private Button resumeBTN;
     @FXML    private Label candidateNumberLBL;
     @FXML    private Label progressPercentLBL;
+    @FXML    private Label averageTimeLBL;
     @FXML    private FlowPane tilesCandidatesFP;
     @FXML    private ProgressBar progressBarPB;
     private Map<String,TileController> codeConfigurationToTileController = new HashMap<>();
@@ -85,15 +86,15 @@ public class CandidateController {
         mainController.getEngine().getDecryptionManager().setStopAll(true);
     }
 
-    public void updateProgressBarMax(){
-        long i = mainController.getEngine().getDecryptionManager().getMissionDoneUntilNow();
-        long j = mainController.getEngine().getDecryptionManager().getSizeAllMissions();
-        double m = i*100/(double)j;
-        m = Math.ceil(m);
-        progressBarPB.setProgress(i/(double)j);
-        String s = String.valueOf(m + "%.0f");
-        progressPercentLBL.setText(s);
-    }
+//    public void updateProgressBarMax(){
+//        long missionDoneUntilNow = mainController.getEngine().getDecryptionManager().getMissionDoneUntilNow();
+//        long sizeAllMissions = mainController.getEngine().getDecryptionManager().getSizeAllMissions();
+//        double m = missionDoneUntilNow * 100/(double)sizeAllMissions;
+//        m = Math.ceil(m);
+//        progressBarPB.setProgress(missionDoneUntilNow/(double)sizeAllMissions);
+//        String s = String.valueOf(m + "%.0f");
+//        progressPercentLBL.setText(s);
+//    }
     public Button getPauseBTN() {
         return pauseBTN;
     }
@@ -124,7 +125,6 @@ public class CandidateController {
                         candidateNumberText.set(String.valueOf(candidateNumber));
                     });
                 createNewComponent(str, candidates.get(str), missionResult.getDecryptString());
-
         }
     }
 
@@ -141,11 +141,23 @@ public class CandidateController {
             codeConfigurationToTileController.put(codeConfiguration,tileController);
            Platform.runLater(() -> {
             tilesCandidatesFP.getChildren().add(singleTileComponent);
-            updateProgressBarMax();
             });
         }catch (IOException e){
 
         }
+    }
+
+    public void updateAverageMissionsTimeLabel(double averageTime){
+        Platform.runLater(() -> {
+            String s = String.format(" %.2f",averageTime);
+            averageTimeLBL.setText(s + " ms");});
+    }
+
+    public void updateProgressBar(double progressValue){
+        Platform.runLater(() -> {progressBarPB.setProgress(progressValue);
+            double ceilVal = Math.ceil(progressValue * 100);
+            String s = String.valueOf(ceilVal + "%.0f");
+            progressPercentLBL.setText(s);});
     }
 
     public void setMainController(MainScreenController main){

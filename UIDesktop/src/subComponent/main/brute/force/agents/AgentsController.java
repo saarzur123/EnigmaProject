@@ -58,7 +58,6 @@ public class AgentsController {
 
     @FXML
     void startBruteForceBTN(ActionEvent event) {
-        mainController.getCandidateController().updateProgressBarMax();
         mainController.createDMThreadPool(agentNumberSelected);
         mainController.getCandidateController().resetCandidateNumber();
         mainController.getCandidateController().resetProgress();
@@ -72,7 +71,9 @@ public class AgentsController {
         if(userStringToSearchFor != null){
             mainController.getEngine().getDecryptionManager().setExit(false);
             Consumer<DTOMissionResult> consumer = s->mainController.getCandidateController().createNewCandidateTilesComponents(s);
-            mainController.getEngine().getDecryptionManager().findSecretCode(userStringToSearchFor,difficultLevel,consumer);
+            Consumer<Double> updateAverageMissionTimeConsumer = l -> mainController.getCandidateController().updateAverageMissionsTimeLabel(l);
+            Consumer<Double> updateProgressBar = d ->  mainController.getCandidateController().updateProgressBar(d);
+            mainController.getEngine().getDecryptionManager().findSecretCode(userStringToSearchFor,difficultLevel,consumer,updateAverageMissionTimeConsumer,updateProgressBar);
         }
     }
     public void checkIfAllNeededIsOk(){
@@ -97,7 +98,6 @@ public class AgentsController {
     public void setAgentsMaxSlider() {
         agentsSlider.setMax(mainController.getEngine().getDecryptionManager().getAgentNumber());
         agentsSlider.setMin(2);
-
     }
 
     private void setDifficultyLevelCB(){
