@@ -22,6 +22,7 @@
                         <Font name="Arial Black" size="15.0" />
                      </font>
                   </Label>
+                  <CheckBox fx:id="animationCB" mnemonicParsing="false" text="With animation" />
                   <CheckBox fx:id="isTextFromVirtualKeyboardCb" mnemonicParsing="false" onAction="#virtualKeyboardSelectedActionCB" text="Enter text from virtual keyboard">
                      <VBox.margin>
                         <Insets />
@@ -33,7 +34,7 @@
                   <HBox fx:id="decryptUserStringHBOX" prefHeight="38.0" prefWidth="431.0" spacing="10.0">
                      <children>
                         <Label prefHeight="21.0" prefWidth="112.0" text="Enter string:" />
-                        <TextField fx:id="userDecryptedStringTF" onAction="#enterSingleCharacterActionTF" prefHeight="31.0" prefWidth="201.0" />
+                        <TextField fx:id="userDecryptedStringTF" prefHeight="31.0" prefWidth="201.0" />
                         <Button fx:id="decryptStringBTN" mnemonicParsing="false" onAction="#userStringDecryptBtnAction" text="PROCESS!" />
                         <Button mnemonicParsing="false" onAction="#onClearDecryptionActionBTN" text="CLEAR" />
                      </children>

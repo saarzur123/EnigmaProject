@@ -25,7 +25,7 @@ public class DecryptionButtonController {
     void decryptCharAction(ActionEvent event) {
         if(!decryptionController.isCompleteStringDecryption()){
             singleCharDecryption();
-            decryptionController.getGoldEncryptedBtnController().getDecryptCharBTN().setDisable(true);
+           // decryptionController.getGoldEncryptedBtnController().getDecryptCharBTN().setDisable(true);
         }
         else{
             completeStringDecryption();
@@ -42,18 +42,23 @@ public class DecryptionButtonController {
         String save = decryptionController.getUserDecryptedStringTF().getText() + decryptCharBTN.getText();
         decryptionController.getUserDecryptedStringTF().setText(save);
         String encryptChar = decryptionController.getMainController().getEngineCommand().processData(decryptCharBTN.getText(), false);
-        decryptionController.onEncryptAction(encryptChar);
 
-
-        Duration duration = Duration.millis(200);
-        TranslateTransition transition = new TranslateTransition(duration, decryptCharBTN);
-        transition.setByY(20);
-        transition.setAutoReverse(true);
-        transition.setCycleCount(2);
-        transition.play();
+        setAnimation(encryptChar);
 
         String temp = decryptionController.getUserEncryptedStringTF().getText() + encryptChar;
         decryptionController.getUserEncryptedStringTF().setText(temp);
+    }
+
+    private void setAnimation(String encryptChar){
+        if(decryptionController.getAnimationCB().isSelected()) {
+            decryptionController.onEncryptAction(encryptChar);
+            Duration duration = Duration.millis(200);
+            TranslateTransition transition = new TranslateTransition(duration, decryptCharBTN);
+            transition.setByY(20);
+            transition.setAutoReverse(true);
+            transition.setCycleCount(2);
+            transition.play();
+        }
     }
 
     private void completeStringDecryption(){

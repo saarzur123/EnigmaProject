@@ -10,39 +10,25 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
-import javafx.scene.input.InputMethodEvent;
-import javafx.scene.input.KeyEvent;
-import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.FlowPane;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Circle;
-import javafx.scene.text.Font;
 import javafx.util.Duration;
 import subComponent.main.app.MainScreenController;
-import subComponent.main.create.secret.code.plug.board.charComponent.CharButtonController;
 import subComponent.main.decrypt.keyboard.button.DecryptionButtonController;
-
-import java.awt.*;
 import java.io.IOException;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 
 public class DecryptionController {
-
-
     private MainScreenController mainController;
     @FXML    private FlowPane decryptFP;
     @FXML    private FlowPane encryptFP;
     @FXML private javafx.scene.control.TextField userDecryptedStringTF;
     @FXML private TextField userEncryptedStringTF;
     @FXML private Button decryptStringBTN;
-    @FXML    private Button doneSingleCharBTN;
+    @FXML private Button doneSingleCharBTN;
+    @FXML    private CheckBox animationCB;
     private boolean isCompleteStringDecryption = false;
     private boolean doneBTNIsOn = false;
     private DecryptionButtonController goldEncryptedBtnController;
@@ -50,7 +36,6 @@ public class DecryptionController {
     private BooleanProperty isTextFromVirtualKeyboard = new SimpleBooleanProperty(true);
     private BooleanProperty disableProcessBtn = new SimpleBooleanProperty(true);
     private BooleanProperty disableDoneSingleBtn = new SimpleBooleanProperty(false);
-
     private Map<Character, DecryptionButtonController> charToDecryptButtonController = new HashMap<>();
     private Map<Character, DecryptionButtonController> charToEncryptButtonController = new HashMap<>();
 
@@ -71,6 +56,10 @@ public class DecryptionController {
                 }
             }
         });
+    }
+
+    public CheckBox getAnimationCB() {
+        return animationCB;
     }
 
     public void setMainController(MainScreenController mainController) {
@@ -103,7 +92,6 @@ public class DecryptionController {
             boolean found = controller.getDecryptCharBTN().getText().equals(charOnEncryptBtn);
             if(found){
                 goldEncryptedBtnController = controller;
-
                 controller.getDecryptCharBTN().setStyle("-fx-background-color: Green");
                 FadeTransition fadeOutTransition = new FadeTransition(Duration.millis(2000), controller.getDecryptCharBTN());
                 fadeOutTransition.setFromValue(1.0);
@@ -257,21 +245,7 @@ public class DecryptionController {
         userEncryptedStringTF.setText("");
     }
 
-    @FXML
-    void enterSingleCharacterActionTF(ActionEvent event) {
-//        String encrypted = "";
-//        if(!isCompleteStringDecryption) {
-//            String decrypted = userDecryptedStringTF.getText();
-//            if (decrypted != "") {
-//                //encrypted = mainController.getEngineCommand().processData(decrypted.toUpperCase());
-//                //setAfterDecryption();
-//            }
-//            userEncryptedStringTF.setText(encrypted);
-//        }
-    }
-
-
-    @FXML
+       @FXML
     void virtualKeyboardSelectedActionCB(ActionEvent event) {
             isTextFromVirtualKeyboard.set(!isTextFromVirtualKeyboard.get());
     }
