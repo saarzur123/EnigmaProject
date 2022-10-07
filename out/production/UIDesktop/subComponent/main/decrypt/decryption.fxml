@@ -30,7 +30,7 @@
                   </CheckBox>
                   <FlowPane fx:id="encryptFP" alignment="CENTER" />
                   <FlowPane fx:id="decryptFP" alignment="CENTER" />
-                  <CheckBox mnemonicParsing="false" onAction="#completeStringDecryptionCheckBoxAction" text="Decrypt complete string" />
+                  <CheckBox mnemonicParsing="false" onAction="#completeStringDecryptionCheckBoxAction" text="Encrypt complete string" />
                   <HBox fx:id="decryptUserStringHBOX" prefHeight="38.0" prefWidth="431.0" spacing="10.0">
                      <children>
                         <Label prefHeight="21.0" prefWidth="112.0" text="Enter string:" />
@@ -41,7 +41,7 @@
                   </HBox>
                   <HBox prefHeight="53.0" prefWidth="431.0" spacing="10.0">
                      <children>
-                        <Label prefHeight="21.0" prefWidth="113.0" text="Encrypted string:" />
+                        <Label prefHeight="21.0" prefWidth="113.0" text="Decrypted string:" />
                         <TextField fx:id="userEncryptedStringTF" prefHeight="31.0" prefWidth="204.0" />
                         <Button fx:id="doneSingleCharBTN" mnemonicParsing="false" onAction="#onFinishSingleCharsActionBTN" text="Done enter single characters" />
                      </children>
