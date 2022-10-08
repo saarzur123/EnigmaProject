@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<HBox alignment="CENTER_LEFT" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="80.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="subComponent.main.brute.force.encrypt.EncryptController">
+<HBox alignment="CENTER_LEFT" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="80.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="subComponent.main.brute.force.encrypt.EncryptController">
    <children>
       <Label prefHeight="36.0" prefWidth="216.0" text="Desired string to encrypt:">
          <HBox.margin>
@@ -19,20 +19,12 @@
          </font>
       </Label>
       <TextField fx:id="userEncryptStringTF" alignment="CENTER" onAction="#userChooseStringToEncryptAction" prefHeight="19.0" prefWidth="294.0" />
-      <Label prefHeight="36.0" prefWidth="84.0" text="Decrypt : ">
-         <font>
-            <Font size="12.0" />
-         </font>
-         <HBox.margin>
-            <Insets left="10.0" />
-         </HBox.margin>
-      </Label>
-      <TextField fx:id="userDecryptStringTF" alignment="CENTER" prefHeight="27.0" prefWidth="384.0" />
       <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" spacing="10.0">
          <children>
             <Button mnemonicParsing="false" onAction="#clearAllDataAction" prefHeight="27.0" prefWidth="55.0" text="Clear" />
             <Button mnemonicParsing="false" onAction="#restartSecretCodeBTN" text="Restart" />
          </children>
       </VBox>
+      <Button mnemonicParsing="false" onAction="#onReadyBTN" text="Ready" />
    </children>
 </HBox>
