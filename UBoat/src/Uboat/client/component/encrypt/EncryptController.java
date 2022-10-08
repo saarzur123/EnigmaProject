@@ -10,8 +10,6 @@ public class EncryptController {
 
     @FXML
     private TextField userEncryptStringTF;
-    @FXML
-    private TextField userDecryptStringTF;
     private UboatMainController uboatMainController;
     private SecretCode secretCode;
     private boolean clickedAndEncrypt =false;
@@ -45,7 +43,7 @@ public class EncryptController {
             userEncryptStringTF.setText(userEncryptStringTF.getText().toUpperCase());
             String decrypt = uboatMainController.getEngineCommand().processData(userEncryptStringTF.getText(), false);
             //uboatMainController.setDecryptedStringToFindInAgentController(decrypt);
-            userDecryptStringTF.setText(decrypt);
+            //userDecryptStringTF.setText(decrypt);
             uboatMainController.setLBLToCodeCombinationBindingMain();
             uboatMainController.getMachineDetailsController().updateCurrMachineDetails();
             clickedAndEncrypt = true;
@@ -71,25 +69,25 @@ public class EncryptController {
         clearAllTF();
     }
 
-    public void setMainController(UboatMainController main) {
+    public void setUboatMainController(UboatMainController main) {
         uboatMainController = main;
-        userDecryptStringTF.setEditable(false);
+        //userDecryptStringTF.setEditable(false);
     }
 
     public TextField getUserEncryptStringTF() {
         return userEncryptStringTF;
     }
 
-    public TextField getUserDecryptStringTF() {
-        return userDecryptStringTF;
-    }
+   // public TextField getUserDecryptStringTF() {
+  //      return userDecryptStringTF;
+  //  }
 
     public boolean isClickedAndEncrypt() {
         return clickedAndEncrypt;
     }
 
     public void clearAllTF(){
-        userDecryptStringTF.setText("");
+        //userDecryptStringTF.setText("");
         userEncryptStringTF.setText("");
     }
 

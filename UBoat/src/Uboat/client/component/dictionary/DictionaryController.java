@@ -2,7 +2,6 @@ package Uboat.client.component.dictionary;
 
 import Uboat.client.component.main.UboatMainController;
 import com.sun.javafx.scene.control.skin.LabeledText;
-import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
@@ -22,7 +21,7 @@ public class DictionaryController {
     private TextField searchTF;
     private UboatMainController uboatMainController;
 
-    public void setMainController(UboatMainController main){
+    public void setUboatMainController(UboatMainController main){
         uboatMainController = main;
     }
     private List<String> data;
@@ -78,9 +77,5 @@ public class DictionaryController {
 
 
 
-    @FXML
-    void searchInDictionaryAction(ActionEvent event) {
-
-    }
 
 }

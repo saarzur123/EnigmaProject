@@ -38,7 +38,7 @@
                         <HBox alignment="CENTER" prefHeight="44.0" prefWidth="342.0">
                            <children>
                               <Label text="Search :" />
-                              <TextField fx:id="searchTF" onAction="#searchInDictionaryAction">
+                              <TextField fx:id="searchTF" >
                                  <HBox.margin>
                                     <Insets left="10.0" />
                                  </HBox.margin>
