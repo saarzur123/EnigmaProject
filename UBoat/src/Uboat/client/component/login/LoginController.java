@@ -1,8 +1,6 @@
-package login;
-
-import chat.client.component.main.ChatAppMainController;
-import chat.client.util.Constants;
-import chat.client.util.http.HttpClientUtil;
+package Uboat.client.component.login;
+import Uboat.client.util.Constants;
+import Uboat.client.util.http.HttpClientUtil;
 import javafx.application.Platform;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
@@ -11,7 +9,10 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
-import okhttp3.*;
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.HttpUrl;
+import okhttp3.Response;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
@@ -24,7 +25,7 @@ public class LoginController {
     @FXML
     public Label errorMessageLabel;
 
-    private ChatAppMainController chatAppMainController;
+   // private ChatAppMainController chatAppMainController;
 
     private final StringProperty errorMessageProperty = new SimpleStringProperty();
 
@@ -55,7 +56,7 @@ public class LoginController {
 
         updateHttpStatusLine("New request is launched for: " + finalUrl);
 
-        HttpClientUtil.runAsync(finalUrl, new Callback() {
+        HttpClientUtil.runAsync(finalUrl, new Callback() {//////////////לשנות לסינכרוני
 
             @Override
             public void onFailure(@NotNull Call call, @NotNull IOException e) {
@@ -72,10 +73,10 @@ public class LoginController {
                             errorMessageProperty.set("Something went wrong: " + responseBody)
                     );
                 } else {
-                    Platform.runLater(() -> {
-                            chatAppMainController.updateUserName(userName);
-                            chatAppMainController.switchToChatRoom();
-                    });
+//                    Platform.runLater(() -> {
+//                            chatAppMainController.updateUserName(userName);
+//                            chatAppMainController.switchToChatRoom();
+//                    });
                 }
             }
         });
@@ -92,10 +93,10 @@ public class LoginController {
     }
 
     private void updateHttpStatusLine(String data) {
-        chatAppMainController.updateHttpLine(data);
+     //   chatAppMainController.updateHttpLine(data);
     }
 
-    public void setChatAppMainController(ChatAppMainController chatAppMainController) {
-        this.chatAppMainController = chatAppMainController;
-    }
+//    public void setChatAppMainController(ChatAppMainController chatAppMainController) {
+//        this.chatAppMainController = chatAppMainController;
+//    }
 }

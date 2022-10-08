@@ -1,16 +1,16 @@
 package servlets;
 
-import chat.constants.Constants;
 import chat.utils.ServletUtils;
-import chat.utils.SessionUtils;
-import engine.users.UserManager;
+import constants.Constants;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import uboat.engine.users.UserManager;
+import utils.SessionUtils;
 
 import java.io.IOException;
 
-import static chat.constants.Constants.USERNAME;
+import static constants.Constants.USERNAME;
 
 public class LightweightLoginServlet extends HttpServlet {
 

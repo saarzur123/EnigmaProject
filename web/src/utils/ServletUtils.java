@@ -1,12 +1,10 @@
 package chat.utils;
 
-import engine.chat.ChatManager;
-import engine.users.UserManager;
-
 import jakarta.servlet.ServletContext;
 import jakarta.servlet.http.HttpServletRequest;
+import uboat.engine.users.UserManager;
 
-import static chat.constants.Constants.INT_PARAMETER_ERROR;
+import static constants.Constants.INT_PARAMETER_ERROR;
 
 public class ServletUtils {
 
@@ -18,7 +16,7 @@ public class ServletUtils {
     the actual fetch of them is remained un-synchronized for performance POV
      */
     private static final Object userManagerLock = new Object();
-    private static final Object chatManagerLock = new Object();
+    //private static final Object chatManagerLock = new Object();
 
     public static UserManager getUserManager(ServletContext servletContext) {
 
@@ -30,14 +28,14 @@ public class ServletUtils {
         return (UserManager) servletContext.getAttribute(USER_MANAGER_ATTRIBUTE_NAME);
     }
 
-    public static ChatManager getChatManager(ServletContext servletContext) {
-        synchronized (chatManagerLock) {
-            if (servletContext.getAttribute(CHAT_MANAGER_ATTRIBUTE_NAME) == null) {
-                servletContext.setAttribute(CHAT_MANAGER_ATTRIBUTE_NAME, new ChatManager());
-            }
-        }
-        return (ChatManager) servletContext.getAttribute(CHAT_MANAGER_ATTRIBUTE_NAME);
-    }
+//    public static ChatManager getChatManager(ServletContext servletContext) {
+//        synchronized (chatManagerLock) {
+//            if (servletContext.getAttribute(CHAT_MANAGER_ATTRIBUTE_NAME) == null) {
+//                servletContext.setAttribute(CHAT_MANAGER_ATTRIBUTE_NAME, new ChatManager());
+//            }
+//        }
+//        return (ChatManager) servletContext.getAttribute(CHAT_MANAGER_ATTRIBUTE_NAME);
+//    }
 
     public static int getIntParameter(HttpServletRequest request, String name) {
         String value = request.getParameter(name);
