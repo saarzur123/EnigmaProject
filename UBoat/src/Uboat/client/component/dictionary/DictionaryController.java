@@ -17,8 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class DictionaryController {
-    @FXML
-    private VBox listOfDataVB;
+    @FXML    private VBox listOfDataVB;
     @FXML
     private TextField searchTF;
     private UboatMainController uboatMainController;
