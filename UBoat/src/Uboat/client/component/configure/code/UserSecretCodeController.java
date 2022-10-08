@@ -1,6 +1,7 @@
 package Uboat.client.component.configure.code;
 
 import Uboat.client.component.configure.code.component.rotor.RotorComponentController;
+import Uboat.client.component.configure.code.plug.board.charComponent.CharButtonController;
 import Uboat.client.component.configure.codes.CreateNewSecretCodeController;
 import Uboat.client.component.main.UboatMainController;
 import dTOUI.DTOSecretCodeFromUser;
@@ -23,7 +24,6 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 import machine.MachineImplement;
 import secret.code.validation.SecretCodeValidations;
-import subComponent.main.create.secret.code.plug.board.charComponent.CharButtonController;
 
 import java.io.IOException;
 import java.net.URL;

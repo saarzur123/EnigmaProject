@@ -17,8 +17,7 @@ import javafx.stage.StageStyle;
 import java.io.IOException;
 
 public class CreateNewSecretCodeController {
-
-            private UboatMainController uboatMainController;
+    private UboatMainController uboatMainController;
 
     @FXML    private Button userSecretCodeBTN;
 

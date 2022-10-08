@@ -1,6 +1,7 @@
 package Uboat.client.component.main;
 
 import Uboat.client.component.login.LoginController;
+import Uboat.client.component.machine.detail.MachineDetailsController;
 import Uboat.client.component.upload.file.UploadFileController;
 import engine.Commander;
 import engine.Engine;
@@ -38,6 +39,25 @@ public class UboatMainController {
 
     public Commander getEngineCommand(){return engineCommands;}
     public Engine getEngine(){return engine;}
+
+    public MachineDetailsController getMachineDetailsController(){return machineDetailsController;}
+
+    public UploadFileController getUploadFileController() {
+        return uploadFileController;
+    }
+
+    public void setSecretCodeState(boolean secretCodeState){
+        secretCodeController.getIsSecretCodeExist().setValue(secretCodeState);
+    }
+
+    public void setLBLToCodeCombinationBindingMain(){
+        secretCodeController.setLBLToCodeCombinationBinding();
+    }
+
+    public void setCurrMachineTxt(){
+        machineDetailsController.setMachineDetailsLBL();
+    }
+
 
     public static void showErrorPopup(String message) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
