@@ -30,6 +30,10 @@ public class EncryptController {
             }
         });
     }
+    @FXML
+    void onReadyBTN(ActionEvent event) {
+
+    }
 
     @FXML
     void userChooseStringToEncryptAction(ActionEvent event) {
