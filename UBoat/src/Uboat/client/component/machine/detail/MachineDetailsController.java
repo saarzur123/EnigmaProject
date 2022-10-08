@@ -1,4 +1,4 @@
-package subComponent.main.machine.detail;
+package Uboat.client.component.machine.detail;
 
 import dTOUI.DTOMachineDetails;
 import javafx.fxml.FXML;
