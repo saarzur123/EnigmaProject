@@ -37,7 +37,7 @@
                      <children>
                         <ScrollPane layoutX="6.0" prefHeight="410.0" prefWidth="700.0">
                            <content>
-                              <VBox prefHeight="408.0" prefWidth="692.0" spacing="60.0">
+                              <VBox prefHeight="408.0" prefWidth="692.0">
                                  <children>
                                     <fx:include fx:id="machineDetails" source="../../../../../../UIDesktop/src/subComponent/main/machine/detail/MachineDetails.fxml" />
                                     <fx:include fx:id="createNewSecretCode" source="../../../../../../UIDesktop/src/subComponent/main/create/secret/codes/createNewSecretCode.fxml" />
