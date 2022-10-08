@@ -29,7 +29,7 @@
       </ScrollPane>
    </top>
    <center>
-      <TabPane prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER">
+      <TabPane prefHeight="500.0" prefWidth="700.0" tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER">
         <tabs>
           <Tab text="Machine">
             <content>
@@ -64,7 +64,11 @@
                                     </VBox>
                                  </children>
                               </HBox>
-                              <HBox prefHeight="204.0" prefWidth="700.0" />
+                              <HBox prefHeight="204.0" prefWidth="700.0">
+                                 <children>
+                                    <fx:include source="../active.teams/ActiveTeams.fxml" />
+                                 </children>
+                              </HBox>
                            </children>
                         </VBox>
                      </children></AnchorPane>
