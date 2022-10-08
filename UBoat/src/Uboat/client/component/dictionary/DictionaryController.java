@@ -1,20 +1,16 @@
-package subComponent.main.brute.force.dictionary;
+package Uboat.client.component.dictionary;
 
+import Uboat.client.component.main.UboatMainController;
 import com.sun.javafx.scene.control.skin.LabeledText;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
-import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
-import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.PickResult;
 import javafx.scene.layout.VBox;
-import subComponent.main.app.MainScreenController;
 import subComponent.main.brute.force.dictionary.trie.Trie;
 
 import java.util.ArrayList;
@@ -25,10 +21,10 @@ public class DictionaryController {
     private VBox listOfDataVB;
     @FXML
     private TextField searchTF;
-    private MainScreenController mainController;
+    private UboatMainController uboatMainController;
 
-    public void setMainController(MainScreenController main){
-        mainController = main;
+    public void setMainController(UboatMainController main){
+        uboatMainController = main;
     }
     private List<String> data;
     private Trie trie;
@@ -42,20 +38,20 @@ public class DictionaryController {
 
                 if(n instanceof LabeledText) {
                     String currSelected = ((LabeledText) n).getText();
-                    mainController.getStringEncryptBruteForceController().getUserDecryptStringTF().setText("");
-                    mainController.getStringEncryptBruteForceController().getUserEncryptStringTF().setText(currSelected);
-                    mainController.getStringEncryptBruteForceController().getUserEncryptStringTF().fireEvent(new ActionEvent());
+                  //  uboatMainController.getStringEncryptBruteForceController().getUserDecryptStringTF().setText("");
+                    //uboatMainController.getStringEncryptBruteForceController().getUserEncryptStringTF().setText(currSelected);
+                  //  uboatMainController.getStringEncryptBruteForceController().getUserEncryptStringTF().fireEvent(new ActionEvent());
                     System.out.println(currSelected);
                 }
 
             }
         });
-        for (String s :mainController.getEngine().getDM().getDictionary().getDictionaryFilteredWords()){
-            listAllDictionary.add(s);
-            Label LB = new Label(s);
-            listOfDataVB.getChildren().add(LB);
-
-        }
+//        for (String s :mainController.getEngine().getDM().getDictionary().getDictionaryFilteredWords()){
+//            listAllDictionary.add(s);
+//            Label LB = new Label(s);
+//            listOfDataVB.getChildren().add(LB);
+//
+//        }
 
         trie = new Trie(listAllDictionary);
 
