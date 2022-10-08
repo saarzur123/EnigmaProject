@@ -1,5 +1,6 @@
 package subComponent.main.brute.force.encrypt;
 
+import Uboat.client.component.main.UboatMainController;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
@@ -14,7 +15,7 @@ public class EncryptController {
     private TextField userEncryptStringTF;
     @FXML
     private TextField userDecryptStringTF;
-    private MainScreenController mainController;
+    private UboatMainController uboatMainController;
     private SecretCode secretCode;
     private boolean clickedAndEncrypt =false;
     private boolean isCharOnLanguage = true;
@@ -37,8 +38,8 @@ public class EncryptController {
     void userChooseStringToEncryptAction(ActionEvent event) {
 
         userEncryptStringTF.setText(userEncryptStringTF.getText().toLowerCase());
-        if(mainController.getEngine().getDecryptionManager().getDictionary().isStringInDictionary(userEncryptStringTF.getText())) {
-            mainController.getAgentsController().getStartBTN().setDisable(false);
+        if(uboatMainController.getEngine().getDecryptionManager().getDictionary().isStringInDictionary(userEncryptStringTF.getText())) {
+            uboatMainController.getAgentsController().getStartBTN().setDisable(false);
             userEncryptStringTF.setText((mainController.getEngine().getDecryptionManager().getDictionary().filterWords(userEncryptStringTF.getText())));
             userEncryptStringTF.setText(userEncryptStringTF.getText().toUpperCase());
             String decrypt = mainController.getEngineCommand().processData(userEncryptStringTF.getText(), false);
