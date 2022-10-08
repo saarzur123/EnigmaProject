@@ -1,13 +1,10 @@
-package subComponent.main.brute.force.encrypt;
+package Uboat.client.component.encrypt;
 
 import Uboat.client.component.main.UboatMainController;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
-import javafx.scene.input.InputMethodEvent;
 import machine.SecretCode;
-import subComponent.main.app.MainScreenController;
-import subComponent.main.decrypt.DecryptionController;
 
 public class EncryptController {
 
@@ -39,19 +36,19 @@ public class EncryptController {
 
         userEncryptStringTF.setText(userEncryptStringTF.getText().toLowerCase());
         if(uboatMainController.getEngine().getDecryptionManager().getDictionary().isStringInDictionary(userEncryptStringTF.getText())) {
-            uboatMainController.getAgentsController().getStartBTN().setDisable(false);
-            userEncryptStringTF.setText((mainController.getEngine().getDecryptionManager().getDictionary().filterWords(userEncryptStringTF.getText())));
+           // uboatMainController.getAgentsController().getStartBTN().setDisable(false);
+            userEncryptStringTF.setText((uboatMainController.getEngine().getDecryptionManager().getDictionary().filterWords(userEncryptStringTF.getText())));
             userEncryptStringTF.setText(userEncryptStringTF.getText().toUpperCase());
-            String decrypt = mainController.getEngineCommand().processData(userEncryptStringTF.getText(), false);
-            mainController.setDecryptedStringToFindInAgentController(decrypt);
+            String decrypt = uboatMainController.getEngineCommand().processData(userEncryptStringTF.getText(), false);
+            //uboatMainController.setDecryptedStringToFindInAgentController(decrypt);
             userDecryptStringTF.setText(decrypt);
-            mainController.setLBLToCodeCombinationBindingMain();
-            mainController.getMachineDetailsController().updateCurrMachineDetails();
+            uboatMainController.setLBLToCodeCombinationBindingMain();
+            uboatMainController.getMachineDetailsController().updateCurrMachineDetails();
             clickedAndEncrypt = true;
-            mainController.getAgentsController().checkIfAllNeededIsOk();
+           // mainController.getAgentsController().checkIfAllNeededIsOk();
         }
         else {
-            mainController.showErrorPopup("There is no such word in the dictionary !");
+            uboatMainController.showErrorPopup("There is no such word in the dictionary !");
             userEncryptStringTF.setText("");
         }
     }
@@ -59,10 +56,10 @@ public class EncryptController {
     @FXML
     void restartSecretCodeBTN(ActionEvent event) {
         clearAllTF();
-        mainController.getEngineCommand().validateUserChoiceAndResetSecretCode();
-        mainController.setLBLToCodeCombinationBindingMain();
-        mainController.getDecryptionController().onClear();
-        mainController.getMachineDetailsController().updateCurrMachineDetails();
+        uboatMainController.getEngineCommand().validateUserChoiceAndResetSecretCode();
+        uboatMainController.setLBLToCodeCombinationBindingMain();
+        //uboatMainController.getDecryptionController().onClear();
+        uboatMainController.getMachineDetailsController().updateCurrMachineDetails();
     }
 
     @FXML
@@ -70,8 +67,8 @@ public class EncryptController {
         clearAllTF();
     }
 
-    public void setMainController(MainScreenController main) {
-        mainController = main;
+    public void setMainController(UboatMainController main) {
+        uboatMainController = main;
         userDecryptStringTF.setEditable(false);
     }
 
@@ -94,10 +91,10 @@ public class EncryptController {
 
     private boolean isCharTypedInLanguage(String userChar){
         boolean ret = true;
-        String language  = mainController.getEngine().getMachine().getABC();
+        String language  = uboatMainController.getEngine().getMachine().getABC();
         if(!language.contains(String.valueOf(userChar.toUpperCase()))){
             ret = false;
-            MainScreenController.showErrorPopup(String.format("The character %s is not in the language: [%s]",userChar,language));
+            UboatMainController.showErrorPopup(String.format("The character %s is not in the language: [%s]",userChar,language));
         }
         return ret;
     }
