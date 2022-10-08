@@ -1,5 +1,6 @@
 package Uboat.client.component.main;
 
+import Uboat.client.component.configure.codes.CreateNewSecretCodeController;
 import Uboat.client.component.login.LoginController;
 import Uboat.client.component.machine.detail.MachineDetailsController;
 import Uboat.client.component.upload.file.UploadFileController;
@@ -7,9 +8,13 @@ import engine.Commander;
 import engine.Engine;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
+import subComponent.main.brute.force.encrypt.EncryptController;
+import subComponent.main.secretCode.SecretCodeController;
 
 public class UboatMainController {
 
@@ -22,6 +27,14 @@ public class UboatMainController {
     @FXML private BorderPane machineDetails;
     @FXML private MachineDetailsController machineDetailsController;
 
+    @FXML private ScrollPane secretCode;
+    @FXML private SecretCodeController secretCodeController;
+
+    @FXML private VBox createNewSecretCode;
+    @FXML private CreateNewSecretCodeController createNewSecretCodeController;
+
+    @FXML private HBox stringEncryptBruteForce;
+    @FXML private EncryptController stringEncryptBruteForceController;
 
     private Commander engineCommands = new Engine();
     private Engine engine ;
