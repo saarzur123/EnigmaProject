@@ -37,10 +37,10 @@
                      <children>
                         <ScrollPane layoutX="6.0" prefHeight="410.0" prefWidth="700.0">
                            <content>
-                              <VBox prefHeight="408.0" prefWidth="692.0">
+                              <VBox prefHeight="408.0" prefWidth="692.0" spacing="60.0">
                                  <children>
-                                    <fx:include fx:id="machineDetails" source="../../../../../../UIDesktop/src/subComponent/main/machine/detail/MachineDetails.fxml" />
-                                    <fx:include fx:id="createNewSecretCode" source="../../../../../../UIDesktop/src/subComponent/main/create/secret/codes/createNewSecretCode.fxml" />
+                                    <fx:include fx:id="machineDetails" source="../../../../../UBoat/Uboat/client/component/machine/detail/MachineDetails.fxml" />
+                                    <fx:include fx:id="createNewSecretCode" source="../../../../../UBoat/Uboat/client/component/configure/codes/createNewSecretCode.fxml" />
                                  </children></VBox>
                            </content>
                         </ScrollPane>
@@ -58,8 +58,8 @@
                                  <children>
                                     <VBox prefHeight="203.0" prefWidth="700.0">
                                        <children>
-                                          <fx:include fx:id="secretCode" source="../../../../../../UIDesktop/src/subComponent/main/secretCode/SecretCode.fxml" />
-                                          <fx:include fx:id="stringEncryptBruteForce" source="../../../../../../UIDesktop/src/subComponent/main/brute/force/encrypt/Encrypt.fxml" />
+                                          <fx:include fx:id="secretCode" source="../../../../../UBoat/Uboat/client/component/secretCode/SecretCode.fxml" />
+                                          <fx:include fx:id="stringEncryptBruteForce" source="../../../../../UBoat/Uboat/client/component/encrypt/Encrypt.fxml" />
                                        </children>
                                     </VBox>
                                  </children>

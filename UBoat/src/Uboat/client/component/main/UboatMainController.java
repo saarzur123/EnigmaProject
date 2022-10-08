@@ -1,8 +1,10 @@
 package Uboat.client.component.main;
 
 import Uboat.client.component.configure.codes.CreateNewSecretCodeController;
+import Uboat.client.component.encrypt.EncryptController;
 import Uboat.client.component.login.LoginController;
 import Uboat.client.component.machine.detail.MachineDetailsController;
+import Uboat.client.component.secretCode.SecretCodeController;
 import Uboat.client.component.upload.file.UploadFileController;
 import engine.Commander;
 import engine.Engine;
@@ -13,8 +15,6 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import subComponent.main.brute.force.encrypt.EncryptController;
-import subComponent.main.secretCode.SecretCodeController;
 
 public class UboatMainController {
 
@@ -44,9 +44,15 @@ public class UboatMainController {
         engine = (Engine)engineCommands;
 
         if(uploadFileController != null &&
-           loginController != null){
+           loginController != null&&
+                stringEncryptBruteForceController != null&&
+                createNewSecretCodeController != null&&
+                secretCodeController != null){
             uploadFileController.setUboatMainController(this);
-            uploadFileController.setUboatMainController(this);
+            loginController.setUboatMainController(this);
+            stringEncryptBruteForceController.setUboatMainController(this);
+            createNewSecretCodeController.setUboatMainController(this);
+            secretCodeController.setUboatMainController(this);
         }
     }
 
