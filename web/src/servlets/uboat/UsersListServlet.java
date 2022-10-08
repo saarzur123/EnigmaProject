@@ -1,4 +1,4 @@
-package servlets;
+package servlets.uboat;
 
 import chat.utils.ServletUtils;
 import com.google.gson.Gson;

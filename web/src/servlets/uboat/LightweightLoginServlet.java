@@ -1,7 +1,8 @@
-package servlets;
+package servlets.uboat;
 
 import chat.utils.ServletUtils;
 import constants.Constants;
+import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -11,6 +12,9 @@ import utils.SessionUtils;
 import java.io.IOException;
 
 import static constants.Constants.USERNAME;
+
+
+@WebServlet(name = "LightweightLoginServlet", urlPatterns = "/loginShortResponse")
 
 public class LightweightLoginServlet extends HttpServlet {
 
