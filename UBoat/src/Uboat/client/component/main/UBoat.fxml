@@ -58,7 +58,7 @@
                                  <children>
                                     <VBox prefHeight="203.0" prefWidth="700.0">
                                        <children>
-                                          <fx:include source="../../../../../../UIDesktop/src/subComponent/main/secretCode/SecretCode.fxml" />
+                                          <fx:include fx:id="machineDetails" source="../../../../../../UIDesktop/src/subComponent/main/secretCode/SecretCode.fxml" />
                                           <fx:include source="../../../../../../UIDesktop/src/subComponent/main/brute/force/encrypt/Encrypt.fxml" />
                                        </children>
                                     </VBox>
