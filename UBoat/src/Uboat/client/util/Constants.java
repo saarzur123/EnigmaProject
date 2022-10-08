@@ -21,7 +21,9 @@ public class Constants {
     private final static String CONTEXT_PATH = "/web_Web_exploded";
     private final static String FULL_SERVER_PATH = BASE_URL + CONTEXT_PATH;
 
+
     public final static String LOGIN_PAGE = FULL_SERVER_PATH + "/loginShortResponse";
+    public final static String UPLOAD_FILE = LOGIN_PAGE + "/uploadFile";
     public final static String COMPETITION_PAGE = FULL_SERVER_PATH + "/competition";
     public final static String USERS_LIST = FULL_SERVER_PATH + "/userslist";
     public final static String LOGOUT = FULL_SERVER_PATH + "/chat/logout";
