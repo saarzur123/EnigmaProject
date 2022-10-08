@@ -2,13 +2,16 @@
 
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Uboat.client.component.main">
    <top>
-      <ScrollPane prefHeight="90.0" prefWidth="700.0" BorderPane.alignment="CENTER">
+      <ScrollPane prefHeight="258.0" prefWidth="700.0" BorderPane.alignment="CENTER">
          <content>
             <VBox alignment="CENTER" prefHeight="83.0" prefWidth="680.0">
                <children>
@@ -17,17 +20,39 @@
                         <Font size="37.0" />
                      </font>
                   </Label>
+                  <fx:include source="../login/login.fxml" />
+                  <fx:include source="../upload/file/LoadFXML.fxml" />
                </children>
             </VBox>
          </content>
       </ScrollPane>
    </top>
-   <left>
-      <VBox prefHeight="410.0" prefWidth="245.0" BorderPane.alignment="CENTER">
-         <children>
-            <fx:include source="../login/login.fxml" />
-            <fx:include source="../upload/file/LoadFXML.fxml" />
-         </children>
-      </VBox>
-   </left>
+   <center>
+      <TabPane prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER">
+        <tabs>
+          <Tab text="Machine">
+            <content>
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <ScrollPane layoutX="6.0" prefHeight="410.0" prefWidth="700.0">
+                           <content>
+                              <VBox prefHeight="408.0" prefWidth="692.0" spacing="60.0">
+                                 <children>
+                                    <fx:include source="../../../../../../UIDesktop/src/subComponent/main/machine/detail/MachineDetails.fxml" />
+                                    <fx:include source="../../../../../../UIDesktop/src/subComponent/main/create/secret/codes/createNewSecretCode.fxml" />
+                                 </children></VBox>
+                           </content>
+                        </ScrollPane>
+                     </children>
+                  </AnchorPane>
+            </content>
+          </Tab>
+          <Tab text="Contest">
+            <content>
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+            </content>
+          </Tab>
+        </tabs>
+      </TabPane>
+   </center>
 </BorderPane>
