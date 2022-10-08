@@ -2,10 +2,10 @@ package servlets;
 
 import chat.utils.ServletUtils;
 import com.google.gson.Gson;
-import engine.users.UserManager;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import uboat.engine.users.UserManager;
 
 import java.io.IOException;
 import java.io.PrintWriter;

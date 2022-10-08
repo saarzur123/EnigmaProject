@@ -1,6 +1,6 @@
 package utils;
 
-import chat.constants.Constants;
+import constants.Constants;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 
