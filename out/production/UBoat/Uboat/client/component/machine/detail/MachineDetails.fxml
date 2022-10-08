@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.FlowPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="170.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Uboat.client.component.machine.detail.MachineDetailsController">
+   <center>
+      <FlowPane prefHeight="170.0" prefWidth="1000.0" prefWrapLength="700.0" BorderPane.alignment="CENTER">
+         <children>
+            <ScrollPane prefHeight="170.0" prefWidth="706.0">
+               <content>
+                  <VBox fx:id="machineDetailsVBox" alignment="CENTER" prefHeight="170.0" prefWidth="700.0" spacing="10.0">
+                     <children>
+                        <Label text="Machine Details">
+                           <font>
+                              <Font name="Baloo Bhai 2 ExtraBold" size="30.0" />
+                           </font>
+                        </Label>
+                     </children>
+                     <padding>
+                        <Insets top="20.0" />
+                     </padding>
+                  </VBox>
+               </content>
+            </ScrollPane>
+         </children>
+      </FlowPane>
+   </center>
+</BorderPane>
