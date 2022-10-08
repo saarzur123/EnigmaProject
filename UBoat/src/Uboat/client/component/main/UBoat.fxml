@@ -23,6 +23,11 @@
       </ScrollPane>
    </top>
    <left>
-      <fx:include source="../login/login.fxml" />
+      <VBox prefHeight="410.0" prefWidth="245.0" BorderPane.alignment="CENTER">
+         <children>
+            <fx:include source="../login/login.fxml" />
+            <fx:include source="../upload/file/LoadFXML.fxml" />
+         </children>
+      </VBox>
    </left>
 </BorderPane>
