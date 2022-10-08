@@ -21,8 +21,8 @@
                         <Font size="37.0" />
                      </font>
                   </Label>
-                  <fx:include source="../login/login.fxml" />
-                  <fx:include source="../upload/file/LoadFXML.fxml" />
+                  <fx:include fx:id="login" source="../login/login.fxml" />
+                  <fx:include fx:id="uploadFile" source="../upload/file/LoadFXML.fxml" />
                </children>
             </VBox>
          </content>
@@ -39,8 +39,8 @@
                            <content>
                               <VBox prefHeight="408.0" prefWidth="692.0" spacing="60.0">
                                  <children>
-                                    <fx:include source="../../../../../../UIDesktop/src/subComponent/main/machine/detail/MachineDetails.fxml" />
-                                    <fx:include source="../../../../../../UIDesktop/src/subComponent/main/create/secret/codes/createNewSecretCode.fxml" />
+                                    <fx:include fx:id="machineDetails" source="../../../../../../UIDesktop/src/subComponent/main/machine/detail/MachineDetails.fxml" />
+                                    <fx:include fx:id="createNewSecretCode" source="../../../../../../UIDesktop/src/subComponent/main/create/secret/codes/createNewSecretCode.fxml" />
                                  </children></VBox>
                            </content>
                         </ScrollPane>
@@ -58,8 +58,8 @@
                                  <children>
                                     <VBox prefHeight="203.0" prefWidth="700.0">
                                        <children>
-                                          <fx:include fx:id="machineDetails" source="../../../../../../UIDesktop/src/subComponent/main/secretCode/SecretCode.fxml" />
-                                          <fx:include source="../../../../../../UIDesktop/src/subComponent/main/brute/force/encrypt/Encrypt.fxml" />
+                                          <fx:include fx:id="secretCode" source="../../../../../../UIDesktop/src/subComponent/main/secretCode/SecretCode.fxml" />
+                                          <fx:include fx:id="stringEncryptBruteForce" source="../../../../../../UIDesktop/src/subComponent/main/brute/force/encrypt/Encrypt.fxml" />
                                        </children>
                                     </VBox>
                                  </children>
