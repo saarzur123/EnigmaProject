@@ -1,19 +1,14 @@
-package subComponent.main.create.secret.code.component.rotor;
+package Uboat.client.component.configure.code.component.rotor;
 
+import Uboat.client.component.configure.code.UserSecretCodeController;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
-import javafx.scene.control.MenuItem;
-import javafx.scene.control.SplitMenuButton;
 import javafx.scene.image.ImageView;
 import machine.MachineImplement;
-import subComponent.main.create.secret.code.UserSecretCodeController;
-
-import java.util.LinkedList;
-import java.util.List;
 
 public class RotorComponentController {
 

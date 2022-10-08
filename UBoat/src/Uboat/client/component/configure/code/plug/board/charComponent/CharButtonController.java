@@ -1,10 +1,10 @@
-package subComponent.main.create.secret.code.plug.board.charComponent;
+package Uboat.client.component.configure.code.plug.board.charComponent;
 
+import Uboat.client.component.configure.code.UserSecretCodeController;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.shape.Circle;
-import subComponent.main.create.secret.code.UserSecretCodeController;
 
 public class CharButtonController {
 
