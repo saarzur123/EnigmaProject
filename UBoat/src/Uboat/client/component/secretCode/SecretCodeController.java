@@ -1,5 +1,6 @@
-package subComponent.main.secretCode;
+package Uboat.client.component.secretCode;
 
+import Uboat.client.component.main.UboatMainController;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -11,16 +12,11 @@ import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.CornerRadii;
 import javafx.scene.paint.Color;
-import subComponent.main.app.MainScreenController;
-
-import javax.xml.ws.Binding;
-
-import static java.awt.Color.black;
 
 
 public class SecretCodeController {
 
-    private MainScreenController mainController;
+    private UboatMainController uboatMainController;
 
     private StringProperty secretCodeSecretCombination = new SimpleStringProperty("");
     private StringProperty showSecretCode = new SimpleStringProperty("");
@@ -36,7 +32,7 @@ public class SecretCodeController {
 
     public void setLBLToCodeCombinationBinding(){
         secretCodeSecretCombination.bind(
-                Bindings.concat(mainController.getEngine().getSecretCode().getSecretCodeCombination()));
+                Bindings.concat(uboatMainController.getEngine().getSecretCode().getSecretCodeCombination()));
         showSecretCodeLBL.textProperty().bind(showSecretCode);
         showSecretCode.set(secretCodeSecretCombination.getValue());
         makeLBLookingGood();
@@ -73,8 +69,8 @@ public class SecretCodeController {
     }
     public SimpleBooleanProperty getIsSecretCodeExist(){return noSecretCode;}
 
-    public void setMainController(MainScreenController controller){
-        mainController = controller;
+    public void setUboatMainController(UboatMainController controller){
+        uboatMainController = controller;
     }
 
 }
