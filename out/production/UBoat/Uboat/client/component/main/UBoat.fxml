@@ -22,7 +22,7 @@
                             </font>
                         </Label>
                         <fx:include fx:id="login" source="../login/login.fxml" />
-                  <Label fx:id="userGreetingLabel" />
+                        <Label fx:id="userGreetingLabel" />
                         <fx:include fx:id="uploadFile" source="../upload/file/LoadFXML.fxml" />
                     </children>
                 </VBox>
@@ -30,7 +30,7 @@
         </ScrollPane>
     </top>
     <center>
-        <TabPane prefHeight="500.0" prefWidth="700.0" tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER">
+        <TabPane fx:id="tabPaneUboat" prefHeight="500.0" prefWidth="700.0" tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER">
             <tabs>
                 <Tab text="Machine">
                     <content>
