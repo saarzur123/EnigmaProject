@@ -28,7 +28,7 @@ public class ServletUtils {
         return (UserManager) servletContext.getAttribute(USER_MANAGER_ATTRIBUTE_NAME);
     }
 
-    public static UserManager getUserManager(ServletContext servletContext) {
+    public static UserManager getDTOApp(ServletContext servletContext) {
 
         synchronized (userManagerLock) {
             if (servletContext.getAttribute(USER_MANAGER_ATTRIBUTE_NAME) == null) {
