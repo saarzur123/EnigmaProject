@@ -28,6 +28,16 @@ public class ServletUtils {
         return (UserManager) servletContext.getAttribute(USER_MANAGER_ATTRIBUTE_NAME);
     }
 
+    public static UserManager getUserManager(ServletContext servletContext) {
+
+        synchronized (userManagerLock) {
+            if (servletContext.getAttribute(USER_MANAGER_ATTRIBUTE_NAME) == null) {
+                servletContext.setAttribute(USER_MANAGER_ATTRIBUTE_NAME, new UserManager());
+            }
+        }
+        return (UserManager) servletContext.getAttribute(USER_MANAGER_ATTRIBUTE_NAME);
+    }
+
 //    public static ChatManager getChatManager(ServletContext servletContext) {
 //        synchronized (chatManagerLock) {
 //            if (servletContext.getAttribute(CHAT_MANAGER_ATTRIBUTE_NAME) == null) {
