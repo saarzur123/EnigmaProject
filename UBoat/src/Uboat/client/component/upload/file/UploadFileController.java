@@ -50,6 +50,6 @@ public class UploadFileController {
         uboatMainController.getMachineDetailsController().deleteCurrMachine();
         isValidMachine.setValue(false);
         uboatMainController.setCurrMachineTxt();
-      //  mainController.setDecryptionTab();
+        //  mainController.setDecryptionTab();
     }
 }

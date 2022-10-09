@@ -14,19 +14,19 @@ import javafx.beans.binding.Bindings;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
-import javafx.scene.layout.*;
+import javafx.scene.control.TabPane;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 
 import java.io.Closeable;
 import java.io.IOException;
-import java.net.URL;
 
 import static Uboat.client.util.Constants.JHON_DOE;
-import static Uboat.client.util.Constants.LOGIN_PAGE_FXML_RESOURCE_LOCATION;
 
 public class UboatMainController implements Closeable{
 
@@ -42,6 +42,7 @@ public class UboatMainController implements Closeable{
 
     @FXML private ScrollPane secretCode;
     @FXML private SecretCodeController secretCodeController;
+    @FXML private TabPane tabPaneUboat;
 
     @FXML private VBox createNewSecretCode;
     @FXML private Label userGreetingLabel;
@@ -57,16 +58,14 @@ public class UboatMainController implements Closeable{
     @FXML
     public void initialize(){
         userGreetingLabel.textProperty().bind(Bindings.concat("Hello ", currentUserName));
-
-        machineDetails.setDisable(true);
+        tabPaneUboat.setDisable(true);
         uploadFile.setDisable(true);
-        createNewSecretCode.setDisable(true);
 
         engine = (Engine)engineCommands;
 
 
         if(uploadFileController != null &&
-           loginController != null&&
+                loginController != null&&
                 stringEncryptBruteForceController != null&&
                 createNewSecretCodeController != null&&
                 secretCodeController != null){
@@ -78,6 +77,10 @@ public class UboatMainController implements Closeable{
         }
 
         //loadLoginPage();
+    }
+    public void setUploadFile(boolean flag){
+        if(flag)
+            uploadFile.setDisable(false);
     }
     public UboatMainController() {
         currentUserName = new SimpleStringProperty(JHON_DOE);
@@ -125,7 +128,7 @@ public class UboatMainController implements Closeable{
     public void setCurrMachineTxt(){
         machineDetailsController.setMachineDetailsLBL();
     }
-//    @Override
+    //    @Override
 //    public void updateHttpLine(String line) {
 //        httpStatusComponentController.addHttpStatusLine(line);
 //    }
