@@ -86,6 +86,7 @@ public class UboatMainController implements Closeable{
         currentUserName = new SimpleStringProperty(JHON_DOE);
     }
 //    private void loadLoginPage() {
+
 //        URL loginPageUrl = getClass().getResource(LOGIN_PAGE_FXML_RESOURCE_LOCATION);
 //        try {
 //            FXMLLoader fxmlLoader = new FXMLLoader();
