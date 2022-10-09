@@ -1,6 +1,5 @@
 package history.statistics;
 
-import dTOUI.DTOHistoryStatistics;
 import history.statistics.mapSourceDecodedAndTime.SourceAndDecodedAndTime;
 import machine.SecretCode;
 
@@ -19,9 +18,9 @@ public class HistoryAndStatisticsForMachine {
         return secretCodesHistory.size();
     }
 
-    public DTOHistoryStatistics DTOHistoryAndStatisticsMaker(){
-        return new DTOHistoryStatistics(7, secretCodesHistory, dataForEachSecretCode);
-    }
+//    public DTOHistoryStatistics DTOHistoryAndStatisticsMaker(){
+//        return new DTOHistoryStatistics(7, secretCodesHistory, dataForEachSecretCode);
+//    }
 
     public void addSecretCodeToMachineHistory(SecretCode secretCode)
     {

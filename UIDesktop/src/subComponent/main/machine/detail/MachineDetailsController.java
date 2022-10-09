@@ -1,5 +1,4 @@
 package subComponent.main.machine.detail;
-
 import dTOUI.DTOMachineDetails;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;

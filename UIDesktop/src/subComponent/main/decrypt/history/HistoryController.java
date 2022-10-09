@@ -1,6 +1,5 @@
 package subComponent.main.decrypt.history;
 
-import dTOUI.DTOHistoryStatistics;
 import dTOUI.DTOMachineDetails;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
@@ -31,9 +30,9 @@ public class HistoryController {
 
     private void newTextArea(){
         AddLBLHistory();
-        DTOHistoryStatistics dtoHistoryStatistics = mainController.getEngine().getHistoryAndStatisticsForMachine().DTOHistoryAndStatisticsMaker();
+        //DTOHistoryStatistics dtoHistoryStatistics = mainController.getEngine().getHistoryAndStatisticsForMachine().DTOHistoryAndStatisticsMaker();
         TextArea textArea = new TextArea();
-        textArea.setText(mainController.getEngine().showHistoryAnsStatistics(dtoHistoryStatistics));
+       // textArea.setText(mainController.getEngine().showHistoryAnsStatistics(dtoHistoryStatistics));
         historyVbox.getChildren().add(textArea);
         textArea.setEditable(false);
     }

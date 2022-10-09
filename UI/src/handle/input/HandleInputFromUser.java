@@ -1,5 +1,4 @@
 package handle.input;
-
 import dTOUI.DTOInputProcessing;
 import secret.code.validation.SecretCodeValidations;
 

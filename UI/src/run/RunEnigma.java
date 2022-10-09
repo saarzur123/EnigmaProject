@@ -74,7 +74,7 @@ public class RunEnigma {
                 dto = new DTO(6);
                 break;
             case 7:
-                dto = engine.getHistoryAndStatisticsForMachine().DTOHistoryAndStatisticsMaker();
+                //dto = engine.getHistoryAndStatisticsForMachine().DTOHistoryAndStatisticsMaker();
                 break;
             case 8:
                 dto = new DTOExit(userInput);
@@ -122,9 +122,9 @@ public class RunEnigma {
         else if (dto.getClass() == DTOMachineDetails.class) {
             System.out.println(engineCommands.showLastMachineDetails((DTOMachineDetails)dto));
         }
-        else if(dto.getClass() == DTOHistoryStatistics.class) {
-            System.out.println(engineCommands.showHistoryAnsStatistics(((DTOHistoryStatistics) dto)));
-        }
+//        else if(dto.getClass() == DTOHistoryStatistics.class) {
+//            System.out.println(engineCommands.showHistoryAnsStatistics(((DTOHistoryStatistics) dto)));
+//        }
         else if(dto.getClass() == DTOInputProcessing.class)
         {
             String inStr = menu.getInputHandler().handleInputToEncodingOrDecoding((DTOInputProcessing) dto);

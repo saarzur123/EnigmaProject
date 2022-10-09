@@ -1,6 +1,5 @@
 package engine;
 
-import dTOUI.DTOHistoryStatistics;
 import dTOUI.DTOMachineDetails;
 import dTOUI.DTOSecretCodeFromUser;
 import decryption.manager.DecryptionManager;
@@ -64,25 +63,7 @@ public class Engine implements Commander {
         return msg;
     }
 
-    @Override
-    public String showHistoryAnsStatistics(DTOHistoryStatistics dtoHistoryStatistics){
-        int i = 0;
-        String msg="";
-        Map<Integer, List<SourceAndDecodedAndTime>> mapOfData = dtoHistoryStatistics.getMapOfAllData();
-        if(mapOfData.size() == 0){
-            msg +="No information to show you :(" + System.lineSeparator();
-        }
-        for (SecretCode secretCode : dtoHistoryStatistics.getSecretCodesHistory()){
-            msg+=secretCode.toString()+System.lineSeparator();
-            List<SourceAndDecodedAndTime> list = mapOfData.get(i);
-            for (SourceAndDecodedAndTime sourceAndDecodedAndTime : list){
-                msg+="#. <" + sourceAndDecodedAndTime.getSourceAndDecoded().getSourceMsg() + "> --> <" + sourceAndDecodedAndTime.getSourceAndDecoded().getDecodesMsg()
-                        + "> (" + sourceAndDecodedAndTime.getTimeToProcess() + ")"+ System.lineSeparator();
-            }
-            i++;
-        }
-        return msg;
-    }
+
 
     @Override
     public String processData(String inStr, boolean addToHistory){

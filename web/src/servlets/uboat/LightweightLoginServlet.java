@@ -58,6 +58,7 @@ public class LightweightLoginServlet extends HttpServlet {
                         response.getOutputStream().print(errorMessage);
                     }
                     else {
+                        
                         //add the new user to the users list
                         userManager.addUser(usernameFromParameter);
                         //set the username in a session so it will be available on each request

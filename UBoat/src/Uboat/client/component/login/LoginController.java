@@ -77,6 +77,7 @@ public class LoginController {
                 } else {
                     Platform.runLater(() -> {
                         uboatMainController.updateUserName(userName);
+                        uboatMainController.setUploadFile(true);
 
 //                            chatAppMainController.updateUserName(userName);
 //                            chatAppMainController.switchToChatRoom();
