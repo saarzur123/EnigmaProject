@@ -75,10 +75,12 @@ public class LoginController {
                             errorMessageProperty.set("Something went wrong: " + responseBody)
                     );
                 } else {
-//                    Platform.runLater(() -> {
+                    Platform.runLater(() -> {
+                        uboatMainController.updateUserName(userName);
+
 //                            chatAppMainController.updateUserName(userName);
 //                            chatAppMainController.switchToChatRoom();
-//                    });
+                    });
                 }
             }
         });
@@ -95,7 +97,7 @@ public class LoginController {
     }
 
     private void updateHttpStatusLine(String data) {
-     //   chatAppMainController.updateHttpLine(data);
+      //  uboatMainController.updateHttpLine(data);
     }
 
 //    public void setChatAppMainController(ChatAppMainController chatAppMainController) {
