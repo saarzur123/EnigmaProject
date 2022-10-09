@@ -30,7 +30,7 @@
         </ScrollPane>
     </top>
     <center>
-        <TabPane prefHeight="500.0" prefWidth="700.0" tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER">
+        <TabPane fx:id="tabPaneUboat" prefHeight="500.0" prefWidth="700.0" tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER">
             <tabs>
                 <Tab text="Machine">
                     <content>
