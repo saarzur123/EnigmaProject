@@ -12,8 +12,6 @@ import java.io.IOException;
 import java.net.URL;
 
 import static Uboat.client.util.Constants.MAIN_PAGE_FXML_RESOURCE_LOCATION;
-
-
 public class Main extends Application {
 
     private UboatMainController uboatMainController;
