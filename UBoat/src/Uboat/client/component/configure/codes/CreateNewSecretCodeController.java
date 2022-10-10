@@ -3,6 +3,8 @@ package Uboat.client.component.configure.codes;
 import Uboat.client.component.configure.automaticlly.AutomaticSecretCodeController;
 import Uboat.client.component.configure.code.UserSecretCodeController;
 import Uboat.client.component.main.UboatMainController;
+import Uboat.client.util.Constants;
+import Uboat.client.util.http.HttpClientUtil;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -13,6 +15,8 @@ import javafx.scene.layout.HBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import okhttp3.Callback;
+import okhttp3.HttpUrl;
 
 import java.io.IOException;
 
@@ -53,19 +57,32 @@ public class CreateNewSecretCodeController {
 //        }
         userSecretCodeController = fxmlLoader.getController();
         userSecretCodeController.setNewSecretCodeController(this);
+
+        String finalUrl = HttpUrl
+                .parse(Constants.LOGIN_PAGE)
+                .newBuilder()
+                .build()
+                .toString();
+
+        updateHttpStatusLine("New request is launched for: " + finalUrl);
+
+        HttpClientUtil.runAsync(finalUrl, new Callback()
+
         setUserSecretCodeController();
+
+
         stage.showAndWait();
     }
 
-    private void setUserSecretCodeController(){
+    private void setUserSecretCodeController(String machineDetails){
        // userSecretCodeController.setMachine(uboatMainController.getEngine().getMachine());
         userSecretCodeController.updatePlugsInstructionsLBL();
-        userSecretCodeController.createRotorComponents();
+       //--------------> userSecretCodeController.createRotorComponents();
         userSecretCodeController.setReflectorIdCB();
-        userSecretCodeController.createKeyBoard();
-        uboatMainController.getMachineDetailsController().updateCurrMachineDetails();
+       // userSecretCodeController.createKeyBoard();
+        uboatMainController.getMachineDetailsController().updateCurrMachineDetails(machineDetails);
        // mainController.setNextTabOK();
-        uboatMainController.getMachineDetailsController().updateCurrMachineDetails();
+      //  uboatMainController.getMachineDetailsController().updateCurrMachineDetails("k");
     }
 }
 

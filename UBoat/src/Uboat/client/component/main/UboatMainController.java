@@ -118,9 +118,9 @@ public class UboatMainController implements Closeable{
     public void setSecretCodeState(boolean secretCodeState){
         secretCodeController.getIsSecretCodeExist().setValue(secretCodeState);
     }
+
     public void unDisableMachineDetails(){
         tabPaneUboat.setDisable(false);
-
     }
 
     public void setLBLToCodeCombinationBindingMain(String secretCodeComb){
