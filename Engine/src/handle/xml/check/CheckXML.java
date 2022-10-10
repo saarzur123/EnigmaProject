@@ -8,12 +8,7 @@ import java.util.*;
 
 public class CheckXML {
 
-    public void checkIfTheNumberOfAgentIsOk(int numberOfAgent, List<ExceptionDTO> checkedObjectsList){
-        if(!(numberOfAgent >= 2 && numberOfAgent <= 50)) {
-            checkedObjectsList.add(new ExceptionDTO(false, "number of agent", " not in range (<=50 and >=2) "));
-        }
 
-    }
     public void checkIfTheFileExist(String path, List<ExceptionDTO> checkedObjectsList){
         File file = new File(path);
         if(!file.exists())
@@ -164,5 +159,15 @@ public class CheckXML {
             checkedObjectsList.add(new ExceptionDTO(false,"Language","Not enough char in language"));
     }
 
+    public void validateBattleFieldData(String gameTitle, String level, int alliesNum, List<ExceptionDTO> checkedObjectsList)
+    {
+        if(alliesNum < 1 ){
+            checkedObjectsList.add(new ExceptionDTO(false,"Allies number","Allies number less than 1"));
+        }
+        if(!level.equals("Easy") && !level.equals("Medium") && !level.equals("Hard") && !level.equals("Insane")){
+            checkedObjectsList.add(new ExceptionDTO(false,"Competition level","There is no such level"));
+        }
+
+    }
 }
 

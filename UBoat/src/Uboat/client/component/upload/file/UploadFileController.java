@@ -1,6 +1,7 @@
 package Uboat.client.component.upload.file;
 
 import Uboat.client.component.main.UboatMainController;
+import com.google.gson.Gson;
 import enigmaException.xmlException.ExceptionDTO;
 import enigmaException.xmlException.XMLException;
 import handle.xml.check.CheckXML;
@@ -18,6 +19,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import static Uboat.client.util.Constants.UPLOAD_FILE;
 
@@ -39,7 +41,7 @@ public class UploadFileController {
 
     @FXML
     void selectXMLFile(ActionEvent event) throws IOException {
-        uboatMainController.getClientErrorLabel().setText("");
+        //uboatMainController.getClientErrorLabel().setText("");
         FileChooser fc = new FileChooser();
         File fileDialog = fc.showOpenDialog(null);
         if(fileDialog != null){
@@ -50,7 +52,6 @@ public class UploadFileController {
                     RequestBody body =
                             new MultipartBody.Builder()
                                     .addFormDataPart("file1", f.getName(), RequestBody.create(f, MediaType.parse("text/plain")))
-                                    //.addFormDataPart("key1", "value1") // you can add multiple, different parts as needed
                                     .build();
 
                     Request request = new Request.Builder()
@@ -63,28 +64,35 @@ public class UploadFileController {
                     call.enqueue(new Callback() {
                         @Override
                         public void onFailure(@NotNull Call call, @NotNull IOException e) {
+                            int b =0;
 
                         }
 
                         @Override
                         public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
-                            String machineDetails = response.body().string();
-                            Platform.runLater(() ->
-                                    setOnValidMachine(machineDetails)
-
-                            );
+                            String jsonMapOfData = response.body().string();
+                                        Map<String, String> machineDetailsAndBattleFieldGameTitle = new Gson().fromJson(jsonMapOfData, Map.class);
+                                        if(validateUniqueGameTitle(machineDetailsAndBattleFieldGameTitle)){
+                                    setOnValidMachine(machineDetailsAndBattleFieldGameTitle);
+                                }
                         }
                     });
                 }
-//                mainController.setSelectedTab();
-//                mainController.clearAllTFInEncrypt();
-//                mainController.getDictionaryController().SetDictionaryController();
-//                mainController.getAgentsController().setAgentsMaxSlider();
             }
             catch (XMLException error){
                 uboatMainController.showErrorPopup(error.getMessage());
             }
         }
+    }
+
+    private boolean validateUniqueGameTitle(Map<String,String> machineDetailsAndBattleFieldName){
+        String gameTitle = machineDetailsAndBattleFieldName.get("uniqueGameTitle");
+        if(!gameTitle.equals("ok")){
+            Platform.runLater(() ->
+            uboatMainController.getClientErrorLabel().setText(String.format("Game title %s is not unique",gameTitle)));
+            return false;
+        }
+        return true;
     }
 
     private boolean validateFilePath(String path){
@@ -104,11 +112,14 @@ public class UploadFileController {
         return true;
     }
 
-    private void setOnValidMachine(String machineDetails){
-        uboatMainController.getMachineDetailsController().deleteCurrMachine();
+    private void setOnValidMachine(Map<String,String> machineDetailsAndBattleFieldName){
         isValidMachine.setValue(false);
-        uboatMainController.setCurrMachineTxt(machineDetails);
+        Platform.runLater(()->{
+        uboatMainController.getMachineDetailsController().deleteCurrMachine();
+        uboatMainController.setCurrentBattleFieldName(machineDetailsAndBattleFieldName.get("gameTitle"));
+        uboatMainController.setCurrMachineTxt(machineDetailsAndBattleFieldName.get("machineDetails"));
         uboatMainController.unDisableMachineDetails();
+        });
         //  mainController.setDecryptionTab();
     }
 }

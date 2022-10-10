@@ -32,6 +32,7 @@ public class MachineDetails {
 
     private boolean isSecretCodeExist(){return secretCode.getSecretCodeState();}
 
+
     private String showCurrSecretCode(){
         if(secretCode == null) {
             firstCodeCombination = "You did not enter secret code yet!";
@@ -39,6 +40,7 @@ public class MachineDetails {
         }
         String code = secretCode.getSecretCodeCombination();
         if(isFirstSecreteCode) {
+
             firstCodeCombination = code;
             isFirstSecreteCode = false;
         }

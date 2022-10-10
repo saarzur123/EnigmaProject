@@ -25,9 +25,7 @@ public class MachineDetailsController {
     }
 
     private void newTextArea(String machineDetails){
-//        DTOMachineDetails dtoMachineDetails = uboatMainController.getEngine().getMachineDetailsPresenter().createCurrMachineDetails();
-//        String machineDetails = String.format("%s",uboatMainController.getEngineCommand().showLastMachineDetails(dtoMachineDetails));
-        TextArea textArea = new TextArea();
+      TextArea textArea = new TextArea();
         textArea.setText(machineDetails);
         machineDetailsVBox.getChildren().add(textArea);
         textArea.setEditable(false);

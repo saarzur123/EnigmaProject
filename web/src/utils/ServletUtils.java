@@ -3,6 +3,7 @@ package utils;
 import dTOUI.DTOAppData;
 import jakarta.servlet.ServletContext;
 import jakarta.servlet.http.HttpServletRequest;
+import uboat.engine.battleField.BattleFieldManager;
 import uboat.engine.users.UserManager;
 
 import static constants.Constants.INT_PARAMETER_ERROR;
@@ -11,6 +12,7 @@ public class ServletUtils {
 
     private static final String USER_MANAGER_ATTRIBUTE_NAME = "userManager";
     private static final String DTO_APP_DATA_ATTRIBUTE_NAME = "DTOAppData";
+    private static final String BATTLE_FIELD_MANAGER_ATTRIBUTE_NAME = "battleFieldManager";
     private static final String CHAT_MANAGER_ATTRIBUTE_NAME = "chatManager";
 
     /*
@@ -28,6 +30,16 @@ public class ServletUtils {
             }
         }
         return (UserManager) servletContext.getAttribute(USER_MANAGER_ATTRIBUTE_NAME);
+    }
+
+    public static BattleFieldManager getBattleFieldManager(ServletContext servletContext) {
+
+        synchronized (userManagerLock) {
+            if (servletContext.getAttribute(BATTLE_FIELD_MANAGER_ATTRIBUTE_NAME) == null) {
+                servletContext.setAttribute(BATTLE_FIELD_MANAGER_ATTRIBUTE_NAME, new BattleFieldManager());
+            }
+        }
+        return (BattleFieldManager) servletContext.getAttribute(BATTLE_FIELD_MANAGER_ATTRIBUTE_NAME);
     }
 
     public static DTOAppData getDTOAppData(ServletContext servletContext) {

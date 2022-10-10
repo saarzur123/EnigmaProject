@@ -326,7 +326,7 @@ public class UserSecretCodeController {
         if(allFieldsComplete){
             createNewSecretCodeController.getUboatMainController().getEngineCommand().getSecretCodeFromUser(userDto,false);
            // createNewSecretCodeController.getMainController().getEngine().getDecryptionManager().findSecretCode("german poland",1);
-            createNewSecretCodeController.getUboatMainController().setLBLToCodeCombinationBindingMain();
+            createNewSecretCodeController.getUboatMainController().setLBLToCodeCombinationBindingMain("k");//TODOOOOO
             Stage stage = (Stage) reflectorIdCB.getScene().getWindow();
 
             stage.close();

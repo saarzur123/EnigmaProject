@@ -1,5 +1,6 @@
 package handle.xml.build;
 
+import battleField.BattleField;
 import decryption.manager.DecryptionManager;
 import decryption.manager.Dictionary;
 import enigmaException.xmlException.ExceptionDTO;
@@ -25,6 +26,8 @@ public class XMLToObject {
     private List<ExceptionDTO> checkedObjectsList = new ArrayList<>();
     private CheckXML xmlValidator = new CheckXML();
     private CTEDecipher cteDecipher = new CTEDecipher();
+
+    private CTEBattlefield cteBattlefield;
 
     public MachineImplement machineFromXml(InputStream fileInputStream) {
         MachineImplement machineImplement = null;
@@ -52,12 +55,22 @@ public class XMLToObject {
         Unmarshaller u = jc.createUnmarshaller();
         CTEEnigma cteEnigma = (CTEEnigma) u.unmarshal(in);
         cteDecipher = cteEnigma.getCTEDecipher();
+        cteBattlefield = cteEnigma.getCTEBattlefield();
         return enigmaImplementFromJAXB(cteEnigma);
     }
 
     private MachineImplement enigmaImplementFromJAXB(CTEEnigma cteEnigma) {
         CTEMachine cteMachine = cteEnigma.getCTEMachine();
         return machineImplementFromJAXB(cteMachine);
+    }
+
+    public BattleField createBattleFieldFromJaxb(){
+        xmlValidator.validateBattleFieldData(cteBattlefield.getBattleName(), cteBattlefield.getLevel(), cteBattlefield.getAllies(), checkedObjectsList);
+        if(checkedObjectsList.size()>0) {
+            throw new XMLException(checkedObjectsList);
+        }
+        BattleField battleField = new BattleField(cteBattlefield.getBattleName(), cteBattlefield.getLevel(), cteBattlefield.getAllies());
+        return battleField;
     }
 
     private MachineImplement machineImplementFromJAXB(CTEMachine cteMachine){
@@ -86,8 +99,7 @@ public class XMLToObject {
     }
 
     public DecryptionManager createDecryptionManager(){
-        xmlValidator.checkIfTheNumberOfAgentIsOk(cteDecipher.getAgents(), checkedObjectsList);
-        DecryptionManager dm = new DecryptionManager(cteDecipher.getAgents(), createDictionary());
+        DecryptionManager dm = new DecryptionManager(createDictionary());
         return dm;
     }
 

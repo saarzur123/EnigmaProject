@@ -51,6 +51,7 @@ public class UboatMainController implements Closeable{
     @FXML private HBox stringEncryptBruteForce;
     @FXML private EncryptController stringEncryptBruteForceController;
 
+    private String currentBattleFieldName;
     private Commander engineCommands = new Engine();
     private final StringProperty currentUserName;
     private Engine engine ;
@@ -100,6 +101,12 @@ public class UboatMainController implements Closeable{
     public Commander getEngineCommand(){return engineCommands;}
     public Engine getEngine(){return engine;}
 
+    public String getCurrentBattleFieldName(){return currentBattleFieldName;}
+
+    public void setCurrentBattleFieldName(String currentBattleFieldName) {
+        this.currentBattleFieldName = currentBattleFieldName;
+    }
+
     public MachineDetailsController getMachineDetailsController(){return machineDetailsController;}
 
     public UploadFileController getUploadFileController() {
@@ -114,8 +121,8 @@ public class UboatMainController implements Closeable{
 
     }
 
-    public void setLBLToCodeCombinationBindingMain(){
-        secretCodeController.setLBLToCodeCombinationBinding();
+    public void setLBLToCodeCombinationBindingMain(String secretCodeComb){
+        secretCodeController.setLBLToCodeCombinationBinding(secretCodeComb);
     }
 
     public void setCurrMachineTxt(String machineDetails){
