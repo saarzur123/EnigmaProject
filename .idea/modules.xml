@@ -6,6 +6,7 @@
       <module fileurl="file://$PROJECT_DIR$/EnigmaMachine/EnigmaMachine.iml" filepath="$PROJECT_DIR$/EnigmaMachine/EnigmaMachine.iml" />
       <module fileurl="file://$PROJECT_DIR$/EnigmaProject.iml" filepath="$PROJECT_DIR$/EnigmaProject.iml" />
       <module fileurl="file://$PROJECT_DIR$/UBoat/UBoat.iml" filepath="$PROJECT_DIR$/UBoat/UBoat.iml" />
+      <module fileurl="file://$PROJECT_DIR$/UBoat/UBoat-old.iml" filepath="$PROJECT_DIR$/UBoat/UBoat-old.iml" />
       <module fileurl="file://$PROJECT_DIR$/UI/UI.iml" filepath="$PROJECT_DIR$/UI/UI.iml" />
       <module fileurl="file://$PROJECT_DIR$/web/web.iml" filepath="$PROJECT_DIR$/web/web.iml" />
     </modules>
