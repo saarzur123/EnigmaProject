@@ -1,0 +1,4 @@
+Manifest-Version: 1.0
+Main-Class: run.RunEnigma
+Class-Path: Engine.jar EnigmaMachine.jar
+
