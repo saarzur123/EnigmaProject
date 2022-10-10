@@ -29,8 +29,6 @@ public class XMLToObject {
     public MachineImplement machineFromXml(InputStream fileInputStream) {
         MachineImplement machineImplement = null;
         checkedObjectsList.clear();
-       // xmlValidator.checkIfTheFileExist(desiredXmlPath,checkedObjectsList);
-      //  xmlValidator.checkFileEnding(desiredXmlPath,checkedObjectsList);
         try {
             //"C:/Users/saarz/IdeaProjects/EnigmaProject/Engine/src/resource/ex1-sanity-small.xml"
            // InputStream inputStream = new FileInputStream(new File(desiredXmlPath));

@@ -26,7 +26,7 @@ public class LoadXMLFileServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         response.setContentType("text/plain");
-        String usernameFromSession = SessionUtils.getUsername(request);
+        String usernameFromSession =  SessionUtils.getUsername(request);
         DTOAppData appData = utils.ServletUtils.getDTOAppData(getServletContext());
         appData.addToMapUboatUsernameToEngineData(usernameFromSession, new Engine());
 
