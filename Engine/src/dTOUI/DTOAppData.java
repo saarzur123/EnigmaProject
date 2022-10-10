@@ -10,21 +10,29 @@ import java.util.Set;
 
 public class DTOAppData {
     private Set<UserManager> userManagersForAllApp = new HashSet<>();
-    private Map<String, Engine> mapUboatToEngineData = new HashMap<>();
+    private Map<String, Engine> mapUboatUsernameToEngineData = new HashMap<>();
 
-    public Map<String, Engine> getMapUboatToEngineData() {
-        return mapUboatToEngineData;
+    public synchronized Map<String, Engine> getMapUboatToEngineData() {
+        return mapUboatUsernameToEngineData;
     }
 
-    public Set<UserManager> getUserManagersForAllApp() {
+    public synchronized Set<UserManager> getUserManagersForAllApp() {
         return userManagersForAllApp;
     }
 
-    public void setMapUboatToEngineData(Map<String, Engine> mapUboatToEngineData) {
-        this.mapUboatToEngineData = mapUboatToEngineData;
+    public synchronized void addToMapUboatUsernameToEngineData(String uboatUsername, Engine uboatEngine) {
+        mapUboatUsernameToEngineData.put(uboatUsername,uboatEngine);
     }
 
-    public void setUserManagersForAllApp(Set<UserManager> userManagersForAllApp) {
-        this.userManagersForAllApp = userManagersForAllApp;
+    public synchronized void addToUserManagersForAllApp(UserManager userManager) {
+        userManagersForAllApp.add(userManager);
+    }
+
+    public synchronized void removeFromMapUboatUsernameToEngineData(String uboatUsername) {
+        mapUboatUsernameToEngineData.remove(uboatUsername);
+    }
+
+    public synchronized void removeFromUserManagersForAllApp(UserManager userManager) {
+        userManagersForAllApp.remove(userManager);
     }
 }

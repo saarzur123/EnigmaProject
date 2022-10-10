@@ -1,12 +1,14 @@
 package servlets.uboat;
 
-import chat.utils.ServletUtils;
 import constants.Constants;
+import dTOUI.DTOAppData;
+import engine.Engine;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import uboat.engine.users.UserManager;
+import utils.ServletUtils;
 import utils.SessionUtils;
 
 import java.io.IOException;
@@ -24,6 +26,8 @@ public class LightweightLoginServlet extends HttpServlet {
 
         String usernameFromSession = SessionUtils.getUsername(request);
         UserManager userManager = ServletUtils.getUserManager(getServletContext());
+        DTOAppData appData = utils.ServletUtils.getDTOAppData(getServletContext());
+
 
         if (usernameFromSession == null) { //user is not logged in yet
 
@@ -60,6 +64,7 @@ public class LightweightLoginServlet extends HttpServlet {
                     else {
                         //add the new user to the users list
                         userManager.addUser(usernameFromParameter);
+                        appData.addToMapUboatUsernameToEngineData(usernameFromParameter, new Engine());
                         //set the username in a session so it will be available on each request
                         //the true parameter means that if a session object does not exists yet
                         //create a new one

@@ -62,13 +62,13 @@ public class UploadFileController {
 
                     @Override
                     public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
-
+                       // setOnValidMachine();
+                        String f = response.body().toString();
                     }
                 });
 
 
-                uboatMainController.getEngineCommand().createMachineFromXML(path);
-                setOnValidMachine();
+
 //                mainController.setSelectedTab();
 //                mainController.clearAllTFInEncrypt();
 //                mainController.getDictionaryController().SetDictionaryController();
@@ -80,10 +80,10 @@ public class UploadFileController {
         }
     }
 
-    private void setOnValidMachine(){
+    private void setOnValidMachine(String machineDetails){
         uboatMainController.getMachineDetailsController().deleteCurrMachine();
         isValidMachine.setValue(false);
-        uboatMainController.setCurrMachineTxt();
+        uboatMainController.setCurrMachineTxt(machineDetails);
         //  mainController.setDecryptionTab();
     }
 }

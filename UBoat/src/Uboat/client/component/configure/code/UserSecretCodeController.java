@@ -331,7 +331,7 @@ public class UserSecretCodeController {
 
             stage.close();
         }
-        createNewSecretCodeController.getUboatMainController().getMachineDetailsController().updateCurrMachineDetails();
+        createNewSecretCodeController.getUboatMainController().getMachineDetailsController().updateCurrMachineDetails("k");
     }
 
 
