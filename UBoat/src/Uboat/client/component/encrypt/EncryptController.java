@@ -45,7 +45,7 @@ public class EncryptController {
             //uboatMainController.setDecryptedStringToFindInAgentController(decrypt);
             //userDecryptStringTF.setText(decrypt);
             uboatMainController.setLBLToCodeCombinationBindingMain();
-            uboatMainController.getMachineDetailsController().updateCurrMachineDetails();
+            uboatMainController.getMachineDetailsController().updateCurrMachineDetails("k");
             clickedAndEncrypt = true;
            // mainController.getAgentsController().checkIfAllNeededIsOk();
         }
@@ -61,7 +61,7 @@ public class EncryptController {
         uboatMainController.getEngineCommand().validateUserChoiceAndResetSecretCode();
         uboatMainController.setLBLToCodeCombinationBindingMain();
         //uboatMainController.getDecryptionController().onClear();
-        uboatMainController.getMachineDetailsController().updateCurrMachineDetails();
+        uboatMainController.getMachineDetailsController().updateCurrMachineDetails("K");
     }
 
     @FXML

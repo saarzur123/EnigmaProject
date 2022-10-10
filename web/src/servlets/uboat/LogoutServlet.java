@@ -1,11 +1,11 @@
 package servlets.uboat;
 
-import chat.utils.ServletUtils;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import uboat.engine.users.UserManager;
+import utils.ServletUtils;
 import utils.SessionUtils;
 
 import java.io.IOException;

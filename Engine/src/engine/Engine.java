@@ -1,18 +1,19 @@
 package engine;
 
+import automation.SecretCodeRandomAutomation;
 import dTOUI.DTOHistoryStatistics;
 import dTOUI.DTOMachineDetails;
 import dTOUI.DTOSecretCodeFromUser;
 import decryption.manager.DecryptionManager;
+import handle.xml.build.XMLToObject;
 import history.statistics.HistoryAndStatisticsForMachine;
 import history.statistics.mapSourceDecodedAndTime.SourceAndDecodedAndTime;
 import history.statistics.sourceAndDecoded.SourceAndDecodedString;
 import machine.MachineImplement;
 import machine.SecretCode;
 import machine.detail.MachineDetails;
-import automation.SecretCodeRandomAutomation;
-import handle.xml.build.XMLToObject;
 
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -36,9 +37,9 @@ public class Engine implements Commander {
     }
 
     @Override
-    public MachineImplement createMachineFromXML(String path){
+    public MachineImplement createMachineFromXML(InputStream fileInputStream){
         XMLToObject converter = new XMLToObject();
-        MachineImplement machine = converter.machineFromXml(path);///throws exception
+        MachineImplement machine = converter.machineFromXml(fileInputStream);///throws exception
 
             if(machine != null) {//replace machine only if the new machine is valid
                 this.machine = machine;

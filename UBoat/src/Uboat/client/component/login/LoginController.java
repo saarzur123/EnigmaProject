@@ -50,11 +50,11 @@ public class LoginController {
 
         //noinspection ConstantConditions
         String finalUrl = HttpUrl
-                        .parse(Constants.LOGIN_PAGE)
-                        .newBuilder()
-                        .addQueryParameter("username", userName)
-                        .build()
-                        .toString();
+                .parse(Constants.LOGIN_PAGE)
+                .newBuilder()
+                .addQueryParameter("username", userName)
+                .build()
+                .toString();
 
         updateHttpStatusLine("New request is launched for: " + finalUrl);
 
@@ -75,10 +75,13 @@ public class LoginController {
                             errorMessageProperty.set("Something went wrong: " + responseBody)
                     );
                 } else {
-//                    Platform.runLater(() -> {
+                    Platform.runLater(() -> {
+                        uboatMainController.updateUserName(userName);
+                        uboatMainController.setUploadFile(true);
+
 //                            chatAppMainController.updateUserName(userName);
 //                            chatAppMainController.switchToChatRoom();
-//                    });
+                    });
                 }
             }
         });
@@ -95,7 +98,7 @@ public class LoginController {
     }
 
     private void updateHttpStatusLine(String data) {
-     //   chatAppMainController.updateHttpLine(data);
+        //  uboatMainController.updateHttpLine(data);
     }
 
 //    public void setChatAppMainController(ChatAppMainController chatAppMainController) {

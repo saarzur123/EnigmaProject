@@ -1,7 +1,6 @@
 package Uboat.client.component.machine.detail;
 
 import Uboat.client.component.main.UboatMainController;
-import dTOUI.DTOMachineDetails;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
@@ -17,17 +16,17 @@ public class MachineDetailsController {
         uboatMainController = main;
     }
 
-    public void setMachineDetailsLBL(){
-        newTextArea();
+    public void setMachineDetailsLBL(String machineDetails){
+        newTextArea(machineDetails);
     }
-    public void updateCurrMachineDetails() {
+    public void updateCurrMachineDetails(String machineDetails) {
         machineDetailsVBox.getChildren().clear();
-        newTextArea();
+        newTextArea(machineDetails);
     }
 
-    private void newTextArea(){
-        DTOMachineDetails dtoMachineDetails = uboatMainController.getEngine().getMachineDetailsPresenter().createCurrMachineDetails();
-        String machineDetails = String.format("%s",uboatMainController.getEngineCommand().showLastMachineDetails(dtoMachineDetails));
+    private void newTextArea(String machineDetails){
+//        DTOMachineDetails dtoMachineDetails = uboatMainController.getEngine().getMachineDetailsPresenter().createCurrMachineDetails();
+//        String machineDetails = String.format("%s",uboatMainController.getEngineCommand().showLastMachineDetails(dtoMachineDetails));
         TextArea textArea = new TextArea();
         textArea.setText(machineDetails);
         machineDetailsVBox.getChildren().add(textArea);

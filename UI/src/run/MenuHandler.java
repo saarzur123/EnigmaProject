@@ -54,7 +54,7 @@ public class MenuHandler {
         do{
         try{
             String path = dtoXML.getPath();
-            machine = engine.createMachineFromXML(path);
+           // machine = engine.createMachineFromXML(path);
             isValid = true;
         }
         catch (XMLException error){

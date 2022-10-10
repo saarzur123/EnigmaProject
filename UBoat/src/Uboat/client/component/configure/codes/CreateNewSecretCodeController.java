@@ -64,9 +64,9 @@ public class CreateNewSecretCodeController {
         userSecretCodeController.createRotorComponents();
         userSecretCodeController.setReflectorIdCB();
         userSecretCodeController.createKeyBoard();
-        uboatMainController.getMachineDetailsController().updateCurrMachineDetails();
+        uboatMainController.getMachineDetailsController().updateCurrMachineDetails("k");
        // mainController.setNextTabOK();
-        uboatMainController.getMachineDetailsController().updateCurrMachineDetails();
+        uboatMainController.getMachineDetailsController().updateCurrMachineDetails("k");
     }
 }
 

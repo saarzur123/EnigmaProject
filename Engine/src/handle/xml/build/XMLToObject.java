@@ -1,20 +1,18 @@
 package handle.xml.build;
+
 import decryption.manager.DecryptionManager;
+import decryption.manager.Dictionary;
+import enigmaException.xmlException.ExceptionDTO;
 import enigmaException.xmlException.XMLException;
 import handle.xml.check.CheckXML;
-import enigmaException.xmlException.ExceptionDTO;
-import decryption.manager.Dictionary;
-import machine.jaxbGenerated.*;
 import machine.MachineImplement;
 import machine.Reflector;
 import machine.Rotor;
+import machine.jaxbGenerated.*;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -28,17 +26,17 @@ public class XMLToObject {
     private CheckXML xmlValidator = new CheckXML();
     private CTEDecipher cteDecipher = new CTEDecipher();
 
-    public MachineImplement machineFromXml(String desiredXmlPath) {
+    public MachineImplement machineFromXml(InputStream fileInputStream) {
         MachineImplement machineImplement = null;
         checkedObjectsList.clear();
-        xmlValidator.checkIfTheFileExist(desiredXmlPath,checkedObjectsList);
-        xmlValidator.checkFileEnding(desiredXmlPath,checkedObjectsList);
+       // xmlValidator.checkIfTheFileExist(desiredXmlPath,checkedObjectsList);
+      //  xmlValidator.checkFileEnding(desiredXmlPath,checkedObjectsList);
         try {
             //"C:/Users/saarz/IdeaProjects/EnigmaProject/Engine/src/resource/ex1-sanity-small.xml"
-            InputStream inputStream = new FileInputStream(new File(desiredXmlPath));
-            machineImplement = deserializeFrom(inputStream);
+           // InputStream inputStream = new FileInputStream(new File(desiredXmlPath));
+            machineImplement = deserializeFrom(fileInputStream);
 
-        } catch (JAXBException | FileNotFoundException e) {
+        } catch (JAXBException e) {
             throw new XMLException(checkedObjectsList);
         }
 

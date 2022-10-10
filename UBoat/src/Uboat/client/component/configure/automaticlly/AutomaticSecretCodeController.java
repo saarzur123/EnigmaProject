@@ -17,7 +17,7 @@ public class AutomaticSecretCodeController {
             createNewSecretCodeController.getUboatMainController().getEngineCommand().getRandomSecretCode();
             createNewSecretCodeController.getUboatMainController().setLBLToCodeCombinationBindingMain();
             createNewSecretCodeController.getUboatMainController().setSecretCodeState(false);
-            createNewSecretCodeController.getUboatMainController().getMachineDetailsController().updateCurrMachineDetails();
+            createNewSecretCodeController.getUboatMainController().getMachineDetailsController().updateCurrMachineDetails("k");
       //  createNewSecretCodeController.getMainController().getEngine().getDecryptionManager().findSecretCode("german poland",1);
 
     }

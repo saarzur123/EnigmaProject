@@ -5,8 +5,10 @@ import dTOUI.DTOMachineDetails;
 import dTOUI.DTOSecretCodeFromUser;
 import machine.MachineImplement;
 
+import java.io.InputStream;
+
 public interface Commander {
-    public MachineImplement createMachineFromXML(String path);
+    public MachineImplement createMachineFromXML(InputStream fileInputStream);
     public String showLastMachineDetails(DTOMachineDetails dtoDetails);
     public String showHistoryAnsStatistics(DTOHistoryStatistics dtoHistoryStatistics);
     public String processData(String inStr, boolean addToHistory);

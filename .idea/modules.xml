@@ -7,7 +7,6 @@
       <module fileurl="file://$PROJECT_DIR$/EnigmaProject.iml" filepath="$PROJECT_DIR$/EnigmaProject.iml" />
       <module fileurl="file://$PROJECT_DIR$/UBoat/UBoat.iml" filepath="$PROJECT_DIR$/UBoat/UBoat.iml" />
       <module fileurl="file://$PROJECT_DIR$/UI/UI.iml" filepath="$PROJECT_DIR$/UI/UI.iml" />
-      <module fileurl="file://$PROJECT_DIR$/UIDesktop/UIDesktop.iml" filepath="$PROJECT_DIR$/UIDesktop/UIDesktop.iml" />
       <module fileurl="file://$PROJECT_DIR$/web/web.iml" filepath="$PROJECT_DIR$/web/web.iml" />
     </modules>
   </component>
