@@ -15,7 +15,6 @@ import okhttp3.Callback;
 import okhttp3.HttpUrl;
 import okhttp3.Response;
 import org.jetbrains.annotations.NotNull;
-
 import java.io.IOException;
 
 public class LoginController {
