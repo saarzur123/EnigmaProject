@@ -20,6 +20,7 @@ public class AutomationCodeServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        response.setContentType("application/json");
         Gson gson = new Gson();
         Map<String,String> resourceNameToValueMap =  new HashMap<>();
 
@@ -30,7 +31,7 @@ public class AutomationCodeServlet extends HttpServlet {
 
         engine.getRandomSecretCode();
 
-        //updating machine details with new code
+        //updating machine details with new code - data for ui
         DTOMachineDetails dtoMachineDetails = engine.getMachineDetailsPresenter().createCurrMachineDetails();
         String machineDetails = String.format("%s",engine.showLastMachineDetails(dtoMachineDetails));
 
