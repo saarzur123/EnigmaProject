@@ -30,9 +30,10 @@ public class SecretCodeController {
 
     public StringProperty getShowSecretCode(){return showSecretCode;}
 
-    public void setLBLToCodeCombinationBinding(){
+    public void setLBLToCodeCombinationBinding(String secretCodeComb){
+        //uboatMainController.getEngine().getSecretCode().getSecretCodeCombination()
         secretCodeSecretCombination.bind(
-                Bindings.concat(uboatMainController.getEngine().getSecretCode().getSecretCodeCombination()));
+                Bindings.concat(secretCodeComb));
         showSecretCodeLBL.textProperty().bind(showSecretCode);
         showSecretCode.set(secretCodeSecretCombination.getValue());
         makeLBLookingGood();

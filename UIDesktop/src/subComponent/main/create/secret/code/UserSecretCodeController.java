@@ -94,9 +94,6 @@ public class UserSecretCodeController {
         plugString.set("");
     }
 
-
-
-
     public void setNewSecretCodeController(CreateNewSecretCodeController createNewSecretCodeController){
         this.createNewSecretCodeController = createNewSecretCodeController;
     }

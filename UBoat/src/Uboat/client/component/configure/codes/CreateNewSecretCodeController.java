@@ -41,7 +41,6 @@ public class CreateNewSecretCodeController {
 
     @FXML
     void userSecretCodeAction(ActionEvent event) throws IOException {
-
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/Uboat/client/component/configure/code/userSecretCode.fxml"));
         Parent root1 = (Parent) fxmlLoader.load();
         Stage stage = new Stage();
@@ -59,7 +58,7 @@ public class CreateNewSecretCodeController {
     }
 
     private void setUserSecretCodeController(){
-        userSecretCodeController.setMachine(uboatMainController.getEngine().getMachine());
+       // userSecretCodeController.setMachine(uboatMainController.getEngine().getMachine());
         userSecretCodeController.updatePlugsInstructionsLBL();
         userSecretCodeController.createRotorComponents();
         userSecretCodeController.setReflectorIdCB();

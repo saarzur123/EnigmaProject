@@ -12,7 +12,7 @@ public class DTOAppData {
     private Set<UserManager> userManagersForAllApp = new HashSet<>();
     private Map<String, Engine> mapUboatUsernameToEngineData = new HashMap<>();
 
-    public synchronized Map<String, Engine> getMapUboatToEngineData() {
+    public synchronized Map<String, Engine> getMapUboatGameTitleToEngineData() {
         return mapUboatUsernameToEngineData;
     }
 
@@ -20,7 +20,7 @@ public class DTOAppData {
         return userManagersForAllApp;
     }
 
-    public synchronized void addToMapUboatUsernameToEngineData(String uboatUsername, Engine uboatEngine) {
+    public synchronized void addToMapUboatGameTitleToEngineData(String uboatUsername, Engine uboatEngine) {
         mapUboatUsernameToEngineData.put(uboatUsername,uboatEngine);
     }
 
@@ -28,7 +28,7 @@ public class DTOAppData {
         userManagersForAllApp.add(userManager);
     }
 
-    public synchronized void removeFromMapUboatUsernameToEngineData(String uboatUsername) {
+    public synchronized void removeFromMapUboatGameTitleToEngineData(String uboatUsername) {
         mapUboatUsernameToEngineData.remove(uboatUsername);
     }
 

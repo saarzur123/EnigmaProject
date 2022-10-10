@@ -10,10 +10,8 @@ import utils.SessionUtils;
 
 import java.io.IOException;
 
-@WebServlet(name = "LogoutServlet", urlPatterns = {"/chat/logout"})
+@WebServlet(name = "LogoutServlet", urlPatterns = {"/logout"})
 public class LogoutServlet extends HttpServlet {
-
-
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String usernameFromSession = SessionUtils.getUsername(request);
         UserManager userManager = ServletUtils.getUserManager(getServletContext());

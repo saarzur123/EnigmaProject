@@ -1,6 +1,7 @@
 package engine;
 
 import automation.SecretCodeRandomAutomation;
+import battleField.BattleField;
 import dTOUI.DTOHistoryStatistics;
 import dTOUI.DTOMachineDetails;
 import dTOUI.DTOSecretCodeFromUser;
@@ -23,6 +24,7 @@ public class Engine implements Commander {
     private SecretCode secretCode;
     private MachineDetails machineDetailsPresenter;
     private DecryptionManager decryptionManager;
+    private BattleField battleField;
     private HistoryAndStatisticsForMachine historyAndStatisticsForMachine = new HistoryAndStatisticsForMachine();
     private SecretCodeRandomAutomation secretCodeRandomAutomation = new SecretCodeRandomAutomation();
     public DecryptionManager getDM(){return decryptionManager;}
@@ -31,7 +33,7 @@ public class Engine implements Commander {
     public SecretCode getSecretCode(){return secretCode;}
     public MachineDetails getMachineDetailsPresenter(){return machineDetailsPresenter;}
     public HistoryAndStatisticsForMachine getHistoryAndStatisticsForMachine(){return historyAndStatisticsForMachine;}
-
+    public BattleField getBattleField() { return battleField;}
     public DecryptionManager getDecryptionManager() {
         return decryptionManager;
     }
@@ -47,6 +49,7 @@ public class Engine implements Commander {
                 this.machineDetailsPresenter = new MachineDetails(machine, secretCode);
                 this.historyAndStatisticsForMachine = new HistoryAndStatisticsForMachine();
                 this.decryptionManager = converter.createDecryptionManager();
+                this.battleField = converter.createBattleFieldFromJaxb();
                 decryptionManager.setMachine(machine);
             }
 

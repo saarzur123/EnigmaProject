@@ -44,8 +44,8 @@ public class EncryptController {
             String decrypt = uboatMainController.getEngineCommand().processData(userEncryptStringTF.getText(), false);
             //uboatMainController.setDecryptedStringToFindInAgentController(decrypt);
             //userDecryptStringTF.setText(decrypt);
-            uboatMainController.setLBLToCodeCombinationBindingMain();
-            uboatMainController.getMachineDetailsController().updateCurrMachineDetails();
+            uboatMainController.setLBLToCodeCombinationBindingMain("K");/////////////DSDSDSDSDSDSDSDSD
+            uboatMainController.getMachineDetailsController().updateCurrMachineDetails("k");
             clickedAndEncrypt = true;
            // mainController.getAgentsController().checkIfAllNeededIsOk();
         }
@@ -59,9 +59,9 @@ public class EncryptController {
     void restartSecretCodeBTN(ActionEvent event) {
         clearAllTF();
         uboatMainController.getEngineCommand().validateUserChoiceAndResetSecretCode();
-        uboatMainController.setLBLToCodeCombinationBindingMain();
+        uboatMainController.setLBLToCodeCombinationBindingMain("K");
         //uboatMainController.getDecryptionController().onClear();
-        uboatMainController.getMachineDetailsController().updateCurrMachineDetails();
+        uboatMainController.getMachineDetailsController().updateCurrMachineDetails("K");
     }
 
     @FXML

@@ -1,7 +1,11 @@
 package Uboat.client.component.upload.file;
 
 import Uboat.client.component.main.UboatMainController;
+import com.google.gson.Gson;
+import enigmaException.xmlException.ExceptionDTO;
 import enigmaException.xmlException.XMLException;
+import handle.xml.check.CheckXML;
+import javafx.application.Platform;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.event.ActionEvent;
@@ -13,6 +17,9 @@ import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 import static Uboat.client.util.Constants.UPLOAD_FILE;
 
@@ -34,45 +41,43 @@ public class UploadFileController {
 
     @FXML
     void selectXMLFile(ActionEvent event) throws IOException {
+        //uboatMainController.getClientErrorLabel().setText("");
         FileChooser fc = new FileChooser();
         File fileDialog = fc.showOpenDialog(null);
         if(fileDialog != null){
             try{
-
                 String path = fileDialog.getAbsolutePath();
-                File f = new File(path);
-                RequestBody body =
-                        new MultipartBody.Builder()
-                                .addFormDataPart("file1", f.getName(), RequestBody.create(f, MediaType.parse("text/plain")))
-                                //.addFormDataPart("key1", "value1") // you can add multiple, different parts as needed
-                                .build();
+                if(validateFilePath(path)) {
+                    File f = new File(path);
+                    RequestBody body =
+                            new MultipartBody.Builder()
+                                    .addFormDataPart("file1", f.getName(), RequestBody.create(f, MediaType.parse("text/plain")))
+                                    .build();
 
-                Request request = new Request.Builder()
-                        .url(UPLOAD_FILE)
-                        .post(body)
-                        .build();
+                    Request request = new Request.Builder()
+                            .url(UPLOAD_FILE)
+                            .post(body)
+                            .build();
 
-                Call call = HTTP_CLIENT.newCall(request);
+                    Call call = HTTP_CLIENT.newCall(request);
 
-                call.enqueue(new Callback() {
-                    @Override
-                    public void onFailure(@NotNull Call call, @NotNull IOException e) {
+                    call.enqueue(new Callback() {
+                        @Override
+                        public void onFailure(@NotNull Call call, @NotNull IOException e) {
+                            int b =0;
 
-                    }
+                        }
 
-                    @Override
-                    public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
-
-                    }
-                });
-
-
-                uboatMainController.getEngineCommand().createMachineFromXML(path);
-                setOnValidMachine();
-//                mainController.setSelectedTab();
-//                mainController.clearAllTFInEncrypt();
-//                mainController.getDictionaryController().SetDictionaryController();
-//                mainController.getAgentsController().setAgentsMaxSlider();
+                        @Override
+                        public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+                            String jsonMapOfData = response.body().string();
+                                        Map<String, String> machineDetailsAndBattleFieldGameTitle = new Gson().fromJson(jsonMapOfData, Map.class);
+                                        if(validateUniqueGameTitle(machineDetailsAndBattleFieldGameTitle)){
+                                    setOnValidMachine(machineDetailsAndBattleFieldGameTitle);
+                                }
+                        }
+                    });
+                }
             }
             catch (XMLException error){
                 uboatMainController.showErrorPopup(error.getMessage());
@@ -80,10 +85,41 @@ public class UploadFileController {
         }
     }
 
-    private void setOnValidMachine(){
-        uboatMainController.getMachineDetailsController().deleteCurrMachine();
+    private boolean validateUniqueGameTitle(Map<String,String> machineDetailsAndBattleFieldName){
+        String gameTitle = machineDetailsAndBattleFieldName.get("uniqueGameTitle");
+        if(!gameTitle.equals("ok")){
+            Platform.runLater(() ->
+            uboatMainController.getClientErrorLabel().setText(String.format("Game title %s is not unique",gameTitle)));
+            return false;
+        }
+        return true;
+    }
+
+    private boolean validateFilePath(String path){
+        CheckXML xmlValidator = new CheckXML();
+        List<ExceptionDTO> checkedObjectsList = new ArrayList<>();
+        xmlValidator.checkIfTheFileExist(path,checkedObjectsList);
+        xmlValidator.checkFileEnding(path,checkedObjectsList);
+
+        if(checkedObjectsList.size()>0){
+            StringBuilder errorMSG = new StringBuilder();
+            for(ExceptionDTO err : checkedObjectsList){
+                errorMSG.append(err.getMsg());
+            }
+            uboatMainController.getClientErrorLabel().setText(errorMSG.toString());
+            return false;
+        }
+        return true;
+    }
+
+    private void setOnValidMachine(Map<String,String> machineDetailsAndBattleFieldName){
         isValidMachine.setValue(false);
-        uboatMainController.setCurrMachineTxt();
+        Platform.runLater(()->{
+        uboatMainController.getMachineDetailsController().deleteCurrMachine();
+        uboatMainController.setCurrentBattleFieldName(machineDetailsAndBattleFieldName.get("gameTitle"));
+        uboatMainController.setCurrMachineTxt(machineDetailsAndBattleFieldName.get("machineDetails"));
+        uboatMainController.unDisableMachineDetails();
+        });
         //  mainController.setDecryptionTab();
     }
 }

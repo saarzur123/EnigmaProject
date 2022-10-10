@@ -9,7 +9,6 @@ import java.util.concurrent.*;
 import java.util.function.Consumer;
 
 public class DecryptionManager {
-    private int agentNumber;
     private boolean exit;
     private boolean stopAll;
     private MachineImplement machine;
@@ -30,8 +29,7 @@ public class DecryptionManager {
     private Consumer<Double> updateAverageMissionTime;
     private Consumer<Double> updateProgressBar;
 
-    public DecryptionManager(int agentNumber, Dictionary dictionary){
-        this.agentNumber = agentNumber;
+    public DecryptionManager( Dictionary dictionary){
         this.dictionary = dictionary;
     }
 
@@ -69,11 +67,6 @@ public class DecryptionManager {
     public long getSizeAllMissions() {
         return sizeAllMissions;
     }
-
-    public int getAgentNumber() {
-        return agentNumber;
-    }
-
     public Dictionary getDictionary() {
         return dictionary;
     }
@@ -118,7 +111,7 @@ public class DecryptionManager {
     }
 
     //TODO make filter userInput
-    public void findSecretCode(String userInput,int level,Consumer<DTOMissionResult> consumer,Consumer<Double> updateMissionTime,Consumer<Double> updateProgressBar){
+    public void findSecretCode(String userInput,String level,Consumer<DTOMissionResult> consumer,Consumer<Double> updateMissionTime,Consumer<Double> updateProgressBar){
       updateAverageMissionTime = updateMissionTime;
       this.updateProgressBar = updateProgressBar;
       isTakeOutMissions = true;
@@ -167,20 +160,20 @@ public class DecryptionManager {
         System.out.println("");
     }
 
-    private Runnable createPushMissionRunnable(String userDecryptedString, int level) {
+    private Runnable createPushMissionRunnable(String userDecryptedString, String level) {
         return new Runnable() {
             @Override
             public void run() {
                 if (!stopAll) {
                 countAndUpdateSizeAllMission();
                 if (!exit && !stopAll) {
-                    if (level == 1) {
+                    if (level == "easy") {
                         pushMissions(machineSecretCode.getRotorsIdList(), machineSecretCode.getReflectorId(), userDecryptedString);
-                    } else if (level == 2) {
+                    } else if (level == "medium") {
                         level2(machineSecretCode.getRotorsIdList(), userDecryptedString);
-                    } else if (level == 3) {
+                    } else if (level == "hard") {
                         level3(machineSecretCode.getRotorsIdList(), userDecryptedString);
-                    } else if (level == 4) {
+                    } else if (level == "impossible") {
                         int rotorInUse = machine.getInUseRotorNumber();
                         int rotorsAvailable = machine.getAvailableRotors().size();
                         level4(userDecryptedString, rotorsAvailable, rotorInUse);

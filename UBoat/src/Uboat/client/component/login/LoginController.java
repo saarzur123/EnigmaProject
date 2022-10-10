@@ -35,6 +35,10 @@ public class LoginController {
                         updateHttpStatusLine(line)));
     }
 
+    public Label getErrorMessageLabel() {
+        return errorMessageLabel;
+    }
+
     public void setUboatMainController(UboatMainController main){
         uboatMainController = main;
     }
@@ -58,7 +62,7 @@ public class LoginController {
 
         updateHttpStatusLine("New request is launched for: " + finalUrl);
 
-        HttpClientUtil.runAsync(finalUrl, new Callback() {//////////////לשנות לסינכרוני
+        HttpClientUtil.runAsync(finalUrl, new Callback() {
 
             @Override
             public void onFailure(@NotNull Call call, @NotNull IOException e) {
