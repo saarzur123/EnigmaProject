@@ -10,7 +10,7 @@
 
 <HBox alignment="CENTER_LEFT" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="80.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Uboat.client.component.encrypt.EncryptController">
    <children>
-      <Label prefHeight="36.0" prefWidth="216.0" text="Desired string to encrypt:">
+      <Label prefHeight="36.0" prefWidth="177.0" text="Desired string to encrypt:">
          <HBox.margin>
             <Insets left="5.0" />
          </HBox.margin>
@@ -18,7 +18,9 @@
             <Font size="14.0" />
          </font>
       </Label>
-      <TextField fx:id="userEncryptStringTF" alignment="CENTER" onAction="#userChooseStringToEncryptAction" prefHeight="19.0" prefWidth="294.0" />
+      <TextField fx:id="userEncryptStringTF" alignment="CENTER" onAction="#userChooseStringToEncryptAction" prefHeight="27.0" prefWidth="137.0" />
+      <Label text="Decrypt :" />
+      <TextField fx:id="userDecryptStringTF" prefHeight="27.0" prefWidth="129.0" />
       <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" spacing="10.0">
          <children>
             <Button mnemonicParsing="false" onAction="#clearAllDataAction" prefHeight="27.0" prefWidth="55.0" text="Clear" />

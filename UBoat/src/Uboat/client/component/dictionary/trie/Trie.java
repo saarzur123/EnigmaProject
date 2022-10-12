@@ -1,4 +1,4 @@
-package subComponent.main.brute.force.dictionary.trie;
+package Uboat.client.component.dictionary.trie;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;

@@ -3,6 +3,7 @@ package Uboat.client.component.configure.codes;
 import Uboat.client.component.configure.automaticlly.AutomaticSecretCodeController;
 import Uboat.client.component.configure.code.UserSecretCodeController;
 import Uboat.client.component.main.UboatMainController;
+import Uboat.client.util.Constants;
 import Uboat.client.util.http.HttpClientUtil;
 import com.google.gson.Gson;
 import javafx.application.Platform;
@@ -63,7 +64,6 @@ public class CreateNewSecretCodeController {
         userSecretCodeController.setNewSecretCodeController(this);
         asyncRequest(CREATE_USER_SECRET_CODE, stage);
     }
-
     private void asyncRequest(String URL,Stage stage){
         String finalUrl = HttpUrl
                 .parse(URL)
@@ -99,7 +99,6 @@ public class CreateNewSecretCodeController {
             stage.showAndWait();
         });
     }
-
     private void setUserSecretCodeController(String machineDetails, int inUseRotors,String ABC, int reflectorsNum, int availableRotorNum){
         userSecretCodeController.setMachineData(inUseRotors,ABC,reflectorsNum,availableRotorNum);
         userSecretCodeController.updatePlugsInstructionsLBL();
