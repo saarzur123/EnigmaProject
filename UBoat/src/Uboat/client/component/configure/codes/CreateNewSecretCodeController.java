@@ -45,33 +45,33 @@ public class CreateNewSecretCodeController {
 
     @FXML
     void userSecretCodeAction(ActionEvent event) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/Uboat/client/component/configure/code/userSecretCode.fxml"));
-        Parent root1 = (Parent) fxmlLoader.load();
-        Stage stage = new Stage();
-        stage.initModality(Modality.APPLICATION_MODAL);//block the user from doing other actions
-        stage.initStyle(StageStyle.DECORATED);// now te pop up window will have a toolbar
-        stage.setTitle("Manually Configuration Window");
-        stage.setScene(new Scene(root1));
-//        if(uboatMainController.isStyleOn()) {
-//            stage.getScene().getStylesheets().add(mainController.getSceneABA().getStylesheets().get(0));
-//        }
-        userSecretCodeController = fxmlLoader.getController();
-        userSecretCodeController.setNewSecretCodeController(this);
-
-        String finalUrl = HttpUrl
-                .parse(Constants.LOGIN_PAGE)
-                .newBuilder()
-                .build()
-                .toString();
-
-        updateHttpStatusLine("New request is launched for: " + finalUrl);
-
-        HttpClientUtil.runAsync(finalUrl, new Callback()
-
-        setUserSecretCodeController();
-
-
-        stage.showAndWait();
+//        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/Uboat/client/component/configure/code/userSecretCode.fxml"));
+//        Parent root1 = (Parent) fxmlLoader.load();
+//        Stage stage = new Stage();
+//        stage.initModality(Modality.APPLICATION_MODAL);//block the user from doing other actions
+//        stage.initStyle(StageStyle.DECORATED);// now te pop up window will have a toolbar
+//        stage.setTitle("Manually Configuration Window");
+//        stage.setScene(new Scene(root1));
+////        if(uboatMainController.isStyleOn()) {
+////            stage.getScene().getStylesheets().add(mainController.getSceneABA().getStylesheets().get(0));
+////        }
+//        userSecretCodeController = fxmlLoader.getController();
+//        userSecretCodeController.setNewSecretCodeController(this);
+//
+//        String finalUrl = HttpUrl
+//                .parse(Constants.LOGIN_PAGE)
+//                .newBuilder()
+//                .build()
+//                .toString();
+//
+//        updateHttpStatusLine("New request is launched for: " + finalUrl);
+//
+//        HttpClientUtil.runAsync(finalUrl, new Callback()
+//
+//        setUserSecretCodeController();
+//
+//
+//        stage.showAndWait();
     }
 
     private void setUserSecretCodeController(String machineDetails){

@@ -63,8 +63,6 @@ public class UboatMainController implements Closeable{
         uploadFile.setDisable(true);
 
         engine = (Engine)engineCommands;
-
-
         if(uploadFileController != null &&
                 loginController != null&&
                 stringEncryptBruteForceController != null&&
@@ -127,8 +125,8 @@ public class UboatMainController implements Closeable{
         secretCodeController.setLBLToCodeCombinationBinding(secretCodeComb);
     }
 
-    public void setCurrMachineTxt(){
-        machineDetailsController.setMachineDetailsLBL();
+    public void setCurrMachineTxt(String machineDetails){
+        machineDetailsController.setMachineDetailsLBL(machineDetails);
     }
     //    @Override
 //    public void updateHttpLine(String line) {

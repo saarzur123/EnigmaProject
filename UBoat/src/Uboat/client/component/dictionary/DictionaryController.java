@@ -1,5 +1,6 @@
 package Uboat.client.component.dictionary;
 
+import Uboat.client.component.dictionary.trie.Trie;
 import Uboat.client.component.main.UboatMainController;
 import com.sun.javafx.scene.control.skin.LabeledText;
 import javafx.event.EventHandler;
@@ -10,7 +11,6 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.PickResult;
 import javafx.scene.layout.VBox;
-import subComponent.main.brute.force.dictionary.trie.Trie;
 
 import java.util.ArrayList;
 import java.util.List;
