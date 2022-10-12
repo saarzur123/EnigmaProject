@@ -52,6 +52,5 @@ public class CreateNewSecretCodeServlet extends HttpServlet {
         dest.put("machineABC",ABC);
         dest.put("totalReflectorsNumber",reflectorsNumStr);
         dest.put("availableRotorsNumber",availableRotorNumStr);
-
     }
 }

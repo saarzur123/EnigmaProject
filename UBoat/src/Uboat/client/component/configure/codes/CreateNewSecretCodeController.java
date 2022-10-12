@@ -84,7 +84,6 @@ public class CreateNewSecretCodeController {
                 doOnResponse(jsonMapOfData,stage);
             }
         });
-
     }
 
     private void doOnResponse(String jsonData,Stage stage){

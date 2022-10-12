@@ -1,11 +1,10 @@
 package Uboat.client.util.http;
 
-import okhttp3.Call;
-import okhttp3.Callback;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
+import okhttp3.*;
 
 import java.util.function.Consumer;
+
+import static Uboat.client.util.Constants.UPLOAD_FILE;
 
 public class HttpClientUtil {
 
@@ -27,6 +26,17 @@ public class HttpClientUtil {
     public static void runAsync(String finalUrl, Callback callback) {
         Request request = new Request.Builder()
                 .url(finalUrl)
+                .build();
+
+        Call call = HttpClientUtil.HTTP_CLIENT.newCall(request);
+
+        call.enqueue(callback);
+    }
+
+    public static void runAsyncRequestWithBody(RequestBody body, String URL, Callback callback){
+        Request request = new Request.Builder()
+                .url(UPLOAD_FILE)
+                .post(body)
                 .build();
 
         Call call = HttpClientUtil.HTTP_CLIENT.newCall(request);

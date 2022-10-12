@@ -4,8 +4,11 @@ import Uboat.client.component.configure.code.component.rotor.RotorComponentContr
 import Uboat.client.component.configure.code.plug.board.charComponent.CharButtonController;
 import Uboat.client.component.configure.codes.CreateNewSecretCodeController;
 import Uboat.client.component.main.UboatMainController;
+import Uboat.client.util.http.HttpClientUtil;
+import com.google.gson.Gson;
 import dTOUI.DTOSecretCodeFromUser;
 import javafx.animation.RotateTransition;
+import javafx.application.Platform;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -22,6 +25,11 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.FlowPane;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.HttpUrl;
+import okhttp3.Response;
+import org.jetbrains.annotations.NotNull;
 import secret.code.validation.SecretCodeValidations;
 
 import java.io.IOException;
@@ -29,6 +37,8 @@ import java.net.URL;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map;
+
+import static Uboat.client.util.Constants.SET_USER_SECRET_CODE;
 
 public class UserSecretCodeController {
 
@@ -77,8 +87,6 @@ public class UserSecretCodeController {
             PlugBoardFlowPane.getChildren().add(singlePlugBoardComponent);
             controller.setUserSecretCodeController(this);
             keyBoard.put(character, controller);
-
-
         }catch (IOException e){
 
         }
@@ -90,7 +98,6 @@ public class UserSecretCodeController {
         else allSubmit.set(true);
     }
 
-
     @FXML
     void resetPlugStringAction(ActionEvent event) {
         String s = plugString.get();
@@ -99,9 +106,6 @@ public class UserSecretCodeController {
         }
         plugString.set("");
     }
-
-
-
 
     public void setNewSecretCodeController(CreateNewSecretCodeController createNewSecretCodeController){
         this.createNewSecretCodeController = createNewSecretCodeController;
@@ -186,7 +190,6 @@ public class UserSecretCodeController {
         }
     }
 
-
     public void createRotorComponents(int inUseRotors){
         for (int i = inUseRotors; i > 0; i--) {
             createRotorComponent(i);
@@ -248,7 +251,6 @@ public class UserSecretCodeController {
                 RotateTransition rotateTransition = new RotateTransition(duration, numberFromRightToRotorComponentController.get(i+1).getRotorIMG());
                 rotateTransition.setByAngle(360);
                 rotateTransition.play();
-
             }
         }
         checkIfAllSubmit();
@@ -312,16 +314,48 @@ public class UserSecretCodeController {
     @FXML
     void userDoneSubmittionAction(ActionEvent event) {
         final int NO_VALUE = 0;
+        StringBuilder updateMachineDetails = new StringBuilder();
+        Gson gson = new Gson();
         boolean allFieldsComplete = userDto.getRotorsIdPositions().size() != NO_VALUE && userDto.getRotorsStartPosition().size() != NO_VALUE &&
                 userDto.getReflectorIdChosen().size() != NO_VALUE;
         if(allFieldsComplete){
-            createNewSecretCodeController.getUboatMainController().getEngineCommand().getSecretCodeFromUser(userDto,false);
-            createNewSecretCodeController.getUboatMainController().setLBLToCodeCombinationBindingMain("k");//TODOOOOO
-            Stage stage = (Stage) reflectorIdCB.getScene().getWindow();
+            String finalUrl = HttpUrl
+                    .parse(SET_USER_SECRET_CODE)
+                    .newBuilder()
+                    .addQueryParameter("gameTitle", createNewSecretCodeController.getUboatMainController().getCurrentBattleFieldName())
+                    .addQueryParameter("userSecretCodeConfigureDto", gson.toJson(userDto))
+                    .build()
+                    .toString();
 
-            stage.close();
+            HttpClientUtil.runAsync(finalUrl, new Callback() {
+                        @Override
+                        public void onFailure(@NotNull Call call, @NotNull IOException e) {
+                            System.out.println("FAILURE IN CREATE NEW SECRET CODE CONTROLLER SERVLET");
+                        }
+
+                        @Override
+                        public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+                            String jsonMapOfData = response.body().string();
+                            Map<String,String> machineDetailsAndSecretCode = new Gson().fromJson(jsonMapOfData, Map.class);
+                            String machineDetails = machineDetailsAndSecretCode.get("machineDetails");
+                            String secretCodeComb = machineDetailsAndSecretCode.get("secretCode");
+                            doOnResponse(machineDetails,updateMachineDetails,secretCodeComb);
+                        }
+        });
         }
-        createNewSecretCodeController.getUboatMainController().getMachineDetailsController().updateCurrMachineDetails("k");
+        Platform.runLater(()-> {
+            createNewSecretCodeController.getUboatMainController().getMachineDetailsController().updateCurrMachineDetails(updateMachineDetails.toString());
+        });
+    }
+
+    private void doOnResponse(String machineDetails,StringBuilder toUpdate,String secretCode){
+        toUpdate.append(machineDetails);
+        Platform.runLater(()->{
+        createNewSecretCodeController.getUboatMainController().setLBLToCodeCombinationBindingMain(secretCode);
+        createNewSecretCodeController.getUboatMainController().getMachineDetailsController().updateCurrMachineDetails(machineDetails);
+        Stage stage = (Stage) reflectorIdCB.getScene().getWindow();
+        stage.close();
+        });
     }
 
     public void setMachineData(int inUseRotors,String ABC, int reflectorsNum, int availableRotorNum){

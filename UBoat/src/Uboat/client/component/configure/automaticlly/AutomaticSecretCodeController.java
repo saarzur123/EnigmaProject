@@ -27,7 +27,6 @@ public class AutomaticSecretCodeController {
 
     @FXML
     void setAutomationCodeAction(ActionEvent event) {
-            //createNewSecretCodeController.getUboatMainController().getEngineCommand().getRandomSecretCode();
         String finalUrl = HttpUrl
                 .parse(AUTOMATION_SECRET_CODE)
                 .newBuilder()
