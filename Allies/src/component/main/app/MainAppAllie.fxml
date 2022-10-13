@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -18,7 +19,7 @@
                   <Font size="24.0" />
                </font>
             </Label>
-            <fx:include source="../../login/login.fxml" />
+            <fx:include fx:id="login" source="../../login/login.fxml" />
              <Label fx:id="userGreetingLabel" />
          </children>
       </VBox>
@@ -32,7 +33,8 @@
                      <children>
                         <HBox layoutX="-2.0" layoutY="7.0" prefHeight="531.0" prefWidth="700.0">
                            <children>
-                              <fx:include source="../../contest/ContestData.fxml" />
+                              <ScrollPane fx:id="contestsDataArea" prefWidth="350.0" />
+                              <ScrollPane fx:id="agentsDataArea" prefWidth="350.0" />
                            </children>
                         </HBox>
                      </children>
@@ -47,4 +49,7 @@
         </tabs>
       </TabPane>
    </center>
+   <bottom>
+      <fx:include source="../../contest/ContestData.fxml" />
+   </bottom>
 </BorderPane>
