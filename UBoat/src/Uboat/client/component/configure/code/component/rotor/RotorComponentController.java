@@ -8,7 +8,6 @@ import javafx.fxml.FXML;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
-import machine.MachineImplement;
 
 public class RotorComponentController {
 
@@ -32,11 +31,10 @@ public class RotorComponentController {
         rotorFromRightLBL.setText(String.valueOf(numberFromRight));
     }
 
-    public void setAllData(int numberFromRight){
-        MachineImplement machine = userSecretCodeController.getMachine();
+    public void setAllData(int numberFromRight, String ABC, int availableRotorsNum){
         setRotorFromRightLBL(numberFromRight);
-        setChooseIdSMB(machine.getAvailableRotors().size());
-        setChooseStartPosSMB(machine.getABC());
+        setChooseIdSMB(availableRotorsNum);
+        setChooseStartPosSMB(ABC);
     }
 
     private void setChooseIdSMB(int size){

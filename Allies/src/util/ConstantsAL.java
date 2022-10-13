@@ -1,8 +1,8 @@
-package Uboat.client.util;
+package util;
 
 import com.google.gson.Gson;
 
-public class Constants {
+public class ConstantsAL {
 
     // global constants
     public final static String LINE_SEPARATOR = System.getProperty("line.separator");
@@ -11,8 +11,8 @@ public class Constants {
     public final static String CHAT_LINE_FORMATTING = "%tH:%tM:%tS | %.10s: %s%n";
 
     // fxml locations
-    public final static String MAIN_PAGE_FXML_RESOURCE_LOCATION = "/Uboat/client/component/main/UBoat.fxml";
-    public final static String LOGIN_PAGE_FXML_RESOURCE_LOCATION = "/Uboat/client/component/login/login.fxml";
+    public final static String MAIN_PAGE_FXML_RESOURCE_LOCATION = "/component/main/app/MainAppAllie.fxml";
+    public final static String LOGIN_PAGE_FXML_RESOURCE_LOCATION = "/UBoat/src/Uboat/client/component/login/login.fxml";
     public final static String CHAT_ROOM_FXML_RESOURCE_LOCATION = "/Uboat/client/component/chatroom/chat-room-main.fxml";
 
     // Server resources locations

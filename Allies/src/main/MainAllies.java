@@ -1,20 +1,19 @@
 package main;
 
-import Uboat.client.component.main.UboatMainController;
-import Uboat.client.util.http.HttpClientUtil;
+import component.main.app.MainAppAlliesController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import util.http.HttpClientUtilAL;
 
 import java.io.IOException;
 import java.net.URL;
 
-import static Uboat.client.util.Constants.MAIN_PAGE_FXML_RESOURCE_LOCATION;
-public class Main extends Application {
+public class MainAllies extends Application {
 
-    private UboatMainController uboatMainController;
+    private MainAppAlliesController alliesController;
 
     @Override
     public void start(Stage primaryStage) {
@@ -23,12 +22,12 @@ public class Main extends Application {
         primaryStage.setMinWidth(600);
         primaryStage.setTitle("UBoat App Client");
 
-        URL loginPage = getClass().getResource(MAIN_PAGE_FXML_RESOURCE_LOCATION);
+        URL loginPage = getClass().getResource("/component/main/app/MainAppAllie.fxml");
         try {
             FXMLLoader fxmlLoader = new FXMLLoader();
             fxmlLoader.setLocation(loginPage);
             Parent root = fxmlLoader.load();
-            uboatMainController = fxmlLoader.getController();
+            alliesController = fxmlLoader.getController();
 
             Scene scene = new Scene(root, 700, 600);
             primaryStage.setScene(scene);
@@ -41,8 +40,8 @@ public class Main extends Application {
 
     @Override
     public void stop() throws Exception {
-        HttpClientUtil.shutdown();
-      //chatAppMainController.close();
+        HttpClientUtilAL.shutdown();
+        //chatAppMainController.close();
     }
 
     public static void main(String[] args) {

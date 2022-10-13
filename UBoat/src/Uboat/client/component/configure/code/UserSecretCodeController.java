@@ -4,8 +4,11 @@ import Uboat.client.component.configure.code.component.rotor.RotorComponentContr
 import Uboat.client.component.configure.code.plug.board.charComponent.CharButtonController;
 import Uboat.client.component.configure.codes.CreateNewSecretCodeController;
 import Uboat.client.component.main.UboatMainController;
+import Uboat.client.util.http.HttpClientUtil;
+import com.google.gson.Gson;
 import dTOUI.DTOSecretCodeFromUser;
 import javafx.animation.RotateTransition;
+import javafx.application.Platform;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -22,7 +25,11 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.FlowPane;
 import javafx.stage.Stage;
 import javafx.util.Duration;
-import machine.MachineImplement;
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.HttpUrl;
+import okhttp3.Response;
+import org.jetbrains.annotations.NotNull;
 import secret.code.validation.SecretCodeValidations;
 
 import java.io.IOException;
@@ -30,6 +37,8 @@ import java.net.URL;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map;
+
+import static Uboat.client.util.Constants.SET_USER_SECRET_CODE;
 
 public class UserSecretCodeController {
 
@@ -49,8 +58,12 @@ public class UserSecretCodeController {
     private BooleanProperty plugStringLenOK = new SimpleBooleanProperty(true);
     private BooleanProperty allSubmit = new SimpleBooleanProperty(true);
 
-    private MachineImplement machine;
     private int plugIndex = 0;
+
+    private String machineABC;
+    private int inUseRotorNum;
+    private int machineReflectorsNum;
+    private int availableRotorNum;
 
     public int getPlugIndex(){return plugIndex;}
     public void setPlugIndex(){ plugIndex++;}
@@ -74,8 +87,6 @@ public class UserSecretCodeController {
             PlugBoardFlowPane.getChildren().add(singlePlugBoardComponent);
             controller.setUserSecretCodeController(this);
             keyBoard.put(character, controller);
-
-
         }catch (IOException e){
 
         }
@@ -87,7 +98,6 @@ public class UserSecretCodeController {
         else allSubmit.set(true);
     }
 
-
     @FXML
     void resetPlugStringAction(ActionEvent event) {
         String s = plugString.get();
@@ -97,15 +107,8 @@ public class UserSecretCodeController {
         plugString.set("");
     }
 
-
-
-
     public void setNewSecretCodeController(CreateNewSecretCodeController createNewSecretCodeController){
         this.createNewSecretCodeController = createNewSecretCodeController;
-    }
-
-    public MachineImplement getMachine(){
-        return machine;
     }
 
     public void setSubmitPlugBoard(boolean isOK){ submitPlugBoard = isOK;}
@@ -113,7 +116,7 @@ public class UserSecretCodeController {
     public void setSubmitRotor(boolean isOK){ submitRotor = isOK;}
 
     public void createKeyBoard(){
-        int numberABC = machine.getABC().length();
+        int numberABC = machineABC.length();
         PlugBoardFlowPane.setHgap(10);
         PlugBoardFlowPane.setVgap(10);
         PlugBoardFlowPane.setPrefWidth(numberABC/4);
@@ -121,51 +124,45 @@ public class UserSecretCodeController {
         userSecretCodeDoneBTN.disableProperty().bind(allSubmit);
         plugBoardLBL.textProperty().bind(plugString);
         for (int i = 0; i < numberABC; i++) {
-            createPlugBoardKeyBoard(machine.getABC().charAt(i));
+            createPlugBoardKeyBoard(machineABC.charAt(i));
         }
     }
 
     @FXML
     void helpIdAndPositionAction(ActionEvent event) {
         StringBuilder instructions = new StringBuilder();
-        machine = createNewSecretCodeController.getUboatMainController().getEngine().getMachine();
         instructions.append(String.format("Please enter %d unique rotors id's in a decimal number that you wish to create your secret code from," +
                 " in the order of Right to Left seperated with a comma."+ System.lineSeparator()+"For example: number of in use rotors: 3, " +
-                "ID'S: 1,2,3 means: rotor 3 from right, rotor 2 is the next and rotor 1 in the left.)", machine.getInUseRotorNumber()));
+                "ID'S: 1,2,3 means: rotor 3 from right, rotor 2 is the next and rotor 1 in the left.)", inUseRotorNum));
         instructions.append(String.format("Please enter %d rotors start positions from the language [%s] in the order of Right to Left, not seperated with anything " +
                 "(Notice the start position characters should be from the language."+System.lineSeparator()+"For example: Language: [ABCDEF] and rotors" +
                 " 1,2,3 -"+System.lineSeparator()+"BCD means: rotor 3 start position is from D, rotor 2 start position is from C,rotor 1" +
-                " start position is from B.",machine.getInUseRotorNumber(),machine.getABC()));
+                " start position is from B.",inUseRotorNum,machineABC));
         showInformationPopup(instructions.toString());
     }
 
     @FXML
     void helpPlugsAction(ActionEvent event) {
         StringBuilder instructions = new StringBuilder();
-        machine = createNewSecretCodeController.getUboatMainController().getEngine().getMachine();
         instructions.append(String.format("Please enter any plugs , leave empty if you don't want to add plugs." + System.lineSeparator()
                         +"Plugs enter in a pairs string with no separation, you can enter %d pairs from the language: [%s] ."+System.lineSeparator()
                         +"Please notice not to have more than one pair to the same character, and not have character in pair with itself."+System.lineSeparator()
                         + "For example: Language: ABCDEF , valid plugs string: ABDFCE." +System.lineSeparator()
-                        +"It means: A switch with B, D switch with F, C switch with E - there can't be more pairs for this language!",machine.getABC().length()/2,
-                machine.getABC()));
+                        +"It means: A switch with B, D switch with F, C switch with E - there can't be more pairs for this language!",machineABC.length()/2,
+                machineABC));
         showInformationPopup(instructions.toString());
     }
 
     @FXML
     void helpReflectorAction(ActionEvent event) {
         StringBuilder instructions = new StringBuilder();
-        machine = createNewSecretCodeController.getUboatMainController().getEngine().getMachine();
         instructions.append(String.format("Please choose one reflector from the options list (in the range of 1 to %d :" + System.lineSeparator()
-                + " For example: by entering 1 you will choose reflector I."+System.lineSeparator(),machine.getAvailableReflectors().size()));
+                + " For example: by entering 1 you will choose reflector I."+System.lineSeparator(),machineReflectorsNum));
         showInformationPopup(instructions.toString());
     }
 
-    public void setMachine(MachineImplement machine){
-        this.machine = machine;
-    }
     public void updatePlugsInstructionsLBL(){
-        String msg = String.format( "%s [%s]",plugsInstructionsLBL.getText(),machine.getABC());
+        String msg = String.format( "%s [%s]",plugsInstructionsLBL.getText(),machineABC);
         plugsInstructionsLBL.setText(msg);
     }
 
@@ -185,7 +182,7 @@ public class UserSecretCodeController {
             Node singleRotorComponent = loader.load();
             RotorComponentController rotorComponentController = loader.getController();
             rotorComponentController.setUserSecretCodeController(this);
-            rotorComponentController.setAllData(rotorNumberFromRight);
+            rotorComponentController.setAllData(rotorNumberFromRight,machineABC,availableRotorNum);
             rotorComponentFP.getChildren().add(singleRotorComponent);
             numberFromRightToRotorComponentController.put(rotorNumberFromRight,rotorComponentController);
         }catch (IOException e){
@@ -193,17 +190,14 @@ public class UserSecretCodeController {
         }
     }
 
-
-    public void createRotorComponents(){
-        int inUseRotors = createNewSecretCodeController.getUboatMainController().getEngine().getMachine().getInUseRotorNumber();
-
+    public void createRotorComponents(int inUseRotors){
         for (int i = inUseRotors; i > 0; i--) {
             createRotorComponent(i);
         }
     }
 
     public void setReflectorIdCB(){
-        int size = machine.getAvailableReflectors().size();
+        int size = machineReflectorsNum;
         for (int i = 1; i <= size; i++) {
             String id = SecretCodeValidations.chosenReflector(i);
             reflectorIdCB.getItems().add(id);
@@ -257,7 +251,6 @@ public class UserSecretCodeController {
                 RotateTransition rotateTransition = new RotateTransition(duration, numberFromRightToRotorComponentController.get(i+1).getRotorIMG());
                 rotateTransition.setByAngle(360);
                 rotateTransition.play();
-
             }
         }
         checkIfAllSubmit();
@@ -267,8 +260,8 @@ public class UserSecretCodeController {
     private void validateRotorsId(StringBuilder errorMsg){
         if(errorMsg.length() != 0) {
             UboatMainController.showErrorPopup(errorMsg.toString());
-            if(userDto.getRotorsIdPositions().size() != machine.getInUseRotorNumber()) userDto.getRotorsIdPositions().clear();
-            if(userDto.getRotorsStartPosition().size() != machine.getInUseRotorNumber()) userDto.getRotorsStartPosition().clear();
+            if(userDto.getRotorsIdPositions().size() != inUseRotorNum) userDto.getRotorsIdPositions().clear();
+            if(userDto.getRotorsStartPosition().size() != inUseRotorNum) userDto.getRotorsStartPosition().clear();
         }
     }
 
@@ -321,23 +314,55 @@ public class UserSecretCodeController {
     @FXML
     void userDoneSubmittionAction(ActionEvent event) {
         final int NO_VALUE = 0;
+        StringBuilder updateMachineDetails = new StringBuilder();
+        Gson gson = new Gson();
         boolean allFieldsComplete = userDto.getRotorsIdPositions().size() != NO_VALUE && userDto.getRotorsStartPosition().size() != NO_VALUE &&
                 userDto.getReflectorIdChosen().size() != NO_VALUE;
         if(allFieldsComplete){
-            createNewSecretCodeController.getUboatMainController().getEngineCommand().getSecretCodeFromUser(userDto,false);
-           // createNewSecretCodeController.getMainController().getEngine().getDecryptionManager().findSecretCode("german poland",1);
-            createNewSecretCodeController.getUboatMainController().setLBLToCodeCombinationBindingMain("k");//TODOOOOO
-            Stage stage = (Stage) reflectorIdCB.getScene().getWindow();
+            String finalUrl = HttpUrl
+                    .parse(SET_USER_SECRET_CODE)
+                    .newBuilder()
+                    .addQueryParameter("gameTitle", createNewSecretCodeController.getUboatMainController().getCurrentBattleFieldName())
+                    .addQueryParameter("userSecretCodeConfigureDto", gson.toJson(userDto))
+                    .build()
+                    .toString();
 
-            stage.close();
+            HttpClientUtil.runAsync(finalUrl, new Callback() {
+                        @Override
+                        public void onFailure(@NotNull Call call, @NotNull IOException e) {
+                            System.out.println("FAILURE IN CREATE NEW SECRET CODE CONTROLLER SERVLET");
+                        }
+
+                        @Override
+                        public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+                            String jsonMapOfData = response.body().string();
+                            Map<String,String> machineDetailsAndSecretCode = new Gson().fromJson(jsonMapOfData, Map.class);
+                            String machineDetails = machineDetailsAndSecretCode.get("machineDetails");
+                            String secretCodeComb = machineDetailsAndSecretCode.get("secretCode");
+                            doOnResponse(machineDetails,updateMachineDetails,secretCodeComb);
+                        }
+        });
         }
-        //createNewSecretCodeController.getUboatMainController().getMachineDetailsController().updateCurrMachineDetails();
+        Platform.runLater(()-> {
+            createNewSecretCodeController.getUboatMainController().getMachineDetailsController().updateCurrMachineDetails(updateMachineDetails.toString());
+        });
     }
 
+    private void doOnResponse(String machineDetails,StringBuilder toUpdate,String secretCode){
+        toUpdate.append(machineDetails);
+        Platform.runLater(()->{
+        createNewSecretCodeController.getUboatMainController().setLBLToCodeCombinationBindingMain(secretCode);
+        createNewSecretCodeController.getUboatMainController().getMachineDetailsController().updateCurrMachineDetails(machineDetails);
+        Stage stage = (Stage) reflectorIdCB.getScene().getWindow();
+        stage.close();
+        });
+    }
 
-
-
-
-
+    public void setMachineData(int inUseRotors,String ABC, int reflectorsNum, int availableRotorNum){
+        this.machineABC = ABC;
+        this.inUseRotorNum = inUseRotors;
+        this.machineReflectorsNum = reflectorsNum;
+        this.availableRotorNum = availableRotorNum;
+    }
 }
 

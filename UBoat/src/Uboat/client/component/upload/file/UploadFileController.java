@@ -1,6 +1,7 @@
 package Uboat.client.component.upload.file;
 
 import Uboat.client.component.main.UboatMainController;
+import Uboat.client.util.http.HttpClientUtil;
 import com.google.gson.Gson;
 import enigmaException.xmlException.ExceptionDTO;
 import enigmaException.xmlException.XMLException;
@@ -53,28 +54,19 @@ public class UploadFileController {
                             new MultipartBody.Builder()
                                     .addFormDataPart("file1", f.getName(), RequestBody.create(f, MediaType.parse("text/plain")))
                                     .build();
-
-                    Request request = new Request.Builder()
-                            .url(UPLOAD_FILE)
-                            .post(body)
-                            .build();
-
-                    Call call = HTTP_CLIENT.newCall(request);
-
-                    call.enqueue(new Callback() {
+                    HttpClientUtil.runAsyncRequestWithBody(body,UPLOAD_FILE,new Callback() {
                         @Override
                         public void onFailure(@NotNull Call call, @NotNull IOException e) {
                             int b =0;
-
                         }
 
                         @Override
                         public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
                             String jsonMapOfData = response.body().string();
-                                        Map<String, String> machineDetailsAndBattleFieldGameTitle = new Gson().fromJson(jsonMapOfData, Map.class);
-                                        if(validateUniqueGameTitle(machineDetailsAndBattleFieldGameTitle)){
-                                    setOnValidMachine(machineDetailsAndBattleFieldGameTitle);
-                                }
+                            Map<String, String> machineDetailsAndBattleFieldGameTitle = new Gson().fromJson(jsonMapOfData, Map.class);
+                            if(validateUniqueGameTitle(machineDetailsAndBattleFieldGameTitle)){
+                                setOnValidMachine(machineDetailsAndBattleFieldGameTitle);
+                            }
                         }
                     });
                 }
@@ -86,13 +78,17 @@ public class UploadFileController {
     }
 
     private boolean validateUniqueGameTitle(Map<String,String> machineDetailsAndBattleFieldName){
+        Boolean ret = true;
         String gameTitle = machineDetailsAndBattleFieldName.get("uniqueGameTitle");
         if(!gameTitle.equals("ok")){
-            Platform.runLater(() ->
-            uboatMainController.getClientErrorLabel().setText(String.format("Game title %s is not unique",gameTitle)));
-            return false;
+            isValidMachine.setValue(false);
+            ret = false;
+            Platform.runLater(() ->{
+            UboatMainController.showErrorPopup(String.format("Game title %s is not unique",gameTitle));
+            });
         }
-        return true;
+
+        return ret;
     }
 
     private boolean validateFilePath(String path){
@@ -106,6 +102,7 @@ public class UploadFileController {
             for(ExceptionDTO err : checkedObjectsList){
                 errorMSG.append(err.getMsg());
             }
+
             uboatMainController.getClientErrorLabel().setText(errorMSG.toString());
             return false;
         }
@@ -113,7 +110,7 @@ public class UploadFileController {
     }
 
     private void setOnValidMachine(Map<String,String> machineDetailsAndBattleFieldName){
-        isValidMachine.setValue(false);
+
         Platform.runLater(()->{
         uboatMainController.getMachineDetailsController().deleteCurrMachine();
         uboatMainController.setCurrentBattleFieldName(machineDetailsAndBattleFieldName.get("gameTitle"));

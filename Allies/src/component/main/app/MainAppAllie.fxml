@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="component.main.app.MainAppAlliesController">
+   <top>
+      <VBox alignment="TOP_CENTER" prefHeight="123.0" prefWidth="700.0" BorderPane.alignment="CENTER">
+         <children>
+            <Label text="Allies">
+               <font>
+                  <Font size="24.0" />
+               </font>
+            </Label>
+            <fx:include source="../../login/login.fxml" />
+             <Label fx:id="userGreetingLabel" />
+         </children>
+      </VBox>
+   </top>
+   <center>
+      <TabPane fx:id="tabPaneAllies" prefHeight="593.0" prefWidth="700.0" tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER">
+        <tabs>
+          <Tab text="DashBoard">
+            <content>
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <HBox layoutX="-2.0" layoutY="7.0" prefHeight="531.0" prefWidth="700.0">
+                           <children>
+                              <fx:include source="../../contest/ContestData.fxml" />
+                           </children>
+                        </HBox>
+                     </children>
+                  </AnchorPane>
+            </content>
+          </Tab>
+          <Tab text="Contest">
+            <content>
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+            </content>
+          </Tab>
+        </tabs>
+      </TabPane>
+   </center>
+</BorderPane>

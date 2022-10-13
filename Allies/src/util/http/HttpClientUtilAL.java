@@ -1,12 +1,12 @@
-package Uboat.client.util.http;
+package util.http;
 
 import okhttp3.*;
 
 import java.util.function.Consumer;
 
-import static Uboat.client.util.Constants.UPLOAD_FILE;
+import static util.ConstantsAL.UPLOAD_FILE;
 
-public class HttpClientUtil {
+public class HttpClientUtilAL {
 
     private final static SimpleCookieManager simpleCookieManager = new SimpleCookieManager();
     private final static OkHttpClient HTTP_CLIENT =
@@ -28,18 +28,18 @@ public class HttpClientUtil {
                 .url(finalUrl)
                 .build();
 
-        Call call = HttpClientUtil.HTTP_CLIENT.newCall(request);
+        Call call = HttpClientUtilAL.HTTP_CLIENT.newCall(request);
 
         call.enqueue(callback);
     }
 
-    public static void runAsyncRequestWithBody(RequestBody body, String URL, Callback callback){
+    public static void runAsyncPostRequest(RequestBody body, String URL, Callback callback){
         Request request = new Request.Builder()
                 .url(UPLOAD_FILE)
                 .post(body)
                 .build();
 
-        Call call = HttpClientUtil.HTTP_CLIENT.newCall(request);
+        Call call = HttpClientUtilAL.HTTP_CLIENT.newCall(request);
 
         call.enqueue(callback);
     }
