@@ -78,13 +78,15 @@ public class UploadFileController {
     }
 
     private boolean validateUniqueGameTitle(Map<String,String> machineDetailsAndBattleFieldName){
-        Boolean ret = false;
+        Boolean ret = true;
         String gameTitle = machineDetailsAndBattleFieldName.get("uniqueGameTitle");
         if(!gameTitle.equals("ok")){
+            isValidMachine.setValue(false);
+            ret = false;
             Platform.runLater(() ->{
-            uboatMainController.getClientErrorLabel().setText(String.format("Game title %s is not unique",gameTitle));
+            UboatMainController.showErrorPopup(String.format("Game title %s is not unique",gameTitle));
             });
-        }else ret = true;
+        }
 
         return ret;
     }
@@ -100,6 +102,7 @@ public class UploadFileController {
             for(ExceptionDTO err : checkedObjectsList){
                 errorMSG.append(err.getMsg());
             }
+
             uboatMainController.getClientErrorLabel().setText(errorMSG.toString());
             return false;
         }
@@ -107,7 +110,7 @@ public class UploadFileController {
     }
 
     private void setOnValidMachine(Map<String,String> machineDetailsAndBattleFieldName){
-        isValidMachine.setValue(false);
+
         Platform.runLater(()->{
         uboatMainController.getMachineDetailsController().deleteCurrMachine();
         uboatMainController.setCurrentBattleFieldName(machineDetailsAndBattleFieldName.get("gameTitle"));
