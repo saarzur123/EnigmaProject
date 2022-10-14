@@ -15,6 +15,7 @@ public class MainAllies extends Application {
 
     private MainAppAlliesController alliesController;
 
+
     @Override
     public void start(Stage primaryStage) {
 

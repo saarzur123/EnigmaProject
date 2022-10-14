@@ -7,6 +7,7 @@ import javafx.beans.property.StringProperty;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 
@@ -19,6 +20,12 @@ public class MainAppAlliesController {
     @FXML private Label userGreetingLabel;
 
     @FXML private HBox stringEncryptBruteForce;
+
+    ////dashboard - fxml
+    @FXML private ScrollPane contestsDataArea;
+    @FXML private ScrollPane agentsDataArea;
+
+
 
     private String currentBattleFieldName;
     private final StringProperty currentUserName = new SimpleStringProperty(JHON_DOE);

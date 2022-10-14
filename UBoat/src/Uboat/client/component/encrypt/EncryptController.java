@@ -3,13 +3,11 @@ package Uboat.client.component.encrypt;
 import Uboat.client.component.main.UboatMainController;
 import Uboat.client.util.http.HttpClientUtil;
 import com.google.gson.Gson;
-import engine.Engine;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
 import machine.SecretCode;
-import machine.detail.MachineDetails;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.HttpUrl;
@@ -47,9 +45,35 @@ public class EncryptController {
             userDecryptStringTF.setText("");
         });
     }
+
     @FXML
     void onReadyBTN(ActionEvent event) {
+        String finalUrl = HttpUrl
+                .parse(CONTEST_READY_STATUS)
+                .newBuilder()
+                .addQueryParameter("gameTitle", uboatMainController.getCurrentBattleFieldName())
+                .build()
+                .toString();
+        HttpClientUtil.runAsync(finalUrl, new Callback(){
+            @Override
+            public void onFailure(@NotNull Call call, @NotNull IOException e) {
+                System.out.println("FAILURE IN ENCRYPT CONTROLLER STATUS READY SERVLET");
+            }
 
+            @Override
+            public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+                String jsonMapOfData = response.body().string();
+                Map<String, String> machineDetailsAndSecretCode = new Gson().fromJson(jsonMapOfData, Map.class);
+                machineDetails = machineDetailsAndSecretCode.get("machineDetails");
+                String decryptString = machineDetailsAndSecretCode.get("DecryptString");
+
+                userDecryptStringTF.setText(decryptString);
+                Platform.runLater(()->{
+                    uboatMainController.getMachineDetailsController().updateCurrMachineDetails(machineDetails);
+                    clickedAndEncrypt = true;
+                });
+            }
+        });
     }
 
     @FXML
