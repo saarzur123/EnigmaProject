@@ -1,6 +1,7 @@
 package Uboat.client.component.main;
 
 import Uboat.client.component.active.teams.ActiveTeamsController;
+import Uboat.client.component.active.teams.RefreshActiveTeamDetails;
 import Uboat.client.component.configure.codes.CreateNewSecretCodeController;
 import Uboat.client.component.encrypt.EncryptController;
 import Uboat.client.component.login.LoginController;
@@ -190,10 +191,10 @@ public class UboatMainController implements Closeable{
     }
 
     public void startUpdateContestsData() {
-        updateActiveTeamsArea = new ContestDataAreaRefresher(autoUpdate, this::updateContestsDataList);
+        updateActiveTeamsArea = new RefreshActiveTeamDetails(this::updateContestsDataList);
 
         timeToUpdateActiveTeams = new Timer();
-        timeToUpdateActiveTeams.schedule(updateContestData, REFRESH_RATE, REFRESH_RATE);
+        timeToUpdateActiveTeams.schedule(updateActiveTeamsArea, REFRESH_RATE, REFRESH_RATE);
     }
 
 }
