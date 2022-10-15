@@ -14,7 +14,6 @@ public class DTOAppData {
     private Map<String,ContestDTO> mapContestNameToContestData= new HashMap<>();
 
 
-    //TODO
     private String encryptString;
     private String decryptString;
 
@@ -32,7 +31,7 @@ public class DTOAppData {
     public void setEncryptString(String encryptString) {
         this.encryptString = encryptString;
     }
-    //TODO
+
 
     public synchronized Map<String, Engine> getMapUboatGameTitleToEngineData() {
         return mapUboatUsernameToEngineData;

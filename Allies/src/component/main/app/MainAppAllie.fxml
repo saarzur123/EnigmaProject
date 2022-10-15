@@ -11,46 +11,46 @@
 <?import javafx.scene.text.Font?>
 
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="component.main.app.MainAppAlliesController">
-   <top>
-      <VBox alignment="TOP_CENTER" prefHeight="123.0" prefWidth="700.0" BorderPane.alignment="CENTER">
-         <children>
-            <Label text="Allies">
-               <font>
-                  <Font size="24.0" />
-               </font>
-            </Label>
-            <fx:include fx:id="login" source="../../login/login.fxml" />
-             <Label fx:id="userGreetingLabel" />
-         </children>
-      </VBox>
-   </top>
-   <center>
-      <TabPane fx:id="tabPaneAllies" prefHeight="593.0" prefWidth="700.0" tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER">
-        <tabs>
-          <Tab text="DashBoard">
-            <content>
-              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                     <children>
-                        <HBox layoutX="-2.0" layoutY="7.0" prefHeight="531.0" prefWidth="700.0">
-                           <children>
-                              <ScrollPane prefWidth="350.0">
-                                 <content>
-                                    <VBox fx:id="contestsDataArea" prefHeight="500.0" prefWidth="350.0" />
-                                 </content>
-                              </ScrollPane>
-                              <ScrollPane fx:id="agentsDataArea" prefWidth="350.0" />
-                           </children>
-                        </HBox>
-                     </children>
-                  </AnchorPane>
-            </content>
-          </Tab>
-          <Tab text="Contest">
-            <content>
-              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
-            </content>
-          </Tab>
-        </tabs>
-      </TabPane>
-   </center>
+    <top>
+        <VBox alignment="TOP_CENTER" prefHeight="123.0" prefWidth="700.0" BorderPane.alignment="CENTER">
+            <children>
+                <Label text="Allies">
+                    <font>
+                        <Font size="24.0" />
+                    </font>
+                </Label>
+                <fx:include fx:id="login" source="../../login/login.fxml" />
+                <Label fx:id="userGreetingLabel" />
+            </children>
+        </VBox>
+    </top>
+    <center>
+        <TabPane fx:id="tabPaneAllies" prefHeight="593.0" prefWidth="700.0" tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER">
+            <tabs>
+                <Tab text="DashBoard">
+                    <content>
+                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                            <children>
+                                <HBox layoutX="-2.0" layoutY="7.0" prefHeight="531.0" prefWidth="700.0">
+                                    <children>
+                                        <ScrollPane prefWidth="350.0">
+                                            <content>
+                                                <VBox fx:id="contestsDataArea" prefHeight="500.0" prefWidth="350.0" />
+                                            </content>
+                                        </ScrollPane>
+                                        <ScrollPane fx:id="agentsDataArea" prefWidth="350.0" />
+                                    </children>
+                                </HBox>
+                            </children>
+                        </AnchorPane>
+                    </content>
+                </Tab>
+                <Tab fx:id="contestTab" text="Contest">
+                    <content>
+                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                    </content>
+                </Tab>
+            </tabs>
+        </TabPane>
+    </center>
 </BorderPane>

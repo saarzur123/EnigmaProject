@@ -82,6 +82,9 @@ public class LoginController {
                     );
                 } else {
                     Platform.runLater(() -> {
+                        //TODO
+                        alliesController.getTabPaneAllies().setDisable(false);
+                        alliesController.getContestTab().setDisable(true);
                         alliesController.updateUserName(userName);
                         //alliesController.setUploadFile(true);
 
