@@ -48,8 +48,9 @@ public class EncryptController {
 
     @FXML
     void onReadyBTN(ActionEvent event) {
+
         String finalUrl = HttpUrl
-                .parse(CONTEST_READY_STATUS)
+                .parse(UBOAT_READY_STATUS)
                 .newBuilder()
                 .addQueryParameter("gameTitle", uboatMainController.getCurrentBattleFieldName())
                 .build()
@@ -63,15 +64,6 @@ public class EncryptController {
             @Override
             public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
                 String jsonMapOfData = response.body().string();
-                Map<String, String> machineDetailsAndSecretCode = new Gson().fromJson(jsonMapOfData, Map.class);
-                machineDetails = machineDetailsAndSecretCode.get("machineDetails");
-                String decryptString = machineDetailsAndSecretCode.get("DecryptString");
-
-                userDecryptStringTF.setText(decryptString);
-                Platform.runLater(()->{
-                    uboatMainController.getMachineDetailsController().updateCurrMachineDetails(machineDetails);
-                    clickedAndEncrypt = true;
-                });
             }
         });
     }

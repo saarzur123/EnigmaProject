@@ -11,6 +11,7 @@ import java.util.Set;
 public class DTOAppData {
     private Set<UserManager> userManagersForAllApp = new HashSet<>();
     private Map<String, Engine> mapUboatUsernameToEngineData = new HashMap<>();
+    private Map<String,ContestDTO> mapContestNameToContestData= new HashMap<>();
 
     public synchronized Map<String, Engine> getMapUboatGameTitleToEngineData() {
         return mapUboatUsernameToEngineData;
@@ -34,5 +35,13 @@ public class DTOAppData {
 
     public synchronized void removeFromUserManagersForAllApp(UserManager userManager) {
         userManagersForAllApp.remove(userManager);
+    }
+
+    public synchronized Map<String, ContestDTO> getMapContestNameToContestData() {
+        return mapContestNameToContestData;
+    }
+
+    public synchronized void addToMapContestNameToContestData(ContestDTO contestData) {
+        mapContestNameToContestData.put(contestData.getBattleFieldName(),contestData);
     }
 }
