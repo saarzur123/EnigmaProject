@@ -55,6 +55,7 @@ public class MainAppAlliesController {
     private TimerTask updateContestData;
     private TimerTask shouldUpdate;
     private BooleanProperty autoUpdate = new SimpleBooleanProperty();
+    private ContestDTO chosenContestData;
     private Map<String, ContestDTO> mapContestNameToContestsDataToShow = new HashMap<>();
     private String currentBattleFieldName;
     private final StringProperty currentUserName = new SimpleStringProperty(JHON_DOE);
@@ -143,8 +144,12 @@ public class MainAppAlliesController {
     }
 
     @FXML
-    void onRedayActionBTN(ActionEvent event) {
+    public void onRedayActionBTN(ActionEvent event) {
 
+    }
+
+    public void setChosenContest(ContestDTO chosenContestData){
+        this.chosenContestData = chosenContestData;
     }
 
 
