@@ -13,9 +13,7 @@ import javafx.beans.property.StringProperty;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Label;
-import javafx.scene.control.ScrollPane;
+import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -35,6 +33,7 @@ public class MainAppAlliesController {
     private GridPane login;
     @FXML
     private LoginController loginController;
+    @FXML private Tab contestTab;
 
     @FXML
     private Label userGreetingLabel;
@@ -47,6 +46,7 @@ public class MainAppAlliesController {
     private VBox contestsDataArea;
     @FXML
     private ScrollPane agentsDataArea;
+    @FXML private TabPane tabPaneAllies;
 
 
     private Timer contestDataTimer;
@@ -60,6 +60,8 @@ public class MainAppAlliesController {
 
     @FXML
     public void initialize() {
+        //TODO
+        tabPaneAllies.setDisable(true);
         userGreetingLabel.textProperty().bind(Bindings.concat("Hello ", currentUserName));
 
         if (loginController != null) {
@@ -69,6 +71,13 @@ public class MainAppAlliesController {
         //loadLoginPage();
     }
 
+    public Tab getContestTab() {
+        return contestTab;
+    }
+
+    public TabPane getTabPaneAllies() {
+        return tabPaneAllies;
+    }
 
     public Label getClientErrorLabel() {
         return loginController.getErrorMessageLabel();
@@ -95,7 +104,7 @@ public class MainAppAlliesController {
     }
 
     private void updateContestsDataList(Map<String,ContestDTO> contestData) {
-      mapContestNameToContestsDataToShow = contestData;
+        mapContestNameToContestsDataToShow = contestData;
         Platform.runLater(() -> {
             contestsDataArea.getChildren().clear();
             createContestDataTiles();
@@ -117,8 +126,8 @@ public class MainAppAlliesController {
             ContestDataController contestDataController = loader.getController();
             contestDataController.setAlliesController(this);
             Platform.runLater(()->{
-            contestDataController.insertDataToContest(contestData);
-            contestsDataArea.getChildren().add(singleContestData);
+                contestDataController.insertDataToContest(contestData);
+                contestsDataArea.getChildren().add(singleContestData);
             });
         } catch (IOException e) {
 

@@ -2,6 +2,7 @@ package component.contest;
 
 import component.main.app.MainAppAlliesController;
 import dTOUI.ContestDTO;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 
@@ -17,15 +18,30 @@ public class ContestDataController {
 
     @FXML
     private Label levelLBL;
+    @FXML
+    private Label amountNeddedTeamsLBL;
+
+    @FXML
+    private Label CurrTeamLBL;
+
+
     private MainAppAlliesController mainAppAlliesController;
+    //TODO
     public void setAlliesController(MainAppAlliesController mainAppAlliesController){
         this.mainAppAlliesController = mainAppAlliesController;
+    }
+    @FXML
+    void onActionEnterContestBTN(ActionEvent event) {
+
     }
 
     public void insertDataToContest(ContestDTO contestDTO){
         battleFieldLBL.setText(contestDTO.getBattleFieldName());
         UBoatNameLBL.setText(contestDTO.getBattleFieldName());
         levelLBL.setText(contestDTO.getCompetitionLevel());
+        amountNeddedTeamsLBL.setText(String.valueOf(contestDTO.getAlliesAmountNeeded()));
+        CurrTeamLBL.setText(String.valueOf(contestDTO.getAlliesAmountEntered()));
+
         updateStatusLBL(contestDTO);
     }
     private void updateStatusLBL(ContestDTO contestDTO){

@@ -13,6 +13,26 @@ public class DTOAppData {
     private Map<String, Engine> mapUboatUsernameToEngineData = new HashMap<>();
     private Map<String,ContestDTO> mapContestNameToContestData= new HashMap<>();
 
+
+    private String encryptString;
+    private String decryptString;
+
+    public String getDecryptString() {
+        return decryptString;
+    }
+
+    public String getEncryptString() {
+        return encryptString;
+    }
+    public void setDecryptString(String decryptString) {
+        this.decryptString = decryptString;
+    }
+
+    public void setEncryptString(String encryptString) {
+        this.encryptString = encryptString;
+    }
+
+
     public synchronized Map<String, Engine> getMapUboatGameTitleToEngineData() {
         return mapUboatUsernameToEngineData;
     }

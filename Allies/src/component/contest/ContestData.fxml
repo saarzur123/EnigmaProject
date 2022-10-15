@@ -1,18 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-
 <VBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="component.contest.ContestDataController">
    <children>
-      <Label text="Contest Data" underline="true">
-         <font>
-            <Font size="28.0" />
-         </font>
-      </Label>
+      <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="15.0">
+         <children>
+            <Label text="Contest Data" underline="true">
+               <font>
+                  <Font size="28.0" />
+               </font>
+            </Label>
+            <Button mnemonicParsing="false" onAction="#onActionEnterContestBTN" text="Enter this contest" />
+         </children>
+      </HBox>
       <HBox alignment="CENTER" prefHeight="79.0" prefWidth="400.0">
          <children>
             <Label text="Battle field : ">
@@ -81,6 +86,9 @@
                   <Font size="12.0" />
                </font>
             </Label>
+            <Label fx:id="amountNeddedTeamsLBL" />
+            <Label text="/" />
+            <Label fx:id="CurrTeamLBL" />
          </children>
       </HBox>
    </children>

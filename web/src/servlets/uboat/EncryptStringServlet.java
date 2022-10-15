@@ -27,18 +27,24 @@ public class EncryptStringServlet extends HttpServlet {
         Engine engine = map.get(gameTitle);
 
         String stringToEncrypt = request.getParameter("stringToEncrypt");
+        //TODO
+        appData.setEncryptString(stringToEncrypt);
+
         String encryptSmallLetters = stringToEncrypt.toLowerCase();
-        String DecryptString = "";
+        String decryptString = "";
         if(engine.getDecryptionManager().getDictionary().isStringInDictionary(encryptSmallLetters)) {
-            DecryptString = engine.processData(stringToEncrypt, false);
+            decryptString = engine.processData(stringToEncrypt, false);
             //uboatMainController.getMachineDetailsController().updateCurrMachineDetails("k");
 
         }
+
+        //TODO
+        appData.setDecryptString(decryptString);
         DTOMachineDetails dtoMachineDetails = engine.getMachineDetailsPresenter().createCurrMachineDetails();
         String machineDetails = String.format("%s",engine.showLastMachineDetails(dtoMachineDetails));
         //String jsonEngine = gson.toJson(engine);
         Map<String,Object> resourceNameToValueMap =  new HashMap<>();
-        addDataToMap(resourceNameToValueMap, DecryptString, machineDetails);
+        addDataToMap(resourceNameToValueMap, decryptString, machineDetails);
 
         String json = gson.toJson(resourceNameToValueMap);
         response.getWriter().println(json);
@@ -50,5 +56,3 @@ public class EncryptStringServlet extends HttpServlet {
     }
 
 }
-
-
