@@ -1,5 +1,6 @@
 package Uboat.client.component.main;
 
+import Uboat.client.component.active.teams.activeTeamsController;
 import Uboat.client.component.configure.codes.CreateNewSecretCodeController;
 import Uboat.client.component.encrypt.EncryptController;
 import Uboat.client.component.login.LoginController;
@@ -7,6 +8,7 @@ import Uboat.client.component.machine.detail.MachineDetailsController;
 import Uboat.client.component.secretCode.SecretCodeController;
 import Uboat.client.component.status.StatusController;
 import Uboat.client.component.upload.file.UploadFileController;
+import dTOUI.ContestDTO;
 import engine.Commander;
 import engine.Engine;
 import javafx.application.Platform;
@@ -14,6 +16,8 @@ import javafx.beans.binding.Bindings;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
@@ -25,6 +29,9 @@ import javafx.scene.layout.VBox;
 
 import java.io.Closeable;
 import java.io.IOException;
+import java.net.URL;
+import java.util.Map;
+import java.util.Timer;
 
 import static Uboat.client.util.Constants.JHON_DOE;
 
@@ -51,6 +58,7 @@ public class UboatMainController implements Closeable{
     @FXML private HBox stringEncryptBruteForce;
     @FXML private EncryptController stringEncryptBruteForceController;
 
+    @FXML private VBox activeTeamsArea;
     private String currentBattleFieldName;
     private Commander engineCommands = new Engine();
     private final StringProperty currentUserName;
@@ -142,6 +150,44 @@ public class UboatMainController implements Closeable{
         alert.setHeaderText("An error has occured !");
         alert.setContentText(message);
         alert.showAndWait();
+    }
+
+    private void updateContestsDataList(Map<String, ContestDTO> contestData) {
+        mapContestNameToContestsDataToShow = contestData;
+        Platform.runLater(() -> {
+            activeTeamsArea.getChildren().clear();
+            createContestDataTiles();
+        });
+    }
+
+    private void createContestDataTiles() {
+        for (String contestName : mapContestNameToContestsDataToShow.keySet()) {
+            createContestDataTile(mapContestNameToContestsDataToShow.get(contestName));
+        }
+    }
+
+    private void createContestDataTile(ContestDTO contestData) {
+        try {
+            FXMLLoader loader = new FXMLLoader();
+            URL url = getClass().getResource("/Uboat/client/component/active/teams/ActiveTeams.fxml");//
+            loader.setLocation(url);
+            Node singleContestData = loader.load();
+            activeTeamsController contestDataController = loader.getController();
+            contestDataController.setUboatController(this);
+            Platform.runLater(()->{
+                contestDataController.insertDataToContest(contestData);
+                contestsDataArea.getChildren().add(singleContestData);
+            });
+        } catch (IOException e) {
+
+        }
+    }
+
+    public void startUpdateContestsData() {
+        updateContestData = new ContestDataAreaRefresher(autoUpdate, this::updateContestsDataList);
+
+        contestDataTimer = new Timer();
+        contestDataTimer.schedule(updateContestData, REFRESH_RATE, REFRESH_RATE);
     }
 
 }
