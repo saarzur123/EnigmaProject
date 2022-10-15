@@ -51,6 +51,7 @@ public class UboatMainController implements Closeable{
     @FXML private HBox stringEncryptBruteForce;
     @FXML private EncryptController stringEncryptBruteForceController;
 
+    @FXML private VBox activeTeamsArea;
     private String currentBattleFieldName;
     private Commander engineCommands = new Engine();
     private final StringProperty currentUserName;
@@ -143,5 +144,43 @@ public class UboatMainController implements Closeable{
         alert.setContentText(message);
         alert.showAndWait();
     }
+
+//    private void updateContestsDataList(Map<String, ContestDTO> contestData) {
+//        mapContestNameToContestsDataToShow = contestData;
+//        Platform.runLater(() -> {
+//            activeTeamsArea.getChildren().clear();
+//            createContestDataTiles();
+//        });
+//    }
+//
+//    private void createContestDataTiles() {
+//        for (String contestName : mapContestNameToContestsDataToShow.keySet()) {
+//            createContestDataTile(mapContestNameToContestsDataToShow.get(contestName));
+//        }
+//    }
+//
+//    private void createContestDataTile(ContestDTO contestData) {
+//        try {
+//            FXMLLoader loader = new FXMLLoader();
+//            URL url = getClass().getResource("/Uboat/client/component/active/teams/ActiveTeams.fxml");//
+//            loader.setLocation(url);
+//            Node singleContestData = loader.load();
+//            activeTeamsController contestDataController = loader.getController();
+//            contestDataController.setUboatController(this);
+//            Platform.runLater(()->{
+//                contestDataController.insertDataToContest(contestData);
+//                contestsDataArea.getChildren().add(singleContestData);
+//            });
+//        } catch (IOException e) {
+//
+//        }
+//    }
+//
+//    public void startUpdateContestsData() {
+//        updateContestData = new ContestDataAreaRefresher(autoUpdate, this::updateContestsDataList);
+//
+//        contestDataTimer = new Timer();
+//        contestDataTimer.schedule(updateContestData, REFRESH_RATE, REFRESH_RATE);
+//    }
 
 }

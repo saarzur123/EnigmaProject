@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.Tab?>
@@ -67,7 +66,16 @@
                                         </HBox>
                                         <HBox prefHeight="204.0" prefWidth="700.0">
                                             <children>
-                                                <fx:include source="../active.teams/ActiveTeams.fxml" />
+                                    <ScrollPane prefWidth="350.0">
+                                       <content>
+                                          <VBox fx:id="activeTeamsArea" prefWidth="348.0" />
+                                       </content>
+                                    </ScrollPane>
+                                    <ScrollPane prefWidth="350.0">
+                                       <content>
+                                          <VBox prefWidth="348.0" />
+                                       </content>
+                                    </ScrollPane>
                                             </children>
                                         </HBox>
                                     </children>
