@@ -3,7 +3,6 @@ package Uboat.client.component.configure.codes;
 import Uboat.client.component.configure.automaticlly.AutomaticSecretCodeController;
 import Uboat.client.component.configure.code.UserSecretCodeController;
 import Uboat.client.component.main.UboatMainController;
-import Uboat.client.util.Constants;
 import Uboat.client.util.http.HttpClientUtil;
 import com.google.gson.Gson;
 import javafx.application.Platform;
@@ -81,12 +80,14 @@ public class CreateNewSecretCodeController {
             @Override
             public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
                 String jsonMapOfData = response.body().string();
+                uboatMainController.getContestTab().setDisable(false);
                 doOnResponse(jsonMapOfData,stage);
             }
         });
     }
 
     private void doOnResponse(String jsonData,Stage stage){
+        uboatMainController.getStringEncryptBruteForceController().getReadyBTN().setDisable(true);
         Map<String,String> machineDetailsAndInUseRotorsMap = new Gson().fromJson(jsonData, Map.class);
         String inUseRotor = machineDetailsAndInUseRotorsMap.get("inUseRotor");
         String machineDetails = machineDetailsAndInUseRotorsMap.get("machineDetails");
@@ -105,9 +106,7 @@ public class CreateNewSecretCodeController {
         userSecretCodeController.createRotorComponents(inUseRotors);
         userSecretCodeController.setReflectorIdCB();
         uboatMainController.getMachineDetailsController().updateCurrMachineDetails(machineDetails);
-       // mainController.setNextTabOK();
+        // mainController.setNextTabOK();
 
     }
 }
-
-

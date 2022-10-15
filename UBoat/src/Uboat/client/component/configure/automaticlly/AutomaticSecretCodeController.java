@@ -36,12 +36,14 @@ public class AutomaticSecretCodeController {
         HttpClientUtil.runAsync(finalUrl, new Callback(){
             @Override
             public void onFailure(@NotNull Call call, @NotNull IOException e) {
-              //  httpRequestLoggerConsumer.accept("Users Request # " + finalRequestNumber + " | Ended with failure...");
+                //  httpRequestLoggerConsumer.accept("Users Request # " + finalRequestNumber + " | Ended with failure...");
 
             }
 
             @Override
             public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+                createNewSecretCodeController.getUboatMainController().getContestTab().setDisable(false);
+                createNewSecretCodeController.getUboatMainController().getStringEncryptBruteForceController().getReadyBTN().setDisable(true);
                 String jsonMapOfData = response.body().string();
                 Map<String, String> machineDetailsAndSecretCode = new Gson().fromJson(jsonMapOfData, Map.class);
                 String secretCodeComb = machineDetailsAndSecretCode.get("secretCode");

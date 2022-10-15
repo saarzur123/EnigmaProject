@@ -19,10 +19,7 @@ import javafx.beans.property.StringProperty;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Label;
-import javafx.scene.control.ScrollPane;
-import javafx.scene.control.TabPane;
+import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
@@ -40,7 +37,7 @@ public class UboatMainController implements Closeable{
 
     @FXML    private GridPane login;
     @FXML private LoginController loginController;
-
+    @FXML private Tab contestTab;
     @FXML    private HBox uploadFile;
     @FXML private UploadFileController uploadFileController;
     @FXML private StatusController httpStatusComponentController;
@@ -96,6 +93,15 @@ public class UboatMainController implements Closeable{
         if(flag)
             uploadFile.setDisable(false);
     }
+
+    public Tab getContestTab() {
+        return contestTab;
+    }
+
+    public EncryptController getStringEncryptBruteForceController() {
+        return stringEncryptBruteForceController;
+    }
+
     public UboatMainController() {
         currentUserName = new SimpleStringProperty(JHON_DOE);
     }

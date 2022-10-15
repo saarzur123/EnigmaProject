@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="126.0" prefWidth="178.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="component.agent.data.AgentDataController">
+    <children>
+        <HBox alignment="CENTER" prefHeight="44.0" prefWidth="178.0">
+            <children>
+                <Label text="Agent " />
+                <Label fx:id="agentNameController" />
+            </children>
+        </HBox>
+        <HBox alignment="CENTER" prefHeight="39.0" prefWidth="178.0">
+            <children>
+                <Label text="Amount of thread :" />
+                <Label fx:id="amountOfThreadLBL" />
+            </children>
+        </HBox>
+        <HBox alignment="CENTER" prefHeight="41.0" prefWidth="178.0">
+            <children>
+                <Label text="Mission Size :" />
+                <Label fx:id="missionSizeLBL" />
+            </children>
+        </HBox>
+    </children>
+</VBox>

@@ -49,7 +49,7 @@
                         </AnchorPane>
                     </content>
                 </Tab>
-                <Tab text="Contest">
+                <Tab fx:id="contestTab" text="Contest">
                     <content>
                         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                             <children>
@@ -67,7 +67,16 @@
                                         </HBox>
                                         <HBox prefHeight="204.0" prefWidth="700.0">
                                             <children>
-                                                <fx:include source="../active.teams/ActiveTeams.fxml" />
+                                                <ScrollPane prefWidth="350.0">
+                                                    <content>
+                                                        <VBox fx:id="activeTeamsArea" prefWidth="348.0" />
+                                                    </content>
+                                                </ScrollPane>
+                                                <ScrollPane prefWidth="350.0">
+                                                    <content>
+                                                        <VBox prefWidth="348.0" />
+                                                    </content>
+                                                </ScrollPane>
                                             </children>
                                         </HBox>
                                     </children>

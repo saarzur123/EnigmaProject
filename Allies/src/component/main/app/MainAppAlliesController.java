@@ -62,7 +62,7 @@ public class MainAppAlliesController {
 
     @FXML
     public void initialize() {
-        //TODO
+
         tabPaneAllies.setDisable(true);
         userGreetingLabel.textProperty().bind(Bindings.concat("Hello ", currentUserName));
 

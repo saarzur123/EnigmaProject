@@ -31,9 +31,10 @@ public class EncryptStringServlet extends HttpServlet {
         appData.setEncryptString(stringToEncrypt);
 
         String encryptSmallLetters = stringToEncrypt.toLowerCase();
+        String encryptBigLetter = stringToEncrypt.toUpperCase();
         String decryptString = "";
         if(engine.getDecryptionManager().getDictionary().isStringInDictionary(encryptSmallLetters)) {
-            decryptString = engine.processData(stringToEncrypt, false);
+            decryptString = engine.processData(encryptBigLetter, false);
             //uboatMainController.getMachineDetailsController().updateCurrMachineDetails("k");
 
         }
