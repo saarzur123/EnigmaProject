@@ -147,7 +147,7 @@ public class HandleInputFromUser {
 
         do{
             plugBoardFromUser.clear();
-            plugsUserStr = inputScanner.nextLine();//TODO check if pressing enter leads to empty string
+            plugsUserStr = inputScanner.nextLine();
             isValid = SecretCodeValidations.validatePlugsStrFromUser(plugsUserStr,abc,plugBoardFromUser,errorMsg);
             if(!isValid) {
                 System.out.println(errorMsg);

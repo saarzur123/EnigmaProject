@@ -81,8 +81,6 @@ public class SecretCode {
     {
         this.plugBoard = new PlugBoard(plugsMapping);
     }
-//TODO
-    //in the positions lists!!!! the most right member at index 0 !!!
     public void determineSecretCode(List<Integer> rotorsIdPositions, List<Character> rotorsStartingPos, int reflectorId, Map<Character,Character> plugsMapping)
     {
         secreteCodeState = true;

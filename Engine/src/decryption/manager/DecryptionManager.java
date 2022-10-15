@@ -110,7 +110,6 @@ public class DecryptionManager {
        };
     }
 
-    //TODO make filter userInput
     public void findSecretCode(String userInput,String level,Consumer<DTOMissionResult> consumer,Consumer<Double> updateMissionTime,Consumer<Double> updateProgressBar){
       updateAverageMissionTime = updateMissionTime;
       this.updateProgressBar = updateProgressBar;

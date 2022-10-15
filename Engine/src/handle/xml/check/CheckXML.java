@@ -27,7 +27,7 @@ public class CheckXML {
         }
     }
 
-    public void checkEnoughRotors(int mustInUseRotorsNumbers, int rotorsNumber,List<ExceptionDTO> checkedObjectsList){//TODO check
+    public void checkEnoughRotors(int mustInUseRotorsNumbers, int rotorsNumber,List<ExceptionDTO> checkedObjectsList){
         if(rotorsNumber < mustInUseRotorsNumbers)
             checkedObjectsList.add(new ExceptionDTO(false,"rotors"," entered are not according to rotors count"));
     }
@@ -95,7 +95,7 @@ public class CheckXML {
         return  romeToInt;
     }
 
-    public void checkSelfMapping(List<CTEReflector> reflectorsList,List<ExceptionDTO> checkedObjectsList)//TODO add reflector id to exception msg
+    public void checkSelfMapping(List<CTEReflector> reflectorsList,List<ExceptionDTO> checkedObjectsList)
     {
         for(CTEReflector r : reflectorsList){
             for(CTEReflect reflect : r.getCTEReflect()){
@@ -105,7 +105,7 @@ public class CheckXML {
         }
     }
 
-    public void checkRotorDoubleMapping(String rotorRight, String rotorLeft, Integer rotorId,List<ExceptionDTO> checkedObjectsList)//TODO create Exception
+    public void checkRotorDoubleMapping(String rotorRight, String rotorLeft, Integer rotorId,List<ExceptionDTO> checkedObjectsList)
     {
         checkDoubleMappingInStr(rotorLeft,rotorRight,rotorId,checkedObjectsList);
         checkDoubleMappingInStr(rotorRight,rotorLeft,rotorId,checkedObjectsList);

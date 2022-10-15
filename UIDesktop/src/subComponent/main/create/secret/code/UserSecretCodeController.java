@@ -209,7 +209,7 @@ public class UserSecretCodeController {
         submitReflector = true;
         if(reflectorIdCB.getValue() != null) {
             userDto.getReflectorIdChosen().clear();
-            userDto.getReflectorIdChosen().add(chosenReflector(reflectorIdCB.getValue()));//TODO
+            userDto.getReflectorIdChosen().add(chosenReflector(reflectorIdCB.getValue()));
          }else {
             MainScreenController.showErrorPopup("Please select reflector id.");
             submitReflector = false;

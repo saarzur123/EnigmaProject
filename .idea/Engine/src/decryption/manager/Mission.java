@@ -47,8 +47,6 @@ public class Mission implements Runnable{
         return new MachineImplement(rotors,reflectors, machine.getInUseRotorNumber(), machine.getABC());
     }
 
-
-    //TODO put the brute force here and inside the brute force try to run different codes and encrypt with dictionary
    @Override
     public void run(){
        makeBruteForce(machine.getInUseRotorNumber(),language.toCharArray(),startIndexes,missionSize);
@@ -79,7 +77,6 @@ public class Mission implements Runnable{
                     indexes[i] = 0;   // set current index to zero
                 }
             }
-//////////////////////////////////////TODO check if this in synchronized is ok
             //  pushResultsToCandidateQueue(results);
         }
 
