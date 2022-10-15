@@ -33,7 +33,11 @@
                      <children>
                         <HBox layoutX="-2.0" layoutY="7.0" prefHeight="531.0" prefWidth="700.0">
                            <children>
-                              <ScrollPane fx:id="contestsDataArea" prefWidth="350.0" />
+                              <ScrollPane prefWidth="350.0">
+                                 <content>
+                                    <VBox fx:id="contestsDataArea" prefHeight="500.0" prefWidth="350.0" />
+                                 </content>
+                              </ScrollPane>
                               <ScrollPane fx:id="agentsDataArea" prefWidth="350.0" />
                            </children>
                         </HBox>
@@ -49,7 +53,4 @@
         </tabs>
       </TabPane>
    </center>
-   <bottom>
-      <fx:include source="../../contest/ContestData.fxml" />
-   </bottom>
 </BorderPane>
