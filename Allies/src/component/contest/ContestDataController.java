@@ -24,7 +24,6 @@ public class ContestDataController {
     @FXML
     private Label CurrTeamLBL;
 
-    private ContestDTO enteredContestData;
 
 
     private MainAppAlliesController mainAppAlliesController;
@@ -34,7 +33,9 @@ public class ContestDataController {
     }
     @FXML
     void onActionEnterContestBTN(ActionEvent event) {
-
+        ContestDTO chosenContestData = new ContestDTO(battleFieldLBL.getText(), levelLBL.getText(), UBoatNameLBL.getText(),
+                Integer.parseInt(CurrTeamLBL.getText()),Integer.parseInt(amountNeddedTeamsLBL.getText()),Boolean.valueOf(statusLBL.getText()));
+        mainAppAlliesController.setChosenContest(chosenContestData);
     }
 
 
