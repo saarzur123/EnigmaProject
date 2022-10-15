@@ -42,6 +42,8 @@ public class AutomaticSecretCodeController {
 
             @Override
             public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+                createNewSecretCodeController.getUboatMainController().getContestTab().setDisable(false);
+                createNewSecretCodeController.getUboatMainController().getStringEncryptBruteForceController().getReadyBTN().setDisable(true);
                 String jsonMapOfData = response.body().string();
                 Map<String, String> machineDetailsAndSecretCode = new Gson().fromJson(jsonMapOfData, Map.class);
                 String secretCodeComb = machineDetailsAndSecretCode.get("secretCode");

@@ -27,6 +27,6 @@
             <Button mnemonicParsing="false" onAction="#restartSecretCodeBTN" text="Restart" />
          </children>
       </VBox>
-      <Button mnemonicParsing="false" onAction="#onReadyBTN" text="Ready" />
+      <Button fx:id="readyBTN" mnemonicParsing="false" onAction="#onReadyBTN" text="Ready" />
    </children>
 </HBox>

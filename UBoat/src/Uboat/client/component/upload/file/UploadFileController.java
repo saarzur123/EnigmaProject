@@ -67,6 +67,7 @@ public class UploadFileController {
                             if(validateUniqueGameTitle(machineDetailsAndBattleFieldGameTitle)){
                                 setOnValidMachine(machineDetailsAndBattleFieldGameTitle);
                             }
+                            uboatMainController.getContestTab().setDisable(true);
                         }
                     });
                 }

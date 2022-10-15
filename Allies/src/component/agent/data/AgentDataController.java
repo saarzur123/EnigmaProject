@@ -1,4 +1,4 @@
-package Component.agent.data;
+package component.agent.data;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;

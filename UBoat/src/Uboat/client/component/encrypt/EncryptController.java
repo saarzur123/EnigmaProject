@@ -6,6 +6,7 @@ import com.google.gson.Gson;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import machine.SecretCode;
 import okhttp3.Call;
@@ -23,6 +24,8 @@ public class EncryptController {
 
     @FXML
     private TextField userEncryptStringTF;
+    @FXML
+    Button readyBTN;
     @FXML
     private TextField userDecryptStringTF;
     private UboatMainController uboatMainController;
@@ -44,6 +47,10 @@ public class EncryptController {
 //            }
             userDecryptStringTF.setText("");
         });
+    }
+
+    public Button getReadyBTN() {
+        return readyBTN;
     }
 
     @FXML
@@ -93,7 +100,7 @@ public class EncryptController {
                 Map<String, String> machineDetailsAndSecretCode = new Gson().fromJson(jsonMapOfData, Map.class);
                 machineDetails = machineDetailsAndSecretCode.get("machineDetails");
                 String decryptString = machineDetailsAndSecretCode.get("DecryptString");
-
+                readyBTN.setDisable(false);
                 userDecryptStringTF.setText(decryptString);
                 Platform.runLater(()->{
 
