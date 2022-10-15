@@ -1,7 +1,7 @@
 package Uboat.client.component.main;
 
-import Uboat.client.component.active.teams.ActiveTeamsController;
-import Uboat.client.component.active.teams.RefreshActiveTeamDetails;
+import Uboat.client.component.teams.ActiveTeamsController;
+import Uboat.client.component.teams.RefreshActiveTeamDetails;
 import Uboat.client.component.configure.codes.CreateNewSecretCodeController;
 import Uboat.client.component.encrypt.EncryptController;
 import Uboat.client.component.login.LoginController;
@@ -86,7 +86,7 @@ public class UboatMainController implements Closeable{
             createNewSecretCodeController.setUboatMainController(this);
             secretCodeController.setUboatMainController(this);
         }
-
+        startUpdateContestsData();
         //loadLoginPage();
     }
     public void setUploadFile(boolean flag){
@@ -181,7 +181,7 @@ public class UboatMainController implements Closeable{
     private void createContestDataTile(String alliesName,String missionSize,String agentNumber) {
         try {
             FXMLLoader loader = new FXMLLoader();
-            URL url = getClass().getResource("/Uboat/client/component/active/teams/ActiveTeams.fxml");//
+            URL url = getClass().getResource("/Uboat/client/component/teams/ActiveTeams.fxml");//
             loader.setLocation(url);
             Node singleTeamData = loader.load();
             ActiveTeamsController activeTeamsController = loader.getController();
@@ -198,7 +198,6 @@ public class UboatMainController implements Closeable{
 
     public void startUpdateContestsData() {
         updateActiveTeamsArea = new RefreshActiveTeamDetails(this::updateContestsDataList);
-
         timeToUpdateActiveTeams = new Timer();
         timeToUpdateActiveTeams.schedule(updateActiveTeamsArea, REFRESH_RATE, REFRESH_RATE);
     }

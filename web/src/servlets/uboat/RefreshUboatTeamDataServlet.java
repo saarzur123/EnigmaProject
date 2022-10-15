@@ -25,7 +25,7 @@ public class RefreshUboatTeamDataServlet extends HttpServlet {
         DTOAppData appData = utils.ServletUtils.getDTOAppData(getServletContext());
         if(appData.getMapTeamNameToActiveTeamsData().size()>0){
             for(String teamName : appData.getMapTeamNameToActiveTeamsData().keySet()){
-                ret.put(gson.toJson(teamName),gson.toJson(appData.getMapContestNameToContestData().get(teamName)));
+                ret.put(gson.toJson(teamName),gson.toJson(appData.getMapTeamNameToActiveTeamsData().get(teamName)));
             }
             resourceNameToValueMap.put("teamsDataMap", gson.toJson(ret));
         }

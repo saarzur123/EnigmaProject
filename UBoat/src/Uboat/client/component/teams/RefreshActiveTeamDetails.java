@@ -1,4 +1,4 @@
-package Uboat.client.component.active.teams;
+package Uboat.client.component.teams;
 
 
 import Uboat.client.util.http.HttpClientUtil;

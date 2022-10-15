@@ -1,4 +1,4 @@
-package Uboat.client.component.active.teams;
+package Uboat.client.component.teams;
 
 import Uboat.client.component.main.UboatMainController;
 import javafx.fxml.FXML;
