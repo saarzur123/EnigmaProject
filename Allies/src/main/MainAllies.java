@@ -22,7 +22,6 @@ public class MainAllies extends Application {
         primaryStage.setMinHeight(600);
         primaryStage.setMinWidth(600);
         primaryStage.setTitle("UBoat App Client");
-
         URL loginPage = getClass().getResource("/component/main/app/MainAppAllie.fxml");
         try {
             FXMLLoader fxmlLoader = new FXMLLoader();

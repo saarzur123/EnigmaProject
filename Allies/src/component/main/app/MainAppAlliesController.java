@@ -1,5 +1,6 @@
 package component.main.app;
 
+import component.configure.AlliesConfigureController;
 import component.contest.ContestDataController;
 import component.login.LoginController;
 import component.refresh.contest.data.ContestDataAreaRefresher;
@@ -14,10 +15,15 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 import java.io.IOException;
 import java.net.URL;
@@ -35,6 +41,7 @@ public class MainAppAlliesController {
     @FXML
     private LoginController loginController;
     @FXML private Tab contestTab;
+    @FXML private Tab dashboardTab;
 
     @FXML
     private Label userGreetingLabel;
@@ -49,7 +56,6 @@ public class MainAppAlliesController {
     private ScrollPane agentsDataArea;
     @FXML private TabPane tabPaneAllies;
 
-
     private Timer contestDataTimer;
     private Timer shouldUpdateTimer;
     private TimerTask updateContestData;
@@ -57,6 +63,7 @@ public class MainAppAlliesController {
     private BooleanProperty autoUpdate = new SimpleBooleanProperty();
     private ContestDTO chosenContestData;
     private Map<String, ContestDTO> mapContestNameToContestsDataToShow = new HashMap<>();
+
     private String currentBattleFieldName;
     private final StringProperty currentUserName = new SimpleStringProperty(JHON_DOE);
 
@@ -65,7 +72,8 @@ public class MainAppAlliesController {
 
         tabPaneAllies.setDisable(true);
         userGreetingLabel.textProperty().bind(Bindings.concat("Hello ", currentUserName));
-
+//        Stage stage = (Stage) tabPaneAllies.getScene().getWindow();
+//        stage.setResizable(false);
         if (loginController != null) {
             loginController.setAlliesMainController(this);
         }
@@ -81,6 +89,7 @@ public class MainAppAlliesController {
         return tabPaneAllies;
     }
 
+
     public Label getClientErrorLabel() {
         return loginController.getErrorMessageLabel();
     }
@@ -91,6 +100,10 @@ public class MainAppAlliesController {
 
     public void setCurrentBattleFieldName(String currentBattleFieldName) {
         this.currentBattleFieldName = currentBattleFieldName;
+    }
+
+    public ContestDTO getChosenContestData() {
+        return chosenContestData;
     }
 
     public static void showErrorPopup(String message) {
@@ -144,8 +157,24 @@ public class MainAppAlliesController {
     }
 
     @FXML
-    public void onRedayActionBTN(ActionEvent event) {
+    public void onContestChosenRedayActionBTN(ActionEvent event) throws IOException {
+        dashboardTab.setDisable(true);
+        setSelectedTab();
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/component/configure/AlliesConfigure.fxml"));
+        Parent root1 = (Parent) fxmlLoader.load();
+        Stage stage = new Stage();
+        stage.initModality(Modality.APPLICATION_MODAL);//block the user from doing other actions
+        stage.initStyle(StageStyle.DECORATED);// now te pop up window will have a toolbar
+        stage.setTitle("Manually Configuration Window");
+        stage.setScene(new Scene(root1));
+        AlliesConfigureController alliesConfigureController = fxmlLoader.getController();
+        alliesConfigureController.setMainController(this);
+        stage.showAndWait();
+    }
 
+    public void setSelectedTab(){
+        SingleSelectionModel<Tab> selectionModel = tabPaneAllies.getSelectionModel();
+        selectionModel.select(1);
     }
 
     public void setChosenContest(ContestDTO chosenContestData){

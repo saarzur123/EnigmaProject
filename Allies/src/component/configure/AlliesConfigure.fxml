@@ -24,6 +24,17 @@
             </Label>
             <HBox alignment="CENTER" prefHeight="74.0" prefWidth="343.0" spacing="12.0">
                <children>
+                  <Label text="Allie name :">
+                     <font>
+                        <Font size="17.0" />
+                     </font>
+                  </Label>
+                  <TextField fx:id="allieNameTF" prefWidth="300.0" />
+                  <Button mnemonicParsing="false" onAction="#onSubmitAllieNameActionBTN" text="SUBMIT" />
+               </children>
+            </HBox>
+            <HBox alignment="CENTER" prefHeight="74.0" prefWidth="343.0" spacing="12.0">
+               <children>
                   <Label text="Number of agents :">
                      <font>
                         <Font size="17.0" />

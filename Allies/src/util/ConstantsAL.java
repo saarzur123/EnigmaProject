@@ -30,7 +30,7 @@ public class ConstantsAL {
     public final static String CREATE_USER_SECRET_CODE = LOGIN_PAGE + "/createUserSecretCode";
     public final static String SET_USER_SECRET_CODE = LOGIN_PAGE +"/setUserSecretCode";
     public final static String REFRESHER_CONTEST_DATA = FULL_SERVER_PATH + "/refresherContestData";
-    public final static String UPDATE_BOOLEAN_CONTEST = FULL_SERVER_PATH + "/booleanContest";
+    public final static String ALLIE_CONFIGURE_READY = FULL_SERVER_PATH + "/AllieConfigureIsReady";
     public final static String USERS_LIST = FULL_SERVER_PATH + "/userslist";
     public final static String LOGOUT = FULL_SERVER_PATH + "/chat/logout";
     public final static String SEND_CHAT_LINE = FULL_SERVER_PATH + "/pages/chatroom/sendChat";
