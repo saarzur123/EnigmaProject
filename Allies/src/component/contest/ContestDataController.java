@@ -38,8 +38,6 @@ public class ContestDataController {
         mainAppAlliesController.setChosenContest(chosenContestData);
     }
 
-
-
     public void insertDataToContest(ContestDTO contestDTO){
         battleFieldLBL.setText(contestDTO.getBattleFieldName());
         UBoatNameLBL.setText(contestDTO.getBattleFieldName());
