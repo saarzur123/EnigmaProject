@@ -27,7 +27,8 @@ import java.util.Map;
             DTOAppData appData = utils.ServletUtils.getDTOAppData(getServletContext());
             appData.addToMapTeamNameToActiveTeamsData(teamsDTO);
 
-            resourceNameToValueMap.put("teamDTO",newAlliesActiveTeamAddedJson);
+            ActiveTeamsDTO[] activeTeamsData = appData.getMapTeamNameToActiveTeamsData().values().toArray(new ActiveTeamsDTO[0]);
+            resourceNameToValueMap.put("listTeams", gson.toJson(activeTeamsData));
 
             response.getWriter().println(gson.toJson(resourceNameToValueMap));
         }

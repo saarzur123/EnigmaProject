@@ -6,9 +6,13 @@
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
@@ -58,7 +62,55 @@
                 </Tab>
                 <Tab fx:id="contestTab" text="Contest">
                     <content>
-                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                        <AnchorPane minHeight="0.0" minWidth="0.0" prefWidth="700.0">
+                     <children>
+                        <BorderPane prefHeight="503.0" prefWidth="700.0">
+                           <top>
+                              <GridPane BorderPane.alignment="CENTER">
+                                <columnConstraints>
+                                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="306.0" minWidth="10.0" prefWidth="297.0" />
+                                    <ColumnConstraints hgrow="SOMETIMES" maxWidth="465.0" minWidth="10.0" prefWidth="403.0" />
+                                </columnConstraints>
+                                <rowConstraints>
+                                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                </rowConstraints>
+                                 <children>
+                                    <HBox prefHeight="31.0" prefWidth="425.0" spacing="10.0" GridPane.columnIndex="1">
+                                       <children>
+                                          <Label text="Add agents to your next round!" />
+                                          <TextField prefWidth="80.0" />
+                                          <Button alignment="CENTER" mnemonicParsing="false" onAction="#onAddAgentsNumberToNextRoundSubmitBTN" text="SUBMIT" />
+                                       </children>
+                                    </HBox>
+                                 </children>
+                              </GridPane>
+                           </top>
+                           <left>
+                              <VBox prefWidth="350.0" BorderPane.alignment="CENTER">
+                                 <children>
+                                    <ScrollPane prefHeight="200.0" prefWidth="200.0">
+                                       <content>
+                                          <VBox fx:id="currentContestDataAreaVBOX" prefHeight="200.0" prefWidth="350.0" />
+                                       </content>
+                                    </ScrollPane>
+                                    <ScrollPane prefHeight="200.0" prefWidth="200.0" />
+                                 </children>
+                              </VBox>
+                           </left>
+                           <right>
+                              <VBox prefWidth="350.0" BorderPane.alignment="CENTER">
+                                 <children>
+                                    <ScrollPane prefHeight="200.0" prefWidth="200.0">
+                                       <content>
+                                          <VBox fx:id="currentContestTeamsAreaVBOX" prefHeight="200.0" prefWidth="350.0" />
+                                       </content>
+                                    </ScrollPane>
+                                    <ScrollPane prefHeight="200.0" prefWidth="200.0" />
+                                 </children>
+                              </VBox>
+                           </right>
+                        </BorderPane>
+                     </children></AnchorPane>
                     </content>
                 </Tab>
             </tabs>

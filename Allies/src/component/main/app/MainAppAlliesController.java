@@ -54,6 +54,10 @@ public class MainAppAlliesController {
 
     @FXML
     private HBox stringEncryptBruteForce;
+    @FXML
+    private VBox currentContestDataAreaVBOX;
+    @FXML
+    private VBox currentContestTeamsAreaVBOX;
 
     ////dashboard - fxml
     @FXML
@@ -78,8 +82,6 @@ public class MainAppAlliesController {
 
         tabPaneAllies.setDisable(true);
         userGreetingLabel.textProperty().bind(Bindings.concat("Hello ", currentUserName));
-//        Stage stage = (Stage) tabPaneAllies.getScene().getWindow();
-//        stage.setResizable(false);
         if (loginController != null) {
             loginController.setAlliesMainController(this);
         }
@@ -95,6 +97,9 @@ public class MainAppAlliesController {
         return tabPaneAllies;
     }
 
+    public VBox getCurrentContestTeamsAreaVBOX() {
+        return currentContestTeamsAreaVBOX;
+    }
 
     public Label getClientErrorLabel() {
         return loginController.getErrorMessageLabel();
@@ -157,7 +162,6 @@ public class MainAppAlliesController {
 
     public void startUpdateContestsData() {
         updateContestData = new ContestDataAreaRefresher(autoUpdate, this::updateContestsDataList);
-
         contestDataTimer = new Timer();
         contestDataTimer.schedule(updateContestData, REFRESH_RATE, REFRESH_RATE);
     }
@@ -216,13 +220,35 @@ public class MainAppAlliesController {
 
     public void setSelectedTab(){
         SingleSelectionModel<Tab> selectionModel = tabPaneAllies.getSelectionModel();
+        contestTab.setDisable(false);
         selectionModel.select(1);
     }
 
     public void setChosenContest(ContestDTO chosenContestData){
         this.chosenContestData = chosenContestData;
         this.currentBattleFieldName = chosenContestData.getBattleFieldName();
+
+        updateCurrentContestDataArea();
     }
 
+    private void updateCurrentContestDataArea(){
+        try {
+            FXMLLoader loader = new FXMLLoader();
+            URL url = getClass().getResource("/component/contest/ContestData.fxml");
+            loader.setLocation(url);
+            Node singleContestData = loader.load();
+            ContestDataController contestDataController = loader.getController();
+            contestDataController.setAlliesController(this);
+            contestDataController.insertDataToContest(chosenContestData);
+            currentContestDataAreaVBOX.getChildren().add(singleContestData);
+        } catch (IOException e) {
+
+        }
+    }
+
+    @FXML
+    public void onAddAgentsNumberToNextRoundSubmitBTN(ActionEvent event){
+
+    }
 
 }
