@@ -95,7 +95,7 @@ public class EncryptController {
 
             @Override
             public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
-               // String decryptString = response.body().string();
+                // String decryptString = response.body().string();
                 String jsonMapOfData = response.body().string();
                 Map<String, String> machineDetailsAndSecretCode = new Gson().fromJson(jsonMapOfData, Map.class);
                 machineDetails = machineDetailsAndSecretCode.get("machineDetails");
@@ -106,10 +106,10 @@ public class EncryptController {
 
                     //userEncryptStringTF.setText(userEncryptStringTF.getText().toLowerCase());
 
-                   // uboatMainController.setSecretCodeState(false);
+                    // uboatMainController.setSecretCodeState(false);
                     uboatMainController.getMachineDetailsController().updateCurrMachineDetails(machineDetails);
                     clickedAndEncrypt = true;
-                     });
+                });
             }
         });
 
@@ -163,7 +163,7 @@ public class EncryptController {
             }
         });
 
-       // uboatMainController.getEngineCommand().validateUserChoiceAndResetSecretCode();
+        // uboatMainController.getEngineCommand().validateUserChoiceAndResetSecretCode();
         //uboatMainController.setLBLToCodeCombinationBindingMain(machineDetails);
         //uboatMainController.getDecryptionController().onClear();
         //uboatMainController.getMachineDetailsController().updateCurrMachineDetails(machineDetails);
@@ -183,9 +183,9 @@ public class EncryptController {
         return userEncryptStringTF;
     }
 
-   // public TextField getUserDecryptStringTF() {
-  //      return userDecryptStringTF;
-  //  }
+    // public TextField getUserDecryptStringTF() {
+    //      return userDecryptStringTF;
+    //  }
 
     public boolean isClickedAndEncrypt() {
         return clickedAndEncrypt;

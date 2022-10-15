@@ -85,7 +85,7 @@ public class UploadFileController {
             isValidMachine.setValue(false);
             ret = false;
             Platform.runLater(() ->{
-            UboatMainController.showErrorPopup(String.format("Game title %s is not unique",gameTitle));
+                UboatMainController.showErrorPopup(String.format("Game title %s is not unique",gameTitle));
             });
         }
 
@@ -113,10 +113,10 @@ public class UploadFileController {
     private void setOnValidMachine(Map<String,String> machineDetailsAndBattleFieldName){
 
         Platform.runLater(()->{
-        uboatMainController.getMachineDetailsController().deleteCurrMachine();
-        uboatMainController.setCurrentBattleFieldName(machineDetailsAndBattleFieldName.get("gameTitle"));
-        uboatMainController.setCurrMachineTxt(machineDetailsAndBattleFieldName.get("machineDetails"));
-        uboatMainController.unDisableMachineDetails();
+            uboatMainController.getMachineDetailsController().deleteCurrMachine();
+            uboatMainController.setCurrentBattleFieldName(machineDetailsAndBattleFieldName.get("gameTitle"));
+            uboatMainController.setCurrMachineTxt(machineDetailsAndBattleFieldName.get("machineDetails"));
+            uboatMainController.unDisableMachineDetails();
         });
         //  mainController.setDecryptionTab();
     }

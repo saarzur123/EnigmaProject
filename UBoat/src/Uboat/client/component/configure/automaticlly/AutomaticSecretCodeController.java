@@ -36,7 +36,7 @@ public class AutomaticSecretCodeController {
         HttpClientUtil.runAsync(finalUrl, new Callback(){
             @Override
             public void onFailure(@NotNull Call call, @NotNull IOException e) {
-              //  httpRequestLoggerConsumer.accept("Users Request # " + finalRequestNumber + " | Ended with failure...");
+                //  httpRequestLoggerConsumer.accept("Users Request # " + finalRequestNumber + " | Ended with failure...");
 
             }
 
