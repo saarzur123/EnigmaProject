@@ -9,6 +9,9 @@ import Uboat.client.component.machine.detail.MachineDetailsController;
 import Uboat.client.component.secretCode.SecretCodeController;
 import Uboat.client.component.status.StatusController;
 import Uboat.client.component.upload.file.UploadFileController;
+import Uboat.client.util.http.HttpClientUtil;
+import battleField.BattleField;
+import com.google.gson.Gson;
 import dTOUI.ActiveTeamsDTO;
 import engine.Commander;
 import engine.Engine;
@@ -24,14 +27,18 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.HttpUrl;
+import okhttp3.Response;
+import org.jetbrains.annotations.NotNull;
 
 import java.io.Closeable;
 import java.io.IOException;
 import java.net.URL;
 import java.util.*;
 
-import static Uboat.client.util.Constants.JHON_DOE;
-import static Uboat.client.util.Constants.REFRESH_RATE;
+import static Uboat.client.util.Constants.*;
 
 public class UboatMainController implements Closeable{
 
@@ -180,6 +187,7 @@ public class UboatMainController implements Closeable{
 
     private void createContestDataTile(String alliesName,String missionSize,String agentNumber) {
         try {
+
             FXMLLoader loader = new FXMLLoader();
             URL url = getClass().getResource("/Uboat/client/component/teams/ActiveTeams.fxml");//
             loader.setLocation(url);
@@ -191,10 +199,12 @@ public class UboatMainController implements Closeable{
                 activeTeamsController.insertDataToContest(alliesName,missionSize,agentNumber);
                 activeTeamsArea.getChildren().add(singleTeamData);
             });
+
         } catch (IOException e) {
 
         }
     }
+
 
     public void startUpdateContestsData() {
         updateActiveTeamsArea = new RefreshActiveTeamDetails(this::updateContestsDataList);

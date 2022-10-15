@@ -25,6 +25,7 @@ public class Constants {
     public final static String LOGIN_PAGE = FULL_SERVER_PATH + "/loginShortResponse";
     public final static String UPLOAD_FILE = LOGIN_PAGE + "/uploadFile";
     public final static String AUTOMATION_SECRET_CODE = LOGIN_PAGE + "/automationCode";
+
     public final static String ENCRYPT_STRING = LOGIN_PAGE + "/encrypt";
     public final static String RESTART_CODE = LOGIN_PAGE + "/restart";
     public final static String CREATE_USER_SECRET_CODE = LOGIN_PAGE + "/createUserSecretCode";

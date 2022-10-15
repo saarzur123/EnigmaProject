@@ -1,5 +1,6 @@
 package component.main.app;
 
+import com.google.gson.Gson;
 import component.configure.AlliesConfigureController;
 import component.contest.ContestDataController;
 import component.login.LoginController;
@@ -24,6 +25,12 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.HttpUrl;
+import okhttp3.Response;
+import org.jetbrains.annotations.NotNull;
+import util.http.HttpClientUtilAL;
 
 import java.io.IOException;
 import java.net.URL;
@@ -32,8 +39,7 @@ import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import static util.ConstantsAL.JHON_DOE;
-import static util.ConstantsAL.REFRESH_RATE;
+import static util.ConstantsAL.*;
 
 public class MainAppAlliesController {
     @FXML
@@ -170,7 +176,43 @@ public class MainAppAlliesController {
         AlliesConfigureController alliesConfigureController = fxmlLoader.getController();
         alliesConfigureController.setMainController(this);
         stage.showAndWait();
-    }
+
+            String finalUrl = HttpUrl
+                    .parse(REFRESH_EXSIST_UBOAT)
+                    .newBuilder()
+                    .addQueryParameter("gameTitle", currentBattleFieldName)
+                    .build()
+                    .toString();
+        HttpClientUtilAL.runAsync(finalUrl, new Callback(){
+                @Override
+                public void onFailure(@NotNull Call call, @NotNull IOException e) {
+                }
+
+                @Override
+                public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+                    String jsonMapOfData = response.body().string();
+                    Map<String, String> map = new Gson().fromJson(jsonMapOfData, Map.class);
+                    String mapString = map.get("map");
+                    mapContestNameToContestsDataToShow = new Gson().fromJson(mapString, Map.class);;
+                    if(map.get("full")=="YES"){
+                        int hey = 0 ;
+                    }
+
+//                createNewSecretCodeController.getUboatMainController().getContestTab().setDisable(false);
+//                createNewSecretCodeController.getUboatMainController().getStringEncryptBruteForceController().getReadyBTN().setDisable(true);
+//                String jsonMapOfData = response.body().string();
+//                Map<String, String> machineDetailsAndSecretCode = new Gson().fromJson(jsonMapOfData, Map.class);
+//                String secretCodeComb = machineDetailsAndSecretCode.get("secretCode");
+//                String machineDetails = machineDetailsAndSecretCode.get("machineDetails");
+//                Platform.runLater(()->{
+//                    createNewSecretCodeController.getUboatMainController().setLBLToCodeCombinationBindingMain(secretCodeComb);
+//                    createNewSecretCodeController.getUboatMainController().setSecretCodeState(false);
+//                    createNewSecretCodeController.getUboatMainController().getMachineDetailsController().updateCurrMachineDetails(machineDetails);
+//                });
+                }
+            });
+        }
+
 
     public void setSelectedTab(){
         SingleSelectionModel<Tab> selectionModel = tabPaneAllies.getSelectionModel();
@@ -179,6 +221,7 @@ public class MainAppAlliesController {
 
     public void setChosenContest(ContestDTO chosenContestData){
         this.chosenContestData = chosenContestData;
+        this.currentBattleFieldName = chosenContestData.getBattleFieldName();
     }
 
 

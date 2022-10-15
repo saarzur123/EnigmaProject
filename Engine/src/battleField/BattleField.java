@@ -8,6 +8,7 @@ import java.util.Map;
 public class BattleField {
     private String gameTitle;
     private int alliesAmount;
+    private int currAmountOfAllies = 0;
     private Map<String, AlliesDTO> mapAlliesNameToAlliesDTO = new HashMap<>();
     private String competitionLevel;
     private String userNameOfContestCreator;
@@ -20,6 +21,14 @@ public class BattleField {
         this.alliesAmount = alliesAmount;
         uboatButtonReady = false;
         contestReadyToStart = false;
+    }
+
+    public int getCurrAmountOfAllies() {
+        return currAmountOfAllies;
+    }
+
+    public void setCurrAmountOfAllies(int currAmountOfAllies) {
+        this.currAmountOfAllies = currAmountOfAllies;
     }
 
     public int getAlliesAmount() {

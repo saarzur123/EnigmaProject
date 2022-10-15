@@ -62,7 +62,10 @@ public class DTOAppData {
     public synchronized void addToMapContestNameToContestData(ContestDTO contestData) {
         mapContestNameToContestData.put(contestData.getBattleFieldName(),contestData);
     }
-
+    public synchronized void updateExistsUboat(ContestDTO contestData){
+        mapContestNameToContestData.remove(contestData.getBattleFieldName());
+        mapContestNameToContestData.put(contestData.getBattleFieldName(),contestData);
+    }
     public synchronized Map<String, ActiveTeamsDTO> getMapTeamNameToActiveTeamsData() {
         return mapTeamNameToActiveTeamsData;
     }
