@@ -40,7 +40,7 @@ public class ContestDataController {
 
     public void insertDataToContest(ContestDTO contestDTO){
         battleFieldLBL.setText(contestDTO.getBattleFieldName());
-        UBoatNameLBL.setText(contestDTO.getBattleFieldName());
+        UBoatNameLBL.setText(contestDTO.getUserNameOfContestCreator());
         levelLBL.setText(contestDTO.getCompetitionLevel());
         amountNeddedTeamsLBL.setText(String.valueOf(contestDTO.getAlliesAmountNeeded()));
         CurrTeamLBL.setText(String.valueOf(contestDTO.getAlliesAmountEntered()));
