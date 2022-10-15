@@ -1,47 +1,34 @@
 package Uboat.client.component.active.teams;
 
 
-
+import Uboat.client.util.http.HttpClientUtil;
 import com.google.gson.Gson;
-import dTOUI.ContestDTO;
-import javafx.beans.property.BooleanProperty;
+import dTOUI.ActiveTeamsDTO;
 import okhttp3.Call;
 import okhttp3.Callback;
-import okhttp3.HttpUrl;
 import okhttp3.Response;
 import org.jetbrains.annotations.NotNull;
-import util.http.HttpClientUtilAL;
 
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.TimerTask;
+import java.util.*;
 import java.util.function.Consumer;
 
-import static util.ConstantsAL.REFRESHER_CONTEST_DATA;
-
-    public class RefreshActiveTeamDetails extends TimerTask {
-        private final Consumer<Map<String, ContestDTO>> updateContestDataConsumer;
-        private final BooleanProperty shouldUpdate;
+import static Uboat.client.util.Constants.REFRESHER_TEAMS_DATA;
 
 
-        public ContestDataAreaRefresher(BooleanProperty shouldUpdate, Consumer<Map<String,ContestDTO>> updateContestDataConsumer) {
-            this.shouldUpdate = shouldUpdate;
-            //   this.httpRequestLoggerConsumer = httpRequestLoggerConsumer;
-            this.updateContestDataConsumer = updateContestDataConsumer;
-            //   requestNumber = 0;
+public class RefreshActiveTeamDetails extends TimerTask {
+        private final Consumer<List<ActiveTeamsDTO>> updateTeamsDataConsumer;
+
+
+        public RefreshActiveTeamDetails( Consumer<List<ActiveTeamsDTO>> updateTeamsDataConsumer) {
+            this.updateTeamsDataConsumer = updateTeamsDataConsumer;
         }
 
 
         @Override
         public void run() {
-            String finalUrl = HttpUrl
-                    .parse(REFRESHER_CONTEST_DATA)
-                    .newBuilder()
-                    .build()
-                    .toString();
 
-            HttpClientUtilAL.runAsync(finalUrl, new Callback() {
+            HttpClientUtil.runAsync(REFRESHER_TEAMS_DATA, new Callback() {
 
                 @Override
                 public void onFailure(@NotNull Call call, @NotNull IOException e) {
@@ -52,20 +39,21 @@ import static util.ConstantsAL.REFRESHER_CONTEST_DATA;
                     Gson gson = new Gson();
                     String jsonArrayOfContestData = response.body().string();
                     Map<String, String> mapData = gson.fromJson(jsonArrayOfContestData, Map.class);
-                    Map<String,ContestDTO> actualData = new HashMap<>();
+                    Map<String,ActiveTeamsDTO> actualData = new HashMap<>();
                     if(mapData.size()>0){
-                        Map<String,String> mapContestDataJson = gson.fromJson(mapData.get("contestsDataMap"),Map.class);
-                        for (String str : mapContestDataJson.keySet()){
-                            String contestName = gson.fromJson(str,String.class);
-                            ContestDTO contestDTO = gson.fromJson(mapContestDataJson.get(str),ContestDTO.class);
-                            actualData.put(contestName,contestDTO);
+                        Map<String,String> mapTeamsDataJson = gson.fromJson(mapData.get("teamsDataMap"),Map.class);
+                        for (String str : mapTeamsDataJson.keySet()){
+                            String teamName = gson.fromJson(str,String.class);
+                            ActiveTeamsDTO activeTeamsDTO = gson.fromJson(mapTeamsDataJson.get(str),ActiveTeamsDTO.class);
+                            actualData.put(teamName,activeTeamsDTO);
                         }
-                        updateContestDataConsumer.accept(actualData);
+                        ArrayList<ActiveTeamsDTO> retList = new ArrayList<>(actualData.values());
+                        updateTeamsDataConsumer.accept(retList);
                     }
 
                 }
             });
         }
-    }
+
 
 }

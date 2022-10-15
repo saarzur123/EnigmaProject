@@ -3,15 +3,13 @@ package dTOUI;
 import engine.Engine;
 import uboat.engine.users.UserManager;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 public class DTOAppData {
     private Set<UserManager> userManagersForAllApp = new HashSet<>();
     private Map<String, Engine> mapUboatUsernameToEngineData = new HashMap<>();
     private Map<String,ContestDTO> mapContestNameToContestData= new HashMap<>();
+    private Map<String,ActiveTeamsDTO> mapTeamNameToActiveTeamsData = new HashMap<>();
 
 
     private String encryptString;
@@ -63,5 +61,17 @@ public class DTOAppData {
 
     public synchronized void addToMapContestNameToContestData(ContestDTO contestData) {
         mapContestNameToContestData.put(contestData.getBattleFieldName(),contestData);
+    }
+
+    public synchronized Map<String, ActiveTeamsDTO> getMapTeamNameToActiveTeamsData() {
+        return mapTeamNameToActiveTeamsData;
+    }
+
+    public synchronized void addToMapTeamNameToActiveTeamsData(ActiveTeamsDTO teamData) {
+        mapTeamNameToActiveTeamsData.put(teamData.getTeamName(),teamData);
+    }
+
+    public synchronized void removeFromMapTeamNameToActiveTeamsData(String teamName) {
+        mapTeamNameToActiveTeamsData.remove(teamName);
     }
 }

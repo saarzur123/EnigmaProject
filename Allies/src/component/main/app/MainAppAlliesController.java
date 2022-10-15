@@ -10,6 +10,7 @@ import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -141,6 +142,10 @@ public class MainAppAlliesController {
         contestDataTimer.schedule(updateContestData, REFRESH_RATE, REFRESH_RATE);
     }
 
+    @FXML
+    void onRedayActionBTN(ActionEvent event) {
+
+    }
 
 
 }

@@ -24,6 +24,8 @@ public class ContestDataController {
     @FXML
     private Label CurrTeamLBL;
 
+    private ContestDTO enteredContestData;
+
 
     private MainAppAlliesController mainAppAlliesController;
     //TODO
@@ -34,6 +36,8 @@ public class ContestDataController {
     void onActionEnterContestBTN(ActionEvent event) {
 
     }
+
+
 
     public void insertDataToContest(ContestDTO contestDTO){
         battleFieldLBL.setText(contestDTO.getBattleFieldName());

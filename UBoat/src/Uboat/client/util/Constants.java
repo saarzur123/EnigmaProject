@@ -30,6 +30,7 @@ public class Constants {
     public final static String CREATE_USER_SECRET_CODE = LOGIN_PAGE + "/createUserSecretCode";
     public final static String SET_USER_SECRET_CODE = LOGIN_PAGE +"/setUserSecretCode";
     public final static String UBOAT_READY_STATUS = FULL_SERVER_PATH +"/uboatReady";
+    public final static String REFRESHER_TEAMS_DATA = FULL_SERVER_PATH +"/refreshUboatTeamsData";
     public final static String ANNOUNCE_UBOAT_READY = FULL_SERVER_PATH + "/uboatLetKnowIfReady";
     public final static String AUTO_SECRET_CODE = FULL_SERVER_PATH + "/autoSecretCode";
     public final static String USERS_LIST = FULL_SERVER_PATH + "/userslist";
