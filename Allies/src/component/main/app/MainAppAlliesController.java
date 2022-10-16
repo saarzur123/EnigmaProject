@@ -258,7 +258,8 @@ public class MainAppAlliesController {
             Node singleContestData = loader.load();
             ContestDataController contestDataController = loader.getController();
             contestDataController.setAlliesController(this);
-           // contestDataController.insertDataToContest(chosenContestData);
+
+
 
             if(listFullContest.contains(chosenContestData.getBattleFieldName()))
                 contestDataController.insertDataToContest(chosenContestData, true);
