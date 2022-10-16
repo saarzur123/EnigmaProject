@@ -142,7 +142,13 @@ public class MainAppAlliesController {
         Platform.runLater(() -> {
             contestsDataArea.getChildren().clear();
             createContestDataTiles();
-            updateCurrentContestDataArea(chosenContestData);
+            updateCurrentContestDataArea(mapContestNameToContestsDataToShow.get(chosenContestData.getBattleFieldName()));
+        });
+    }
+
+    private void updateContestTeamsDataList(List<ActiveTeamsDTO> contestTeamsData) {
+        listCurrentTeams = contestTeamsData;
+        Platform.runLater(() -> {
             updateCurrentContestTeamsArea(listCurrentTeams);
         });
     }
@@ -201,7 +207,7 @@ public class MainAppAlliesController {
     }
 
     public void startUpdateContestsData() {
-        updateContestData = new ContestDataAreaRefresher(autoUpdate, this::updateContestsDataList);
+        updateContestData = new ContestDataAreaRefresher(currentBattleFieldName, this::updateContestsDataList,this::updateContestTeamsDataList);
         contestDataTimer = new Timer();
         contestDataTimer.schedule(updateContestData, REFRESH_RATE, REFRESH_RATE);
     }
@@ -283,24 +289,23 @@ public class MainAppAlliesController {
     }
 
     public void updateCurrentContestDataArea(ContestDTO chosenContestData){
-        try {
-            currentContestDataAreaVBOX.getChildren().clear();
-            FXMLLoader loader = new FXMLLoader();
-            URL url = getClass().getResource("/component/contest/ContestData.fxml");
-            loader.setLocation(url);
-            Node singleContestData = loader.load();
-            ContestDataController contestDataController = loader.getController();
-            contestDataController.setAlliesController(this);
+        if(chosenContestData != null) {
+            try {
+                currentContestDataAreaVBOX.getChildren().clear();
+                FXMLLoader loader = new FXMLLoader();
+                URL url = getClass().getResource("/component/contest/ContestData.fxml");
+                loader.setLocation(url);
+                Node singleContestData = loader.load();
+                ContestDataController contestDataController = loader.getController();
+                contestDataController.setAlliesController(this);
+                if (listFullContest.contains(chosenContestData.getBattleFieldName()))
+                    contestDataController.insertDataToContest(chosenContestData, true);
+                else contestDataController.insertDataToContest(chosenContestData, false);
 
+                currentContestDataAreaVBOX.getChildren().add(singleContestData);
+            } catch (IOException e) {
 
-
-            if(listFullContest.contains(chosenContestData.getBattleFieldName()))
-                contestDataController.insertDataToContest(chosenContestData, true);
-            else contestDataController.insertDataToContest(chosenContestData, false);
-
-            currentContestDataAreaVBOX.getChildren().add(singleContestData);
-        } catch (IOException e) {
-
+            }
         }
     }
 

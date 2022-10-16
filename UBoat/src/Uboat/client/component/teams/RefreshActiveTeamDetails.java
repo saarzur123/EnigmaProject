@@ -6,6 +6,7 @@ import com.google.gson.Gson;
 import dTOUI.ActiveTeamsDTO;
 import okhttp3.Call;
 import okhttp3.Callback;
+import okhttp3.HttpUrl;
 import okhttp3.Response;
 import org.jetbrains.annotations.NotNull;
 
@@ -18,17 +19,23 @@ import static Uboat.client.util.Constants.REFRESHER_TEAMS_DATA;
 
 public class RefreshActiveTeamDetails extends TimerTask {
         private final Consumer<List<ActiveTeamsDTO>> updateTeamsDataConsumer;
+        private String contestName;
 
-
-        public RefreshActiveTeamDetails( Consumer<List<ActiveTeamsDTO>> updateTeamsDataConsumer) {
+        public RefreshActiveTeamDetails( Consumer<List<ActiveTeamsDTO>> updateTeamsDataConsumer,String contestName) {
             this.updateTeamsDataConsumer = updateTeamsDataConsumer;
+            this.contestName = contestName;
         }
 
 
         @Override
         public void run() {
-
-            HttpClientUtil.runAsync(REFRESHER_TEAMS_DATA, new Callback() {
+            String finalUrl = HttpUrl
+                    .parse(REFRESHER_TEAMS_DATA)
+                    .newBuilder()
+                    .addQueryParameter("gameTitle", contestName)
+                    .build()
+                    .toString();
+            HttpClientUtil.runAsync(finalUrl, new Callback() {
 
                 @Override
                 public void onFailure(@NotNull Call call, @NotNull IOException e) {

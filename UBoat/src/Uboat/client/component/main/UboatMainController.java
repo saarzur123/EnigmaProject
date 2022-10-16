@@ -202,7 +202,7 @@ public class UboatMainController implements Closeable{
     }
 
     public void startUpdateContestsData() {
-        updateActiveTeamsArea = new RefreshActiveTeamDetails(this::updateContestsDataList);
+        updateActiveTeamsArea = new RefreshActiveTeamDetails(this::updateContestsDataList,currentBattleFieldName);
         timeToUpdateActiveTeams = new Timer();
         timeToUpdateActiveTeams.schedule(updateActiveTeamsArea, REFRESH_RATE, REFRESH_RATE);
     }
