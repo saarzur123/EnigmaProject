@@ -35,7 +35,6 @@ import org.jetbrains.annotations.NotNull;
 import util.http.HttpClientUtilAL;
 
 import java.io.IOException;
-import java.lang.reflect.Array;
 import java.net.URL;
 import java.util.*;
 
@@ -274,6 +273,7 @@ public class MainAppAlliesController {
         contestTab.setDisable(false);
         selectionModel.select(1);
     }
+
 
     public void setChosenContest(ContestDTO chosenContestData){
         this.chosenContestData = chosenContestData;
