@@ -101,6 +101,7 @@ public class MainAppAlliesController {
         return contestTab;
     }
 
+
     public TabPane getTabPaneAllies() {
         return tabPaneAllies;
     }
@@ -192,6 +193,8 @@ public class MainAppAlliesController {
                     contestDataController.insertDataToContest(contestData, true);
                 else contestDataController.insertDataToContest(contestData, false);
             contestsDataArea.getChildren().add(singleContestData);
+
+
             });
         } catch (IOException e) {
 
@@ -248,6 +251,8 @@ public class MainAppAlliesController {
                             actualData.put(contestName,contestDTO);
                         }
                     mapContestNameToContestsDataToShow = actualData;
+
+
                     if(map.get("full").equals("YES")){
                         String contestDTOName = map.get("contestName");
                         String[] contestsNameJson = gson.fromJson(map.get("listFullContest"), String[].class);
@@ -256,19 +261,9 @@ public class MainAppAlliesController {
                     Platform.runLater(()->{
                         String battleFieldName = getCurrentBattleFieldName();
                         setChosenContest(mapContestNameToContestsDataToShow.get(battleFieldName));
+
                     });
 
-//                createNewSecretCodeController.getUboatMainController().getContestTab().setDisable(false);
-//                createNewSecretCodeController.getUboatMainController().getStringEncryptBruteForceController().getReadyBTN().setDisable(true);
-//                String jsonMapOfData = response.body().string();
-//                Map<String, String> machineDetailsAndSecretCode = new Gson().fromJson(jsonMapOfData, Map.class);
-//                String secretCodeComb = machineDetailsAndSecretCode.get("secretCode");
-//                String machineDetails = machineDetailsAndSecretCode.get("machineDetails");
-//                Platform.runLater(()->{
-//                    createNewSecretCodeController.getUboatMainController().setLBLToCodeCombinationBindingMain(secretCodeComb);
-//                    createNewSecretCodeController.getUboatMainController().setSecretCodeState(false);
-//                    createNewSecretCodeController.getUboatMainController().getMachineDetailsController().updateCurrMachineDetails(machineDetails);
-//                });
                 }
             });
         }
@@ -296,7 +291,13 @@ public class MainAppAlliesController {
             Node singleContestData = loader.load();
             ContestDataController contestDataController = loader.getController();
             contestDataController.setAlliesController(this);
-            contestDataController.insertDataToContest(chosenContestData);
+
+
+
+            if(listFullContest.contains(chosenContestData.getBattleFieldName()))
+                contestDataController.insertDataToContest(chosenContestData, true);
+            else contestDataController.insertDataToContest(chosenContestData, false);
+
             currentContestDataAreaVBOX.getChildren().add(singleContestData);
         } catch (IOException e) {
 
