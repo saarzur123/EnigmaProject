@@ -82,14 +82,35 @@ public class MainAppAlliesController {
 
     @FXML
     public void initialize() {
-
         tabPaneAllies.setDisable(true);
         userGreetingLabel.textProperty().bind(Bindings.concat("Hello ", currentUserName));
         if (loginController != null) {
             loginController.setAlliesMainController(this);
         }
         startUpdateContestsData();
-        //loadLoginPage();
+
+        String finalUrl = HttpUrl
+                .parse(INITALIZE_ALLIES)
+                .newBuilder()
+                .addQueryParameter("gameTitle", currentBattleFieldName)
+                .build()
+                .toString();
+
+        HttpClientUtilAL.runAsync(finalUrl, new Callback() {
+            @Override
+            public void onFailure(@NotNull Call call, @NotNull IOException e) {
+            }
+
+            @Override
+            public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+                String jsonListOfFullContest = response.body().string();
+                Gson gson = new Gson();
+
+                String[] contestsNameJson = gson.fromJson(jsonListOfFullContest, String[].class);
+                if(contestsNameJson.length != 0)
+                    listFullContest = Arrays.asList(contestsNameJson);
+            }
+        });
     }
 
     public void setListCurrentTeams(List<ActiveTeamsDTO> listCurrentTeams) {
@@ -291,12 +312,12 @@ public class MainAppAlliesController {
             Node singleContestData = loader.load();
             ContestDataController contestDataController = loader.getController();
             contestDataController.setAlliesController(this);
+                boolean disable = listFullContest.contains(chosenContestData.getBattleFieldName());
+                if (disable)
+                    contestDataController.insertDataToContest(chosenContestData, true);
+                else contestDataController.insertDataToContest(chosenContestData, false);
 
 
-
-            if(listFullContest.contains(chosenContestData.getBattleFieldName()))
-                contestDataController.insertDataToContest(chosenContestData, true);
-            else contestDataController.insertDataToContest(chosenContestData, false);
 
             currentContestDataAreaVBOX.getChildren().add(singleContestData);
         } catch (IOException e) {
