@@ -35,6 +35,7 @@ import org.jetbrains.annotations.NotNull;
 import util.http.HttpClientUtilAL;
 
 import java.io.IOException;
+import java.lang.reflect.Array;
 import java.net.URL;
 import java.util.*;
 
@@ -73,6 +74,9 @@ public class MainAppAlliesController {
     private BooleanProperty autoUpdate = new SimpleBooleanProperty();
     private ContestDTO chosenContestData;
     private Map<String, ContestDTO> mapContestNameToContestsDataToShow = new HashMap<>();
+    private List<String> listFullContest = new ArrayList<>();
+
+
 
     private String currentBattleFieldName;
     private final StringProperty currentUserName = new SimpleStringProperty(JHON_DOE);
@@ -134,7 +138,7 @@ public class MainAppAlliesController {
     }
 
     private void updateContestsDataList(Map<String,ContestDTO> contestData) {
-        mapContestNameToContestsDataToShow = contestData;
+      mapContestNameToContestsDataToShow = contestData;
         Platform.runLater(() -> {
             contestsDataArea.getChildren().clear();
             createContestDataTiles();
@@ -181,8 +185,12 @@ public class MainAppAlliesController {
             Node singleContestData = loader.load();
             ContestDataController contestDataController = loader.getController();
             contestDataController.setAlliesController(this);
+            boolean bTNDisable = listFullContest.contains(contestData.getBattleFieldName());
             Platform.runLater(()->{
-            contestDataController.insertDataToContest(contestData);
+
+                if(listFullContest.contains(contestData.getBattleFieldName()))
+                    contestDataController.insertDataToContest(contestData, true);
+                else contestDataController.insertDataToContest(contestData, false);
             contestsDataArea.getChildren().add(singleContestData);
             });
         } catch (IOException e) {
@@ -241,7 +249,9 @@ public class MainAppAlliesController {
                         }
                     mapContestNameToContestsDataToShow = actualData;
                     if(map.get("full").equals("YES")){
-                        int hey = 0 ;
+                        String contestDTOName = map.get("contestName");
+                        String[] contestsNameJson = gson.fromJson(map.get("listFullContest"), String[].class);
+                        listFullContest = Arrays.asList(contestsNameJson);
                     }
                     Platform.runLater(()->{
                         String battleFieldName = getCurrentBattleFieldName();
@@ -278,20 +288,18 @@ public class MainAppAlliesController {
     }
 
     public void updateCurrentContestDataArea(ContestDTO chosenContestData){
-        if(chosenContestData != null) {
-            try {
-                currentContestDataAreaVBOX.getChildren().clear();
-                FXMLLoader loader = new FXMLLoader();
-                URL url = getClass().getResource("/component/contest/ContestData.fxml");
-                loader.setLocation(url);
-                Node singleContestData = loader.load();
-                ContestDataController contestDataController = loader.getController();
-                contestDataController.setAlliesController(this);
-                contestDataController.insertDataToContest(chosenContestData);
-                currentContestDataAreaVBOX.getChildren().add(singleContestData);
-            } catch (IOException e) {
+        try {
+            currentContestDataAreaVBOX.getChildren().clear();
+            FXMLLoader loader = new FXMLLoader();
+            URL url = getClass().getResource("/component/contest/ContestData.fxml");
+            loader.setLocation(url);
+            Node singleContestData = loader.load();
+            ContestDataController contestDataController = loader.getController();
+            contestDataController.setAlliesController(this);
+            contestDataController.insertDataToContest(chosenContestData);
+            currentContestDataAreaVBOX.getChildren().add(singleContestData);
+        } catch (IOException e) {
 
-            }
         }
     }
 

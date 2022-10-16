@@ -39,14 +39,19 @@ public class ContestDataController {
         mainAppAlliesController.setChosenContest(chosenContestData);
     }
 
-    public void insertDataToContest(ContestDTO contestDTO){
+    public Button getEnterContestBTN() {
+        return enterContestBTN;
+    }
+
+    public void insertDataToContest(ContestDTO contestDTO, boolean buttonDisable){
         battleFieldLBL.setText(contestDTO.getBattleFieldName());
         UBoatNameLBL.setText(contestDTO.getUserNameOfContestCreator());
         levelLBL.setText(contestDTO.getCompetitionLevel());
         amountNeddedTeamsLBL.setText(String.valueOf(contestDTO.getAlliesAmountNeeded()));
         CurrTeamLBL.setText(String.valueOf(contestDTO.getAlliesAmountEntered()));
-
         updateStatusLBL(contestDTO);
+        if(buttonDisable)
+            enterContestBTN.setDisable(true);
     }
 
     private void updateStatusLBL(ContestDTO contestDTO){

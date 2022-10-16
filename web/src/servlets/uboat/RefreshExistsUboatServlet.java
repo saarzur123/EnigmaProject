@@ -37,28 +37,39 @@ public class RefreshExistsUboatServlet extends HttpServlet {
 
         Map<String,ContestDTO> contestMap =  appData.getMapContestNameToContestData();
         boolean full = false;
-        if(contestDTO.getAlliesAmountEntered() == contestDTO.getAlliesAmountNeeded()){
+        if(contestDTO.getAlliesAmountEntered() >= contestDTO.getAlliesAmountNeeded()){
+
             full = true;
         }
 
         //adding contest map as jason string and boolean value to retMap
         Map<String,String> retMap = new HashMap<>();
         Map<String,String> mapContestNameToContestDtoJson = new HashMap<>();
+        Map<String,String> mapContestNameToDisableBTNJson = new HashMap<>();
         for(String contestName : contestMap.keySet()){
             mapContestNameToContestDtoJson.put(gson.toJson(contestName),gson.toJson(contestMap.get(contestName)));
         }
+
+
         String mapToString = gson.toJson(mapContestNameToContestDtoJson);
-        addValueToMap(retMap, mapToString, full);
+
+        addValueToMap(retMap, mapToString, full, contestDTO.getBattleFieldName(), appData);
 
         //returning values map as jason string
         String jsonRetMap = gson.toJson(retMap);
         response.getWriter().println(jsonRetMap);
     }
-    public void addValueToMap(Map<String,String> map,String contestMap, boolean full ){
+    public void addValueToMap(Map<String,String> map,String contestMap, boolean full, String contestDTOName, DTOAppData appData){
+        Gson gson = new Gson();
         map.put("map", contestMap);
         if(full)
             map.put("full", "YES");
         else map.put("full", "NO");
+        map.put("contestName", contestDTOName);
+        if(!appData.getListFullSContest().contains(contestDTOName) && full)
+            appData.getListFullSContest().add(contestDTOName);
+        String listToString = gson.toJson(appData.getListFullSContest());
+        map.put("listFullContest", listToString);
 
     }
 

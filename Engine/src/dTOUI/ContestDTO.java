@@ -1,5 +1,7 @@
 package dTOUI;
 
+import javafx.scene.control.Button;
+
 public class ContestDTO {
     private String battleFieldName;
     private String competitionLevel;
