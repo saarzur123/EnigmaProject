@@ -1,6 +1,7 @@
 package servlets.uboat;
 
 import constants.Constants;
+import dTOUI.DTOAppData;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
@@ -23,7 +24,8 @@ public class LightweightLoginServlet extends HttpServlet {
         response.setContentType("text/plain;charset=UTF-8");
 
         String usernameFromSession = SessionUtils.getUsername(request);
-        UserManager userManager = ServletUtils.getUserManager(getServletContext());
+        DTOAppData appData = ServletUtils.getDTOAppData(getServletContext());
+        UserManager currentAppUserManager = getCurrentAppUserManager(appData,request.getParameter("appName"));
 
         if (usernameFromSession == null) { //user is not logged in yet
 
@@ -50,7 +52,7 @@ public class LightweightLoginServlet extends HttpServlet {
                 do here other not related actions (such as response setup. this is shown here in that manner just to stress this issue
                  */
                 synchronized (this) {
-                    if (userManager.isUserExists(usernameFromParameter)) {
+                    if (currentAppUserManager.isUserExists(usernameFromParameter)) {
                         String errorMessage = "Username " + usernameFromParameter + " already exists. Please enter a different username.";
 
                         // stands for unauthorized as there is already such user with this name
@@ -59,7 +61,7 @@ public class LightweightLoginServlet extends HttpServlet {
                     }
                     else {
                         //add the new user to the users list
-                        userManager.addUser(usernameFromParameter);
+                        currentAppUserManager.addUser(usernameFromParameter);
                         //set the username in a session so it will be available on each request
                         //the true parameter means that if a session object does not exists yet
                         //create a new one
@@ -75,6 +77,13 @@ public class LightweightLoginServlet extends HttpServlet {
             //user is already logged in
             response.setStatus(HttpServletResponse.SC_OK);
         }
+    }
+
+    private UserManager getCurrentAppUserManager(DTOAppData appData,String currAppName){
+        if(appData.getMapAppNameToUserManager().containsKey(currAppName)){
+            return appData.getMapAppNameToUserManager().get(currAppName);
+        }
+        else return new UserManager();
     }
 
 }

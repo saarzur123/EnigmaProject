@@ -1,7 +1,6 @@
 package component.configure;
 
 import com.google.gson.Gson;
-import component.configure.tile.ActiveTeamDataController;
 import component.main.app.MainAppAlliesController;
 import dTOUI.ActiveTeamsDTO;
 import javafx.application.Platform;
@@ -9,11 +8,8 @@ import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -23,7 +19,6 @@ import org.jetbrains.annotations.NotNull;
 import util.http.HttpClientUtilAL;
 
 import java.io.IOException;
-import java.net.URL;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -88,12 +83,10 @@ public class AlliesConfigureController {
                     String responseBody = response.body().string();
                     Gson gson = new Gson();
                     Map<String,String> listTeamsDataJson = gson.fromJson(responseBody,Map.class);
-                    //ContestDTO currContestData = gson.fromJson(listTeamsDataJson.get("updatedContestData"), ContestDTO.class);
                     ActiveTeamsDTO[] arrayData = gson.fromJson(listTeamsDataJson.get("listTeams"),ActiveTeamsDTO[].class);
                     List<ActiveTeamsDTO> listTeamsData = Arrays.asList(arrayData);
                     Platform.runLater(()->{
-                        updateCurrentContestTeamsArea(listTeamsData);
-                        //alliesController.updateCurrentContestDataArea(currContestData);
+                        alliesController.setListCurrentTeams(listTeamsData);
                     });
                 }
             });
@@ -101,28 +94,7 @@ public class AlliesConfigureController {
             stage.close();
         }
 
-        private void  updateCurrentContestTeamsArea(List<ActiveTeamsDTO> listTeamsData){
-            VBox teamsDataArea = alliesController.getCurrentContestTeamsAreaVBOX();
-            teamsDataArea.getChildren().clear();
-            for(ActiveTeamsDTO teamData : listTeamsData){
-                createContestTeamDataTile(teamData,teamsDataArea);
-            }
-        }
 
-    private void createContestTeamDataTile(ActiveTeamsDTO teamData, VBox teamsDataArea) {
-        try {
-            FXMLLoader loader = new FXMLLoader();
-            URL url = getClass().getResource("/component/configure/tile/activeTeamData.fxml");//
-            loader.setLocation(url);
-            Node singleTeamData = loader.load();
-            ActiveTeamDataController activeTeamsController = loader.getController();
-            activeTeamsController.setAlliesController(this.alliesController);
-            activeTeamsController.insertDataToContestTeamTile(teamData.getTeamName(), teamData.getMissionSize(), teamData.getAgentNumber());
-            teamsDataArea.getChildren().add(singleTeamData);
-        } catch (IOException e) {
-
-        }
-    }
 
     @FXML
     void onSubmitAllieNameActionBTN(ActionEvent event) {

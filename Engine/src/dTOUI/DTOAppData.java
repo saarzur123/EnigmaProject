@@ -6,7 +6,7 @@ import uboat.engine.users.UserManager;
 import java.util.*;
 
 public class DTOAppData {
-    private Set<UserManager> userManagersForAllApp = new HashSet<>();
+    private Map<String,UserManager> mapAppNameToUserManager = new HashMap<>();
     private Map<String, Engine> mapUboatUsernameToEngineData = new HashMap<>();
     private Map<String,ContestDTO> mapContestNameToContestData= new HashMap<>();
     private Map<String,ActiveTeamsDTO> mapTeamNameToActiveTeamsData = new HashMap<>();
@@ -35,24 +35,24 @@ public class DTOAppData {
         return mapUboatUsernameToEngineData;
     }
 
-    public synchronized Set<UserManager> getUserManagersForAllApp() {
-        return userManagersForAllApp;
+    public synchronized Map<String,UserManager> getMapAppNameToUserManager() {
+        return mapAppNameToUserManager;
     }
 
     public synchronized void addToMapUboatGameTitleToEngineData(String uboatUsername, Engine uboatEngine) {
         mapUboatUsernameToEngineData.put(uboatUsername,uboatEngine);
     }
 
-    public synchronized void addToUserManagersForAllApp(UserManager userManager) {
-        userManagersForAllApp.add(userManager);
+    public synchronized void addToMapAppNameToUserManager(String appName,UserManager userManager) {
+        mapAppNameToUserManager.put(appName,userManager);
     }
 
     public synchronized void removeFromMapUboatGameTitleToEngineData(String uboatUsername) {
         mapUboatUsernameToEngineData.remove(uboatUsername);
     }
 
-    public synchronized void removeFromUserManagersForAllApp(UserManager userManager) {
-        userManagersForAllApp.remove(userManager);
+    public synchronized void removeFromMapAppNameToUserManager(String appName) {
+        mapAppNameToUserManager.remove(appName);
     }
 
     public synchronized Map<String, ContestDTO> getMapContestNameToContestData() {
@@ -69,7 +69,6 @@ public class DTOAppData {
     public synchronized Map<String, ActiveTeamsDTO> getMapTeamNameToActiveTeamsData() {
         return mapTeamNameToActiveTeamsData;
     }
-
     public synchronized void addToMapTeamNameToActiveTeamsData(ActiveTeamsDTO teamData) {
         mapTeamNameToActiveTeamsData.put(teamData.getTeamName(),teamData);
     }

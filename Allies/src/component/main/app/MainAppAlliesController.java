@@ -2,9 +2,11 @@ package component.main.app;
 
 import com.google.gson.Gson;
 import component.configure.AlliesConfigureController;
+import component.configure.tile.ActiveTeamDataController;
 import component.contest.ContestDataController;
 import component.login.LoginController;
 import component.refresh.contest.data.ContestDataAreaRefresher;
+import dTOUI.ActiveTeamsDTO;
 import dTOUI.ContestDTO;
 import javafx.application.Platform;
 import javafx.beans.binding.Bindings;
@@ -34,10 +36,7 @@ import util.http.HttpClientUtilAL;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Timer;
-import java.util.TimerTask;
+import java.util.*;
 
 import static util.ConstantsAL.*;
 
@@ -68,6 +67,7 @@ public class MainAppAlliesController {
 
     private Timer contestDataTimer;
     private Timer shouldUpdateTimer;
+    private List<ActiveTeamsDTO> listCurrentTeams = new ArrayList<>();
     private TimerTask updateContestData;
     private TimerTask shouldUpdate;
     private BooleanProperty autoUpdate = new SimpleBooleanProperty();
@@ -87,6 +87,10 @@ public class MainAppAlliesController {
         }
         startUpdateContestsData();
         //loadLoginPage();
+    }
+
+    public void setListCurrentTeams(List<ActiveTeamsDTO> listCurrentTeams) {
+        this.listCurrentTeams = listCurrentTeams;
     }
 
     public Tab getContestTab() {
@@ -130,11 +134,37 @@ public class MainAppAlliesController {
     }
 
     private void updateContestsDataList(Map<String,ContestDTO> contestData) {
-      mapContestNameToContestsDataToShow = contestData;
+        mapContestNameToContestsDataToShow = contestData;
         Platform.runLater(() -> {
             contestsDataArea.getChildren().clear();
             createContestDataTiles();
+            updateCurrentContestDataArea(chosenContestData);
+            updateCurrentContestTeamsArea(listCurrentTeams);
         });
+    }
+
+    private void  updateCurrentContestTeamsArea(List<ActiveTeamsDTO> listTeamsData){
+        if(!listTeamsData.isEmpty()) {
+            currentContestTeamsAreaVBOX.getChildren().clear();
+            for (ActiveTeamsDTO teamData : listTeamsData) {
+                createContestTeamDataTile(teamData, currentContestTeamsAreaVBOX);
+            }
+        }
+    }
+
+    private void createContestTeamDataTile(ActiveTeamsDTO teamData, VBox teamsDataArea) {
+        try {
+            FXMLLoader loader = new FXMLLoader();
+            URL url = getClass().getResource("/component/configure/tile/activeTeamData.fxml");//
+            loader.setLocation(url);
+            Node singleTeamData = loader.load();
+            ActiveTeamDataController activeTeamsController = loader.getController();
+            activeTeamsController.setAlliesController(this);
+            activeTeamsController.insertDataToContestTeamTile(teamData.getTeamName(), teamData.getMissionSize(), teamData.getAgentNumber());
+            teamsDataArea.getChildren().add(singleTeamData);
+        } catch (IOException e) {
+
+        }
     }
 
     private void createContestDataTiles() {
@@ -197,7 +227,7 @@ public class MainAppAlliesController {
                 public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
                     String jsonMapOfData = response.body().string();
                     Gson gson = new Gson();
-                    Map<String, String> map = new Gson().fromJson(jsonMapOfData, Map.class);
+                    Map<String, String> map = gson.fromJson(jsonMapOfData, Map.class);
                     String contestMapString = map.get("map");
 
                     //extracting mapContestNameToContestsDataToShow from jsonValuesMap
@@ -244,22 +274,24 @@ public class MainAppAlliesController {
         this.chosenContestData = chosenContestData;
         this.currentBattleFieldName = chosenContestData.getBattleFieldName();
 
-        updateCurrentContestDataArea(this.chosenContestData);
+        //updateCurrentContestDataArea(this.chosenContestData);
     }
 
     public void updateCurrentContestDataArea(ContestDTO chosenContestData){
-        try {
-            currentContestDataAreaVBOX.getChildren().clear();
-            FXMLLoader loader = new FXMLLoader();
-            URL url = getClass().getResource("/component/contest/ContestData.fxml");
-            loader.setLocation(url);
-            Node singleContestData = loader.load();
-            ContestDataController contestDataController = loader.getController();
-            contestDataController.setAlliesController(this);
-            contestDataController.insertDataToContest(chosenContestData);
-            currentContestDataAreaVBOX.getChildren().add(singleContestData);
-        } catch (IOException e) {
+        if(chosenContestData != null) {
+            try {
+                currentContestDataAreaVBOX.getChildren().clear();
+                FXMLLoader loader = new FXMLLoader();
+                URL url = getClass().getResource("/component/contest/ContestData.fxml");
+                loader.setLocation(url);
+                Node singleContestData = loader.load();
+                ContestDataController contestDataController = loader.getController();
+                contestDataController.setAlliesController(this);
+                contestDataController.insertDataToContest(chosenContestData);
+                currentContestDataAreaVBOX.getChildren().add(singleContestData);
+            } catch (IOException e) {
 
+            }
         }
     }
 

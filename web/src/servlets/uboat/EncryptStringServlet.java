@@ -24,6 +24,7 @@ public class EncryptStringServlet extends HttpServlet {
         String gameTitle = request.getParameter("gameTitle");
         DTOAppData appData = utils.ServletUtils.getDTOAppData(getServletContext());
         Map<String, Engine> map = appData.getMapUboatGameTitleToEngineData();
+        Map<String,Object> resourceNameToValueMap =  new HashMap<>();
         Engine engine = map.get(gameTitle);
 
         String stringToEncrypt = request.getParameter("stringToEncrypt");
@@ -33,10 +34,8 @@ public class EncryptStringServlet extends HttpServlet {
         String encryptSmallLetters = stringToEncrypt.toLowerCase();
         String encryptBigLetter = stringToEncrypt.toUpperCase();
         String decryptString = "";
-        if(engine.getDecryptionManager().getDictionary().isStringInDictionary(encryptSmallLetters)) {
+        if(isWordInDictionary(engine,encryptSmallLetters,resourceNameToValueMap)) {
             decryptString = engine.processData(encryptBigLetter, false);
-            //uboatMainController.getMachineDetailsController().updateCurrMachineDetails("k");
-
         }
 
         //TODO
@@ -44,7 +43,7 @@ public class EncryptStringServlet extends HttpServlet {
         DTOMachineDetails dtoMachineDetails = engine.getMachineDetailsPresenter().createCurrMachineDetails();
         String machineDetails = String.format("%s",engine.showLastMachineDetails(dtoMachineDetails));
         //String jsonEngine = gson.toJson(engine);
-        Map<String,Object> resourceNameToValueMap =  new HashMap<>();
+
         addDataToMap(resourceNameToValueMap, decryptString, machineDetails);
 
         String json = gson.toJson(resourceNameToValueMap);
@@ -56,4 +55,10 @@ public class EncryptStringServlet extends HttpServlet {
 
     }
 
+    private boolean isWordInDictionary(Engine currEngine, String word, Map<String,Object> mapRetValuesJson){
+        boolean ret = currEngine.getDecryptionManager().getDictionary().isStringInDictionary(word);
+        Gson gson = new Gson();
+        mapRetValuesJson.put("wordInDictionary",gson.toJson(ret));
+        return ret;
+    }
 }

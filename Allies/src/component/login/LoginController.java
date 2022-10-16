@@ -58,6 +58,7 @@ public class LoginController {
         String finalUrl = HttpUrl
                 .parse(LOGIN_PAGE)
                 .newBuilder()
+                .addQueryParameter("appName", "Allies")
                 .addQueryParameter("username", userName)
                 .build()
                 .toString();
@@ -65,14 +66,12 @@ public class LoginController {
         updateHttpStatusLine("New request is launched for: " + finalUrl);
 
         HttpClientUtilAL.runAsync(finalUrl, new Callback() {
-
             @Override
             public void onFailure(@NotNull Call call, @NotNull IOException e) {
                 Platform.runLater(() ->
                         errorMessageProperty.set("Something went wrong: " + e.getMessage())
                 );
             }
-
             @Override
             public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
                 if (response.code() != 200) {
@@ -86,10 +85,6 @@ public class LoginController {
                         alliesController.getTabPaneAllies().setDisable(false);
                         alliesController.getContestTab().setDisable(true);
                         alliesController.updateUserName(userName);
-                        //alliesController.setUploadFile(true);
-
-//                            chatAppMainController.updateUserName(userName);
-//                            chatAppMainController.switchToChatRoom();
                     });
                 }
             }

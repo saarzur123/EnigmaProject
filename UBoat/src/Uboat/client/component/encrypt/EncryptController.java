@@ -100,15 +100,18 @@ public class EncryptController {
                 Map<String, String> machineDetailsAndSecretCode = new Gson().fromJson(jsonMapOfData, Map.class);
                 machineDetails = machineDetailsAndSecretCode.get("machineDetails");
                 String decryptString = machineDetailsAndSecretCode.get("DecryptString");
+                String isWordInDictJson = machineDetailsAndSecretCode.get("wordInDictionary");
+                boolean isWordInDict = new Gson().fromJson(isWordInDictJson,Boolean.class);
                 readyBTN.setDisable(false);
                 userDecryptStringTF.setText(decryptString);
                 Platform.runLater(()->{
-
                     //userEncryptStringTF.setText(userEncryptStringTF.getText().toLowerCase());
-
                     // uboatMainController.setSecretCodeState(false);
                     uboatMainController.getMachineDetailsController().updateCurrMachineDetails(machineDetails);
                     clickedAndEncrypt = true;
+                    if(!isWordInDict){
+                        UboatMainController.showErrorPopup("Please enter word from dictionary !");
+                    }
                 });
             }
         });

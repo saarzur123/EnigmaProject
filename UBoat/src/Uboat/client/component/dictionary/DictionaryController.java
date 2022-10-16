@@ -26,6 +26,15 @@ public class DictionaryController {
     }
     private List<String> data;
     private Trie trie;
+    @FXML
+    public void initialize(){
+        searchTF.textProperty().addListener((obs, oldText, newText) -> {
+            String temp = searchTF.getText();
+            data = trie.suggest(temp);
+            setUpdateData();
+
+        });
+    }
     public void SetDictionaryController(){
         List<String>  listAllDictionary = new ArrayList<>();
         listOfDataVB.setOnMouseClicked(new EventHandler<MouseEvent>() {
@@ -36,36 +45,15 @@ public class DictionaryController {
 
                 if(n instanceof LabeledText) {
                     String currSelected = ((LabeledText) n).getText();
-                  //  uboatMainController.getStringEncryptBruteForceController().getUserDecryptStringTF().setText("");
-                    //uboatMainController.getStringEncryptBruteForceController().getUserEncryptStringTF().setText(currSelected);
-                  //  uboatMainController.getStringEncryptBruteForceController().getUserEncryptStringTF().fireEvent(new ActionEvent());
                     System.out.println(currSelected);
                 }
 
             }
         });
-//        for (String s :mainController.getEngine().getDM().getDictionary().getDictionaryFilteredWords()){
-//            listAllDictionary.add(s);
-//            Label LB = new Label(s);
-//            listOfDataVB.getChildren().add(LB);
-//
-//        }
 
         trie = new Trie(listAllDictionary);
 
     }
-
-
-    @FXML
-    public void initialize(){
-        searchTF.textProperty().addListener((obs, oldText, newText) -> {
-                String temp = searchTF.getText();
-                data = trie.suggest(temp);
-            setUpdateData();
-
-        });
-    }
-
     private void setUpdateData(){
         listOfDataVB.getChildren().clear();
         List<String>  listAllDictionary = new ArrayList<>();

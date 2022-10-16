@@ -25,11 +25,8 @@ public class ContestDataAreaRefresher extends TimerTask {
 
     public ContestDataAreaRefresher(BooleanProperty shouldUpdate, Consumer<Map<String,ContestDTO>> updateContestDataConsumer) {
         this.shouldUpdate = shouldUpdate;
-     //   this.httpRequestLoggerConsumer = httpRequestLoggerConsumer;
         this.updateContestDataConsumer = updateContestDataConsumer;
-     //   requestNumber = 0;
     }
-
 
     @Override
     public void run() {
@@ -59,7 +56,6 @@ public class ContestDataAreaRefresher extends TimerTask {
                     }
                     updateContestDataConsumer.accept(actualData);
                 }
-
             }
         });
     }
