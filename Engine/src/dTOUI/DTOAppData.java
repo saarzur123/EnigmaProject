@@ -10,7 +10,7 @@ public class DTOAppData {
     private Map<String, Engine> mapUboatUsernameToEngineData = new HashMap<>();
     private Map<String,ContestDTO> mapContestNameToContestData= new HashMap<>();
     private Map<String,ActiveTeamsDTO> mapTeamNameToActiveTeamsData = new HashMap<>();
-
+    private List<String> listFullSContest = new ArrayList<>();
 
     private String encryptString;
     private String decryptString;
@@ -22,6 +22,11 @@ public class DTOAppData {
     public String getEncryptString() {
         return encryptString;
     }
+
+    public List<String> getListFullSContest() {
+        return listFullSContest;
+    }
+
     public void setDecryptString(String decryptString) {
         this.decryptString = decryptString;
     }

@@ -19,7 +19,6 @@ public class ContestDTO {
         this.competitionLevel = level;
     }
 
-
     public boolean isContestReadyToStart() {
         return contestReadyToStart;
     }
