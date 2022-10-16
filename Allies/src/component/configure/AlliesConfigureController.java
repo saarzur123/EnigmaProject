@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import component.configure.tile.ActiveTeamDataController;
 import component.main.app.MainAppAlliesController;
 import dTOUI.ActiveTeamsDTO;
+import dTOUI.ContestDTO;
 import javafx.application.Platform;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
@@ -72,6 +73,7 @@ public class AlliesConfigureController {
             String finalUrl = HttpUrl
                     .parse(ALLIE_CONFIGURE_READY)
                     .newBuilder()
+                    .addQueryParameter("contestName",alliesController.getCurrentBattleFieldName())
                     .addQueryParameter("teamDTO", teamDtoJson)
                     .build()
                     .toString();
@@ -87,10 +89,12 @@ public class AlliesConfigureController {
                     String responseBody = response.body().string();
                     Gson gson = new Gson();
                     Map<String,String> listTeamsDataJson = gson.fromJson(responseBody,Map.class);
+                    ContestDTO currContestData = gson.fromJson(listTeamsDataJson.get("updatedContestData"), ContestDTO.class);
                     ActiveTeamsDTO[] arrayData = gson.fromJson(listTeamsDataJson.get("listTeams"),ActiveTeamsDTO[].class);
                     List<ActiveTeamsDTO> listTeamsData = Arrays.asList(arrayData);
                     Platform.runLater(()->{
                         updateCurrentContestTeamsArea(listTeamsData);
+                        alliesController.updateCurrentContestDataArea(currContestData);
                     });
                 }
             });
