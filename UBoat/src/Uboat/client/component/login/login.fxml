@@ -40,7 +40,6 @@
             <HBox alignment="CENTER" prefHeight="43.0" prefWidth="113.0" spacing="15.0">
                <children>
                   <Button fx:id="loginButton" mnemonicParsing="false" onAction="#loginButtonClicked" styleClass="main-action-button" text="Login" />
-                  <Button id="quit-button" mnemonicParsing="false" onAction="#quitButtonClicked" styleClass="main-action-button" text="Quit" />
                </children>
             </HBox>
          </children>

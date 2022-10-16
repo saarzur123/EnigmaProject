@@ -198,7 +198,7 @@ public class MainAppAlliesController {
                     Map<String, String> map = new Gson().fromJson(jsonMapOfData, Map.class);
                     String mapString = map.get("map");
                     mapContestNameToContestsDataToShow = new Gson().fromJson(mapString, Map.class);;
-                    if(map.get("full")=="YES"){
+                    if(map.get("full").equals("YES")){
                         int hey = 0 ;
                     }
 
