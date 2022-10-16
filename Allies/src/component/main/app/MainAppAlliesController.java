@@ -196,9 +196,20 @@ public class MainAppAlliesController {
                 @Override
                 public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
                     String jsonMapOfData = response.body().string();
+                    Gson gson = new Gson();
                     Map<String, String> map = new Gson().fromJson(jsonMapOfData, Map.class);
-                    String mapString = map.get("map");
-                    mapContestNameToContestsDataToShow = new Gson().fromJson(mapString, Map.class);;
+                    String contestMapString = map.get("map");
+
+                    //extracting mapContestNameToContestsDataToShow from jsonValuesMap
+                    Map<String,ContestDTO> actualData = new HashMap<>();
+
+                        Map<String,String> mapContestDataJson = gson.fromJson(contestMapString,Map.class);
+                        for (String str : mapContestDataJson.keySet()){
+                            String contestName = gson.fromJson(str,String.class);
+                            ContestDTO contestDTO = gson.fromJson(mapContestDataJson.get(str),ContestDTO.class);
+                            actualData.put(contestName,contestDTO);
+                        }
+                    mapContestNameToContestsDataToShow = actualData;
                     if(map.get("full").equals("YES")){
                         int hey = 0 ;
                     }

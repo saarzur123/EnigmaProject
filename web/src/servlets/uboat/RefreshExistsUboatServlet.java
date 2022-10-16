@@ -22,7 +22,6 @@ public class RefreshExistsUboatServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         response.setContentType("application/json");
         Gson gson = new Gson();
-        Map<String,String> resourceNameToValueMap =  new HashMap<>();
         String gameTitle = request.getParameter("gameTitle");
         String usernameFromSession = SessionUtils.getUsername(request);
         DTOAppData appData = utils.ServletUtils.getDTOAppData(getServletContext());
@@ -33,18 +32,27 @@ public class RefreshExistsUboatServlet extends HttpServlet {
 
         contestData.setUserNameOfContestCreator(usernameFromSession);
         ContestDTO contestDTO = new ContestDTO(gameTitle, contestData.getCompetitionLevel(), usernameFromSession,contestData.getCurrAmountOfAllies(),contestData.getAlliesAmount(),false);
+        //update new data in app data
         appData.updateExistsUboat(contestDTO);
+
         Map<String,ContestDTO> contestMap =  appData.getMapContestNameToContestData();
         boolean full = false;
         if(contestDTO.getAlliesAmountEntered() == contestDTO.getAlliesAmountNeeded()){
             full = true;
         }
-        Map<String,String> map = new HashMap<>();
-        String mapToString = gson.toJson(contestMap);
-        addValueToMap(map, mapToString, full);
-        String json = gson.toJson(map);
 
-        response.getWriter().println(json);
+        //adding contest map as jason string and boolean value to retMap
+        Map<String,String> retMap = new HashMap<>();
+        Map<String,String> mapContestNameToContestDtoJson = new HashMap<>();
+        for(String contestName : contestMap.keySet()){
+            mapContestNameToContestDtoJson.put(gson.toJson(contestName),gson.toJson(contestMap.get(contestName)));
+        }
+        String mapToString = gson.toJson(mapContestNameToContestDtoJson);
+        addValueToMap(retMap, mapToString, full);
+
+        //returning values map as jason string
+        String jsonRetMap = gson.toJson(retMap);
+        response.getWriter().println(jsonRetMap);
     }
     public void addValueToMap(Map<String,String> map,String contestMap, boolean full ){
         map.put("map", contestMap);
