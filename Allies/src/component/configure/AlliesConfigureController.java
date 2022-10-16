@@ -67,7 +67,7 @@ public class AlliesConfigureController {
             String finalUrl = HttpUrl
                     .parse(ALLIE_CONFIGURE_READY)
                     .newBuilder()
-//                    .addQueryParameter("contestName",alliesController.getCurrentBattleFieldName())
+                    .addQueryParameter("contestName",alliesController.getCurrentBattleFieldName())
                     .addQueryParameter("teamDTO", teamDtoJson)
                     .build()
                     .toString();
