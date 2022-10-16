@@ -13,7 +13,6 @@ public class ActiveTeamsController {
 
     @FXML
     private Label missionSizeLBL;
-
     private UboatMainController uboatMainController;
 
     public void setUboatController(UboatMainController uboatMainController){this.uboatMainController = uboatMainController;}

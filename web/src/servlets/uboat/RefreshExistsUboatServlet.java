@@ -18,9 +18,6 @@ import java.util.Map;
 @WebServlet(name = "RefreshExistsUboat", urlPatterns = "/refreshExistsUboat")
 
 public class RefreshExistsUboatServlet extends HttpServlet {
-    //            Engine currEngine =  appData.getMapUboatGameTitleToEngineData().get(gameTitle);
-//            BattleField contestData = currEngine.getBattleField();
-
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         response.setContentType("application/json");

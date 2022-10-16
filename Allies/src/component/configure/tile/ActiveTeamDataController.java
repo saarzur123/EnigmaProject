@@ -10,7 +10,6 @@ public class ActiveTeamDataController {
 
     @FXML
     private Label agentNumberLBL;
-
     @FXML
     private Label missionSizeLBL;
 

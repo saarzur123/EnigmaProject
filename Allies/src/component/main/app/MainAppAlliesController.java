@@ -187,6 +187,7 @@ public class MainAppAlliesController {
                     .addQueryParameter("gameTitle", currentBattleFieldName)
                     .build()
                     .toString();
+
         HttpClientUtilAL.runAsync(finalUrl, new Callback(){
                 @Override
                 public void onFailure(@NotNull Call call, @NotNull IOException e) {
@@ -201,6 +202,10 @@ public class MainAppAlliesController {
                     if(map.get("full").equals("YES")){
                         int hey = 0 ;
                     }
+                    Platform.runLater(()->{
+                        String battleFieldName = getCurrentBattleFieldName();
+                        setChosenContest(mapContestNameToContestsDataToShow.get(battleFieldName));
+                    });
 
 //                createNewSecretCodeController.getUboatMainController().getContestTab().setDisable(false);
 //                createNewSecretCodeController.getUboatMainController().getStringEncryptBruteForceController().getReadyBTN().setDisable(true);

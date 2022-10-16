@@ -33,7 +33,6 @@ public class RefreshActiveTeamDetails extends TimerTask {
                 @Override
                 public void onFailure(@NotNull Call call, @NotNull IOException e) {
                 }
-
                 @Override
                 public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
                     Gson gson = new Gson();

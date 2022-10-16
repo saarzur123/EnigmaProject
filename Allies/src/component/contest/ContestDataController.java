@@ -48,6 +48,7 @@ public class ContestDataController {
 
         updateStatusLBL(contestDTO);
     }
+
     private void updateStatusLBL(ContestDTO contestDTO){
         if(contestDTO.getAlliesAmountEntered()!= 0) {
             if (contestDTO.getAlliesAmountNeeded() / contestDTO.getAlliesAmountEntered() != 1) {
