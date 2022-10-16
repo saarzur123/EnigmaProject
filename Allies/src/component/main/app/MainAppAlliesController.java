@@ -228,11 +228,12 @@ public class MainAppAlliesController {
         this.chosenContestData = chosenContestData;
         this.currentBattleFieldName = chosenContestData.getBattleFieldName();
 
-        updateCurrentContestDataArea();
+        updateCurrentContestDataArea(this.chosenContestData);
     }
 
-    private void updateCurrentContestDataArea(){
+    public void updateCurrentContestDataArea(ContestDTO chosenContestData){
         try {
+            currentContestDataAreaVBOX.getChildren().clear();
             FXMLLoader loader = new FXMLLoader();
             URL url = getClass().getResource("/component/contest/ContestData.fxml");
             loader.setLocation(url);

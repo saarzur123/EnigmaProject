@@ -15,7 +15,7 @@
                   <Font size="28.0" />
                </font>
             </Label>
-            <Button mnemonicParsing="false" onAction="#onActionEnterContestBTN" text="Enter this contest" />
+            <Button fx:id="enterContestBTN" mnemonicParsing="false" onAction="#onActionEnterContestBTN" text="Enter this contest" />
          </children>
       </HBox>
       <HBox alignment="CENTER" prefHeight="79.0" prefWidth="400.0">

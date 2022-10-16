@@ -23,12 +23,14 @@ import java.util.Map;
             Gson gson = new Gson();
             Map<String, String> resourceNameToValueMap = new HashMap<>();
             String newAlliesActiveTeamAddedJson = request.getParameter("teamDTO");
+            String chosenContest = request.getParameter("contestName");
             ActiveTeamsDTO teamsDTO = gson.fromJson(newAlliesActiveTeamAddedJson,ActiveTeamsDTO.class);
             DTOAppData appData = utils.ServletUtils.getDTOAppData(getServletContext());
             appData.addToMapTeamNameToActiveTeamsData(teamsDTO);
 
             ActiveTeamsDTO[] activeTeamsData = appData.getMapTeamNameToActiveTeamsData().values().toArray(new ActiveTeamsDTO[0]);
             resourceNameToValueMap.put("listTeams", gson.toJson(activeTeamsData));
+            resourceNameToValueMap.put("updatedContestData",gson.toJson(appData.getMapContestNameToContestData().get(chosenContest)));
 
             response.getWriter().println(gson.toJson(resourceNameToValueMap));
         }

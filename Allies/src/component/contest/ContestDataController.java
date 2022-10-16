@@ -4,6 +4,7 @@ import component.main.app.MainAppAlliesController;
 import dTOUI.ContestDTO;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 
 public class ContestDataController {
@@ -23,10 +24,10 @@ public class ContestDataController {
 
     @FXML
     private Label CurrTeamLBL;
-
-
-
+    @FXML
+    private Button enterContestBTN;
     private MainAppAlliesController mainAppAlliesController;
+
     //TODO
     public void setAlliesController(MainAppAlliesController mainAppAlliesController){
         this.mainAppAlliesController = mainAppAlliesController;
