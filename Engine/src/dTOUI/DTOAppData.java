@@ -9,11 +9,15 @@ public class DTOAppData {
     private Map<String,UserManager> mapAppNameToUserManager = new HashMap<>();
     private Map<String, Engine> mapUboatUsernameToEngineData = new HashMap<>();
     private Map<String,ContestDTO> mapContestNameToContestData= new HashMap<>();
-    private Map<String,ActiveTeamsDTO> mapTeamNameToActiveTeamsData = new HashMap<>();
+    private Map<String,List<ActiveTeamsDTO>> mapContestNameToActiveTeamsData;
     private List<String> listFullSContest = new ArrayList<>();
 
     private String encryptString;
     private String decryptString;
+
+    public DTOAppData(){
+        mapContestNameToActiveTeamsData = new HashMap<>();
+    }
 
     public String getDecryptString() {
         return decryptString;
@@ -71,14 +75,17 @@ public class DTOAppData {
         mapContestNameToContestData.remove(contestData.getBattleFieldName());
         mapContestNameToContestData.put(contestData.getBattleFieldName(),contestData);
     }
-    public synchronized Map<String, ActiveTeamsDTO> getMapTeamNameToActiveTeamsData() {
-        return mapTeamNameToActiveTeamsData;
+    public synchronized Map<String, List<ActiveTeamsDTO>> getMapContestNameToActiveTeamsData() {
+        return mapContestNameToActiveTeamsData;
     }
-    public synchronized void addToMapTeamNameToActiveTeamsData(ActiveTeamsDTO teamData) {
-        mapTeamNameToActiveTeamsData.put(teamData.getTeamName(),teamData);
+    public synchronized void addToMapContestNameToActiveTeamsData(ActiveTeamsDTO teamData,String contestName) {
+        if(!mapContestNameToActiveTeamsData.containsKey(contestName)){
+            mapContestNameToActiveTeamsData.put(contestName,new ArrayList<>());
+        }
+        mapContestNameToActiveTeamsData.get(contestName).add(teamData);
     }
 
-    public synchronized void removeFromMapTeamNameToActiveTeamsData(String teamName) {
-        mapTeamNameToActiveTeamsData.remove(teamName);
+    public synchronized void removeFromMapContestNameToActiveTeamsData(String teamName) {
+        mapContestNameToActiveTeamsData.remove(teamName);
     }
 }
