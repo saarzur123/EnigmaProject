@@ -100,6 +100,9 @@ public class UboatMainController implements Closeable{
         if(flag)
             uploadFile.setDisable(false);
     }
+    public void disableLoginForm(){
+        login.setDisable(true);
+    }
 
     public Tab getContestTab() {
         return contestTab;

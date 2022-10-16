@@ -101,10 +101,6 @@ public class LoginController {
         errorMessageProperty.set("");
     }
 
-    @FXML
-    private void quitButtonClicked(ActionEvent e) {
-        Platform.exit();
-    }
 
     private void updateHttpStatusLine(String data) {
         //  uboatMainController.updateHttpLine(data);

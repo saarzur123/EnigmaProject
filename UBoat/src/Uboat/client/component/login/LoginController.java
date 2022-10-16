@@ -82,6 +82,7 @@ public class LoginController {
                     Platform.runLater(() -> {
                         uboatMainController.updateUserName(userName);
                         uboatMainController.setUploadFile(true);
+                        uboatMainController.disableLoginForm();
 
 //                            chatAppMainController.updateUserName(userName);
 //                            chatAppMainController.switchToChatRoom();
@@ -94,11 +95,6 @@ public class LoginController {
     @FXML
     private void userNameKeyTyped(KeyEvent event) {
         errorMessageProperty.set("");
-    }
-
-    @FXML
-    private void quitButtonClicked(ActionEvent e) {
-        Platform.exit();
     }
 
     private void updateHttpStatusLine(String data) {
