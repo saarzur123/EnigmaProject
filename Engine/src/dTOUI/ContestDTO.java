@@ -1,5 +1,7 @@
 package dTOUI;
 
+import javafx.scene.control.Button;
+
 public class ContestDTO {
     private String battleFieldName;
     private String competitionLevel;
@@ -16,6 +18,7 @@ public class ContestDTO {
         this.alliesAmountNeeded = alliesAmountNeeded;
         this.competitionLevel = level;
     }
+
 
     public boolean isContestReadyToStart() {
         return contestReadyToStart;

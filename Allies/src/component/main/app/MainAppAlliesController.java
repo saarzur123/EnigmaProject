@@ -73,6 +73,7 @@ public class MainAppAlliesController {
     private BooleanProperty autoUpdate = new SimpleBooleanProperty();
     private ContestDTO chosenContestData;
     private Map<String, ContestDTO> mapContestNameToContestsDataToShow = new HashMap<>();
+    private Map<String, ContestDataController> mapContestNameToContestController = new HashMap<>();
 
     private String currentBattleFieldName;
     private final StringProperty currentUserName = new SimpleStringProperty(JHON_DOE);
@@ -123,6 +124,9 @@ public class MainAppAlliesController {
         alert.setHeaderText("An error has occured !");
         alert.setContentText(message);
         alert.showAndWait();
+    }
+    public void AddContestControllerToMap(ContestDataController contestDataController, ContestDTO contestDTO){
+        mapContestNameToContestController.put(contestDTO.getBattleFieldName(), contestDataController);
     }
 
     public void updateUserName(String userName) {
@@ -207,17 +211,6 @@ public class MainAppAlliesController {
                         setChosenContest(mapContestNameToContestsDataToShow.get(battleFieldName));
                     });
 
-//                createNewSecretCodeController.getUboatMainController().getContestTab().setDisable(false);
-//                createNewSecretCodeController.getUboatMainController().getStringEncryptBruteForceController().getReadyBTN().setDisable(true);
-//                String jsonMapOfData = response.body().string();
-//                Map<String, String> machineDetailsAndSecretCode = new Gson().fromJson(jsonMapOfData, Map.class);
-//                String secretCodeComb = machineDetailsAndSecretCode.get("secretCode");
-//                String machineDetails = machineDetailsAndSecretCode.get("machineDetails");
-//                Platform.runLater(()->{
-//                    createNewSecretCodeController.getUboatMainController().setLBLToCodeCombinationBindingMain(secretCodeComb);
-//                    createNewSecretCodeController.getUboatMainController().setSecretCodeState(false);
-//                    createNewSecretCodeController.getUboatMainController().getMachineDetailsController().updateCurrMachineDetails(machineDetails);
-//                });
                 }
             });
         }
