@@ -163,9 +163,12 @@ public class MainAppAlliesController {
       mapContestNameToContestsDataToShow = contestData;
         Platform.runLater(() -> {
             contestsDataArea.getChildren().clear();
+
             createContestDataTiles();
-            updateCurrentContestDataArea(mapContestNameToContestsDataToShow.get(chosenContestData.getBattleFieldName()));
-        });
+            if(chosenContestData!=null) {
+                updateCurrentContestDataArea(mapContestNameToContestsDataToShow.get(chosenContestData.getBattleFieldName()));
+            }
+            });
     }
 
     private void updateContestTeamsDataList(List<ActiveTeamsDTO> contestTeamsData) {
