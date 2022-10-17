@@ -24,6 +24,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import static util.ConstantsAG.ADD_AGENT_TO_ALIES;
 import static util.ConstantsAG.CONFIGURATION_AGENT;
 
 public class ConfigurationAgentController {
@@ -77,6 +78,7 @@ public class ConfigurationAgentController {
     }
     @FXML
     void onActionAlliesName(ActionEvent event) {
+        addAgentToChosenAllies(alliesNameComboBox.getValue());
         submitBTN.setDisable(false);
     }
 
@@ -123,6 +125,28 @@ public class ConfigurationAgentController {
             reflectorIdCB.getItems().add(id);
         }
     }
+    private void addAgentToChosenAllies(String alliesName){
+        String finalUrl = HttpUrl
+                .parse(ADD_AGENT_TO_ALIES)
+                .newBuilder()
+                .addQueryParameter("alliesName", alliesName)
+                .build()
+                .toString();
+
+        HttpClientUtilAG.runAsync(finalUrl, new Callback() {
+            @Override
+            public void onFailure(@NotNull Call call, @NotNull IOException e) {
+                System.out.println("FAILURE IN ADD AGENT TO ALLIES");
+
+            }
+
+            @Override
+            public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+                String jsonArrayOfContestData = response.body().string();
+            }
+        });
+        }
+
 
 
 }
