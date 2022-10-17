@@ -11,6 +11,7 @@ public class DTOAppData {
     private Map<String,ContestDTO> mapContestNameToContestData= new HashMap<>();
     private Map<String,List<ActiveTeamsDTO>> mapContestNameToActiveTeamsData;
     private List<String> listFullSContest = new ArrayList<>();
+    private Map<String,ActiveTeamsDTO> mapTeamNameAllActiveTeamsData = new HashMap<>();
 
     private String encryptString;
     private String decryptString;
@@ -85,7 +86,19 @@ public class DTOAppData {
         mapContestNameToActiveTeamsData.get(contestName).add(teamData);
     }
 
-    public synchronized void removeFromMapContestNameToActiveTeamsData(String teamName) {
-        mapContestNameToActiveTeamsData.remove(teamName);
+    public synchronized void removeFromMapContestNameToActiveTeamsData(String contestName) {
+        mapContestNameToActiveTeamsData.remove(contestName);
+    }
+
+    public synchronized Map<String, ActiveTeamsDTO> getMapTeamNameAllActiveTeamsData() {
+        return mapTeamNameAllActiveTeamsData;
+    }
+
+    public synchronized void addToMapTeamNameAllActiveTeamsData(ActiveTeamsDTO activeTeamsDTO) {
+        mapTeamNameAllActiveTeamsData.put(activeTeamsDTO.getTeamName(),activeTeamsDTO);
+    }
+
+    public synchronized void removeFromMapTeamNameAllActiveTeamsData(String teamName) {
+        mapTeamNameAllActiveTeamsData.remove(teamName);
     }
 }

@@ -1,6 +1,7 @@
 package servlets.uboat;
 
 import constants.Constants;
+import dTOUI.ActiveTeamsDTO;
 import dTOUI.DTOAppData;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -25,7 +26,8 @@ public class LightweightLoginServlet extends HttpServlet {
 
         String usernameFromSession = SessionUtils.getUsername(request);
         DTOAppData appData = ServletUtils.getDTOAppData(getServletContext());
-        UserManager currentAppUserManager = getCurrentAppUserManager(appData,request.getParameter("appName"));
+        String appName = request.getParameter("appName");
+        UserManager currentAppUserManager = getCurrentAppUserManager(appData,appName);
 
         if (usernameFromSession == null) { //user is not logged in yet
 
@@ -62,6 +64,7 @@ public class LightweightLoginServlet extends HttpServlet {
                     else {
                         //add the new user to the users list
                         currentAppUserManager.addUser(usernameFromParameter);
+                        addNewAllie(appName,usernameFromParameter,appData);
                         //set the username in a session so it will be available on each request
                         //the true parameter means that if a session object does not exists yet
                         //create a new one
@@ -79,6 +82,12 @@ public class LightweightLoginServlet extends HttpServlet {
         }
     }
 
+    private void addNewAllie(String appName,String allieName,DTOAppData appData){
+        if(appName.equals("Allies")){
+            ActiveTeamsDTO team = new ActiveTeamsDTO(allieName,-1,-1);
+            appData.addToMapTeamNameAllActiveTeamsData(team);
+        }
+    }
     private UserManager getCurrentAppUserManager(DTOAppData appData,String currAppName){
         if(appData.getMapAppNameToUserManager().containsKey(currAppName)){
             return appData.getMapAppNameToUserManager().get(currAppName);

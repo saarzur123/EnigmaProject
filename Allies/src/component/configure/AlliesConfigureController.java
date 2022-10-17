@@ -24,13 +24,9 @@ import java.util.List;
 import java.util.Map;
 
 import static util.ConstantsAL.ALLIE_CONFIGURE_READY;
+import static util.ConstantsAL.UPDATE_EXIST_TEAM;
 
 public class AlliesConfigureController {
-
-    @FXML
-    private TextField agentNumberTF;
-    @FXML
-    private TextField allieNameTF;
 
     @FXML
     private TextField missionSizeTF;
@@ -38,10 +34,8 @@ public class AlliesConfigureController {
     @FXML
     private Button startBTN;
 
-    private int agentNumber;
     private int missionSize;
     private String allieName;
-    private String userStringToSearchFor;
     private MainAppAlliesController alliesController;
     private BooleanProperty allOk = new SimpleBooleanProperty(true);
     private boolean nameOk = false;
@@ -58,9 +52,17 @@ public class AlliesConfigureController {
         alliesController = main;
     }
 
-        @FXML
+    public void setAllieName(String allieName) {
+        this.allieName = allieName;
+    }
+
+    public String getAllieName() {
+        return allieName;
+    }
+
+    @FXML
     void allieIsReadyActionBTN(ActionEvent event) {
-        ActiveTeamsDTO teamsDTO = new ActiveTeamsDTO(allieName,missionSize,agentNumber);
+        ActiveTeamsDTO teamsDTO = new ActiveTeamsDTO(allieName,missionSize,-1);
             Gson gson = new Gson();
             String teamDtoJson = gson.toJson(teamsDTO);
 
@@ -97,33 +99,6 @@ public class AlliesConfigureController {
 
 
     @FXML
-    void onSubmitAllieNameActionBTN(ActionEvent event) {
-        if(!allieNameTF.getText().isEmpty()){
-            allieName = allieNameTF.getText();
-            nameOk = true;
-            checkIfAllOk();
-        }else nameOk = false;
-    }
-
-    @FXML
-    void onSubmitAgentNumberAction(ActionEvent event) {
-        if(!agentNumberTF.getText().isEmpty()){
-            try {
-                agentNumber = Integer.parseInt(agentNumberTF.getText());
-                if(agentNumber<1){
-                    agentOk = false;
-                    MainAppAlliesController.showErrorPopup("Pleas enter decimal number bigger than one to agent number !");
-                }else agentOk = true;
-                checkIfAllOk();
-            }
-            catch (NumberFormatException e){
-                agentOk = false;
-                MainAppAlliesController.showErrorPopup("Agent number is not a decimal number!");
-            }
-        }
-    }
-
-    @FXML
     void onSubmitMissionSizeAction(ActionEvent event) {
         if(!missionSizeTF.getText().isEmpty()){
             try {
@@ -131,7 +106,11 @@ public class AlliesConfigureController {
                 if(missionSize<1){
                     missionOk = false;
                     MainAppAlliesController.showErrorPopup("Pleas enter decimal number bigger than one to mission size !");
-                }else missionOk = true;
+                }else
+                {
+                    missionOk = true;
+                    updateAllieInMapAndList();
+                }
                 checkIfAllOk();
             }
             catch (NumberFormatException e){
@@ -141,8 +120,36 @@ public class AlliesConfigureController {
         }
     }
 
+    private void updateAllieInMapAndList(){
+        ActiveTeamsDTO teamsDTO = new ActiveTeamsDTO(allieName, missionSize, -1);
+        Gson gson = new Gson();
+        String teamDtoJson = gson.toJson(teamsDTO);
+
+        String finalUrl = HttpUrl
+                .parse(UPDATE_EXIST_TEAM)
+                .newBuilder()
+                .addQueryParameter("contestName", alliesController.getCurrentBattleFieldName())
+                .addQueryParameter("teamDTO", teamDtoJson)
+                .build()
+                .toString();
+        HttpClientUtilAL.runAsync(finalUrl, new Callback() {
+            @Override
+            public void onFailure(@NotNull Call call, @NotNull IOException e) {
+                Platform.runLater(() ->
+                        System.out.println("FAILURE ON ALLIES CONFIGURE CONTROLLER :  ALLIE_CONFIGURE_READY SERVLET")
+                );
+            }
+
+            @Override
+            public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+                String responseBody = response.body().string();
+
+            }
+        });
+    }
+
     private void checkIfAllOk(){
-        if(nameOk && agentOk && missionOk){
+        if(missionOk){
             allOk.setValue(false);
         }else allOk.setValue(true);
     }

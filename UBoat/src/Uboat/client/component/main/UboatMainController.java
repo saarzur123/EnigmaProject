@@ -177,7 +177,7 @@ public class UboatMainController implements Closeable{
 
     private void createContestDataTiles(List<ActiveTeamsDTO> teamsData) {
         for (ActiveTeamsDTO teamData : teamsData) {
-            createContestDataTile(teamData.getTeamName(),teamData.getMissionSize(),teamData.getAgentNumber());
+            createContestDataTile(teamData.getTeamName(),teamData.getMissionSize(),String.valueOf(teamData.getAgentNumber()));
         }
     }
 

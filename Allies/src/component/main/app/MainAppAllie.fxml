@@ -16,7 +16,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="component.main.app.MainAppAlliesController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="900.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="component.main.app.MainAppAlliesController">
     <top>
         <VBox alignment="TOP_CENTER" prefHeight="123.0" prefWidth="700.0" BorderPane.alignment="CENTER">
             <children>
@@ -64,49 +64,66 @@
                     <content>
                         <AnchorPane minHeight="0.0" minWidth="0.0" prefWidth="700.0">
                      <children>
-                        <BorderPane prefHeight="503.0" prefWidth="700.0">
+                        <BorderPane prefHeight="708.0" prefWidth="900.0">
                            <top>
-                              <GridPane BorderPane.alignment="CENTER">
+                              <GridPane prefHeight="30.0" prefWidth="833.0" BorderPane.alignment="CENTER">
                                 <columnConstraints>
-                                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="306.0" minWidth="10.0" prefWidth="297.0" />
-                                    <ColumnConstraints hgrow="SOMETIMES" maxWidth="465.0" minWidth="10.0" prefWidth="403.0" />
+                                    <ColumnConstraints hgrow="SOMETIMES" maxWidth="535.0" minWidth="10.0" prefWidth="297.0" />
+                                    <ColumnConstraints hgrow="SOMETIMES" maxWidth="465.0" minWidth="10.0" prefWidth="392.0" />
                                 </columnConstraints>
                                 <rowConstraints>
                                   <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                                 </rowConstraints>
                                  <children>
-                                    <HBox prefHeight="31.0" prefWidth="425.0" spacing="10.0" GridPane.columnIndex="1">
+                                    <HBox alignment="CENTER" prefHeight="31.0" prefWidth="425.0" spacing="10.0" GridPane.columnIndex="1">
                                        <children>
                                           <Label text="Add agents to your next round!" />
                                           <TextField prefWidth="80.0" />
                                           <Button alignment="CENTER" mnemonicParsing="false" onAction="#onAddAgentsNumberToNextRoundSubmitBTN" text="SUBMIT" />
                                        </children>
+                                       <GridPane.margin>
+                                          <Insets top="10.0" />
+                                       </GridPane.margin>
                                     </HBox>
+                                    <AnchorPane prefHeight="200.0" prefWidth="200.0">
+                                       <children>
+                                          <fx:include fx:id="alliesConfigure" source="../../configure/AlliesConfigure.fxml" />
+                                       </children>
+                                    </AnchorPane>
                                  </children>
+                                 <BorderPane.margin>
+                                    <Insets />
+                                 </BorderPane.margin>
                               </GridPane>
                            </top>
                            <left>
-                              <VBox prefWidth="350.0" BorderPane.alignment="CENTER">
+                              <VBox prefWidth="450.0" BorderPane.alignment="CENTER">
                                  <children>
-                                    <ScrollPane prefHeight="200.0" prefWidth="200.0">
+                                    <ScrollPane prefWidth="450.0">
                                        <content>
-                                          <VBox fx:id="currentContestDataAreaVBOX" prefHeight="200.0" prefWidth="350.0" />
+                                          <VBox fx:id="currentContestDataAreaVBOX" prefHeight="300.0" prefWidth="450.0" />
                                        </content>
                                     </ScrollPane>
-                                    <ScrollPane prefHeight="200.0" prefWidth="200.0" />
+                                    <ScrollPane prefWidth="450.0" />
                                  </children>
+                                 <BorderPane.margin>
+                                    <Insets top="10.0" />
+                                 </BorderPane.margin>
                               </VBox>
                            </left>
                            <right>
-                              <VBox prefWidth="350.0" BorderPane.alignment="CENTER">
+                              <VBox prefWidth="450.0" BorderPane.alignment="CENTER">
                                  <children>
-                                    <ScrollPane prefHeight="200.0" prefWidth="200.0">
+                                    <ScrollPane prefWidth="200.0">
                                        <content>
-                                          <VBox fx:id="currentContestTeamsAreaVBOX" prefHeight="200.0" prefWidth="350.0" />
+                                          <VBox fx:id="currentContestTeamsAreaVBOX" prefHeight="300.0" prefWidth="450.0" />
                                        </content>
                                     </ScrollPane>
                                     <ScrollPane prefHeight="200.0" prefWidth="200.0" />
                                  </children>
+                                 <BorderPane.margin>
+                                    <Insets top="10.0" />
+                                 </BorderPane.margin>
                               </VBox>
                            </right>
                         </BorderPane>

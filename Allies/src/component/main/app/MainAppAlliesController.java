@@ -19,15 +19,11 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import javafx.stage.Modality;
-import javafx.stage.Stage;
-import javafx.stage.StageStyle;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.HttpUrl;
@@ -58,6 +54,10 @@ public class MainAppAlliesController {
     private VBox currentContestDataAreaVBOX;
     @FXML
     private VBox currentContestTeamsAreaVBOX;
+
+    //include
+    @FXML private BorderPane alliesConfigure;
+    @FXML private AlliesConfigureController alliesConfigureController;
 
     ////dashboard - fxml
     @FXML
@@ -115,6 +115,9 @@ public class MainAppAlliesController {
         });
     }
 
+    public void setAlliesNameInAlliesController(String name){
+        alliesConfigureController.setAllieName(name);
+    }
     public void setListCurrentTeams(List<ActiveTeamsDTO> listCurrentTeams) {
         this.listCurrentTeams = listCurrentTeams;
     }
@@ -195,7 +198,7 @@ public class MainAppAlliesController {
             Node singleTeamData = loader.load();
             ActiveTeamDataController activeTeamsController = loader.getController();
             activeTeamsController.setAlliesController(this);
-            activeTeamsController.insertDataToContestTeamTile(teamData.getTeamName(), teamData.getMissionSize(), teamData.getAgentNumber());
+            activeTeamsController.insertDataToContestTeamTile(teamData.getTeamName(), teamData.getMissionSize(), String.valueOf(teamData.getAgentNumber()));
             teamsDataArea.getChildren().add(singleTeamData);
         } catch (IOException e) {
 
@@ -247,17 +250,11 @@ public class MainAppAlliesController {
     public void onContestChosenRedayActionBTN(ActionEvent event) throws IOException {
         dashboardTab.setDisable(true);
         setSelectedTab();
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/component/configure/AlliesConfigure.fxml"));
-        Parent root1 = (Parent) fxmlLoader.load();
-        Stage stage = new Stage();
-        stage.initModality(Modality.APPLICATION_MODAL);//block the user from doing other actions
-        stage.initStyle(StageStyle.DECORATED);// now te pop up window will have a toolbar
-        stage.setTitle("Manually Configuration Window");
-        stage.setScene(new Scene(root1));
-        AlliesConfigureController alliesConfigureController = fxmlLoader.getController();
-        alliesConfigureController.setMainController(this);
-        stage.showAndWait();
+        enterNewAllieToSystem(alliesConfigureController.getAllieName());
+        refreshExistContestData();
+        }
 
+        private void refreshExistContestData(){
             String finalUrl = HttpUrl
                     .parse(REFRESH_EXSIST_UBOAT)
                     .newBuilder()
@@ -265,7 +262,7 @@ public class MainAppAlliesController {
                     .build()
                     .toString();
 
-        HttpClientUtilAL.runAsync(finalUrl, new Callback(){
+            HttpClientUtilAL.runAsync(finalUrl, new Callback(){
                 @Override
                 public void onFailure(@NotNull Call call, @NotNull IOException e) {
                 }
@@ -280,12 +277,12 @@ public class MainAppAlliesController {
                     //extracting mapContestNameToContestsDataToShow from jsonValuesMap
                     Map<String,ContestDTO> actualData = new HashMap<>();
 
-                        Map<String,String> mapContestDataJson = gson.fromJson(contestMapString,Map.class);
-                        for (String str : mapContestDataJson.keySet()){
-                            String contestName = gson.fromJson(str,String.class);
-                            ContestDTO contestDTO = gson.fromJson(mapContestDataJson.get(str),ContestDTO.class);
-                            actualData.put(contestName,contestDTO);
-                        }
+                    Map<String,String> mapContestDataJson = gson.fromJson(contestMapString,Map.class);
+                    for (String str : mapContestDataJson.keySet()){
+                        String contestName = gson.fromJson(str,String.class);
+                        ContestDTO contestDTO = gson.fromJson(mapContestDataJson.get(str),ContestDTO.class);
+                        actualData.put(contestName,contestDTO);
+                    }
                     mapContestNameToContestsDataToShow = actualData;
 
 
@@ -303,6 +300,37 @@ public class MainAppAlliesController {
                 }
             });
         }
+    private void enterNewAllieToSystem(String allieName) {
+        ActiveTeamsDTO teamsDTO = new ActiveTeamsDTO(allieName, -1, -1);
+        Gson gson = new Gson();
+        String teamDtoJson = gson.toJson(teamsDTO);
+
+        String finalUrl = HttpUrl
+                .parse(ALLIE_CONFIGURE_READY)
+                .newBuilder()
+                .addQueryParameter("contestName", currentBattleFieldName)
+                .addQueryParameter("teamDTO", teamDtoJson)
+                .build()
+                .toString();
+        HttpClientUtilAL.runAsync(finalUrl, new Callback() {
+            @Override
+            public void onFailure(@NotNull Call call, @NotNull IOException e) {
+                Platform.runLater(() ->
+                        System.out.println("FAILURE ON ALLIES CONFIGURE CONTROLLER :  ALLIE_CONFIGURE_READY SERVLET")
+                );
+            }
+
+            @Override
+            public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+                String responseBody = response.body().string();
+                Gson gson = new Gson();
+                Map<String, String> listTeamsDataJson = gson.fromJson(responseBody, Map.class);
+                ActiveTeamsDTO[] arrayData = gson.fromJson(listTeamsDataJson.get("listTeams"), ActiveTeamsDTO[].class);
+                List<ActiveTeamsDTO> listTeamsData = Arrays.asList(arrayData);
+                listCurrentTeams = listTeamsData;
+            }
+        });
+    }
 
 
     public void setSelectedTab(){
@@ -342,6 +370,16 @@ public class MainAppAlliesController {
 
     @FXML
     public void onAddAgentsNumberToNextRoundSubmitBTN(ActionEvent event){
+
+    }
+
+    @FXML
+    public void onSubmitMissionSizeAction(ActionEvent event){
+
+    }
+
+    @FXML
+    public void allieIsReadyActionBTN(ActionEvent event){
 
     }
 

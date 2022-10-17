@@ -25,6 +25,7 @@ public class LoginController {
     @FXML    public TextField userNameTextField;
     @FXML    public Label errorMessageLabel;
 
+    private boolean loginSucceed;
     private MainAppAlliesController alliesController;
 
     private final StringProperty errorMessageProperty = new SimpleStringProperty();
@@ -47,7 +48,10 @@ public class LoginController {
 
     @FXML
     private void loginButtonClicked(ActionEvent event) {
+        loginToSystemCall();
+    }
 
+    private void loginToSystemCall(){
         String userName = userNameTextField.getText();
         if (userName.isEmpty()) {
             errorMessageProperty.set("User name is empty. You can't login with empty user name");
@@ -81,7 +85,7 @@ public class LoginController {
                     );
                 } else {
                     Platform.runLater(() -> {
-                        //TODO
+                        alliesController.setAlliesNameInAlliesController(userName);
                         alliesController.getTabPaneAllies().setDisable(false);
                         alliesController.getContestTab().setDisable(true);
                         alliesController.updateUserName(userName);
@@ -90,6 +94,7 @@ public class LoginController {
             }
         });
     }
+
 
     @FXML
     private void userNameKeyTyped(KeyEvent event) {
