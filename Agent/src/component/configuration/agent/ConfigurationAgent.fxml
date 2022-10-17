@@ -1,14 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.Slider?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
-
 
 <VBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" spacing="5.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="component.configuration.agent.ConfigurationAgentController">
     <children>
@@ -34,7 +33,7 @@
                         <Font size="18.0" />
                     </font>
                 </Label>
-                <Slider fx:id="threadNumberSlider" majorTickUnit="1.0" max="4.0" min="1.0" minorTickCount="0" onDragDetected="#onThreadNumberSlider" prefHeight="16.0" prefWidth="412.0" showTickLabels="true" showTickMarks="true" value="1.0" />
+                <Slider fx:id="threadNumberSlider" majorTickUnit="1.0" max="4.0" min="1.0" minorTickCount="0" onDragDetected="#onThreadNumberSlider" prefHeight="16.0" prefWidth="412.0" showTickLabels="true" showTickMarks="true" snapToTicks="true" value="1.0" />
             </children>
         </HBox>
         <HBox fx:id="taskSizeHBox" alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
@@ -47,11 +46,7 @@
                 <TextField fx:id="MissionSizeTF" onAction="#onActionMissionSize" prefHeight="27.0" prefWidth="65.0" />
             </children>
         </HBox>
-        <ScrollPane fx:id="agentsDataScrollPane" prefHeight="155.0" prefWidth="591.0">
-            <content>
-                <HBox fx:id="agentDataArea" prefHeight="136.0" prefWidth="597.0" />
-            </content>
-        </ScrollPane>
+      <ComboBox fx:id="alliesNameComboBox" onAction="#onActionAlliesName" prefWidth="150.0" promptText="Select Allies" />
         <Button fx:id="submitBTN" mnemonicParsing="false" onAction="#onActionSubmitAgentData" text="Submit" />
     </children>
 </VBox>

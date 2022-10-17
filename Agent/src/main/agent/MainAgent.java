@@ -1,19 +1,20 @@
-package main;
+package main.agent;
 
-import component.main.app.MainAppAlliesController;
+import component.main.app.MainAppAgentController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import util.http.HttpClientUtilAL;
+import util.http.HttpClientUtilAG;
 
 import java.io.IOException;
 import java.net.URL;
 
-public class MainAllies extends Application {
 
-    private MainAppAlliesController alliesController;
+public class MainAgent extends Application {
+
+    private MainAppAgentController agentController;
 
 
     @Override
@@ -21,15 +22,15 @@ public class MainAllies extends Application {
 
         primaryStage.setMinHeight(600);
         primaryStage.setMinWidth(600);
-        primaryStage.setTitle("UBoat App Client");
-        URL loginPage = getClass().getResource("/component/main/app/MainAppAllie.fxml");
+        primaryStage.setTitle("Agent App Client");
+        URL loginPage = getClass().getResource("/component/main/app/MainAppAgent.fxml");
         try {
             FXMLLoader fxmlLoader = new FXMLLoader();
             fxmlLoader.setLocation(loginPage);
             Parent root = fxmlLoader.load();
-            alliesController = fxmlLoader.getController();
+            agentController = fxmlLoader.getController();
 
-            Scene scene = new Scene(root, 900, 900);
+            Scene scene = new Scene(root, 700, 600);
             primaryStage.setScene(scene);
             primaryStage.show();
         } catch (IOException e) {
@@ -40,7 +41,7 @@ public class MainAllies extends Application {
 
     @Override
     public void stop() throws Exception {
-        HttpClientUtilAL.shutdown();
+        HttpClientUtilAG.shutdown();
         //chatAppMainController.close();
     }
 

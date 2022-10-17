@@ -30,7 +30,7 @@ public class Main extends Application {
             Parent root = fxmlLoader.load();
             uboatMainController = fxmlLoader.getController();
 
-            Scene scene = new Scene(root, 700, 600);
+            Scene scene = new Scene(root, 700, 700);
             primaryStage.setScene(scene);
             primaryStage.show();
         } catch (IOException e) {

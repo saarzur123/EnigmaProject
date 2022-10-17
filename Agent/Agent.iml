@@ -7,5 +7,30 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="module" module-name="Engine" />
+    <orderEntry type="module" module-name="web" />
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="file://$MODULE_DIR$/../3rd/google-gson-2.1" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES>
+          <root url="file://$MODULE_DIR$/../3rd/google-gson-2.1" />
+        </SOURCES>
+        <jarDirectory url="file://$MODULE_DIR$/../3rd/google-gson-2.1" recursive="false" />
+        <jarDirectory url="file://$MODULE_DIR$/../3rd/google-gson-2.1" recursive="false" type="SOURCES" />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="file://$MODULE_DIR$/../3rd/okHttp" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+        <jarDirectory url="file://$MODULE_DIR$/../3rd/okHttp" recursive="false" />
+      </library>
+    </orderEntry>
   </component>
 </module>
