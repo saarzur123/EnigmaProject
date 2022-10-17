@@ -37,6 +37,8 @@ public class AddAgentToAliesServlet extends HttpServlet {
             for (int i = 0; i < listActiveTeam.size(); i++) {
                 if(listActiveTeam.get(i).getTeamName() == alliesName){
                     listActiveTeam.get(i).setAgentNumber(listActiveTeam.get(i).getAgentNumber() + 1);
+                    i = listActiveTeam.size();
+                    break;
                 }
             }
         }
