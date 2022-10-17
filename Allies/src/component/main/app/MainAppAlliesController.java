@@ -6,6 +6,7 @@ import component.configure.tile.ActiveTeamDataController;
 import component.contest.ContestDataController;
 import component.login.LoginController;
 import component.refresh.contest.data.ContestDataAreaRefresher;
+import component.refresh.contest.data.ContestTeamsDataAreaRefresher;
 import dTOUI.ActiveTeamsDTO;
 import dTOUI.ContestDTO;
 import javafx.application.Platform;
@@ -66,10 +67,10 @@ public class MainAppAlliesController {
     @FXML private TabPane tabPaneAllies;
 
     private Timer contestDataTimer;
-    private Timer shouldUpdateTimer;
+    private Timer teamsDataTimer;
     private List<ActiveTeamsDTO> listCurrentTeams = new ArrayList<>();
     private TimerTask updateContestData;
-    private TimerTask shouldUpdate;
+    private TimerTask updateContestTeamsData;
     private BooleanProperty autoUpdate = new SimpleBooleanProperty();
     private ContestDTO chosenContestData;
     private Map<String, ContestDTO> mapContestNameToContestsDataToShow = new HashMap<>();
@@ -163,7 +164,6 @@ public class MainAppAlliesController {
       mapContestNameToContestsDataToShow = contestData;
         Platform.runLater(() -> {
             contestsDataArea.getChildren().clear();
-
             createContestDataTiles();
             if(chosenContestData!=null) {
                 updateCurrentContestDataArea(mapContestNameToContestsDataToShow.get(chosenContestData.getBattleFieldName()));
@@ -232,9 +232,15 @@ public class MainAppAlliesController {
     }
 
     public void startUpdateContestsData() {
-        updateContestData = new ContestDataAreaRefresher(currentBattleFieldName, this::updateContestsDataList,this::updateContestTeamsDataList);
+        updateContestData = new ContestDataAreaRefresher(this::updateContestsDataList);
         contestDataTimer = new Timer();
         contestDataTimer.schedule(updateContestData, REFRESH_RATE, REFRESH_RATE);
+    }
+
+    public void startUpdateAlliesData() {
+        updateContestTeamsData = new ContestTeamsDataAreaRefresher(currentBattleFieldName, this::updateContestTeamsDataList);
+        teamsDataTimer = new Timer();
+        teamsDataTimer.schedule(updateContestTeamsData, REFRESH_RATE, REFRESH_RATE);
     }
 
     @FXML
@@ -309,7 +315,7 @@ public class MainAppAlliesController {
     public void setChosenContest(ContestDTO chosenContestData){
         this.chosenContestData = chosenContestData;
         this.currentBattleFieldName = chosenContestData.getBattleFieldName();
-
+        startUpdateAlliesData();
         //updateCurrentContestDataArea(this.chosenContestData);
     }
 
