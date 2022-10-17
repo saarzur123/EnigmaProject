@@ -2,7 +2,7 @@ package component.configuration.agent;
 
 import com.google.gson.Gson;
 import component.main.app.MainAppAgentController;
-import dTOUI.ActiveTeamsDTO;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -13,14 +13,12 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import okhttp3.Call;
 import okhttp3.Callback;
-import okhttp3.HttpUrl;
 import okhttp3.Response;
 import org.jetbrains.annotations.NotNull;
-import secret.code.validation.SecretCodeValidations;
 import util.http.HttpClientUtilAG;
 
 import java.io.IOException;
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -57,6 +55,7 @@ public class ConfigurationAgentController {
         submitBTN.setDisable(true);
         alliesNameComboBox.setDisable(true);
         taskSizeHBox.setDisable(true);
+        setAlliesName();
     }
 
     @FXML
@@ -103,24 +102,19 @@ public class ConfigurationAgentController {
                 Map<String, String> mapData = gson.fromJson(jsonArrayOfContestData, Map.class);
 
                 if(mapData.size()>0){
-                    Map<String, String> mapTeamsDataJson = gson.fromJson(mapData.get("teamsNamesList"), Map.class);
-                    for (String str : mapTeamsDataJson.keySet()) {
-                        ActiveTeamsDTO activeTeamsDTO = gson.fromJson(mapTeamsDataJson.get(str), ActiveTeamsDTO.class);
-                        actualDataTeams.add(activeTeamsDTO);
-                        updateContestTeamsArea.accept(actualDataTeams);
-                    }
+                    String[] teamsNamesJson = gson.fromJson(mapData.get("teamsNamesList"), String[].class);
+                    Platform.runLater(()->{
+                        setComboBox(Arrays.asList(teamsNamesJson));
+                    });
                 }
             }
-
             });
         }
 
 
-        private void setComboBox(){
-        int size = machineReflectorsNum;
-        for (int i = 1; i <= size; i++) {
-            String id = SecretCodeValidations.chosenReflector(i);
-            reflectorIdCB.getItems().add(id);
+        private void setComboBox(List<String> allTeamsNames){
+        for (String teamName : allTeamsNames) {
+            alliesNameComboBox.getItems().add(teamName);
         }
     }
 

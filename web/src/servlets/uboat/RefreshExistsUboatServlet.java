@@ -29,9 +29,7 @@ public class RefreshExistsUboatServlet extends HttpServlet {
         BattleField contestData = currEngine.getBattleField();
         contestData.setCurrAmountOfAllies(contestData.getCurrAmountOfAllies() + 1 );
 
-
-        contestData.setUserNameOfContestCreator(usernameFromSession);
-        ContestDTO contestDTO = new ContestDTO(gameTitle, contestData.getCompetitionLevel(), usernameFromSession,contestData.getCurrAmountOfAllies(),contestData.getAlliesAmount(),false);
+        ContestDTO contestDTO = new ContestDTO(gameTitle, contestData.getCompetitionLevel(), contestData.getUserNameOfContestCreator(), contestData.getCurrAmountOfAllies(),contestData.getAlliesAmount(),false);
         //update new data in app data
         appData.updateExistsUboat(contestDTO);
 
@@ -45,11 +43,9 @@ public class RefreshExistsUboatServlet extends HttpServlet {
         //adding contest map as jason string and boolean value to retMap
         Map<String,String> retMap = new HashMap<>();
         Map<String,String> mapContestNameToContestDtoJson = new HashMap<>();
-        Map<String,String> mapContestNameToDisableBTNJson = new HashMap<>();
         for(String contestName : contestMap.keySet()){
             mapContestNameToContestDtoJson.put(gson.toJson(contestName),gson.toJson(contestMap.get(contestName)));
         }
-
 
         String mapToString = gson.toJson(mapContestNameToContestDtoJson);
 

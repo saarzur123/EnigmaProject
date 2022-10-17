@@ -86,8 +86,9 @@ public class MainAppAlliesController {
 
         tabPaneAllies.setDisable(true);
         userGreetingLabel.textProperty().bind(Bindings.concat("Hello ", currentUserName));
-        if (loginController != null) {
+        if (loginController != null && alliesConfigureController != null) {
             loginController.setAlliesMainController(this);
+            alliesConfigureController.setMainController(this);
         }
         startUpdateContestsData();
 
