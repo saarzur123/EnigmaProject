@@ -10,6 +10,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
+import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -23,8 +24,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
-import static util.ConstantsAL.ALLIE_CONFIGURE_READY;
-import static util.ConstantsAL.UPDATE_EXIST_TEAM;
+import static util.ConstantsAL.*;
 
 public class AlliesConfigureController {
 
@@ -41,6 +41,7 @@ public class AlliesConfigureController {
     private boolean nameOk = false;
     private boolean agentOk = false;
     private boolean missionOk = false;
+    ActiveTeamsDTO teamsDTO;
 
 
     @FXML
@@ -59,10 +60,38 @@ public class AlliesConfigureController {
     public String getAllieName() {
         return allieName;
     }
+    @FXML
+    void onActionAllieIsReadyActionBTN(ActionEvent event) {
+        Gson gson = new Gson();
+        teamsDTO = new ActiveTeamsDTO(allieName,missionSize,-1);
+        String teamDtoJson = gson.toJson(teamsDTO);
+        String finalUrl = HttpUrl
+                .parse(ALLIE_IS_READY_TO_START_THE_CONTEST)
+                .newBuilder()
+                .addQueryParameter("contestName", alliesController.getCurrentBattleFieldName())
+                .addQueryParameter("teamDTO", teamDtoJson)
+                .build()
+                .toString();
+        HttpClientUtilAL.runAsync(finalUrl, new Callback() {
+            @Override
+            public void onFailure(@NotNull Call call, @NotNull IOException e) {
+                Platform.runLater(() ->
+                        System.out.println("FAILURE ON ALLIES CONFIGURE CONTROLLER :  ALLIE_IS_READY_TO_START_THE_CONTEST SERVLET")
+                );
+            }
+
+            @Override
+            public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+                String responseBody = response.body().string();
+                Gson gson = new Gson();
+            }
+        });
+    }
+
 
     @FXML
     void allieIsReadyActionBTN(ActionEvent event) {
-        ActiveTeamsDTO teamsDTO = new ActiveTeamsDTO(allieName,missionSize,-1);
+         teamsDTO = new ActiveTeamsDTO(allieName,missionSize,-1);
             Gson gson = new Gson();
             String teamDtoJson = gson.toJson(teamsDTO);
 
@@ -93,7 +122,7 @@ public class AlliesConfigureController {
                 }
             });
             Stage stage = (Stage) startBTN.getScene().getWindow();
-            stage.close();
+            //stage.close();
         }
 
 
@@ -121,7 +150,7 @@ public class AlliesConfigureController {
     }
 
     private void updateAllieInMapAndList(){
-        ActiveTeamsDTO teamsDTO = new ActiveTeamsDTO(allieName, missionSize, -1);
+        ActiveTeamsDTO teamsDTO = new ActiveTeamsDTO(allieName, missionSize, -1 );
         Gson gson = new Gson();
         String teamDtoJson = gson.toJson(teamsDTO);
 

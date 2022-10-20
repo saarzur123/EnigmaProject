@@ -15,12 +15,17 @@ public class DTOAppData {
     private List<String> listFullSContest = new ArrayList<>();
     private Map<String,ActiveTeamsDTO> mapTeamNameAllActiveTeamsData = new HashMap<>();
     private Map<String,Boolean> mapContestNameToContestReadyStatus = new HashMap<>();
+    private List<String> listOfReadyAllies = new ArrayList<>();
 
     private String encryptString;
     private String decryptString;
 
     public DTOAppData(){
         mapContestNameToActiveTeamsData = new HashMap<>();
+    }
+
+    public List<String> getListOfReadyAllies() {
+        return listOfReadyAllies;
     }
 
     public String getDecryptString() {

@@ -7,6 +7,7 @@ import component.contest.ContestDataController;
 import component.login.LoginController;
 import component.refresh.contest.data.ContestDataAreaRefresher;
 import component.refresh.contest.data.ContestTeamsDataAreaRefresher;
+import component.status.RefresherStatusContest;
 import dTOUI.ActiveTeamsDTO;
 import dTOUI.ContestDTO;
 import javafx.application.Platform;
@@ -68,6 +69,9 @@ public class MainAppAlliesController {
 
     private Timer contestDataTimer;
     private Timer teamsDataTimer;
+
+    private Timer timeToUpdateStatusContest;
+    private TimerTask updateStatusContest;
     private List<ActiveTeamsDTO> listCurrentTeams = new ArrayList<>();
     private TimerTask updateContestData;
     private TimerTask updateContestTeamsData;
@@ -290,6 +294,9 @@ public class MainAppAlliesController {
                     if(map.get("full").equals("YES")){
                         String contestDTOName = map.get("contestName");
                         String[] contestsNameJson = gson.fromJson(map.get("listFullContest"), String[].class);
+
+                        startUpdateStatusContest(contestDTOName);
+
                         listFullContest = Arrays.asList(contestsNameJson);
                     }
                     Platform.runLater(()->{
@@ -301,6 +308,21 @@ public class MainAppAlliesController {
                 }
             });
         }
+//    private void updateStatusContest(Map<String, Boolean> contestData) {
+//        //mapContestNameToContestsDataToShow = contestData;
+//        Platform.runLater(() -> {
+//            contestsDataArea.getChildren().clear();
+//            createContestDataTiles();
+//            if(chosenContestData!=null) {
+//                updateCurrentContestDataArea(mapContestNameToContestsDataToShow.get(chosenContestData.getBattleFieldName()));
+//            }
+//        });
+//    }
+    public void startUpdateStatusContest(String contestName) {
+        updateStatusContest = new RefresherStatusContest(contestName);
+        timeToUpdateStatusContest = new Timer();
+        timeToUpdateStatusContest.schedule(updateStatusContest, REFRESH_RATE, REFRESH_RATE);
+    }
     private void enterNewAllieToSystem(String allieName) {
         ActiveTeamsDTO teamsDTO = new ActiveTeamsDTO(allieName, -1, -1);
         Gson gson = new Gson();

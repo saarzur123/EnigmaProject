@@ -8,7 +8,6 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="component.configure.AlliesConfigureController">
    <center>
       <VBox BorderPane.alignment="CENTER">
@@ -30,7 +29,7 @@
                         <Insets top="10.0" />
                      </HBox.margin>
                   </Button>
-                  <Button fx:id="startBTN" mnemonicParsing="false" onAction="#allieIsReadyActionBTN" text="READY to START">
+                  <Button fx:id="startBTN" mnemonicParsing="false" onAction="#onActionAllieIsReadyActionBTN" text="READY to START">
                      <HBox.margin>
                         <Insets top="10.0" />
                      </HBox.margin>
