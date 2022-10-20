@@ -8,7 +8,8 @@ import java.util.*;
 import java.util.concurrent.*;
 import java.util.function.Consumer;
 
-public class DecryptionManager {
+public class
+DecryptionManager {
     private boolean exit;
     private boolean stopAll;
     private MachineImplement machine;

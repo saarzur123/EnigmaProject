@@ -86,7 +86,7 @@ public class UboatMainController implements Closeable{
             createNewSecretCodeController.setUboatMainController(this);
             secretCodeController.setUboatMainController(this);
         }
-        startUpdateContestsData();
+
         //loadLoginPage();
     }
     public void setUploadFile(boolean flag){
