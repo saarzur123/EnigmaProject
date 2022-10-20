@@ -1,5 +1,6 @@
 package dTOUI;
 
+import decryption.manager.DecryptionManager;
 import engine.Engine;
 import uboat.engine.users.UserManager;
 
@@ -9,6 +10,7 @@ public class DTOAppData {
     private Map<String,UserManager> mapAppNameToUserManager = new HashMap<>();
     private Map<String, Engine> mapUboatUsernameToEngineData = new HashMap<>();
     private Map<String,ContestDTO> mapContestNameToContestData= new HashMap<>();
+    private Map<String, DecryptionManager> mapAllieNameToDM= new HashMap<>();
     private Map<String,List<ActiveTeamsDTO>> mapContestNameToActiveTeamsData;
     private List<String> listFullSContest = new ArrayList<>();
     private Map<String,ActiveTeamsDTO> mapTeamNameAllActiveTeamsData = new HashMap<>();
@@ -100,5 +102,13 @@ public class DTOAppData {
 
     public synchronized void removeFromMapTeamNameAllActiveTeamsData(String teamName) {
         mapTeamNameAllActiveTeamsData.remove(teamName);
+    }
+
+    public synchronized void addDMToMap(String allieName,DecryptionManager dmFromCurrEngine) {
+        mapAllieNameToDM.put(allieName, dmFromCurrEngine);
+    }
+
+    public synchronized Map<String, DecryptionManager> getMapAllieNameToDM() {
+        return mapAllieNameToDM;
     }
 }

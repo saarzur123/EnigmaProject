@@ -33,9 +33,7 @@ public class LoginController {
     @FXML
     public void initialize() {
         errorMessageLabel.textProperty().bind(errorMessageProperty);
-        HttpClientUtilAL.setCookieManagerLoggingFacility(line ->
-                Platform.runLater(() ->
-                        updateHttpStatusLine(line)));
+
     }
 
     public Label getErrorMessageLabel() {
@@ -67,7 +65,6 @@ public class LoginController {
                 .build()
                 .toString();
 
-        updateHttpStatusLine("New request is launched for: " + finalUrl);
 
         HttpClientUtilAL.runAsync(finalUrl, new Callback() {
             @Override
@@ -102,11 +99,5 @@ public class LoginController {
     }
 
 
-    private void updateHttpStatusLine(String data) {
-        //  uboatMainController.updateHttpLine(data);
-    }
 
-//    public void setChatAppMainController(ChatAppMainController chatAppMainController) {
-//        this.chatAppMainController = chatAppMainController;
-//    }
 }

@@ -1,5 +1,6 @@
 package component.configuration.agent;
 
+import agent.engine.AgentEngine;
 import com.google.gson.Gson;
 import component.main.app.MainAppAgentController;
 import javafx.application.Platform;
@@ -46,7 +47,6 @@ public class ConfigurationAgentController {
     @FXML
     private ComboBox<String> alliesNameComboBox;
 
-
     @FXML
     private Button submitBTN;
 
@@ -67,15 +67,32 @@ public class ConfigurationAgentController {
 
     @FXML
     void onActionMissionSize(ActionEvent event) {
-        //TODO
-        //בדיקה האם הוקש מספר והאם הוא חיובי :)
-        alliesNameComboBox.setDisable(false);
+        if(checkPositiveNumber()){
+            alliesNameComboBox.setDisable(false);
+        }
+    }
+
+    private boolean checkPositiveNumber(){
+        try {
+            int missionSize = Integer.parseInt(MissionSizeTF.getText());
+            if(missionSize<1){
+                MainAppAgentController.showErrorPopup("Pleas enter decimal number bigger than one to mission size !");
+                return false;
+            }
+        }
+        catch (NumberFormatException e){
+            MainAppAgentController.showErrorPopup("mission size is not a decimal number!");
+            return false;
+        }
+        return true;
     }
 
     @FXML
     void onActionSubmitAgentData(ActionEvent event) {
-
+        mainAppAgentController.setAgentEngine(new AgentEngine(Integer.valueOf(MissionSizeTF.getText()),(int)threadNumberSlider.getValue()));
+        //start agent request method
     }
+
     @FXML
     void onActionAlliesName(ActionEvent event) {
         addAgentToChosenAllies(alliesNameComboBox.getValue());

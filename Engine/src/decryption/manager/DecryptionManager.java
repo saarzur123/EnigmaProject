@@ -19,7 +19,7 @@ DecryptionManager {
     private int level;
     private BlockingQueue<Runnable> missionGetterQueue = new LinkedBlockingQueue<>(1000);
     private BlockingQueue<DTOMissionResult> candidateQueue = new LinkedBlockingQueue<>();
-    private ThreadPoolExecutor threadPool;
+    //private ThreadPoolExecutor threadPool;
     private Dictionary dictionary;
     private MissionArguments missionArguments;
     private long sizeAllMissions;
@@ -88,12 +88,12 @@ DecryptionManager {
         this.machineSecretCode = machineSecretCode;
     }
 
-    public void createThreadPool(int agentNumberFromUser){
-        missionGetterQueue.clear();
-        candidateQueue.clear();
-        this.threadPool = new ThreadPoolExecutor(agentNumberFromUser,agentNumberFromUser,0L, TimeUnit.SECONDS,missionGetterQueue);
-        threadPool.prestartAllCoreThreads();
-    }
+//    public void createThreadPool(int agentNumberFromUser){
+//        missionGetterQueue.clear();
+//        candidateQueue.clear();
+//        this.threadPool = new ThreadPoolExecutor(agentNumberFromUser,agentNumberFromUser,0L, TimeUnit.SECONDS,missionGetterQueue);
+//        threadPool.prestartAllCoreThreads();
+//    }
 
     public Runnable createTakeMissionsFromQueueRunnable(Consumer<DTOMissionResult> consumer){
        return new Runnable() {
@@ -110,6 +110,20 @@ DecryptionManager {
            }
        };
     }
+    public synchronized boolean isEnoughMissionInBlockingQueue(int missionPackageAmount){
+        if(missionGetterQueue.size() < missionPackageAmount){
+            return false;
+        }
+        return true;
+    }
+
+    public synchronized List<Mission> returnMissionPackage(int missionPackageAmount) throws InterruptedException {
+        List<Mission> listMissionPackage = new ArrayList<>();
+        for (int i = 0; i < missionPackageAmount; i++) {
+            listMissionPackage.add((Mission) missionGetterQueue.take());
+        }
+        return listMissionPackage;
+    }
 
     public void findSecretCode(String userInput,String level,Consumer<DTOMissionResult> consumer,Consumer<Double> updateMissionTime,Consumer<Double> updateProgressBar){
       updateAverageMissionTime = updateMissionTime;
@@ -119,8 +133,9 @@ DecryptionManager {
         takeMissionsThread.start();
         Thread pushMissionsThread = new Thread(createPushMissionRunnable(userInput.toUpperCase(), level));
         pushMissionsThread.start();
-
     }
+
+
 
     private void handOutMissions(int length, char[] pool, int missionSize,String userDecryptedString,MissionArguments missionArguments) {
         int wordIndex = 0;
@@ -167,13 +182,13 @@ DecryptionManager {
                 if (!stopAll) {
                 countAndUpdateSizeAllMission();
                 if (!exit && !stopAll) {
-                    if (level == "easy") {
+                    if (level.equals("Easy")) {
                         pushMissions(machineSecretCode.getRotorsIdList(), machineSecretCode.getReflectorId(), userDecryptedString);
-                    } else if (level == "medium") {
+                    } else if (level.equals("Medium")) {
                         level2(machineSecretCode.getRotorsIdList(), userDecryptedString);
-                    } else if (level == "hard") {
+                    } else if (level.equals("Hard")) {
                         level3(machineSecretCode.getRotorsIdList(), userDecryptedString);
-                    } else if (level == "impossible") {
+                    } else if (level.equals("Insane")) {
                         int rotorInUse = machine.getInUseRotorNumber();
                         int rotorsAvailable = machine.getAvailableRotors().size();
                         level4(userDecryptedString, rotorsAvailable, rotorInUse);
@@ -331,7 +346,7 @@ DecryptionManager {
                 sum+=missionTime;
             }
             updateAverageMissionTime.accept(Math.ceil(sum/(double)missionDoneUntilNow));
-            threadPool.shutdown();
+            //threadPool.shutdown();
             isTakeOutMissions = false;
         }
     }
