@@ -4,12 +4,14 @@ import Uboat.client.component.configure.codes.CreateNewSecretCodeController;
 import Uboat.client.component.encrypt.EncryptController;
 import Uboat.client.component.login.LoginController;
 import Uboat.client.component.machine.detail.MachineDetailsController;
+import Uboat.client.component.refresh.ready.status.RefresherStatusContest;
 import Uboat.client.component.secretCode.SecretCodeController;
 import Uboat.client.component.status.StatusController;
 import Uboat.client.component.teams.ActiveTeamsController;
 import Uboat.client.component.teams.RefreshActiveTeamDetails;
 import Uboat.client.component.upload.file.UploadFileController;
 import dTOUI.ActiveTeamsDTO;
+import dTOUI.ContestDTO;
 import engine.Commander;
 import engine.Engine;
 import javafx.application.Platform;
@@ -61,6 +63,8 @@ public class UboatMainController implements Closeable{
 
     //members for updating agents in allies
     private Timer timeToUpdateActiveTeams;
+    private Timer timeToUpdateStatusContest;
+    private TimerTask updateStatusContest;
     private TimerTask updateActiveTeamsArea;
     private Map<String, ActiveTeamsController> mapAlliesNameToActiveTeamsController = new HashMap<>();
 
@@ -147,6 +151,21 @@ public class UboatMainController implements Closeable{
 
     public void setLBLToCodeCombinationBindingMain(String secretCodeComb){
         secretCodeController.setLBLToCodeCombinationBinding(secretCodeComb);
+    }
+    private void updateStatusContest(Map<String, ContestDTO> contestData) {
+        mapContestNameToContestsDataToShow = contestData;
+        Platform.runLater(() -> {
+            contestsDataArea.getChildren().clear();
+            createContestDataTiles();
+            if(chosenContestData!=null) {
+                updateCurrentContestDataArea(mapContestNameToContestsDataToShow.get(chosenContestData.getBattleFieldName()));
+            }
+        });
+    }
+    public void startUpdateStatusContest() {
+        updateStatusContest = new RefresherStatusContest(this::updateStatusContest);
+        timeToUpdateStatusContest = new Timer();
+        timeToUpdateStatusContest.schedule(updateStatusContest, REFRESH_RATE, REFRESH_RATE);
     }
 
     public void setCurrMachineTxt(String machineDetails){
