@@ -62,7 +62,7 @@ public class AlliesConfigureController {
 
     @FXML
     void allieIsReadyActionBTN(ActionEvent event) {
-        ActiveTeamsDTO teamsDTO = new ActiveTeamsDTO(allieName,missionSize,-1);
+        ActiveTeamsDTO teamsDTO = new ActiveTeamsDTO(allieName,missionSize,-1,alliesController.getCurrentBattleFieldName());
             Gson gson = new Gson();
             String teamDtoJson = gson.toJson(teamsDTO);
 
@@ -121,7 +121,7 @@ public class AlliesConfigureController {
     }
 
     private void updateAllieInMapAndList(){
-        ActiveTeamsDTO teamsDTO = new ActiveTeamsDTO(allieName, missionSize, -1);
+        ActiveTeamsDTO teamsDTO = new ActiveTeamsDTO(allieName, missionSize, -1,alliesController.getCurrentBattleFieldName());
         Gson gson = new Gson();
         String teamDtoJson = gson.toJson(teamsDTO);
 

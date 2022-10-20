@@ -39,18 +39,8 @@ import java.util.Map;
             //create contestDTO with all contest tile info
             ContestDTO contestDTO = new ContestDTO(gameTitle, contestData.getCompetitionLevel(), usernameFromSession,0,contestData.getAlliesAmount(),false);
             appData.addToMapContestNameToContestData(contestDTO);
-//            String contestDataJson = gson.toJson(contestDTO);
-//
-//            Boolean status = true;
-//            String contestDataBooleanJson = gson.toJson(status);
-//            resourceNameToValueMap.put("contestData",contestDataJson);
-//            resourceNameToValueMap.put("contestDataBoolean",contestDataBooleanJson);
-//
-//            response.getWriter().println(resourceNameToValueMap);
-//            request.setAttribute("resourceNameToValueMap", resourceNameToValueMap);
-//            RequestDispatcher rd = request.getRequestDispatcher("/refresherContestData");
-//            rd.forward(request, response);
-//           getServletContext().getRequestDispatcher("/refresherContestData").forward(request,response);
 
+            //adding contest status - at first the uboat is ready, but not uboat's allies
+            appData.updateContestReadyStatus(gameTitle,false);
         }
 }

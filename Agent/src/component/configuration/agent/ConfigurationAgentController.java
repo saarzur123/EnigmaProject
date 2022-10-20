@@ -89,7 +89,8 @@ public class ConfigurationAgentController {
 
     @FXML
     void onActionSubmitAgentData(ActionEvent event) {
-        mainAppAgentController.setAgentEngine(new AgentEngine(Integer.valueOf(MissionSizeTF.getText()),(int)threadNumberSlider.getValue()));
+       mainAppAgentController.setAllieName(alliesNameComboBox.getValue());
+       mainAppAgentController.setAgentEngine(new AgentEngine(Integer.valueOf(MissionSizeTF.getText()),(int)threadNumberSlider.getValue()));
         //start agent request method
     }
 
@@ -159,6 +160,7 @@ public class ConfigurationAgentController {
         });
         }
 
-
-
+    public int getMissionSize() {
+        return Integer.valueOf(MissionSizeTF.getText());
+    }
 }

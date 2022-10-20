@@ -302,7 +302,7 @@ public class MainAppAlliesController {
             });
         }
     private void enterNewAllieToSystem(String allieName) {
-        ActiveTeamsDTO teamsDTO = new ActiveTeamsDTO(allieName, -1, -1);
+        ActiveTeamsDTO teamsDTO = new ActiveTeamsDTO(allieName, -1, -1,"");
         Gson gson = new Gson();
         String teamDtoJson = gson.toJson(teamsDTO);
 

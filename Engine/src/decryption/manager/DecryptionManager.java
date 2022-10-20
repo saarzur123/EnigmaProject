@@ -16,6 +16,7 @@ DecryptionManager {
     private SecretCode machineSecretCode;
     private int missionSize;
     private boolean isTakeOutMissions = true ;
+    private boolean doneCreateMissions;
     private int level;
     private BlockingQueue<Runnable> missionGetterQueue = new LinkedBlockingQueue<>(1000);
     private BlockingQueue<DTOMissionResult> candidateQueue = new LinkedBlockingQueue<>();
@@ -110,17 +111,30 @@ DecryptionManager {
            }
        };
     }
-    public synchronized boolean isEnoughMissionInBlockingQueue(int missionPackageAmount){
-        if(missionGetterQueue.size() < missionPackageAmount){
-            return false;
+
+    public synchronized boolean checkIfDoneCreatingMissions(){
+        if(missionGetterQueue.size() == 0 && doneCreateMissions){
+            return true;
         }
-        return true;
+        return false;
     }
 
     public synchronized List<Mission> returnMissionPackage(int missionPackageAmount) throws InterruptedException {
         List<Mission> listMissionPackage = new ArrayList<>();
-        for (int i = 0; i < missionPackageAmount; i++) {
-            listMissionPackage.add((Mission) missionGetterQueue.take());
+        if(missionGetterQueue.size() < missionPackageAmount && !doneCreateMissions){
+            //there are not enough missions
+            return listMissionPackage;
+        }
+
+        if(missionGetterQueue.size() < missionPackageAmount && doneCreateMissions){
+            for (Runnable mission : missionGetterQueue) {
+                listMissionPackage.add((Mission) missionGetterQueue.take());
+            }
+        }
+        else{
+            for (int i = 0; i < missionPackageAmount; i++) {
+                listMissionPackage.add((Mission) missionGetterQueue.take());
+            }
         }
         return listMissionPackage;
     }
@@ -181,7 +195,8 @@ DecryptionManager {
             public void run() {
                 if (!stopAll) {
                 countAndUpdateSizeAllMission();
-                if (!exit && !stopAll) {
+                    doneCreateMissions = false;
+                    if (!exit && !stopAll) {
                     if (level.equals("Easy")) {
                         pushMissions(machineSecretCode.getRotorsIdList(), machineSecretCode.getReflectorId(), userDecryptedString);
                     } else if (level.equals("Medium")) {
@@ -194,7 +209,8 @@ DecryptionManager {
                         level4(userDecryptedString, rotorsAvailable, rotorInUse);
                     }
                 }
-            }
+                    doneCreateMissions = true;
+                }
         }
         };
     }
@@ -243,9 +259,9 @@ DecryptionManager {
 
 
     private void pushMissions(List < Integer > rotorIdForSecretCode,int reflectorIdForSecretCode, String userDecryptedString){
-            missionArguments = new MissionArguments(rotorIdForSecretCode,reflectorIdForSecretCode, machine, dictionary, missionSize);
-            handOutMissions(machine.getInUseRotorNumber(), machine.getABC().toCharArray(), missionSize, userDecryptedString, missionArguments);
-        }
+        missionArguments = new MissionArguments(rotorIdForSecretCode,reflectorIdForSecretCode, machine, dictionary, missionSize);
+        handOutMissions(machine.getInUseRotorNumber(), machine.getABC().toCharArray(), missionSize, userDecryptedString, missionArguments);
+   }
 
         private void level2(List < Integer > rotorIdForSecretCode, String userDecryptedString){
             for (int k = 1; k <= machine.getAvailableReflectors().size(); k++) {

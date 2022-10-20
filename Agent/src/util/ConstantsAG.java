@@ -21,7 +21,9 @@ public class ConstantsAG {
     private final static String CONTEXT_PATH = "/web_Web_exploded";
     private final static String FULL_SERVER_PATH = BASE_URL + CONTEXT_PATH;
     public final static String CONFIGURATION_AGENT = FULL_SERVER_PATH +"/configurationAgent";
-
+    public final static String REFRESH_CONTEST_NAME = FULL_SERVER_PATH +"/refresherAgentContestName";
+    public final static String REFRESH_CONTEST_STATUS = FULL_SERVER_PATH +"/refresherContestStatus";
+    public final static String REFRESH_TAKING_MISSIONS = FULL_SERVER_PATH +"/refresherTakingMissions";
     public final static String ADD_AGENT_TO_ALIES = FULL_SERVER_PATH +"/addAgentToAllies";
     public final static String LOGIN_PAGE = FULL_SERVER_PATH + "/loginShortResponse";
     public final static String UPLOAD_FILE = LOGIN_PAGE + "/uploadFile";

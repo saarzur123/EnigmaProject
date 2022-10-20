@@ -84,7 +84,7 @@ public class LightweightLoginServlet extends HttpServlet {
 
     private void addNewAllie(String appName,String allieName,DTOAppData appData){
         if(appName.equals("Allies")){
-            ActiveTeamsDTO team = new ActiveTeamsDTO(allieName,-1,-1);
+            ActiveTeamsDTO team = new ActiveTeamsDTO(allieName,-1,-1,"");
             appData.addToMapTeamNameAllActiveTeamsData(team);
         }
     }

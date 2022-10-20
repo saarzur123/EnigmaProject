@@ -2,6 +2,10 @@ package component.main.app;
 
 import agent.engine.AgentEngine;
 import component.configuration.agent.ConfigurationAgentController;
+import component.refresher.RefresherContestName;
+import component.refresher.RefresherContestStarts;
+import component.refresher.RefresherTakingMissions;
+import decryption.manager.Mission;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -12,12 +16,26 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
 import java.io.IOException;
+import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
+
+import static util.ConstantsAG.REFRESH_RATE;
 
 public class MainAppAgentController {
-
     private ConfigurationAgentController configurationAgentController;
     private AgentEngine agentEngine;
-    private boolean contestReady = false;
+    private TimerTask contestStartsTask;
+    private Timer contestStartsTimer;
+    private TimerTask contestNameTask;
+    private Timer contestNameTimer;
+    private TimerTask takingMissionsTask;
+    private Timer takingMissionsTimer;
+    private String allieName;
+    private String contestName;
+    private boolean contestStatus = false;
+    private boolean  alreadyUpdatedFlag = false;
+    private boolean newCompetition = false;
 
     @FXML
     public void initialize() throws IOException {
@@ -27,6 +45,12 @@ public class MainAppAgentController {
     public void setAgentEngine(AgentEngine agentEngine) {
         this.agentEngine = agentEngine;
     }
+
+    public void setAllieName(String allieName) {
+        this.allieName = allieName;
+        startUpdateContestsName();
+    }
+
 
     private void showConfiguration() throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/component/configuration/agent/ConfigurationAgent.fxml"));
@@ -41,6 +65,50 @@ public class MainAppAgentController {
         stage.showAndWait();
     }
 
+    public void startUpdateContestStatus() {
+        contestStartsTask = new RefresherContestStarts(this::updateContestStatus,contestName);
+        contestStartsTimer = new Timer();
+        contestStartsTimer.schedule(contestStartsTask, REFRESH_RATE, REFRESH_RATE);
+    }
+    private void updateContestStatus(boolean status){
+        this.contestStatus = status;
+        if(contestStatus && !alreadyUpdatedFlag){
+            newCompetition = true;
+            alreadyUpdatedFlag = true;
+            startTakingMissions();
+        }
+        if(!contestStatus && alreadyUpdatedFlag){
+            newCompetition = false;
+            alreadyUpdatedFlag = false;
+        }
+    }
+
+    public void startTakingMissions() {
+        takingMissionsTask = new RefresherTakingMissions(this::handleMissionsPackage,this::onNoMoreMissionsLeft,allieName,configurationAgentController.getMissionSize());
+        takingMissionsTimer = new Timer();
+        takingMissionsTimer.schedule(takingMissionsTask, REFRESH_RATE, REFRESH_RATE);
+    }
+
+    private void onNoMoreMissionsLeft(Boolean doneMissions){
+        //stop trying to take missions and initialize essential variables
+        takingMissionsTask.cancel();
+        takingMissionsTimer.cancel();
+    }
+
+    private void handleMissionsPackage(List<Mission> missionsPackage){
+
+    }
+
+    public void startUpdateContestsName() {
+        contestNameTask = new RefresherContestName(this::updateAgentContestName,allieName);
+        contestNameTimer = new Timer();
+        contestNameTimer.schedule(contestNameTask, REFRESH_RATE, REFRESH_RATE);
+    }
+
+    private void updateAgentContestName(String contestName){
+        this.contestName = contestName;
+        startUpdateContestStatus();
+    }
 
 
     public static void showErrorPopup(String message) {

@@ -152,10 +152,7 @@ public class UboatMainController implements Closeable{
     public void setCurrMachineTxt(String machineDetails){
         machineDetailsController.setMachineDetailsLBL(machineDetails);
     }
-    //    @Override
-//    public void updateHttpLine(String line) {
-//        httpStatusComponentController.addHttpStatusLine(line);
-//    }
+
     @Override
     public void close() throws IOException {
         //chatRoomComponentController.close();

@@ -10,19 +10,18 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Map;
 
-@WebServlet(name = "GetAgentMissionServlet", urlPatterns = "/getAgentMission")
+@WebServlet(name = "RefresherAgentContestNameServlet", urlPatterns = "/refresherAgentContestName")
 
-public class GetAgentMissionServlet extends HttpServlet {
+public class RefresherAgentContestNameServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         response.setContentType("text/plain;charset=UTF-8");
 
         DTOAppData appData = utils.ServletUtils.getDTOAppData(getServletContext());
-        Map<String, ActiveTeamsDTO> stringAlliesDTOMap = appData.getMapTeamNameAllActiveTeamsData();
-        ActiveTeamsDTO active = stringAlliesDTOMap.remove(request.getParameter("alliesName"));
-        active.setAgentNumberInt(active.getAgentNumberInt() + 1);
-        stringAlliesDTOMap.put(active.getTeamName(), active);
-        //searchInMapActiveTeam(request.getParameter("alliesName"), appData);
+        Map<String, ActiveTeamsDTO> teamNameToTeamDTO = appData.getMapTeamNameAllActiveTeamsData();
+        ActiveTeamsDTO teamDTO = teamNameToTeamDTO.remove(request.getParameter("teamName"));
 
+        //print contest name if exist and "" if not
+        response.getWriter().println(teamDTO.getContestName());
     }
 }
