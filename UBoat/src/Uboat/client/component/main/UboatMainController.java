@@ -10,6 +10,7 @@ import Uboat.client.component.teams.ActiveTeamsController;
 import Uboat.client.component.teams.RefreshActiveTeamDetails;
 import Uboat.client.component.upload.file.UploadFileController;
 import dTOUI.ActiveTeamsDTO;
+import dTOUI.ContestDTO;
 import engine.Commander;
 import engine.Engine;
 import javafx.application.Platform;
@@ -148,6 +149,7 @@ public class UboatMainController implements Closeable{
     public void setLBLToCodeCombinationBindingMain(String secretCodeComb){
         secretCodeController.setLBLToCodeCombinationBinding(secretCodeComb);
     }
+
 
     public void setCurrMachineTxt(String machineDetails){
         machineDetailsController.setMachineDetailsLBL(machineDetails);

@@ -24,9 +24,13 @@ import java.util.Map;
             Gson gson = new Gson();
             Map<String, String> resourceNameToValueMap = new HashMap<>();
             String newAlliesActiveTeamAddedJson = request.getParameter("teamDTO");
+
             String chosenContest = request.getParameter("contestName");
             ActiveTeamsDTO teamsDTO = gson.fromJson(newAlliesActiveTeamAddedJson,ActiveTeamsDTO.class);
             DTOAppData appData = utils.ServletUtils.getDTOAppData(getServletContext());
+
+
+
             appData.addToMapContestNameToActiveTeamsData(teamsDTO,chosenContest);
 
             //adding new dm

@@ -32,7 +32,10 @@ public class ConstantsAL {
     public final static String REFRESHER_CONTEST_DATA = FULL_SERVER_PATH + "/refresherContestData";
     public final static String REFRESHER_TEAMS_DATA = FULL_SERVER_PATH + "/refresherContestTeamsData";
     public final static String ALLIE_CONFIGURE_READY = FULL_SERVER_PATH + "/AllieConfigureIsReady";
+    public final static String ALLIE_IS_READY_TO_START_THE_CONTEST = FULL_SERVER_PATH + "/allieIsReadyToStart";
     public final static String REFRESH_EXSIST_UBOAT = FULL_SERVER_PATH + "/refreshExistsUboat";
+    public final static String REFRESHER_CONTEST_STATUS = FULL_SERVER_PATH +"/refreshContestStatus";
+
     public final static String UPDATE_EXIST_TEAM = FULL_SERVER_PATH + "/AllieUpdateExistTeamData";
     public final static String INITALIZE_ALLIES = FULL_SERVER_PATH + "/InitializeAlliesServlet";
     public final static String USERS_LIST = FULL_SERVER_PATH + "/userslist";
