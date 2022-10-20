@@ -27,7 +27,7 @@ public class LightweightLoginServlet extends HttpServlet {
         String usernameFromSession = SessionUtils.getUsername(request);
         DTOAppData appData = ServletUtils.getDTOAppData(getServletContext());
         String appName = request.getParameter("appName");
-        UserManager currentAppUserManager = getCurrentAppUserManager(appData,appName);
+        UserManager currentAppUserManager = getCurrentAppUserManager(appData,appName);//TODO CHANGE - ONLY ONE USER NAME AND NOT FOR EACH APP
 
         if (usernameFromSession == null) { //user is not logged in yet
 
