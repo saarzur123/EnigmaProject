@@ -96,7 +96,7 @@ public class MainAppAgentController {
     }
 
     private void handleMissionsPackage(List<Mission> missionsPackage){
-
+        agentEngine.pushMissionsToThreadPool(missionsPackage);
     }
 
     public void startUpdateContestsName() {

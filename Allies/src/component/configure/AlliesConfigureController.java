@@ -62,7 +62,7 @@ public class AlliesConfigureController {
     @FXML
     void onActionAllieIsReadyActionBTN(ActionEvent event) {
         Gson gson = new Gson();
-        teamsDTO = new ActiveTeamsDTO(allieName,missionSize,-1,,alliesController.getCurrentBattleFieldName());
+        teamsDTO = new ActiveTeamsDTO(allieName,missionSize,-1,alliesController.getCurrentBattleFieldName());
         String teamDtoJson = gson.toJson(teamsDTO);
         String finalUrl = HttpUrl
                 .parse(ALLIE_IS_READY_TO_START_THE_CONTEST)

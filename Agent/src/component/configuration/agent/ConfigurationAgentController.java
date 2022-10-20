@@ -12,6 +12,7 @@ import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
+import javafx.stage.Stage;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.HttpUrl;
@@ -91,7 +92,9 @@ public class ConfigurationAgentController {
     void onActionSubmitAgentData(ActionEvent event) {
        mainAppAgentController.setAllieName(alliesNameComboBox.getValue());
        mainAppAgentController.setAgentEngine(new AgentEngine(Integer.valueOf(MissionSizeTF.getText()),(int)threadNumberSlider.getValue()));
-        //start agent request method
+        Stage stage = (Stage) submitBTN.getScene().getWindow();
+        stage.close();
+       //start agent request method
     }
 
     @FXML
