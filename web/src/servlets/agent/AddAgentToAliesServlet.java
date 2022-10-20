@@ -1,8 +1,6 @@
 package servlets.agent;
 
-import com.google.gson.Gson;
 import dTOUI.ActiveTeamsDTO;
-import dTOUI.AlliesDTO;
 import dTOUI.DTOAppData;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -10,7 +8,6 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -24,7 +21,7 @@ public class AddAgentToAliesServlet extends HttpServlet {
         DTOAppData appData = utils.ServletUtils.getDTOAppData(getServletContext());
         Map<String, ActiveTeamsDTO> stringAlliesDTOMap = appData.getMapTeamNameAllActiveTeamsData();
         ActiveTeamsDTO active = stringAlliesDTOMap.remove(request.getParameter("alliesName"));
-        active.setAgentNumber(active.getAgentNumber() + 1);
+        active.setAgentNumberInt(active.getAgentNumberInt() + 1);
         stringAlliesDTOMap.put(active.getTeamName(), active);
         searchInMapActiveTeam(request.getParameter("alliesName") , appData);
 

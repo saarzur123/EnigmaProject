@@ -4,7 +4,9 @@ public class ActiveTeamsDTO {
 
     private String teamName;
     private String missionSize;
-    private String agentNumber;
+    private String agentNumberStr;
+    private int agentNumberInt = 0;
+
 
     public ActiveTeamsDTO(String name, int missionSize,int agentNumber){
         this.teamName = name;
@@ -12,8 +14,12 @@ public class ActiveTeamsDTO {
             this.missionSize = "NO MISSION SIZE ENTERED YET";
         }else this.missionSize = String.valueOf(missionSize);
         if(agentNumber == -1){
-            this.agentNumber = "NO AGENT NUMBER ENTERED YET";
-        }else this.agentNumber = String.valueOf(agentNumber);
+            this.agentNumberStr = "NO AGENT NUMBER ENTERED YET";
+        }else this.agentNumberStr = String.valueOf(agentNumber);
+    }
+
+    public int getAgentNumberInt() {
+        return agentNumberInt;
     }
 
     public void setMissionSize(String missionSize) {
@@ -25,14 +31,16 @@ public class ActiveTeamsDTO {
     }
 
     public void setAgentNumber(String agentNumber) {
-        this.agentNumber = agentNumber;
+        this.agentNumberStr = agentNumber;
     }
-    public void addAgent() {
-        this.agentNumber+=1;
+
+    public void setAgentNumberInt(int agentNumberInt) {
+        this.agentNumberInt = agentNumberInt;
+        this.agentNumberStr = String.valueOf(agentNumberInt);
     }
 
     public String getAgentNumber() {
-        return agentNumber;
+        return agentNumberStr;
     }
 
     public String getMissionSize() {

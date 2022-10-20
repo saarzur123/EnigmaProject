@@ -115,6 +115,7 @@ public class UploadFileController {
         Platform.runLater(()->{
             uboatMainController.getMachineDetailsController().deleteCurrMachine();
             uboatMainController.setCurrentBattleFieldName(machineDetailsAndBattleFieldName.get("gameTitle"));
+            uboatMainController.startUpdateContestsData();
             uboatMainController.setCurrMachineTxt(machineDetailsAndBattleFieldName.get("machineDetails"));
             uboatMainController.unDisableMachineDetails();
         });
