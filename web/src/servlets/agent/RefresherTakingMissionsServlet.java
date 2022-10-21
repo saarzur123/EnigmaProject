@@ -2,6 +2,7 @@ package servlets.agent;
 
 import com.google.gson.Gson;
 import dTOUI.DTOAppData;
+import dTOUI.MissionDTO;
 import decryption.manager.DecryptionManager;
 import decryption.manager.Mission;
 import jakarta.servlet.annotation.WebServlet;
@@ -10,6 +11,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -34,8 +36,16 @@ public class RefresherTakingMissionsServlet extends HttpServlet {
 
         if(!isAllMissionsOut){
             try {
+                Gson gson = new Gson();
                 List<Mission> missionsPackage = currentDM.returnMissionPackage(packageAmount);
-                retValues.put("listMissions",new Gson().toJson(missionsPackage));
+                List<MissionDTO> missionsData = createMissionsData(missionsPackage);
+                List<String> retListMissionsData = new ArrayList<>();
+                for (int i = 0; i < missionsData.size(); i++) {
+                    MissionDTO mission = missionsData.get(i);
+                    String stringMissionJson = gson.toJson(mission);
+                    retListMissionsData.add(stringMissionJson);
+                }
+                retValues.put("listMissions",new Gson().toJson(retListMissionsData));
             } catch (InterruptedException e) {
                 System.out.println("EXCEPTION IN REFRESHER MISSIONS SERVLET");
             }
@@ -43,4 +53,12 @@ public class RefresherTakingMissionsServlet extends HttpServlet {
         response.getWriter().println(new Gson().toJson(retValues));
     }
 
+    private List<MissionDTO> createMissionsData(List<Mission> missionsPackage){
+        List<MissionDTO> retList = new ArrayList<>();
+        for(Mission mission : missionsPackage){
+            MissionDTO newMissionData = new MissionDTO(mission.getMissionArguments(),mission.getUserDecryptedString(), mission.getStartIndexes(),mission.getDM());
+            retList.add(newMissionData);
+        }
+        return retList;
+    }
 }

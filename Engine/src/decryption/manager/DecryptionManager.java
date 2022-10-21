@@ -166,7 +166,7 @@ DecryptionManager {
                    newIndexes[j] = indexes[j];
                 }
 
-                Mission mission = new Mission(missionArguments.cloneMissionArguments(),userDecryptCopy,newIndexes,candidateQueue);
+                Mission mission = new Mission(missionArguments.cloneMissionArguments(),userDecryptCopy,newIndexes);
                 mission.setDM(this);
 
                 try {
