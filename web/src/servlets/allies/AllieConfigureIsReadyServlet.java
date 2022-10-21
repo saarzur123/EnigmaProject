@@ -34,8 +34,9 @@ import java.util.Map;
             appData.addToMapContestNameToActiveTeamsData(teamsDTO,chosenContest);
 
             //adding new dm
-            Engine currEngine = appData.getMapUboatGameTitleToEngineData().get(chosenContest);
-            appData.addDMToMap(teamsDTO.getTeamName(),currEngine.getDM());
+//            Engine currEngine = appData.getMapUboatGameTitleToEngineData().get(chosenContest);
+//            currEngine.getDM().setMissionSize(Integer.parseInt(teamsDTO.getMissionSize()));
+//            appData.addDMToMap(teamsDTO.getTeamName(),currEngine.getDM());
 
             ActiveTeamsDTO[] activeTeamsData = appData.getMapContestNameToActiveTeamsData().get(chosenContest).toArray(new ActiveTeamsDTO[0]);
             resourceNameToValueMap.put("listTeams", gson.toJson(activeTeamsData));
