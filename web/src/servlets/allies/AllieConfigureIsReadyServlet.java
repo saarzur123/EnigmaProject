@@ -29,8 +29,6 @@ import java.util.Map;
             ActiveTeamsDTO teamsDTO = gson.fromJson(newAlliesActiveTeamAddedJson,ActiveTeamsDTO.class);
             DTOAppData appData = utils.ServletUtils.getDTOAppData(getServletContext());
 
-
-
             appData.addToMapContestNameToActiveTeamsData(teamsDTO,chosenContest);
 
             //adding new dm

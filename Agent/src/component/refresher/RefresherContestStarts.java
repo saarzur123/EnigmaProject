@@ -16,11 +16,11 @@ import static util.ConstantsAG.REFRESH_CONTEST_STATUS;
 
 public class RefresherContestStarts extends TimerTask {
   private final Consumer<Boolean> updateContestStatus;
-    private String contestName;
+    private String compName;
 
     public RefresherContestStarts(Consumer<Boolean> updateContestStatus,String contestName) {
        this.updateContestStatus = updateContestStatus;
-       this.contestName=contestName;
+       this.compName=contestName;
     }
 
 
@@ -29,7 +29,7 @@ public class RefresherContestStarts extends TimerTask {
         String finalUrl = HttpUrl
                 .parse(REFRESH_CONTEST_STATUS)
                 .newBuilder()
-                .addQueryParameter("gameTitle", contestName)
+                .addQueryParameter("gameTitle", compName)
                 .build()
                 .toString();
         HttpClientUtil.runAsync(finalUrl, new Callback() {

@@ -324,7 +324,7 @@ public class MainAppAlliesController {
         timeToUpdateStatusContest.schedule(updateStatusContest, REFRESH_RATE, REFRESH_RATE);
     }
     private void enterNewAllieToSystem(String allieName) {
-        ActiveTeamsDTO teamsDTO = new ActiveTeamsDTO(allieName, -1, -1,"");
+        ActiveTeamsDTO teamsDTO = new ActiveTeamsDTO(allieName, -1, -1,currentBattleFieldName);
         Gson gson = new Gson();
         String teamDtoJson = gson.toJson(teamsDTO);
 

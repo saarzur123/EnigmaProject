@@ -44,11 +44,11 @@ public class MainAppAgentController {
 
     public void setAgentEngine(AgentEngine agentEngine) {
         this.agentEngine = agentEngine;
+        startUpdateContestsName();
     }
 
     public void setAllieName(String allieName) {
         this.allieName = allieName;
-        startUpdateContestsName();
     }
 
 

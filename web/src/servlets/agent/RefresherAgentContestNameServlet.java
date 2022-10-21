@@ -19,7 +19,7 @@ public class RefresherAgentContestNameServlet extends HttpServlet {
 
         DTOAppData appData = utils.ServletUtils.getDTOAppData(getServletContext());
         Map<String, ActiveTeamsDTO> teamNameToTeamDTO = appData.getMapTeamNameAllActiveTeamsData();
-        ActiveTeamsDTO teamDTO = teamNameToTeamDTO.remove(request.getParameter("teamName"));
+        ActiveTeamsDTO teamDTO = teamNameToTeamDTO.get(request.getParameter("teamName"));
 
         //print contest name if exist and "" if not
         response.getWriter().println(teamDTO.getContestName());
