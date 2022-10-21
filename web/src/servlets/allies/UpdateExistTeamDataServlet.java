@@ -26,7 +26,7 @@ public class UpdateExistTeamDataServlet extends HttpServlet {
         ActiveTeamsDTO teamsDTO = gson.fromJson(newAlliesActiveTeamAddedJson, ActiveTeamsDTO.class);
         DTOAppData appData = utils.ServletUtils.getDTOAppData(getServletContext());
 
-        appData.removeFromMapContestNameToActiveTeamsData(chosenContest);
+        appData.removeFromMapContestNameToActiveTeamsData(chosenContest,teamsDTO.getTeamName());
         appData.addToMapContestNameToActiveTeamsData(teamsDTO, chosenContest);
 
         appData.removeFromMapTeamNameAllActiveTeamsData(teamsDTO.getTeamName());
@@ -34,4 +34,6 @@ public class UpdateExistTeamDataServlet extends HttpServlet {
 
         response.getWriter().println(gson.toJson(resourceNameToValueMap));
     }
+
+
 }

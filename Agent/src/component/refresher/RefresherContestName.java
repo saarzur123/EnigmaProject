@@ -40,7 +40,7 @@ public class RefresherContestName extends TimerTask {
             public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
                 String contestName = response.body().string();
                 if(!contestName.equals("")){
-                    updateAgentContestName.accept(contestName);
+                    updateAgentContestName.accept(contestName.trim());
                 }
             }
         });

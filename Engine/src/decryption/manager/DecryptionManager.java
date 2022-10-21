@@ -42,7 +42,7 @@ DecryptionManager {
     public void setMissionDoneUntilNow(){
         synchronized (this) {
             missionDoneUntilNow++;
-            updateProgressBar.accept(missionDoneUntilNow/(double)sizeAllMissions);
+            //updateProgressBar.accept(missionDoneUntilNow/(double)sizeAllMissions);//TODO
         }
     }
 
@@ -101,12 +101,12 @@ DecryptionManager {
            @Override
            public void run() {
                while (isTakeOutMissions || !candidateQueue.isEmpty()){
-                   try {
-                       DTOMissionResult missionResult = candidateQueue.take();
-                       consumer.accept(missionResult);
-                   } catch (InterruptedException e) {
-                       throw new RuntimeException(e);
-                   }
+//                   try {
+//                      // DTOMissionResult missionResult = candidateQueue.take();
+//                      // consumer.accept(missionResult);//TODO
+//                   } catch (InterruptedException e) {
+//                       throw new RuntimeException(e);
+//                   }
                }
            }
        };
@@ -361,7 +361,7 @@ DecryptionManager {
             for(Long missionTime : missionsTime){
                 sum+=missionTime;
             }
-            updateAverageMissionTime.accept(Math.ceil(sum/(double)missionDoneUntilNow));
+            //updateAverageMissionTime.accept(Math.ceil(sum/(double)missionDoneUntilNow));
             //threadPool.shutdown();
             isTakeOutMissions = false;
         }

@@ -16,13 +16,13 @@ public class RefresherContestStatusServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         response.setContentType("text/plain;charset=UTF-8");
-
+        Gson gson = new Gson();
         String contestName = request.getParameter("gameTitle");
         DTOAppData appData = utils.ServletUtils.getDTOAppData(getServletContext());
         Map<String, Boolean> contestToStatus = appData.getMapContestNameToContestReadyStatus();
 
-        boolean status = contestToStatus.get(contestName);
-
-        response.getWriter().println(new Gson().toJson(status));
+        Boolean status = contestToStatus.get(contestName);
+        String statusJson = gson.toJson(status);
+        response.getWriter().println(statusJson);
     }
 }

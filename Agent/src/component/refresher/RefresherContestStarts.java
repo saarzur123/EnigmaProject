@@ -41,7 +41,7 @@ public class RefresherContestStarts extends TimerTask {
             public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
                 Gson gson = new Gson();
                 String jsonContestStatus = response.body().string();
-                boolean contestStatus = gson.fromJson(jsonContestStatus, Boolean.class);
+                Boolean contestStatus = gson.fromJson(jsonContestStatus, Boolean.class);
                updateContestStatus.accept(contestStatus);
             }
         });

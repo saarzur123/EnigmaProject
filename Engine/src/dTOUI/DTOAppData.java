@@ -94,8 +94,16 @@ public class DTOAppData {
         mapContestNameToActiveTeamsData.get(contestName).add(teamData);
     }
 
-    public synchronized void removeFromMapContestNameToActiveTeamsData(String contestName) {
+    public synchronized void removeFromMapContestNameToActiveTeamsData(String contestName,String teamName) {
+        List<ActiveTeamsDTO> listTeams = mapContestNameToActiveTeamsData.get(contestName);
+        List<ActiveTeamsDTO> newList = new ArrayList<>();
+        for(ActiveTeamsDTO team : listTeams){
+            if(!team.getTeamName().equals(teamName)){
+                newList.add(team);
+            }
+        }
         mapContestNameToActiveTeamsData.remove(contestName);
+        mapContestNameToActiveTeamsData.put(contestName,newList);
     }
 
     public synchronized Map<String, ActiveTeamsDTO> getMapTeamNameAllActiveTeamsData() {

@@ -50,7 +50,6 @@ public class ConfigurationAgentController {
 
     @FXML
     private Button submitBTN;
-
     private MainAppAgentController mainAppAgentController;
     @FXML
     public void initialize() {
