@@ -23,20 +23,52 @@ public class Mission implements Runnable{
     private List<Integer> rotorsIdList;
     private Integer reflectorId;
     private DecryptionManager DM;
-    private BlockingQueue<DTOMissionResult> candidateQueue;
+    //private BlockingQueue<DTOMissionResult> candidateQueue;
+    private List<DTOMissionResult> candidateList = new ArrayList<>();
+    private Consumer<DTOMissionResult> updateMissionResultsInServer;
 
     private boolean wasExit=false;
+    private MissionArguments missionArguments;
 
-    public Mission(MissionArguments missionArguments, String userDecryptedString, int[] startIndexes, BlockingQueue<DTOMissionResult> candidateQueue){
+    public Mission(MissionArguments missionArguments, String userDecryptedString, int[] startIndexes){
         this.missionSize = missionArguments.getMissionSize();
+        this.missionArguments = missionArguments;
         machine = missionArguments.getMachine();
         this.language = machine.getABC();
-        this.candidateQueue = candidateQueue;
+        //this.candidateQueue = candidateQueue;
         this.userDecryptedString = userDecryptedString;
         this.startIndexes = startIndexes;
         this.dictionary = missionArguments.getDictionary();
         this.rotorsIdList = missionArguments.getRotors();
         this.reflectorId = missionArguments.getReflector();
+    }
+
+    public DecryptionManager getDM() {
+        return DM;
+    }
+
+    public Consumer<DTOMissionResult> getUpdateMissionResultsInServer() {
+        return updateMissionResultsInServer;
+    }
+
+    public void setUpdateMissionResultsInServer(Consumer<DTOMissionResult> updateMissionResultsInServer) {
+        this.updateMissionResultsInServer = updateMissionResultsInServer;
+    }
+
+    public int[] getStartIndexes() {
+        return startIndexes;
+    }
+
+    public List<DTOMissionResult> getCandidateList() {
+        return candidateList;
+    }
+
+    public String getUserDecryptedString() {
+        return userDecryptedString;
+    }
+
+    public MissionArguments getMissionArguments() {
+        return missionArguments;
     }
 
     public void setDM(DecryptionManager DM) {
@@ -117,9 +149,7 @@ public class Mission implements Runnable{
 
     private void pushResultsToCandidateQueue(DTOMissionResult results){
         synchronized (DM) {
-            if (results.getEncryptionCandidates().size() > 0) {
-                candidateQueue.add(results);
-            }
+            updateMissionResultsInServer.accept(results);
         }
     }
 

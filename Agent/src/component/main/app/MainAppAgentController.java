@@ -5,6 +5,7 @@ import component.configuration.agent.ConfigurationAgentController;
 import component.refresher.RefresherContestName;
 import component.refresher.RefresherContestStarts;
 import component.refresher.RefresherTakingMissions;
+import decryption.manager.DTOMissionResult;
 import decryption.manager.Mission;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -84,7 +85,8 @@ public class MainAppAgentController {
     }
 
     public void startTakingMissions() {
-        takingMissionsTask = new RefresherTakingMissions(this::handleMissionsPackage,this::onNoMoreMissionsLeft,allieName,configurationAgentController.getMissionSize());
+        takingMissionsTask = new RefresherTakingMissions(this::handleMissionsPackage,this::onNoMoreMissionsLeft,allieName,
+                configurationAgentController.getMissionSize(),this::updateSingleMissionResultInServer);
         takingMissionsTimer = new Timer();
         takingMissionsTimer.schedule(takingMissionsTask, REFRESH_RATE, REFRESH_RATE);
     }
@@ -110,6 +112,18 @@ public class MainAppAgentController {
         startUpdateContestStatus();
     }
 
+    private void updateSingleMissionResultInServer(DTOMissionResult results){
+
+       /////////open servlet TODO
+
+       int i = 1;
+//        synchronized (DM) {
+//            if (results.getEncryptionCandidates().size() > 0) {
+//                queue.add(results);
+//            }
+//
+//        }
+    }
 
     public static void showErrorPopup(String message) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
