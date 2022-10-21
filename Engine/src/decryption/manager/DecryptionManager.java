@@ -17,7 +17,7 @@ DecryptionManager {
     private int missionSize;
     private boolean isTakeOutMissions = true ;
     private boolean doneCreateMissions;
-    private int level;
+    private String levelGame;
     private BlockingQueue<Runnable> missionGetterQueue = new LinkedBlockingQueue<>(1000);
     private BlockingQueue<DTOMissionResult> candidateQueue = new LinkedBlockingQueue<>();
     //private ThreadPoolExecutor threadPool;
@@ -77,8 +77,8 @@ DecryptionManager {
         this.missionSize = missionSize;
     }
 
-    public void setLevel(int level) {
-        this.level = level;
+    public void setLevel(String level) {
+        levelGame = level;
     }
 
     public void setMachine(MachineImplement machine) {
@@ -193,6 +193,7 @@ DecryptionManager {
         return new Runnable() {
             @Override
             public void run() {
+                levelGame = level;
                 if (!stopAll) {
                 countAndUpdateSizeAllMission();
                     doneCreateMissions = false;
@@ -218,17 +219,17 @@ DecryptionManager {
 
     public void countAndUpdateSizeAllMission(){
         int mustUseRotor = machine.getInUseRotorNumber();
-        switch (level){
-            case 1:
+        switch (levelGame){
+            case "Easy":
                 sizeAllMissions = calcLevel1();
                 break;
-            case 2:
+            case "Medium":
                 sizeAllMissions = calcLevel1() * mustUseRotor;
                 break;
-            case 3:
+            case "Hard":
                 sizeAllMissions = calcLevel1() * mustUseRotor * factorial();
                 break;
-            case 4:
+            case "Insane":
                 sizeAllMissions = calcLevel1() * mustUseRotor * factorial() * binomial(machine.getAvailableRotors().size(), mustUseRotor);
         }
     }

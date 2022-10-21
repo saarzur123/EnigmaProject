@@ -3,6 +3,7 @@ package servlets.allies;
 import com.google.gson.Gson;
 import dTOUI.ActiveTeamsDTO;
 import dTOUI.DTOAppData;
+import engine.Engine;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
@@ -22,7 +23,14 @@ public class AllieIsReadyToStartServlet extends HttpServlet {
         DTOAppData appData = utils.ServletUtils.getDTOAppData(getServletContext());
         String newAlliesActiveTeamAddedJson = request.getParameter("teamDTO");
         ActiveTeamsDTO teamsDTO = gson.fromJson(newAlliesActiveTeamAddedJson,ActiveTeamsDTO.class);
+
+        Engine currEngine = appData.getMapUboatGameTitleToEngineData().get(teamsDTO.getContestName());
+        currEngine.getDM().setMissionSize(Integer.parseInt(teamsDTO.getMissionSize()));
+        appData.addDMToMap(teamsDTO.getTeamName(),currEngine.getDM());
+
         //ADD ALLIES NAME TO READY LIST
         appData.getListOfReadyAllies().add(teamsDTO.getTeamName());
+
+
     }
 }
