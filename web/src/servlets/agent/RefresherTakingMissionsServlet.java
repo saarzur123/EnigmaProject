@@ -28,7 +28,7 @@ public class RefresherTakingMissionsServlet extends HttpServlet {
         DecryptionManager currentDM = alliesToDM.get(request.getParameter("teamName"));
         int packageAmount = new Gson().fromJson(request.getParameter("packageAmount"),Integer.class);
 
-                //TODO CHECK IF NEED TO BE SYNCHRONIZED
+        //TODO CHECK IF NEED TO BE SYNCHRONIZED
         boolean isAllMissionsOut = currentDM.checkIfDoneCreatingMissions();
         retValues.put("isAllMissionsOut",new Gson().toJson(isAllMissionsOut));
 
@@ -42,4 +42,5 @@ public class RefresherTakingMissionsServlet extends HttpServlet {
         }
         response.getWriter().println(new Gson().toJson(retValues));
     }
+
 }
