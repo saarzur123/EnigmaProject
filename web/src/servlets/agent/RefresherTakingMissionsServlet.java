@@ -10,6 +10,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -35,6 +36,12 @@ public class RefresherTakingMissionsServlet extends HttpServlet {
         if(!isAllMissionsOut){
             try {
                 List<Mission> missionsPackage = currentDM.returnMissionPackage(packageAmount);
+                List<String> retList = new ArrayList<>();
+                for (int i = 0; i < missionsPackage.size(); i++) {
+                    Mission mission = missionsPackage.get(i);
+                    String stringMission = new Gson().toJson(mission);
+                    retList.add(stringMission);
+                }
                 retValues.put("listMissions",new Gson().toJson(missionsPackage));
             } catch (InterruptedException e) {
                 System.out.println("EXCEPTION IN REFRESHER MISSIONS SERVLET");
