@@ -198,8 +198,7 @@ DecryptionManager {
                 countAndUpdateSizeAllMission();
                     doneCreateMissions = false;
                     if (!exit && !stopAll) {
-                    if (level.equals("" +
-                            "")) {
+                    if (level.equals("Easy")) {
                         pushMissions(machineSecretCode.getRotorsIdList(), machineSecretCode.getReflectorId(), userDecryptedString);
                     } else if (level.equals("Medium")) {
                         level2(machineSecretCode.getRotorsIdList(), userDecryptedString);

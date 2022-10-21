@@ -96,7 +96,9 @@ public class MainAppAgentController {
     }
 
     private void handleMissionsPackage(List<Mission> missionsPackage){
-        agentEngine.pushMissionsToThreadPool(missionsPackage);
+        if(missionsPackage.size() > 0){
+            agentEngine.pushMissionsToThreadPool(missionsPackage);
+        }
     }
 
     public void startUpdateContestsName() {
