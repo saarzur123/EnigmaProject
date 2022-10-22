@@ -46,7 +46,6 @@ public class CandidateController {
 
     public void addRow(String stringCandidate,String codeCombination){
        AgentRowObject agentRowObject = new AgentRowObject(stringCandidate, codeCombination);
-       //tableData.add(new AgentRowObject(stringCandidate,codeCombination));
         candidatesTableView.setEditable(true);
         candidatesTableView.getItems().add(new AgentRowObject(stringCandidate,codeCombination));
 
