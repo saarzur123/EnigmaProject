@@ -12,20 +12,20 @@ public class MissionDTO {
     private String userEncryptString;
     private int[] startIndexes;
 //    private Consumer<DTOMissionResult> updateMissionResultsInServer;
-    private DecryptionManager DM;
+    //private DecryptionManager DM;
 
     public MissionDTO(MissionArguments missionArguments, String userEncryptString, int[] startIndexes, DecryptionManager DM){
         this.missionArguments = missionArguments;
         this.userEncryptString = userEncryptString;
         this.startIndexes = startIndexes;
-        this.DM = DM;
+        //this.DM = DM;
     }
 
 
 
-    public DecryptionManager getDM() {
-        return DM;
-    }
+//    public DecryptionManager getDM() {
+//        return DM;
+//    }
 
 
 
