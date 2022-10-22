@@ -1,20 +1,23 @@
 package component.candidate.agent;
 
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
+
 public class AgentRowObject {
 
-    private String resultString;
-    private String codeCombination;
+    private StringProperty resultString = new SimpleStringProperty();
+    private StringProperty codeCombination = new SimpleStringProperty();
 
     public AgentRowObject(String resultString,String codeCombination){
-        this.resultString=resultString;
-        this.codeCombination = codeCombination;
+        this.resultString.set(resultString);
+        this.codeCombination.set(codeCombination);
     }
 
-    public String getCodeCombination() {
+    public StringProperty codeCombinationProperty() {
         return codeCombination;
     }
 
-    public String getResultString() {
+    public StringProperty resultStringProperty() {
         return resultString;
     }
 }

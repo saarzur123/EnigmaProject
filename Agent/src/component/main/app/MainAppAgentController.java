@@ -10,7 +10,6 @@ import component.mission.data.soFar.MissionDataSoFarController;
 import component.refresher.RefresherContestName;
 import component.refresher.RefresherContestStarts;
 import component.refresher.RefresherTakingMissions;
-import dTOUI.ActiveTeamsDTO;
 import dTOUI.ContestDTO;
 import decryption.manager.DTOMissionResult;
 import decryption.manager.Mission;
@@ -38,7 +37,6 @@ import org.jetbrains.annotations.NotNull;
 import java.io.IOException;
 import java.net.URL;
 import java.util.List;
-import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -238,7 +236,7 @@ public class MainAppAgentController {
             public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
                 String jsonRetMap = response.body().string();
                 if(results.getEncryptionCandidates().size()>0){
-                   // updateCandidatesTable(results);
+                   updateCandidatesTable(results);
                 }
             }
         });
