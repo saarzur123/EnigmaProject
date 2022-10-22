@@ -30,6 +30,7 @@ DecryptionManager {
     private Long missionsAverageTime;
     private Consumer<Double> updateAverageMissionTime;
     private Consumer<Double> updateProgressBar;
+    private SynchKeyForAgents synchronizationKey= new SynchKeyForAgents();
 
     public DecryptionManager( Dictionary dictionary){
         this.dictionary = dictionary;
@@ -43,6 +44,14 @@ DecryptionManager {
         synchronized (this) {
             missionDoneUntilNow++;
             //updateProgressBar.accept(missionDoneUntilNow/(double)sizeAllMissions);//TODO
+        }
+    }
+
+    public void pushMissionsToCandidateQueue(DTOMissionResult results) {
+        synchronized (this) {
+            if (results.getEncryptionCandidates().size() > 0) {
+                candidateQueue.add(results);
+            }
         }
     }
 
@@ -167,7 +176,7 @@ DecryptionManager {
                 }
 
                 Mission mission = new Mission(missionArguments.cloneMissionArguments(),userDecryptCopy,newIndexes);
-                mission.setDM(this);
+                mission.setKey(synchronizationKey);
 
                 try {
                     missionGetterQueue.put(mission);

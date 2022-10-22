@@ -2,9 +2,9 @@ package component.refresher;
 
 import Uboat.client.util.http.HttpClientUtil;
 import com.google.gson.Gson;
-import dTOUI.MissionDTO;
 import decryption.manager.DTOMissionResult;
 import decryption.manager.Mission;
+import decryption.manager.SynchKeyForAgents;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.HttpUrl;
@@ -12,7 +12,10 @@ import okhttp3.Response;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
-import java.util.*;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
+import java.util.TimerTask;
 import java.util.function.Consumer;
 
 import static util.ConstantsAG.REFRESH_TAKING_MISSIONS;
@@ -56,8 +59,9 @@ public class RefresherTakingMissions extends TimerTask {
 
                 boolean isAllMissionsOut = gson.fromJson(mapDoneMissionsAndMissionsList.get("isAllMissionsOut"),Boolean.class);
                 if(!isAllMissionsOut){
-                    String[] missionsArr = gson.fromJson(mapDoneMissionsAndMissionsList.get("listMissions"),String[].class);
-                    List<Mission> missionList = createMissionsFromMissionsData(Arrays.asList(missionsArr));
+                    Mission[] missionsArr = gson.fromJson(mapDoneMissionsAndMissionsList.get("listMissions"),Mission[].class);
+                   List<Mission> missionList = Arrays.asList(missionsArr);
+                    updateMissionKey(missionList);
                     consumerTakingOutMissionForAgent.accept(missionList);
                 }
                 else {
@@ -67,16 +71,12 @@ public class RefresherTakingMissions extends TimerTask {
         });
     }
 
-    private List<Mission> createMissionsFromMissionsData(List<String> missionDTOS){
-       Gson gson = new Gson();
-        List<Mission> missionsList = new ArrayList<>();
-        for(String dataStr : missionDTOS){
-            MissionDTO data = gson.fromJson(dataStr,MissionDTO.class);
-            Mission toAdd = new Mission(data.getMissionArguments(),data.getUserEncryptString(),data.getStartIndexes());
-            toAdd.setUpdateMissionResultsInServer(updateMissionResultsInServer);
-            missionsList.add(toAdd);
+    private void updateMissionKey(List<Mission> missionDTOS){
+        SynchKeyForAgents key = new SynchKeyForAgents();
+        for(Mission data : missionDTOS){
+            data.setUpdateMissionResultsInServer(updateMissionResultsInServer);
+          data.setKey(key);
         }
-        return missionsList;
     }
 
 

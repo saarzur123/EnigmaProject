@@ -38,14 +38,14 @@ public class RefresherTakingMissionsServlet extends HttpServlet {
             try {
                 Gson gson = new Gson();
                 List<Mission> missionsPackage = currentDM.returnMissionPackage(packageAmount);
-                List<MissionDTO> missionsData = createMissionsData(missionsPackage);
-                List<String> retListMissionsData = new ArrayList<>();
-                for (int i = 0; i < missionsData.size(); i++) {
-                    MissionDTO mission = missionsData.get(i);
-                    String stringMissionJson = gson.toJson(mission);
-                    retListMissionsData.add(stringMissionJson);
-                }
-                retValues.put("listMissions",new Gson().toJson(retListMissionsData));
+//                List<MissionDTO> missionsData = createMissionsData(missionsPackage);
+//                List<String> retListMissionsData = new ArrayList<>();
+//                for (int i = 0; i < missionsData.size(); i++) {
+//                    MissionDTO mission = missionsData.get(i);
+//                    String stringMissionJson = gson.toJson(mission);
+//                    retListMissionsData.add(stringMissionJson);
+//                }
+                retValues.put("listMissions",new Gson().toJson(missionsPackage));
             } catch (InterruptedException e) {
                 System.out.println("EXCEPTION IN REFRESHER MISSIONS SERVLET");
             }
@@ -56,8 +56,8 @@ public class RefresherTakingMissionsServlet extends HttpServlet {
     private List<MissionDTO> createMissionsData(List<Mission> missionsPackage){
         List<MissionDTO> retList = new ArrayList<>();
         for(Mission mission : missionsPackage){
-            MissionDTO newMissionData = new MissionDTO(mission.getMissionArguments(),mission.getUserDecryptedString(), mission.getStartIndexes(),mission.getDM());
-            retList.add(newMissionData);
+          //  MissionDTO newMissionData = new MissionDTO(mission.getMissionArguments(),mission.getUserDecryptedString(), mission.getStartIndexes());
+            // retList.add(newMissionData);
         }
         return retList;
     }

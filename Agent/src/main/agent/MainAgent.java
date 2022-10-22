@@ -30,7 +30,7 @@ public class MainAgent extends Application {
             Parent root = fxmlLoader.load();
             agentController = fxmlLoader.getController();
 
-            Scene scene = new Scene(root, 700, 600);
+            Scene scene = new Scene(root, 900, 900);
             primaryStage.setScene(scene);
             primaryStage.show();
         } catch (IOException e) {
