@@ -1,6 +1,7 @@
 package agent.engine;
 
 import decryption.manager.Mission;
+import javafx.application.Platform;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
@@ -50,10 +51,15 @@ public class AgentEngine {
     }
     private void updateTotalMissionsTookOutProp(int missionAtPackageNumber){
         missionTookOutInt += missionAtPackageNumber;
+        Platform.runLater(()->{
         totalMissionsTookOutProp.set(String.valueOf(missionTookOutInt));
+        });
     }
     private void updateCurrMissionsInQueueProperty(){
-        currMissionsInQueue.set(String.valueOf(threadPoolExecutor.getQueue().size()));
+        Platform.runLater(()->{
+            int size = threadPoolExecutor.getQueue().size();
+            currMissionsInQueue.set(String.valueOf(size));
+        });
     }
 
     public void checkIfMissionInProgress(){

@@ -1,18 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-        <?import javafx.scene.control.Label?>
-        <?import javafx.scene.control.ScrollPane?>
-        <?import javafx.scene.layout.HBox?>
-        <?import javafx.scene.layout.VBox?>
-        <?import javafx.scene.text.Font?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
-
-<VBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="900.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="component.main.app.MainAppAgentController"
->
+<VBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="900.0" prefWidth="900.0" spacing="20.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="component.main.app.MainAppAgentController">
     <children>
         <HBox alignment="TOP_CENTER" prefHeight="72.0" prefWidth="900.0">
             <children>
-                <Label text="Allie :">
+                <Label text="Allie Name:">
                     <font>
                         <Font size="48.0" />
                     </font>
@@ -48,6 +46,19 @@
                 </ScrollPane>
             </children>
         </HBox>
-        <fx:include fx:id="candidate" source="../../candidate/agent/Candidate.fxml" />
+      <HBox prefHeight="647.0" prefWidth="900.0">
+         <children>
+            <VBox alignment="CENTER" prefHeight="200.0" prefWidth="900.0">
+               <children>
+                  <Label text="Agent Candidates:">
+                     <font>
+                        <Font name="System Bold" size="24.0" />
+                     </font>
+                  </Label>
+                    <fx:include fx:id="candidate" source="../../candidate/agent/Candidate.fxml" />
+               </children>
+            </VBox>
+         </children>
+      </HBox>
     </children>
 </VBox>
