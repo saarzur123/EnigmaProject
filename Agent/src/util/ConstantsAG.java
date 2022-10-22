@@ -34,6 +34,7 @@ public class ConstantsAG {
     public final static String CREATE_USER_SECRET_CODE = LOGIN_PAGE + "/createUserSecretCode";
     public final static String SET_USER_SECRET_CODE = LOGIN_PAGE +"/setUserSecretCode";
     public final static String REFRESHER_CONTEST_DATA = FULL_SERVER_PATH + "/refresherContestData";
+    public final static String UPDATE_CONTEST_DATA = FULL_SERVER_PATH + "/updateContestData";
     public final static String REFRESHER_TEAMS_DATA = FULL_SERVER_PATH + "/refresherContestTeamsData";
     public final static String ALLIE_CONFIGURE_READY = FULL_SERVER_PATH + "/AllieConfigureIsReady";
     public final static String REFRESH_EXSIST_UBOAT = FULL_SERVER_PATH + "/refreshExistsUboat";

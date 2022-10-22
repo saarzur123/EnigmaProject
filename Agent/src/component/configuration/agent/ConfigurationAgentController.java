@@ -70,6 +70,8 @@ public class ConfigurationAgentController {
         if(checkPositiveNumber()){
             alliesNameComboBox.setDisable(false);
         }
+        //מקרה קצה מעצבןןןן (אם מתחברים קודם מהסוכן אז זה לא מעדכן את הCONTEST DATA
+        //mainAppAgentController.startUpdateContestsName();
     }
 
     private boolean checkPositiveNumber(){

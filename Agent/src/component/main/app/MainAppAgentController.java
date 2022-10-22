@@ -10,13 +10,16 @@ import component.mission.data.soFar.MissionDataSoFarController;
 import component.refresher.RefresherContestName;
 import component.refresher.RefresherContestStarts;
 import component.refresher.RefresherTakingMissions;
+import dTOUI.ActiveTeamsDTO;
 import dTOUI.ContestDTO;
 import decryption.manager.DTOMissionResult;
 import decryption.manager.Mission;
+import javafx.application.Platform;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -33,12 +36,13 @@ import okhttp3.Response;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
+import java.net.URL;
 import java.util.List;
+import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import static util.ConstantsAG.PUSH_CANDIDATES_TO_QUEUE;
-import static util.ConstantsAG.REFRESH_RATE;
+import static util.ConstantsAG.*;
 
 public class MainAppAgentController {
     @FXML
@@ -104,6 +108,7 @@ public class MainAppAgentController {
 
     public void setAllieName(String allieName) {
         this.allieName = allieName;
+        allieNameLBL.setText(allieName);
     }
 
     private void updateTotalMissionProcessed(){
@@ -130,6 +135,7 @@ public class MainAppAgentController {
         stage.setScene(new Scene(root1));
         configurationAgentController = fxmlLoader.getController();
         configurationAgentController.setAgentController(this);
+        stage.initStyle(StageStyle.UNDECORATED);
         stage.showAndWait();
     }
 
@@ -137,6 +143,7 @@ public class MainAppAgentController {
         contestStartsTask = new RefresherContestStarts(this::updateContestStatus,contestName);
         contestStartsTimer = new Timer();
         contestStartsTimer.schedule(contestStartsTask, REFRESH_RATE, REFRESH_RATE);
+
     }
     private void updateContestStatus(boolean status){
         this.contestStatus = status;
@@ -178,6 +185,31 @@ public class MainAppAgentController {
 
     private void updateAgentContestName(String contestName){
         this.contestName = contestName;
+
+        String finalUrl = HttpUrl
+                .parse(UPDATE_CONTEST_DATA)
+                .newBuilder()
+                .addQueryParameter("contestName", contestName)
+                .build()
+                .toString();
+        if(contestName!=null) {
+            HttpClientUtil.runAsync(finalUrl, new Callback() {
+
+                @Override
+                public void onFailure(@NotNull Call call, @NotNull IOException e) {
+                }
+
+                @Override
+                public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+                    String responseBody = response.body().string();
+                    Gson gson = new Gson();
+                    ContestDTO contestDTO = gson.fromJson(responseBody, ContestDTO.class);
+                    setChosenContestToAgent(contestDTO);
+
+                }
+            });
+        }
+
         startUpdateContestStatus();
     }
 
@@ -207,6 +239,36 @@ public class MainAppAgentController {
             }
         });
 
+    }
+    public void setChosenContestToAgent(ContestDTO chosenContestData){
+        this.chosenContestData = chosenContestData;
+       // startUpdateAlliesData();
+        Platform.runLater(() -> {
+            updateCurrentContestDataArea(this.chosenContestData);
+        });
+
+    }
+
+    public void updateCurrentContestDataArea(ContestDTO chosenContestData){
+        if(chosenContestData != null) {
+            try {
+                contestData.getChildren().clear();
+                FXMLLoader loader = new FXMLLoader();
+                URL url = getClass().getResource("/component/contest/data/ContestData.fxml");
+                loader.setLocation(url);
+                Node singleContestData = loader.load();
+                ContestDataController contestDataController = loader.getController();
+                setContestDataController(contestDataController, chosenContestData);
+                contestDataController.setAlliesController(this);
+
+                contestData.getChildren().add(singleContestData);
+            } catch (IOException e) {
+
+            }
+        }
+    }
+    private void setContestDataController(ContestDataController contestDataController, ContestDTO contestDTO){
+        contestDataController.insertDataToContest(contestDTO);
     }
 
     public static void showErrorPopup(String message) {
