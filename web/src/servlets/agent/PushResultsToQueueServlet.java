@@ -21,12 +21,19 @@ public class PushResultsToQueueServlet extends HttpServlet {
         Gson gson = new Gson();
         DTOMissionResult resultToPush = gson.fromJson(request.getParameter("results"),DTOMissionResult.class);
         String teamName = request.getParameter("allieName");
+        String contestName = request.getParameter("contestName");
 
         DTOAppData appData = utils.ServletUtils.getDTOAppData(getServletContext());
+        String encryptString = appData.getEncryptString();
+
         DecryptionManager currDM = appData.getMapAllieNameToDM().get(teamName);
 
         currDM.pushMissionsToCandidateQueue(resultToPush);
-
-        response.getWriter().println("");
+        if(resultToPush.getDecryptString().equals(encryptString)){
+            response.getWriter().println("WIN");
+        }
+        else {
+            response.getWriter().println("");
+        }
     }
 }

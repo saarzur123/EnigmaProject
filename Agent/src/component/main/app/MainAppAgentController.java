@@ -225,6 +225,7 @@ public class MainAppAgentController {
                 .newBuilder()
                 .addQueryParameter("results", gson.toJson(results))
                 .addQueryParameter("allieName",allieName)
+                .addQueryParameter("contestName" , contestName)
                 .build()
                 .toString();
         HttpClientUtil.runAsync(finalUrl, new Callback() {
@@ -237,6 +238,9 @@ public class MainAppAgentController {
                 String jsonRetMap = response.body().string();
                 if(results.getEncryptionCandidates().size()>0){
                    updateCandidatesTable(results);
+                   if(jsonRetMap.equals("WIN")){
+                       showErrorPopup("WINNNNERRRRRRRRR YAYAYAYYA");
+                   }
                 }
             }
         });
