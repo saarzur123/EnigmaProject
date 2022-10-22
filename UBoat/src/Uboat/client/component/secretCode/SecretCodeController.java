@@ -31,7 +31,6 @@ public class SecretCodeController {
     public StringProperty getShowSecretCode(){return showSecretCode;}
 
     public void setLBLToCodeCombinationBinding(String secretCodeComb){
-        //uboatMainController.getEngine().getSecretCode().getSecretCodeCombination()
         secretCodeSecretCombination.bind(
                 Bindings.concat(secretCodeComb));
         showSecretCodeLBL.textProperty().bind(showSecretCode);

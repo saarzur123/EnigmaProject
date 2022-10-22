@@ -1,6 +1,53 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.layout.BorderPane?>
+        <?import javafx.scene.control.Label?>
+        <?import javafx.scene.control.ScrollPane?>
+        <?import javafx.scene.layout.HBox?>
+        <?import javafx.scene.layout.VBox?>
+        <?import javafx.scene.text.Font?>
 
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="900.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="component.main.app.MainAppAgentController" />
+<VBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="900.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="component.main.app.MainAppAgentController"
+>
+    <children>
+        <HBox alignment="TOP_CENTER" prefHeight="72.0" prefWidth="900.0">
+            <children>
+                <Label text="Allie :">
+                    <font>
+                        <Font size="48.0" />
+                    </font>
+                </Label>
+                <Label fx:id="allieNameLBL">
+                    <font>
+                        <Font size="48.0" />
+                    </font>
+                </Label>
+            </children>
+        </HBox>
+        <HBox prefHeight="172.0" prefWidth="900.0">
+            <children>
+                <fx:include fx:id="contestData" source="../../contest/data/contestData.fxml" />
+                <HBox alignment="CENTER" prefHeight="184.0" prefWidth="255.0">
+                    <children>
+                        <Label text="Mission in Queue : " textFill="#4000ff" textOverrun="CLIP">
+                            <font>
+                                <Font size="18.0" />
+                            </font>
+                        </Label>
+                        <Label fx:id="missionInQueueLBL" textFill="#4000ff">
+                            <font>
+                                <Font size="18.0" />
+                            </font>
+                        </Label>
+                    </children>
+                </HBox>
+                <ScrollPane prefHeight="184.0" prefWidth="263.0">
+                    <content>
+                        <fx:include fx:id="missionDataSoFar" source="../../mission/data/soFar/missionDataSoFar.fxml" />
+                    </content>
+                </ScrollPane>
+            </children>
+        </HBox>
+        <fx:include fx:id="candidate" source="../../candidate/agent/Candidate.fxml" />
+    </children>
+</VBox>

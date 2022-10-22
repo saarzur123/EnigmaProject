@@ -8,8 +8,6 @@ import machine.SecretCode;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.concurrent.BlockingDeque;
-import java.util.concurrent.BlockingQueue;
 import java.util.function.Consumer;
 
 public class Mission implements Runnable{
@@ -22,13 +20,14 @@ public class Mission implements Runnable{
     private Dictionary dictionary;
     private List<Integer> rotorsIdList;
     private Integer reflectorId;
-    private DecryptionManager DM;
+    //private DecryptionManager DM;
     //private BlockingQueue<DTOMissionResult> candidateQueue;
     private List<DTOMissionResult> candidateList = new ArrayList<>();
     private Consumer<DTOMissionResult> updateMissionResultsInServer;
 
     private boolean wasExit=false;
     private MissionArguments missionArguments;
+    private SynchKeyForAgents synchronizationKey;
 
     public Mission(MissionArguments missionArguments, String userDecryptedString, int[] startIndexes){
         this.missionSize = missionArguments.getMissionSize();
@@ -43,8 +42,8 @@ public class Mission implements Runnable{
         this.reflectorId = missionArguments.getReflector();
     }
 
-    public DecryptionManager getDM() {
-        return DM;
+    public void setKey(SynchKeyForAgents synchronizationKey){
+        this.synchronizationKey = synchronizationKey;
     }
 
     public Consumer<DTOMissionResult> getUpdateMissionResultsInServer() {
@@ -71,9 +70,6 @@ public class Mission implements Runnable{
         return missionArguments;
     }
 
-    public void setDM(DecryptionManager DM) {
-        this.DM = DM;
-    }
 
     public static MachineImplement createMachineCopy(MachineImplement machine){
         List<Rotor> rotors = new ArrayList<>();
@@ -90,28 +86,25 @@ public class Mission implements Runnable{
 
    @Override
     public void run(){
-        synchronized (DM) {
+        synchronized (synchronizationKey) {
             long start = System.currentTimeMillis();
             makeBruteForce(machine.getInUseRotorNumber(), language.toCharArray(), startIndexes, missionSize);
             long end = System.currentTimeMillis();
-            DM.addMissionTime(end-start);
-            DM.calculateAverageMissionsTime();
+            //DM.addMissionTime(end-start);
+           // DM.calculateAverageMissionsTime();
         }
     }
 
     private void makeBruteForce(int length, char[] pool,int[] indexes,int missionSize) {
-        synchronized (DM) {
+        synchronized (synchronizationKey) {
             DTOMissionResult results = new DTOMissionResult();
             int wordIndex = 0;
             List<Character> startPos = new ArrayList<>();
             int pMax = pool.length;  // stored to speed calculation
-            if (DM.isStopAll()) {
-                Thread.currentThread().interrupt();
-                System.out.println("################### KILLLLL " + Thread.currentThread().getId() + "#########");
-            } else {
+
                 while (indexes[0] < pMax && wordIndex < missionSize) { //if the first index is bigger then pMax we are done
-                    DM.setMissionDoneUntilNow();
-                    DM.isMissionPaused(DM);
+                    //DM.setMissionDoneUntilNow();
+                    //DM.isMissionPaused(DM);
                     startPos.clear();
                     for (int i = 0; i < length; i++) {
                         startPos.add(pool[indexes[i]]);
@@ -132,11 +125,11 @@ public class Mission implements Runnable{
 
                 pushResultsToCandidateQueue(results);
             }
-        }
+
     }
 
     private void runCurrSecretCode(List<Character> startPos,DTOMissionResult results) {
-        synchronized (DM) {
+        synchronized (synchronizationKey) {
             SecretCode currSecretCode = new SecretCode(machine);
             currSecretCode.determineSecretCode(rotorsIdList, startPos, reflectorId, new HashMap<>());
             String stringToCheckInDictionary = machine.encodingAndDecoding(userDecryptedString.toUpperCase(), currSecretCode.getInUseRotors(), currSecretCode.getPlugBoard(), currSecretCode.getInUseReflector());
@@ -148,7 +141,7 @@ public class Mission implements Runnable{
     }
 
     private void pushResultsToCandidateQueue(DTOMissionResult results){
-        synchronized (DM) {
+        synchronized (synchronizationKey) {
             updateMissionResultsInServer.accept(results);
         }
     }

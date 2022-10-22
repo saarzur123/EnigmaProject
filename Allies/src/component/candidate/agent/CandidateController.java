@@ -1,4 +1,4 @@
-package component.candidate;
+package component.candidate.agent;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.TableView;
