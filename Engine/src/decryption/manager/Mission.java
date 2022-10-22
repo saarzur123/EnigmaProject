@@ -131,6 +131,7 @@ public class Mission implements Runnable{
     private void runCurrSecretCode(List<Character> startPos,DTOMissionResult results) {
         synchronized (synchronizationKey) {
             SecretCode currSecretCode = new SecretCode(machine);
+            currSecretCode.resetSecretCode();
             currSecretCode.determineSecretCode(rotorsIdList, startPos, reflectorId, new HashMap<>());
             String stringToCheckInDictionary = machine.encodingAndDecoding(userDecryptedString.toUpperCase(), currSecretCode.getInUseRotors(), currSecretCode.getPlugBoard(), currSecretCode.getInUseReflector());
             boolean isStringOnDictionary = dictionary.isNoneFilterStringInDictionary(stringToCheckInDictionary.toLowerCase());
