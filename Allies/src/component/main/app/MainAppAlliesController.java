@@ -355,7 +355,6 @@ public class MainAppAlliesController {
         });
     }
 
-
     public void setSelectedTab(){
         SingleSelectionModel<Tab> selectionModel = tabPaneAllies.getSelectionModel();
         contestTab.setDisable(false);

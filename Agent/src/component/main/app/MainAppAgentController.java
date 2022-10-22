@@ -10,7 +10,6 @@ import component.mission.data.soFar.MissionDataSoFarController;
 import component.refresher.RefresherContestName;
 import component.refresher.RefresherContestStarts;
 import component.refresher.RefresherTakingMissions;
-import dTOUI.ActiveTeamsDTO;
 import dTOUI.ContestDTO;
 import decryption.manager.DTOMissionResult;
 import decryption.manager.Mission;
@@ -38,7 +37,6 @@ import org.jetbrains.annotations.NotNull;
 import java.io.IOException;
 import java.net.URL;
 import java.util.List;
-import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -112,12 +110,16 @@ public class MainAppAgentController {
     }
 
     private void updateTotalMissionProcessed(){
-        totalMissionsProcessedInt++;
-        totalMissionsProcessedProp.set(String.valueOf(totalMissionsProcessedInt));
+        Platform.runLater(()->{
+            totalMissionsProcessedInt++;
+            totalMissionsProcessedProp.set(String.valueOf(totalMissionsProcessedInt));
+        });
     }
     private void updateTotalCandidates(int newCandidatesNumber){
+        Platform.runLater(()->{
         totalCandidatesInt+=newCandidatesNumber;
         totalCandidatesProp.set(String.valueOf(totalCandidatesInt));
+        });
     }
 
 
@@ -213,9 +215,10 @@ public class MainAppAgentController {
         startUpdateContestStatus();
     }
 
-    private void updateSingleMissionResultInServer(DTOMissionResult results){
+    private synchronized void updateSingleMissionResultInServer(DTOMissionResult results){
         updateTotalMissionProcessed();
         updateTotalCandidates(results.getEncryptionCandidates().size());
+        //updateCandidatesTable(results);
         Gson gson = new Gson();
         String finalUrl = HttpUrl
                 .parse(PUSH_CANDIDATES_TO_QUEUE)
@@ -233,12 +236,17 @@ public class MainAppAgentController {
             public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
                 String jsonRetMap = response.body().string();
                 if(results.getEncryptionCandidates().size()>0){
-                    ////show candidates tiles
-                    int i = 1;
+                   updateCandidatesTable(results);
                 }
             }
         });
+    }
 
+    private void updateCandidatesTable(DTOMissionResult result){
+        for(String code : result.getEncryptionCandidates().keySet()){
+            String stringRes = result.getDecryptString();//.get(code);
+            candidateController.addRow(stringRes,code);
+        }
     }
     public void setChosenContestToAgent(ContestDTO chosenContestData){
         this.chosenContestData = chosenContestData;
