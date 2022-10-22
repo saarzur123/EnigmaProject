@@ -10,7 +10,6 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
-import javafx.stage.Stage;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.HttpUrl;
@@ -19,11 +18,9 @@ import org.jetbrains.annotations.NotNull;
 import util.http.HttpClientUtilAL;
 
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
 
-import static util.ConstantsAL.*;
+import static util.ConstantsAL.ALLIE_IS_READY_TO_START_THE_CONTEST;
+import static util.ConstantsAL.UPDATE_EXIST_TEAM;
 
 public class AlliesConfigureController {
 
@@ -61,68 +58,42 @@ public class AlliesConfigureController {
     }
     @FXML
     void onActionAllieIsReadyActionBTN(ActionEvent event) {
-        Gson gson = new Gson();
-        teamsDTO = new ActiveTeamsDTO(allieName,missionSize,-1,alliesController.getCurrentBattleFieldName());
-        String teamDtoJson = gson.toJson(teamsDTO);
-        String finalUrl = HttpUrl
-                .parse(ALLIE_IS_READY_TO_START_THE_CONTEST)
-                .newBuilder()
-                .addQueryParameter("contestName", alliesController.getCurrentBattleFieldName())
-                .addQueryParameter("teamDTO", teamDtoJson)
-                .build()
-                .toString();
-        HttpClientUtilAL.runAsync(finalUrl, new Callback() {
-            @Override
-            public void onFailure(@NotNull Call call, @NotNull IOException e) {
-                Platform.runLater(() ->
-                        System.out.println("FAILURE ON ALLIES CONFIGURE CONTROLLER :  ALLIE_IS_READY_TO_START_THE_CONTEST SERVLET")
-                );
-            }
 
-            @Override
-            public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
-                String responseBody = response.body().string();
-                Gson gson = new Gson();
-            }
-        });
+        changeAllieStatusToReady();
+        alliesController.startUpdateResultsTable();
     }
 
 
-    @FXML
-    void allieIsReadyActionBTN(ActionEvent event) {
-        teamsDTO = new ActiveTeamsDTO(allieName,missionSize,-1,alliesController.getCurrentBattleFieldName());
-            Gson gson = new Gson();
-            String teamDtoJson = gson.toJson(teamsDTO);
-
-            String finalUrl = HttpUrl
-                    .parse(ALLIE_CONFIGURE_READY)
-                    .newBuilder()
-                    .addQueryParameter("contestName",alliesController.getCurrentBattleFieldName())
-                    .addQueryParameter("teamDTO", teamDtoJson)
-                    .build()
-                    .toString();
-            HttpClientUtilAL.runAsync(finalUrl, new Callback() {
-                @Override
-                public void onFailure(@NotNull Call call, @NotNull IOException e) {
-                    Platform.runLater(() ->
-                            System.out.println("FAILURE ON ALLIES CONFIGURE CONTROLLER :  ALLIE_CONFIGURE_READY SERVLET")
-                    );
-                }
-                @Override
-                public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
-                    String responseBody = response.body().string();
-                    Gson gson = new Gson();
-                    Map<String,String> listTeamsDataJson = gson.fromJson(responseBody,Map.class);
-                    ActiveTeamsDTO[] arrayData = gson.fromJson(listTeamsDataJson.get("listTeams"),ActiveTeamsDTO[].class);
-                    List<ActiveTeamsDTO> listTeamsData = Arrays.asList(arrayData);
-                    Platform.runLater(()->{
-                        alliesController.setListCurrentTeams(listTeamsData);
-                    });
-                }
-            });
-            Stage stage = (Stage) startBTN.getScene().getWindow();
-            //stage.close();
+private void changeAllieStatusToReady(){
+    Gson gson = new Gson();
+    teamsDTO = new ActiveTeamsDTO(allieName,missionSize,-1,alliesController.getCurrentBattleFieldName());
+    String teamDtoJson = gson.toJson(teamsDTO);
+    String finalUrl = HttpUrl
+            .parse(ALLIE_IS_READY_TO_START_THE_CONTEST)
+            .newBuilder()
+            .addQueryParameter("contestName", alliesController.getCurrentBattleFieldName())
+            .addQueryParameter("teamDTO", teamDtoJson)
+            .build()
+            .toString();
+    HttpClientUtilAL.runAsync(finalUrl, new Callback() {
+        @Override
+        public void onFailure(@NotNull Call call, @NotNull IOException e) {
+            Platform.runLater(() ->
+                    System.out.println("FAILURE ON ALLIES CONFIGURE CONTROLLER :  ALLIE_IS_READY_TO_START_THE_CONTEST SERVLET")
+            );
         }
+
+        @Override
+        public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+            String responseBody = response.body().string();
+            Gson gson = new Gson();
+        }
+    });
+
+}
+
+
+
 
 
 

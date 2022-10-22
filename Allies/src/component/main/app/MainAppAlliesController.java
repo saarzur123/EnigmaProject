@@ -1,15 +1,19 @@
 package component.main.app;
 
 import com.google.gson.Gson;
+import component.candidate.agent.AllieRowObject;
+import component.candidate.agent.CandidateController;
 import component.configure.AlliesConfigureController;
 import component.configure.tile.ActiveTeamDataController;
 import component.contest.ContestDataController;
 import component.login.LoginController;
 import component.refresh.contest.data.ContestDataAreaRefresher;
 import component.refresh.contest.data.ContestTeamsDataAreaRefresher;
+import component.refresh.table.AllieCandidatesRefresher;
 import component.status.RefresherStatusContest;
 import dTOUI.ActiveTeamsDTO;
 import dTOUI.ContestDTO;
+import decryption.manager.DTOMissionResult;
 import javafx.application.Platform;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.BooleanProperty;
@@ -59,6 +63,8 @@ public class MainAppAlliesController {
     //include
     @FXML private BorderPane alliesConfigure;
     @FXML private AlliesConfigureController alliesConfigureController;
+    @FXML private TableView<AllieRowObject> candidate;
+    @FXML private CandidateController candidateController;
 
     ////dashboard - fxml
     @FXML
@@ -69,6 +75,9 @@ public class MainAppAlliesController {
 
     private Timer contestDataTimer;
     private Timer teamsDataTimer;
+
+    private Timer updateAllieResultsTimer;
+    private TimerTask updateAllieResultsTask;
 
     private Timer timeToUpdateStatusContest;
     private TimerTask updateStatusContest;
@@ -90,10 +99,12 @@ public class MainAppAlliesController {
 
         tabPaneAllies.setDisable(true);
         userGreetingLabel.textProperty().bind(Bindings.concat("Hello ", currentUserName));
-        if (loginController != null && alliesConfigureController != null) {
+        if (loginController != null && alliesConfigureController != null && candidateController!= null) {
             loginController.setAlliesMainController(this);
             alliesConfigureController.setMainController(this);
+            candidateController.setMainController(this);
         }
+
         startUpdateContestsData();
 
         String finalUrl = HttpUrl
@@ -308,21 +319,13 @@ public class MainAppAlliesController {
                 }
             });
         }
-//    private void updateStatusContest(Map<String, Boolean> contestData) {
-//        //mapContestNameToContestsDataToShow = contestData;
-//        Platform.runLater(() -> {
-//            contestsDataArea.getChildren().clear();
-//            createContestDataTiles();
-//            if(chosenContestData!=null) {
-//                updateCurrentContestDataArea(mapContestNameToContestsDataToShow.get(chosenContestData.getBattleFieldName()));
-//            }
-//        });
-//    }
+
     public void startUpdateStatusContest(String contestName) {
         updateStatusContest = new RefresherStatusContest(contestName);
         timeToUpdateStatusContest = new Timer();
         timeToUpdateStatusContest.schedule(updateStatusContest, REFRESH_RATE, REFRESH_RATE);
     }
+
     private void enterNewAllieToSystem(String allieName) {
         ActiveTeamsDTO teamsDTO = new ActiveTeamsDTO(allieName, -1, -1,currentBattleFieldName);
         Gson gson = new Gson();
@@ -403,6 +406,25 @@ public class MainAppAlliesController {
     @FXML
     public void allieIsReadyActionBTN(ActionEvent event){
 
+    }
+
+    public void startUpdateResultsTable() {
+        new Thread(()->{
+            updateAllieResultsTask = new AllieCandidatesRefresher(this::updateAllieCandidateTable);
+            updateAllieResultsTimer = new Timer();
+            updateAllieResultsTimer.schedule(updateAllieResultsTask, REFRESH_RATE, REFRESH_RATE);
+        });
+    }
+
+    private void updateAllieCandidateTable(DTOMissionResult obj){
+        for(String code : obj.getEncryptionCandidates().keySet()){
+            candidateController.addRow(obj.getDecryptString(), code, alliesConfigureController.getAllieName());
+        }
+    }
+
+    public void onContestEnd(){
+        updateAllieResultsTask.cancel();
+        updateAllieResultsTimer.cancel();;
     }
 
 }
