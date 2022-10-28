@@ -1,5 +1,5 @@
 package component.status;
-import com.google.gson.Gson;
+
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.HttpUrl;
@@ -8,9 +8,7 @@ import org.jetbrains.annotations.NotNull;
 import util.http.HttpClientUtilAL;
 
 import java.io.IOException;
-import java.util.Map;
 import java.util.TimerTask;
-import java.util.function.Consumer;
 
 import static util.ConstantsAL.REFRESHER_CONTEST_STATUS;
 
@@ -39,6 +37,7 @@ public class RefresherStatusContest extends TimerTask {
             @Override
             public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
                 String jsonArrayOfContestData = response.body().string();
+
             }
 
         });

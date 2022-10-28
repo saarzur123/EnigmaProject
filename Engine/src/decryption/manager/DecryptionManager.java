@@ -8,8 +8,8 @@ import java.util.*;
 import java.util.concurrent.*;
 import java.util.function.Consumer;
 
-public class
-DecryptionManager {
+public class DecryptionManager {
+    private int missionIndex = 0;
     private boolean exit;
     private boolean stopAll;
     private MachineImplement machine;
@@ -45,6 +45,10 @@ DecryptionManager {
             missionDoneUntilNow++;
             //updateProgressBar.accept(missionDoneUntilNow/(double)sizeAllMissions);//TODO
         }
+    }
+
+    public SynchKeyForAgents getSynchronizationKey() {
+        return synchronizationKey;
     }
 
     public void pushMissionsToCandidateQueue(DTOMissionResult results) {
@@ -105,17 +109,20 @@ DecryptionManager {
 //        threadPool.prestartAllCoreThreads();
 //    }
 
-    public Runnable createTakeMissionsFromQueueRunnable(Consumer<DTOMissionResult> consumer){
+    public Runnable createTakeMissionsFromQueueRunnable(Consumer<DTOMissionResult> updateAllieCandidateTable){
        return new Runnable() {
            @Override
            public void run() {
                while (isTakeOutMissions || !candidateQueue.isEmpty()){
-//                   try {
-//                      // DTOMissionResult missionResult = candidateQueue.take();
-//                      // consumer.accept(missionResult);//TODO
-//                   } catch (InterruptedException e) {
-//                       throw new RuntimeException(e);
-//                   }
+                   try {
+                      DTOMissionResult missionResult = candidateQueue.take();
+                      if(missionGetterQueue.size() == 0){
+                          isTakeOutMissions = false;
+                      }
+                       updateAllieCandidateTable.accept(missionResult);//TODO
+                   } catch (InterruptedException e) {
+                       throw new RuntimeException(e);
+                   }
                }
            }
        };
@@ -129,31 +136,37 @@ DecryptionManager {
     }
 
     public synchronized List<Mission> returnMissionPackage(int missionPackageAmount) throws InterruptedException {
-        List<Mission> listMissionPackage = new ArrayList<>();
-        if(missionGetterQueue.size() < missionPackageAmount && !doneCreateMissions){
-            //there are not enough missions
-            return listMissionPackage;
-        }
 
-        if(missionGetterQueue.size() < missionPackageAmount && doneCreateMissions){
-            for (Runnable mission : missionGetterQueue) {
-                listMissionPackage.add((Mission) missionGetterQueue.take());
-            }
-        }
-        else{
-            for (int i = 0; i < missionPackageAmount; i++) {
-                listMissionPackage.add((Mission) missionGetterQueue.take());
-            }
-        }
-        return listMissionPackage;
+           List<Mission> listMissionPackage = new ArrayList<>();
+           if(missionGetterQueue.size() < missionPackageAmount && !doneCreateMissions){
+               return listMissionPackage;
+           }
+
+           int size = missionGetterQueue.size();
+           if(size < missionPackageAmount && doneCreateMissions){
+               for (int i=0;i<size;i++) {
+                   listMissionPackage.add((Mission) missionGetterQueue.take());
+               }
+           }
+           else{
+               System.out.println("################################# agent gets package of missions :\n ");
+               for (int i = 0; i < missionPackageAmount; i++) {
+                   Mission m = (Mission) missionGetterQueue.take();
+                   System.out.println(" id" + m.getId());
+                   listMissionPackage.add(m);
+
+               }
+           }
+           return listMissionPackage;
+
     }
 
-    public void findSecretCode(String userInput,String level,Consumer<DTOMissionResult> consumer,Consumer<Double> updateMissionTime,Consumer<Double> updateProgressBar){
-      updateAverageMissionTime = updateMissionTime;
-      this.updateProgressBar = updateProgressBar;
-      isTakeOutMissions = true;
-        takeMissionsThread = new Thread(createTakeMissionsFromQueueRunnable(consumer));
-        takeMissionsThread.start();
+    public void findSecretCode(String userInput,String level,Consumer<DTOMissionResult> updateAllieCandidateTable,Consumer<Double> updateMissionTime,Consumer<Double> updateProgressBar){
+     // updateAverageMissionTime = updateMissionTime;
+    //  this.updateProgressBar = updateProgressBar;
+        isTakeOutMissions = true;
+      //  takeMissionsThread = new Thread(createTakeMissionsFromQueueRunnable(updateAllieCandidateTable));
+     //   takeMissionsThread.start();
         Thread pushMissionsThread = new Thread(createPushMissionRunnable(userInput.toUpperCase(), level));
         pushMissionsThread.start();
     }
@@ -163,39 +176,47 @@ DecryptionManager {
     private void handOutMissions(int length, char[] pool, int missionSize,String userDecryptedString,MissionArguments missionArguments) {
         int wordIndex = 0;
         int[] indexes = new int[length];
+        synchronized (synchronizationKey) {
+            int pMax = pool.length;  // stored to speed calculation
+            while (indexes[0] < pMax && !stopAll) { //if the first index is bigger then pMax we are done
 
-        int pMax = pool.length;  // stored to speed calculation
-        while (indexes[0] < pMax && !stopAll) { //if the first index is bigger then pMax we are done
+                if (wordIndex % missionSize == 0) {
+                    missionIndex++;
+                    String userDecryptCopy = userDecryptedString;
+                    int[] newIndexes = new int[length];
+                    for (int j = 0; j < length; j++) {
+                        newIndexes[j] = indexes[j];
+                    }
 
-            if(wordIndex % missionSize == 0){
+                    Mission mission = new Mission(missionArguments.cloneMissionArguments(), userDecryptCopy, newIndexes);
+                    //mission.setKey(synchronizationKey);
+                    mission.setId(missionIndex);
+                    System.out.println("created new mission with mission id:" + missionIndex + " and start index:[");
+                    for (int i = 0; i < 3; i++) {
+                        System.out.print(newIndexes[i]);
+                    }
 
-                String userDecryptCopy = userDecryptedString;
-                int[] newIndexes = new int[length];
-                for (int j = 0; j < length; j++) {
-                   newIndexes[j] = indexes[j];
+                    try {
+                          //synchronized (synchronizationKey){
+                        missionGetterQueue.put(mission);
+                        // }
+                    } catch (InterruptedException e) {
+                        throw new RuntimeException(e);
+                    }
                 }
 
-                Mission mission = new Mission(missionArguments.cloneMissionArguments(),userDecryptCopy,newIndexes);
-                mission.setKey(synchronizationKey);
+                wordIndex++;
 
-                try {
-                    missionGetterQueue.put(mission);
-                } catch (InterruptedException e) {
-                    throw new RuntimeException(e);
+                // increment indexes
+                indexes[length - 1]++; // increment the last index
+                for (int i = length - 1; indexes[i] == pMax && i > 0; i--) { // if increment overflows
+                    indexes[i - 1]++;  // increment previous index
+                    indexes[i] = 0;   // set current index to zero
                 }
             }
 
-            wordIndex++;
-
-            // increment indexes
-            indexes[length - 1]++; // increment the last index
-            for (int i = length - 1; indexes[i] == pMax && i > 0; i--) { // if increment overflows
-                indexes[i - 1]++;  // increment previous index
-                indexes[i] = 0;   // set current index to zero
-            }
+            System.out.println("chup chup");//commit
         }
-
-        System.out.println("");
     }
 
     private Runnable createPushMissionRunnable(String userDecryptedString, String level) {

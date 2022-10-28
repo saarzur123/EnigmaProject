@@ -119,7 +119,10 @@
                                           <VBox fx:id="currentContestTeamsAreaVBOX" prefHeight="300.0" prefWidth="450.0" />
                                        </content>
                                     </ScrollPane>
-                                    <ScrollPane prefHeight="200.0" prefWidth="200.0" />
+                                    <ScrollPane>
+                                       <content>
+                                          <fx:include fx:id="candidate" source="../../candidate/agent/Candidate.fxml" />
+                                       </content></ScrollPane>
                                  </children>
                                  <BorderPane.margin>
                                     <Insets top="10.0" />

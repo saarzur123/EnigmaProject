@@ -1,6 +1,5 @@
 package servlets.allies;
 
-import com.google.gson.Gson;
 import dTOUI.ActiveTeamsDTO;
 import dTOUI.DTOAppData;
 import decryption.manager.DecryptionManager;
@@ -31,17 +30,23 @@ public class StatusContestServlet extends HttpServlet {
         int counter = 0;
         for (int i = 0; i < listActiveTeam.size(); i++) {
             ActiveTeamsDTO activeTeam = listActiveTeam.get(i);
-            if(appData.getListOfReadyAllies().contains(activeTeam.getTeamName())) {
+            if(appData.getListOfReadyAlliesByContestName(contestName).contains(activeTeam.getTeamName())) {
                 counter++;
             }
         }
         if(counter == listActiveTeam.size()) {
-            appData.getMapContestNameToContestReadyStatus().put(contestName, true);
             Map<String, DecryptionManager> mapAlliesNameToDM = appData.getMapAllieNameToDM();
-            for (int i = 0; i < listActiveTeam.size(); i++) {
-                DecryptionManager DM = mapAlliesNameToDM.get(listActiveTeam.get(i).getTeamName());
-                //TODO CONSUMER THAT UPDATE UI
-                DM.findSecretCode(appData.getEncryptString(), appData.getMapContestNameToContestData().get(contestName).getCompetitionLevel(),null,null,null);
+
+            //check if contest didn't start already - prevent multiple tasks
+            if(!appData.getMapContestNameToContestReadyStatus().get(contestName)) {
+               //activate competition
+                for (int i = 0; i < listActiveTeam.size(); i++) {
+                    DecryptionManager DM = mapAlliesNameToDM.get(listActiveTeam.get(i).getTeamName());
+                    //TODO CONSUMER THAT UPDATE UI
+                    DM.findSecretCode(appData.getDecryptString(), appData.getMapContestNameToContestData().get(contestName).getCompetitionLevel(), null, null, null);
+                }
+                //change contest status - start
+                appData.getMapContestNameToContestReadyStatus().put(contestName, true);
             }
         }
         else appData.getMapContestNameToContestReadyStatus().put(contestName, false);

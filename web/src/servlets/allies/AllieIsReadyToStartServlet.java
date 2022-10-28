@@ -29,7 +29,7 @@ public class AllieIsReadyToStartServlet extends HttpServlet {
         appData.addDMToMap(teamsDTO.getTeamName(),currEngine.getDM());
 
         //ADD ALLIES NAME TO READY LIST
-        appData.getListOfReadyAllies().add(teamsDTO.getTeamName());
+        appData.getListOfReadyAlliesByContestName(teamsDTO.getContestName()).add(teamsDTO.getTeamName());
 
 
     }

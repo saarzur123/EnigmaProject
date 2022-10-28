@@ -3,10 +3,10 @@
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 
-<TableView maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="204.0" prefWidth="350.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8.0.171" fx:controller="CandidateController">
+<TableView fx:id="candidatesTableView" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="360.0" prefWidth="450.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="component.candidate.agent.CandidateController">
     <columns>
-        <TableColumn prefWidth="101.0" text="String" />
-        <TableColumn prefWidth="96.0" text="Allies" />
-        <TableColumn prefWidth="150.0" text="Secret Code" />
+        <TableColumn prefWidth="103.0" text="String" />
+        <TableColumn prefWidth="104.0" text="Allie" />
+        <TableColumn prefWidth="241.0" text="Secret Code" />
     </columns>
 </TableView>

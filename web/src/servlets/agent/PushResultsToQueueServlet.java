@@ -10,6 +10,8 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 
 @WebServlet(name = "PushResultsToQueueServlet", urlPatterns = "/pushResults")
@@ -19,21 +21,33 @@ public class PushResultsToQueueServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         response.setContentType("text/plain;charset=UTF-8");
         Gson gson = new Gson();
+        Map<String,String> retJson = new HashMap<>();
+
         DTOMissionResult resultToPush = gson.fromJson(request.getParameter("results"),DTOMissionResult.class);
         String teamName = request.getParameter("allieName");
         String contestName = request.getParameter("contestName");
 
         DTOAppData appData = utils.ServletUtils.getDTOAppData(getServletContext());
-        String encryptString = appData.getEncryptString();
+        String encryptString = appData.getEncryptString();//search for
 
         DecryptionManager currDM = appData.getMapAllieNameToDM().get(teamName);
 
-        currDM.pushMissionsToCandidateQueue(resultToPush);
-        if(resultToPush.getDecryptString().equals(encryptString)){
-            response.getWriter().println("WIN");
+        //check if there are candidates
+        if(resultToPush.getEncryptionCandidates().size()>0){
+            retJson.put("results",gson.toJson(resultToPush));
+            currDM.pushMissionsToCandidateQueue(resultToPush);
+                String stringRes = resultToPush.getDecryptString().toUpperCase();
+                //in case of winning
+                if(stringRes.equals(encryptString.toUpperCase())){
+                    retJson.put("status","WIN");
+                    //contest over - contest status changed and allies status changed
+                    appData.getMapContestNameToContestReadyStatus().put(contestName,false);
+                    appData.getListOfReadyAlliesByContestName(contestName).clear();
+                }
+            }else {
+            retJson.put("status","");
         }
-        else {
-            response.getWriter().println("");
+        response.getWriter().println(gson.toJson(retJson));
         }
+
     }
-}

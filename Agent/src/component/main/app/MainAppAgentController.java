@@ -13,6 +13,7 @@ import component.refresher.RefresherTakingMissions;
 import dTOUI.ContestDTO;
 import decryption.manager.DTOMissionResult;
 import decryption.manager.Mission;
+import decryption.manager.SynchKeyForAgents;
 import javafx.application.Platform;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
@@ -37,6 +38,7 @@ import org.jetbrains.annotations.NotNull;
 import java.io.IOException;
 import java.net.URL;
 import java.util.List;
+import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -76,7 +78,7 @@ public class MainAppAgentController {
     private boolean  alreadyUpdatedFlag = false;
     private boolean newCompetition = false;
     private ContestDTO chosenContestData;
-
+    private SynchKeyForAgents key = new SynchKeyForAgents();
 
     @FXML
     public void initialize() throws IOException {
@@ -162,7 +164,7 @@ public class MainAppAgentController {
 
     public void startTakingMissions() {
         takingMissionsTask = new RefresherTakingMissions(this::handleMissionsPackage,this::onNoMoreMissionsLeft,allieName,
-                configurationAgentController.getMissionSize(),this::updateSingleMissionResultInServer);
+                configurationAgentController.getMissionSize(),this::updateSingleMissionResultInServer,key);
         takingMissionsTimer = new Timer();
         takingMissionsTimer.schedule(takingMissionsTask, REFRESH_RATE, REFRESH_RATE);
     }
@@ -207,7 +209,6 @@ public class MainAppAgentController {
                     Gson gson = new Gson();
                     ContestDTO contestDTO = gson.fromJson(responseBody, ContestDTO.class);
                     setChosenContestToAgent(contestDTO);
-
                 }
             });
         }
@@ -216,9 +217,9 @@ public class MainAppAgentController {
     }
 
     private synchronized void updateSingleMissionResultInServer(DTOMissionResult results){
+       // DTOMissionResult saveResult = new DTOMissionResult();
         updateTotalMissionProcessed();
         updateTotalCandidates(results.getEncryptionCandidates().size());
-        //updateCandidatesTable(results);
         Gson gson = new Gson();
         String finalUrl = HttpUrl
                 .parse(PUSH_CANDIDATES_TO_QUEUE)
@@ -236,11 +237,19 @@ public class MainAppAgentController {
             @Override
             public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
                 String jsonRetMap = response.body().string();
-                if(results.getEncryptionCandidates().size()>0){
-                   updateCandidatesTable(results);
-                   if(jsonRetMap.equals("WIN")){
-                       showErrorPopup("WINNNNERRRRRRRRR YAYAYAYYA");
-                   }
+                Map<String,String> mapValues = new Gson().fromJson(jsonRetMap,Map.class);
+                DTOMissionResult saveResult = new Gson().fromJson(mapValues.get("results"),DTOMissionResult.class);
+                if(saveResult != null) {
+                    if (saveResult.getEncryptionCandidates().size() > 0) {
+                        updateCandidatesTable(saveResult);
+                        if(mapValues.get("status") != null) {
+                            if (mapValues.get("status").equals("WIN")) {
+                                showWinPopup("WINNNNERRRRRRRRR YAYAYAYYA");
+                            } else if (mapValues.get("status").equals("LOOSE")) {
+                                showLosePopup("YOU ARE A LOOSER");
+                            }
+                        }
+                    }
                 }
             }
         });
@@ -258,7 +267,6 @@ public class MainAppAgentController {
         Platform.runLater(() -> {
             updateCurrentContestDataArea(this.chosenContestData);
         });
-
     }
 
     public void updateCurrentContestDataArea(ContestDTO chosenContestData){
@@ -279,6 +287,7 @@ public class MainAppAgentController {
             }
         }
     }
+
     private void setContestDataController(ContestDataController contestDataController, ContestDTO contestDTO){
         contestDataController.insertDataToContest(contestDTO);
     }
@@ -288,6 +297,22 @@ public class MainAppAgentController {
         alert.setTitle("Error");
         alert.setHeaderText("An error has occured !");
         alert.setContentText(message);
+        alert.showAndWait();
+    }
+
+    public static void showWinPopup(String msg){
+        Alert alert = new Alert(Alert.AlertType.NONE);
+        alert.setTitle("YOU ARE THE WINNER !");
+        alert.setHeaderText("Game over - you won");
+        alert.setContentText(msg);
+        alert.showAndWait();
+    }
+
+    public static void showLosePopup(String msg){
+        Alert alert = new Alert(Alert.AlertType.NONE);
+        alert.setTitle("LOOSER . . .");
+        alert.setHeaderText("Game over - you LOOSE maybe win next time !");
+        alert.setContentText(msg);
         alert.showAndWait();
     }
 }

@@ -25,15 +25,17 @@ public class RefresherTakingMissions extends TimerTask {
     private final Consumer<Boolean> consumerNoMoreMissionsLeft;
     private String teamName;
     private int packageAmount;
+    private SynchKeyForAgents key;
     private Consumer<DTOMissionResult> updateMissionResultsInServer;
     public RefresherTakingMissions(Consumer<List<Mission>> consumerTakingOutMissionForAgent,
                                    Consumer<Boolean> consumerNoMoreMissionsLeft, String teamName, int packageAmount,
-                                   Consumer<DTOMissionResult> updateMissionResultsInServer) {
+                                   Consumer<DTOMissionResult> updateMissionResultsInServer, SynchKeyForAgents key) {
         this.consumerTakingOutMissionForAgent = consumerTakingOutMissionForAgent;
         this.consumerNoMoreMissionsLeft =consumerNoMoreMissionsLeft;
         this.teamName = teamName;
         this.packageAmount = packageAmount;
         this.updateMissionResultsInServer = updateMissionResultsInServer;
+        this.key = key;
     }
 
 
@@ -58,9 +60,12 @@ public class RefresherTakingMissions extends TimerTask {
                 Map<String,String> mapDoneMissionsAndMissionsList = gson.fromJson(jsonRetMap, Map.class);
 
                 boolean isAllMissionsOut = gson.fromJson(mapDoneMissionsAndMissionsList.get("isAllMissionsOut"),Boolean.class);
+                //commit   Mission[] missionsArr = gson.fromJson(mapDoneMissionsAndMissionsList.get("listMissions"),Mission[].class);
+
                 if(!isAllMissionsOut){
                     Mission[] missionsArr = gson.fromJson(mapDoneMissionsAndMissionsList.get("listMissions"),Mission[].class);
-                   List<Mission> missionList = Arrays.asList(missionsArr);
+
+                    List<Mission> missionList = Arrays.asList(missionsArr);
                     updateMissionKey(missionList);
                     consumerTakingOutMissionForAgent.accept(missionList);
                 }
@@ -73,6 +78,7 @@ public class RefresherTakingMissions extends TimerTask {
 
     private void updateMissionKey(List<Mission> missionDTOS){
         SynchKeyForAgents key = new SynchKeyForAgents();
+
         for(Mission data : missionDTOS){
             data.setUpdateMissionResultsInServer(updateMissionResultsInServer);
           data.setKey(key);
