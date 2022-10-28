@@ -1,5 +1,7 @@
 package Uboat.client.component.main;
 
+import Uboat.client.component.candidate.CandidateController;
+import Uboat.client.component.candidate.CandidateRowObject;
 import Uboat.client.component.configure.codes.CreateNewSecretCodeController;
 import Uboat.client.component.encrypt.EncryptController;
 import Uboat.client.component.login.LoginController;
@@ -45,6 +47,10 @@ public class UboatMainController implements Closeable{
 
     @FXML private BorderPane machineDetails;
     @FXML private MachineDetailsController machineDetailsController;
+
+    @FXML private TableView<CandidateRowObject> candidate;
+
+    @FXML private CandidateController candidateController;
 
     @FXML private ScrollPane secretCode;
     @FXML private SecretCodeController secretCodeController;

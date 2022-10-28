@@ -72,11 +72,7 @@
                                                         <VBox fx:id="activeTeamsArea" prefWidth="348.0" />
                                                     </content>
                                                 </ScrollPane>
-                                                <ScrollPane prefWidth="350.0">
-                                                    <content>
-                                                        <VBox prefWidth="348.0" />
-                                                    </content>
-                                                </ScrollPane>
+                                                <fx:include fx:id="candidateTableView" source="../candidate/Candidate.fxml" />
                                             </children>
                                         </HBox>
                                     </children>
