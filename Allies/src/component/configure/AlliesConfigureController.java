@@ -58,7 +58,6 @@ public class AlliesConfigureController {
     }
     @FXML
     void onActionAllieIsReadyActionBTN(ActionEvent event) {
-
         changeAllieStatusToReady();
         alliesController.startUpdateResultsTable();
     }

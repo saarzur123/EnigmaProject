@@ -15,7 +15,7 @@ public class DTOAppData {
     private List<String> listFullSContest = new ArrayList<>();
     private Map<String,ActiveTeamsDTO> mapTeamNameAllActiveTeamsData = new HashMap<>();
     private Map<String,Boolean> mapContestNameToContestReadyStatus = new HashMap<>();
-    private List<String> listOfReadyAllies = new ArrayList<>();
+    private Map<String,List<String>> mapContestToListOfReadyAllies = new HashMap<>();
 
     private String encryptString;
     private String decryptString;
@@ -24,8 +24,11 @@ public class DTOAppData {
         mapContestNameToActiveTeamsData = new HashMap<>();
     }
 
-    public List<String> getListOfReadyAllies() {
-        return listOfReadyAllies;
+    public synchronized List<String> getListOfReadyAlliesByContestName(String contestName) {
+         if(!mapContestToListOfReadyAllies.containsKey(contestName)){
+             mapContestToListOfReadyAllies.put(contestName,new ArrayList<>());
+         }
+         return mapContestToListOfReadyAllies.get(contestName);
     }
 
     public String getDecryptString() {

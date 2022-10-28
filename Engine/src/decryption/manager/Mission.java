@@ -12,6 +12,7 @@ import java.util.function.Consumer;
 
 public class Mission implements Runnable{
     private int missionSize;
+    private int id;
 
     private MachineImplement machine;
     private String language;
@@ -40,6 +41,14 @@ public class Mission implements Runnable{
         this.dictionary = missionArguments.getDictionary();
         this.rotorsIdList = missionArguments.getRotors();
         this.reflectorId = missionArguments.getReflector();
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public void setKey(SynchKeyForAgents synchronizationKey){
@@ -131,7 +140,6 @@ public class Mission implements Runnable{
     private void runCurrSecretCode(List<Character> startPos,DTOMissionResult results) {
         synchronized (synchronizationKey) {
             SecretCode currSecretCode = new SecretCode(machine);
-            currSecretCode.resetSecretCode();
             currSecretCode.determineSecretCode(rotorsIdList, startPos, reflectorId, new HashMap<>());
             String stringToCheckInDictionary = machine.encodingAndDecoding(userDecryptedString.toUpperCase(), currSecretCode.getInUseRotors(), currSecretCode.getPlugBoard(), currSecretCode.getInUseReflector());
             boolean isStringOnDictionary = dictionary.isNoneFilterStringInDictionary(stringToCheckInDictionary.toLowerCase());
@@ -143,12 +151,8 @@ public class Mission implements Runnable{
 
     private void pushResultsToCandidateQueue(DTOMissionResult results){
         synchronized (synchronizationKey) {
+            ///maybe remove
             updateMissionResultsInServer.accept(results);
         }
     }
-
-
-
-
-
 }
