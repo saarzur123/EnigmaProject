@@ -35,6 +35,7 @@ public class DTOAppData {
          return mapContestToListOfReadyAllies.get(contestName);
     }
 
+
     public synchronized Map<String, Boolean> getMapAlliesNameToReadyToStart() {
         return mapAlliesNameToReadyToStart;
     }
