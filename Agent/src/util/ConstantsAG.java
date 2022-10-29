@@ -18,7 +18,7 @@ public class ConstantsAG {
     // Server resources locations
     public final static String BASE_DOMAIN = "localhost";
     private final static String BASE_URL = "http://" + BASE_DOMAIN + ":8080";
-    private final static String CONTEXT_PATH = "/web_Web_exploded";
+    private final static String CONTEXT_PATH = "/web_Web";
     private final static String FULL_SERVER_PATH = BASE_URL + CONTEXT_PATH;
     public final static String CONFIGURATION_AGENT = FULL_SERVER_PATH +"/configurationAgent";
     public final static String REFRESH_CONTEST_NAME = FULL_SERVER_PATH +"/refresherAgentContestName";
