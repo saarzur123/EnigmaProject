@@ -66,6 +66,7 @@ public class RefreshExistsUboatServlet extends HttpServlet {
             appData.getListFullSContest().add(contestDTOName);
         String listToString = gson.toJson(appData.getListFullSContest());
         map.put("listFullContest", listToString);
+        map.put("encryptString", appData.getDecryptString());
 
     }
 

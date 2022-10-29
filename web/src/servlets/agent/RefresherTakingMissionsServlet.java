@@ -1,6 +1,7 @@
 package servlets.agent;
 
 import com.google.gson.Gson;
+import dTOUI.ActiveTeamsDTO;
 import dTOUI.DTOAppData;
 import decryption.manager.DecryptionManager;
 import decryption.manager.Mission;
@@ -24,6 +25,8 @@ public class RefresherTakingMissionsServlet extends HttpServlet {
        //commit List<Mission> missionsPackage = new ArrayList<>();
         DTOAppData appData = utils.ServletUtils.getDTOAppData(getServletContext());
         Map<String, DecryptionManager> alliesToDM = appData.getMapAllieNameToDM();
+
+
 
         DecryptionManager currentDM = alliesToDM.get(request.getParameter("teamName"));
         int packageAmount = new Gson().fromJson(request.getParameter("packageAmount"),Integer.class);

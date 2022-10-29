@@ -55,9 +55,10 @@ public class MainAppAlliesController {
 
     @FXML
     private Label userGreetingLabel;
+    @FXML private Label encryptedStringLBL;
 
-    @FXML
-    private HBox stringEncryptBruteForce;
+//    @FXML
+//    private HBox stringEncryptBruteForce;
     @FXML
     private HBox agentsDataAreaHBOX;
     @FXML
@@ -207,6 +208,11 @@ public class MainAppAlliesController {
         });
     }
 
+    private void updateBTNStartAfterAgentEnterToAllie(Boolean flag){
+        if(flag)
+            alliesConfigureController.getStartBTN().setDisable(false);
+    }
+
     private void  updateCurrentContestTeamsArea(List<ActiveTeamsDTO> listTeamsData){
         if(!listTeamsData.isEmpty()) {
             currentContestTeamsAreaVBOX.getChildren().clear();
@@ -267,7 +273,7 @@ public class MainAppAlliesController {
     }
 
     public void startUpdateAlliesData() {
-        updateContestTeamsData = new ContestTeamsDataAreaRefresher(currentBattleFieldName, this::updateContestTeamsDataList);
+        updateContestTeamsData = new ContestTeamsDataAreaRefresher(currentBattleFieldName, this::updateContestTeamsDataList, alliesConfigureController.getAllieName(), this::updateBTNStartAfterAgentEnterToAllie);
         teamsDataTimer = new Timer();
         teamsDataTimer.schedule(updateContestTeamsData, REFRESH_RATE, REFRESH_RATE);
     }
@@ -321,6 +327,7 @@ public class MainAppAlliesController {
                         listFullContest = Arrays.asList(contestsNameJson);
                     }
                     Platform.runLater(()->{
+                        encryptedStringLBL.setText(map.get("encryptString"));
                         String battleFieldName = getCurrentBattleFieldName();
                         setChosenContest(mapContestNameToContestsDataToShow.get(battleFieldName));
 

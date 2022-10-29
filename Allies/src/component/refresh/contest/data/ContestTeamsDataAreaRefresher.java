@@ -20,12 +20,21 @@ import static util.ConstantsAL.REFRESHER_TEAMS_DATA;
 
 public class ContestTeamsDataAreaRefresher extends TimerTask {
     private final Consumer<List<ActiveTeamsDTO>> updateContestTeamsArea;
+    private final Consumer<Boolean> readyToStart;
     private String contestName;
+    private String allieName;
+    private Boolean ready = false;
 
 
-    public ContestTeamsDataAreaRefresher(String contestName, Consumer<List<ActiveTeamsDTO>> updateContestTeamsArea) {
+    public ContestTeamsDataAreaRefresher(String contestName, Consumer<List<ActiveTeamsDTO>> updateContestTeamsArea, String allieName, Consumer<Boolean> readyToStart) {
         this.updateContestTeamsArea = updateContestTeamsArea;
         this.contestName = contestName;
+        this.allieName = allieName;
+        this.readyToStart = readyToStart;
+    }
+
+    public Boolean isReady() {
+        return ready;
     }
 
     @Override
@@ -34,6 +43,7 @@ public class ContestTeamsDataAreaRefresher extends TimerTask {
                 .parse(REFRESHER_TEAMS_DATA)
                 .newBuilder()
                 .addQueryParameter("gameTitle",contestName)
+                .addQueryParameter("alliesName",allieName)
                 .build()
                 .toString();
 
@@ -55,7 +65,10 @@ public class ContestTeamsDataAreaRefresher extends TimerTask {
                                 ActiveTeamsDTO activeTeamsDTO = gson.fromJson(mapTeamsDataJson.get(str), ActiveTeamsDTO.class);
                                 actualDataTeams.add(activeTeamsDTO);
                             updateContestTeamsArea.accept(actualDataTeams);
+
                         }
+                          if(mapData.containsKey("ready"))
+                              readyToStart.accept(true);
                     }
                 }
         });

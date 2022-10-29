@@ -163,7 +163,9 @@ public class ConfigurationAgentController {
 
             @Override
             public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
-                String jsonArrayOfContestData = response.body().string();
+                Gson gson = new Gson();
+                String jsonRetMap = response.body().string();
+                Map<String,String> map = gson.fromJson(jsonRetMap, Map.class);
             }
         });
         }

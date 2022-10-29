@@ -8,6 +8,7 @@ import java.util.Map;
 public class DTOMissionResult {
     private Map<String,Long> encryptionCandidatesConfigurationToAgentId = new HashMap<>();
     private String decryptString;
+    private String alliesNameDecrypt;
 
     public Map<String,Long> getEncryptionCandidates() {
         return encryptionCandidatesConfigurationToAgentId;
@@ -15,6 +16,14 @@ public class DTOMissionResult {
 
     public String getDecryptString() {
         return decryptString;
+    }
+
+    public void setAlliesNameDecrypt(String alliesNameDecrypt) {
+        this.alliesNameDecrypt = alliesNameDecrypt;
+    }
+
+    public String getAlliesNameDecrypt() {
+        return alliesNameDecrypt;
     }
 
     public void addCandidate(String codeConfiguration, long agentId, String decrypt) {
