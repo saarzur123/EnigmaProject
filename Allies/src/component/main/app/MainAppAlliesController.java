@@ -409,16 +409,23 @@ public class MainAppAlliesController {
     }
 
     public void startUpdateResultsTable() {
-        new Thread(()->{
-            updateAllieResultsTask = new AllieCandidatesRefresher(this::updateAllieCandidateTable);
+
+            updateAllieResultsTask = new AllieCandidatesRefresher(this::updateAllieCandidateTable,currentBattleFieldName,alliesConfigureController.getAllieName());
             updateAllieResultsTimer = new Timer();
             updateAllieResultsTimer.schedule(updateAllieResultsTask, REFRESH_RATE, REFRESH_RATE);
-        });
+
     }
 
-    private void updateAllieCandidateTable(DTOMissionResult obj){
-        for(String code : obj.getEncryptionCandidates().keySet()){
-            candidateController.addRow(obj.getDecryptString(), code, alliesConfigureController.getAllieName());
+    private void updateAllieCandidateTable(List<DTOMissionResult> objList){
+        Platform.runLater(()->{
+            candidateController.resetDataTable();
+        });
+        for(DTOMissionResult obj : objList){
+            for(String code : obj.getEncryptionCandidates().keySet()){
+                Platform.runLater(()->{
+                    candidateController.addRow(obj.getDecryptString(), code, alliesConfigureController.getAllieName());
+                });
+            }
         }
     }
 

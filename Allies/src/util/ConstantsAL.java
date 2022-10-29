@@ -35,6 +35,7 @@ public class ConstantsAL {
     public final static String ALLIE_IS_READY_TO_START_THE_CONTEST = FULL_SERVER_PATH + "/allieIsReadyToStart";
     public final static String REFRESH_EXSIST_UBOAT = FULL_SERVER_PATH + "/refreshExistsUboat";
     public final static String REFRESHER_CONTEST_STATUS = FULL_SERVER_PATH +"/refreshContestStatus";
+    public final static String REFRESHER_ALLIE_CANDIDATE_TABLE = FULL_SERVER_PATH +"/refresherAllieCandidateTable";
 
     public final static String UPDATE_EXIST_TEAM = FULL_SERVER_PATH + "/AllieUpdateExistTeamData";
     public final static String INITALIZE_ALLIES = FULL_SERVER_PATH + "/InitializeAlliesServlet";
