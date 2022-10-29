@@ -19,6 +19,7 @@ public class DTOAppData {
     private Map<String,List<String>> mapContestToListOfReadyAllies = new HashMap<>();
 
     private Map<String,Map<String,List<DTOMissionResult>>> mapContestToMapOfTeamsToResults = new HashMap<>();
+    private Map<String,Map<String,List<DTOActiveAgent>>> mapContestToMapOfAllieToListOfAgents = new HashMap<>();
     private String encryptString;
     private String decryptString;
 
@@ -51,6 +52,26 @@ public class DTOAppData {
             mapContestToMapOfTeamsToResults.get(contestName).put(allieName,new ArrayList<>());
         }
         return mapContestToMapOfTeamsToResults.get(contestName).get(allieName);
+    }
+
+    public synchronized void addAgentToAllie(String contestName, String allieName, DTOActiveAgent agentDTO){
+        if(!mapContestToMapOfAllieToListOfAgents.containsKey(contestName)){
+            mapContestToMapOfAllieToListOfAgents.put(contestName,new HashMap<>());
+        }
+        if(!mapContestToMapOfAllieToListOfAgents.get(contestName).containsKey(allieName)){
+            mapContestToMapOfAllieToListOfAgents.get(contestName).put(allieName,new ArrayList<>());
+        }
+        mapContestToMapOfAllieToListOfAgents.get(contestName).get(allieName).add(agentDTO);
+    }
+
+    public synchronized List<DTOActiveAgent> getListOfAgentsData(String contestName, String allieName){
+        if(!mapContestToMapOfAllieToListOfAgents.containsKey(contestName)){
+            mapContestToMapOfAllieToListOfAgents.put(contestName,new HashMap<>());
+        }
+        if(!mapContestToMapOfAllieToListOfAgents.get(contestName).containsKey(allieName)){
+            mapContestToMapOfAllieToListOfAgents.get(contestName).put(allieName,new ArrayList<>());
+        }
+        return mapContestToMapOfAllieToListOfAgents.get(contestName).get(allieName);
     }
 
     public synchronized String getDecryptString() {

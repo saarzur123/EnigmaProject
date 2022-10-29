@@ -104,7 +104,23 @@
                                           <VBox fx:id="currentContestDataAreaVBOX" prefHeight="300.0" prefWidth="450.0" />
                                        </content>
                                     </ScrollPane>
-                                    <ScrollPane prefWidth="450.0" />
+                                    <ScrollPane prefWidth="450.0">
+                                       <content>
+                                          <VBox prefHeight="353.0" prefWidth="448.0">
+                                             <children>
+                                                <ScrollPane prefHeight="200.0" prefWidth="200.0">
+                                                   <content>
+                                                      <HBox prefHeight="179.0" prefWidth="430.0" />
+                                                   </content>
+                                                </ScrollPane>
+                                                <ScrollPane prefHeight="200.0" prefWidth="200.0">
+                                                   <content>
+                                                      <HBox fx:id="agentsDataAreaHBOX" prefHeight="176.0" prefWidth="445.0" />
+                                                   </content>
+                                                </ScrollPane>
+                                             </children>
+                                          </VBox>
+                                       </content></ScrollPane>
                                  </children>
                                  <BorderPane.margin>
                                     <Insets top="10.0" />

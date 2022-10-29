@@ -1,18 +1,21 @@
 package component.main.app;
 
 import com.google.gson.Gson;
+import component.agent.data.AgentDataController;
 import component.candidate.agent.AllieRowObject;
 import component.candidate.agent.CandidateController;
 import component.configure.AlliesConfigureController;
 import component.configure.tile.ActiveTeamDataController;
 import component.contest.ContestDataController;
 import component.login.LoginController;
+import component.refresh.agent.data.RefresherAgentsDataArea;
 import component.refresh.contest.data.ContestDataAreaRefresher;
 import component.refresh.contest.data.ContestTeamsDataAreaRefresher;
 import component.refresh.table.AllieCandidatesRefresher;
 import component.status.RefresherStatusContest;
 import dTOUI.ActiveTeamsDTO;
 import dTOUI.ContestDTO;
+import dTOUI.DTOActiveAgent;
 import decryption.manager.DTOMissionResult;
 import javafx.application.Platform;
 import javafx.beans.binding.Bindings;
@@ -56,6 +59,8 @@ public class MainAppAlliesController {
     @FXML
     private HBox stringEncryptBruteForce;
     @FXML
+    private HBox agentsDataAreaHBOX;
+    @FXML
     private VBox currentContestDataAreaVBOX;
     @FXML
     private VBox currentContestTeamsAreaVBOX;
@@ -79,6 +84,9 @@ public class MainAppAlliesController {
     private Timer updateAllieResultsTimer;
     private TimerTask updateAllieResultsTask;
 
+    private TimerTask updateAgentsDataAreaTask;
+    private Timer updateAgentsDataAreaTimer;
+
     private Timer timeToUpdateStatusContest;
     private TimerTask updateStatusContest;
     private List<ActiveTeamsDTO> listCurrentTeams = new ArrayList<>();
@@ -89,7 +97,9 @@ public class MainAppAlliesController {
     private Map<String, ContestDTO> mapContestNameToContestsDataToShow = new HashMap<>();
     private List<String> listFullContest = new ArrayList<>();
 
-
+    private int totalMissionsExist;
+    private int totalMissionInDMQueue;
+    private int totalMissionProcessedInAllAgents;
 
     private String currentBattleFieldName;
     private final StringProperty currentUserName = new SimpleStringProperty(JHON_DOE);
@@ -369,7 +379,38 @@ public class MainAppAlliesController {
         this.chosenContestData = chosenContestData;
         this.currentBattleFieldName = chosenContestData.getBattleFieldName();
         startUpdateAlliesData();
-        //updateCurrentContestDataArea(this.chosenContestData);
+        startUpdateAgentsData();
+    }
+    public void startUpdateAgentsData() {
+        updateAgentsDataAreaTask = new RefresherAgentsDataArea(currentBattleFieldName, alliesConfigureController.getAllieName(),this::updateAgentsDataArea);
+        updateAgentsDataAreaTimer = new Timer();
+        updateAgentsDataAreaTimer.schedule(updateAgentsDataAreaTask, REFRESH_RATE, REFRESH_RATE);
+    }
+
+    private void updateAgentsDataArea(List<DTOActiveAgent> agentsData){
+        Platform.runLater(()->{
+            agentsDataAreaHBOX.getChildren().clear();
+            for(DTOActiveAgent a : agentsData){
+                createAgentDataTile(a);
+            }
+        });
+    }
+
+    private void createAgentDataTile(DTOActiveAgent agentData){
+        if(agentData != null) {
+            try {
+                FXMLLoader loader = new FXMLLoader();
+                URL url = getClass().getResource("/component/agent/data/AgentData.fxml");
+                loader.setLocation(url);
+                Node singleContestData = loader.load();
+                AgentDataController agentDataController = loader.getController();
+                agentDataController.setAlliesController(this);
+                agentDataController.insertDataToContest(agentData);
+                agentsDataAreaHBOX.getChildren().add(singleContestData);
+            } catch (IOException e) {
+
+            }
+        }
     }
 
     public void updateCurrentContestDataArea(ContestDTO chosenContestData){
@@ -409,12 +450,12 @@ public class MainAppAlliesController {
     }
 
     public void startUpdateResultsTable() {
-
             updateAllieResultsTask = new AllieCandidatesRefresher(this::updateAllieCandidateTable,currentBattleFieldName,alliesConfigureController.getAllieName());
             updateAllieResultsTimer = new Timer();
             updateAllieResultsTimer.schedule(updateAllieResultsTask, REFRESH_RATE, REFRESH_RATE);
-
     }
+
+
 
     private void updateAllieCandidateTable(List<DTOMissionResult> objList){
         Platform.runLater(()->{
