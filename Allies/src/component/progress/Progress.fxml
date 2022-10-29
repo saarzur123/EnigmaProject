@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" spacing="20.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="component.progress.ProgressController">
+   <children>
+      <Label alignment="CENTER" contentDisplay="CENTER" text="DM Progress:" textAlignment="CENTER" textFill="#1dc370">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font>
+      </Label>
+      <HBox>
+         <children>
+            <Label text="Total missions exist:" />
+            <Label fx:id="totalMissionExsistLBL" />
+         </children>
+      </HBox>
+      <HBox>
+         <children>
+            <Label text="Total mission produced:" />
+            <Label fx:id="totalMissionProducedLBL" />
+         </children>
+      </HBox>
+      <HBox>
+         <children>
+            <Label text="Total missions done:" />
+            <Label fx:id="totalMissionsDoneLBL" />
+         </children>
+      </HBox>
+   </children>
+</VBox>

@@ -65,7 +65,6 @@ public class ContestTeamsDataAreaRefresher extends TimerTask {
                                 ActiveTeamsDTO activeTeamsDTO = gson.fromJson(mapTeamsDataJson.get(str), ActiveTeamsDTO.class);
                                 actualDataTeams.add(activeTeamsDTO);
                             updateContestTeamsArea.accept(actualDataTeams);
-
                         }
                           if(mapData.containsKey("ready"))
                               readyToStart.accept(true);

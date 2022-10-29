@@ -110,15 +110,19 @@
                                                     <content>
                                                         <VBox prefHeight="353.0" prefWidth="448.0">
                                                             <children>
-                                                                <ScrollPane prefHeight="200.0" prefWidth="200.0">
-                                                                    <content>
-                                                                        <HBox prefHeight="179.0" prefWidth="430.0" />
-                                                                    </content>
-                                                                </ScrollPane>
-                                                                <ScrollPane prefHeight="200.0" prefWidth="200.0">
-                                                                    <content>
-                                                                        <HBox fx:id="agentsDataAreaHBOX" prefHeight="176.0" prefWidth="445.0" />
-                                                                    </content>
+                                                                <ScrollPane>
+                                                   <content>
+                                                      <VBox>
+                                                         <children>
+                                                            <fx:include fx:id="progress" source="../../progress/Progress.fxml" />
+                                                            <ScrollPane>
+                                                               <content>
+                                                                                    <HBox fx:id="agentsDataAreaHBOX" prefHeight="176.0" prefWidth="445.0" />
+                                                               </content>
+                                                            </ScrollPane>
+                                                         </children>
+                                                      </VBox>
+                                                   </content>
                                                                 </ScrollPane>
                                                             </children>
                                                         </VBox>

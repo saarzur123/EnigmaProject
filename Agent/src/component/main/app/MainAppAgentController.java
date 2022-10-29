@@ -204,6 +204,7 @@ public class MainAppAgentController {
         contestNameTimer.schedule(contestNameTask, REFRESH_RATE, REFRESH_RATE);
     }
 
+
     private void updateAgentContestName(String contestName){
         this.contestName = contestName;
 
