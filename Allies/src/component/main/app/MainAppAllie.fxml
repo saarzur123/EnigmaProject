@@ -108,14 +108,14 @@
                                        <content>
                                           <VBox prefHeight="353.0" prefWidth="448.0">
                                              <children>
-                                                <ScrollPane prefHeight="200.0" prefWidth="200.0">
+                                                <ScrollPane prefHeight="355.0" prefWidth="466.0">
                                                    <content>
-                                                      <HBox prefHeight="179.0" prefWidth="430.0" />
-                                                   </content>
-                                                </ScrollPane>
-                                                <ScrollPane prefHeight="200.0" prefWidth="200.0">
-                                                   <content>
-                                                      <HBox fx:id="agentsDataAreaHBOX" prefHeight="176.0" prefWidth="445.0" />
+                                                      <VBox prefHeight="341.0" prefWidth="447.0">
+                                                         <children>
+                                                            <fx:include source="../../progress/Progress.fxml" />
+                                                            <HBox fx:id="agentsDataAreaHBOX" prefHeight="338.0" prefWidth="427.0" />
+                                                         </children>
+                                                      </VBox>
                                                    </content>
                                                 </ScrollPane>
                                              </children>
