@@ -26,6 +26,7 @@ public class ConstantsAG {
     public final static String REFRESH_TAKING_MISSIONS = FULL_SERVER_PATH +"/refresherTakingMissions";
     public final static String ADD_AGENT_TO_ALIES = FULL_SERVER_PATH +"/addAgentToAllies";
     public final static String LOGIN_PAGE = FULL_SERVER_PATH + "/loginShortResponse";
+    public final static String ADD_AGENT_DATA_TO_MAP = FULL_SERVER_PATH + "/addAgentDataToMap";
     public final static String PUSH_CANDIDATES_TO_QUEUE = FULL_SERVER_PATH + "/pushResults";
     public final static String UPLOAD_FILE = LOGIN_PAGE + "/uploadFile";
     public final static String AUTOMATION_SECRET_CODE = LOGIN_PAGE + "/automationCode";

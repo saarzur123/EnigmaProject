@@ -7,10 +7,12 @@ import component.candidate.agent.CandidateController;
 import component.configuration.agent.ConfigurationAgentController;
 import component.contest.data.ContestDataController;
 import component.mission.data.soFar.MissionDataSoFarController;
+import component.refresher.RefresherAgentDataInAppData;
 import component.refresher.RefresherContestName;
 import component.refresher.RefresherContestStarts;
 import component.refresher.RefresherTakingMissions;
 import dTOUI.ContestDTO;
+import dTOUI.DTOActiveAgent;
 import decryption.manager.DTOMissionResult;
 import decryption.manager.Mission;
 import decryption.manager.SynchKeyForAgents;
@@ -68,21 +70,26 @@ public class MainAppAgentController {
     private Timer contestNameTimer;
     private TimerTask takingMissionsTask;
     private Timer takingMissionsTimer;
+    private TimerTask updateAgentDataTask;
+    private Timer updateAgentDataTimer;
+
     private String allieName;
     private String contestName;
     private StringProperty totalMissionsProcessedProp = new SimpleStringProperty("0");
     private int totalMissionsProcessedInt = 0;
+
     private StringProperty totalCandidatesProp = new SimpleStringProperty("0");
     private int totalCandidatesInt = 0;
     private boolean contestStatus = false;
     private boolean  alreadyUpdatedFlag = false;
     private boolean newCompetition = false;
+    private boolean alreadyStartRefreshAgentData = false;
     private ContestDTO chosenContestData;
+    private DTOActiveAgent activeAgentDto;
     private SynchKeyForAgents key = new SynchKeyForAgents();
 
     @FXML
     public void initialize() throws IOException {
-
         missionDataSoFarController.setMainAgent(this);
         candidateController.setMainAgent(this);
         contestDataController.setMainAgent(this);
@@ -91,6 +98,7 @@ public class MainAppAgentController {
 
     public void setAgentEngine(AgentEngine agentEngine) {
         this.agentEngine = agentEngine;
+        activeAgentDto = new DTOActiveAgent(configurationAgentController.getAgentName());
         missionInQueueLBL.textProperty().bind(agentEngine.getCurrMissionsNumber());
         missionDataSoFarController.getMissionAmountSoFarLBL().textProperty().bind(agentEngine.getTotalMissionsTookOutPropProperty());
         missionDataSoFarController.getMissiionCompletedSoFarLBL().textProperty().bind(totalMissionsProcessedProp);
@@ -114,12 +122,14 @@ public class MainAppAgentController {
     private void updateTotalMissionProcessed(){
         Platform.runLater(()->{
             totalMissionsProcessedInt++;
+            activeAgentDto.setWaitingMissions(activeAgentDto.getTotalMissions() - totalMissionsProcessedInt);
             totalMissionsProcessedProp.set(String.valueOf(totalMissionsProcessedInt));
         });
     }
     private void updateTotalCandidates(int newCandidatesNumber){
         Platform.runLater(()->{
         totalCandidatesInt+=newCandidatesNumber;
+            activeAgentDto.setTotalCandidates(totalCandidatesInt);
         totalCandidatesProp.set(String.valueOf(totalCandidatesInt));
         });
     }
@@ -147,8 +157,14 @@ public class MainAppAgentController {
         contestStartsTask = new RefresherContestStarts(this::updateContestStatus,contestName);
         contestStartsTimer = new Timer();
         contestStartsTimer.schedule(contestStartsTask, REFRESH_RATE, REFRESH_RATE);
-
     }
+
+    public void startUpdateAgentsDataInAppData() {
+        updateAgentDataTask = new RefresherAgentDataInAppData(contestName,allieName,activeAgentDto);
+        updateAgentDataTimer = new Timer();
+        updateAgentDataTimer.schedule(updateAgentDataTask, REFRESH_RATE, REFRESH_RATE);
+    }
+
     private void updateContestStatus(boolean status){
         this.contestStatus = status;
         if(contestStatus && !alreadyUpdatedFlag){
@@ -176,11 +192,12 @@ public class MainAppAgentController {
     }
 
     private void handleMissionsPackage(List<Mission> missionsPackage){
+        int saver = activeAgentDto.getTotalMissions();
         if(missionsPackage.size() > 0){
+            activeAgentDto.setTotalMissions(missionsPackage.size() + saver);
             agentEngine.pushMissionsToThreadPool(missionsPackage);
         }
     }
-
     public void startUpdateContestsName() {
         contestNameTask = new RefresherContestName(this::updateAgentContestName,allieName);
         contestNameTimer = new Timer();
@@ -189,6 +206,11 @@ public class MainAppAgentController {
 
     private void updateAgentContestName(String contestName){
         this.contestName = contestName;
+
+        if(!alreadyStartRefreshAgentData && contestName!=null){
+            startUpdateAgentsDataInAppData();
+            alreadyStartRefreshAgentData = true;
+        }
 
         String finalUrl = HttpUrl
                 .parse(UPDATE_CONTEST_DATA)

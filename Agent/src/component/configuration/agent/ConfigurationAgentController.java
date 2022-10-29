@@ -74,6 +74,10 @@ public class ConfigurationAgentController {
         //mainAppAgentController.startUpdateContestsName();
     }
 
+    public String getAgentName(){
+        return agentNameTF.getText();
+    }
+
     private boolean checkPositiveNumber(){
         try {
             int missionSize = Integer.parseInt(MissionSizeTF.getText());
