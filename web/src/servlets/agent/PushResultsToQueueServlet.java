@@ -11,6 +11,7 @@ import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 
@@ -42,7 +43,14 @@ public class PushResultsToQueueServlet extends HttpServlet {
                     retJson.put("status","WIN");
                     //contest over - contest status changed and allies status changed
                     appData.getMapContestNameToContestReadyStatus().put(contestName,false);
-                    appData.getListOfReadyAlliesByContestName(contestName).clear();
+                    List<String> listOfReadyAllies = appData.getListOfReadyAlliesByContestName(contestName);
+                    Map<String, DecryptionManager> mapAllieNameToDM = appData.getMapAllieNameToDM();
+                    for(String allieName: mapAllieNameToDM.keySet()){
+                        if(allieName!=teamName) {
+                            //DecryptionManager DM = mapAllieNameToDM.get(allieName);
+                            //DM.showLosePopup("LOSER");
+                        }
+                    }
                 }
             }else {
             retJson.put("status","");

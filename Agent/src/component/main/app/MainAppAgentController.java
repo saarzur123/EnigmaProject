@@ -246,7 +246,7 @@ public class MainAppAgentController {
                             if (mapValues.get("status").equals("WIN")) {
                                 showWinPopup("WINNNNERRRRRRRRR YAYAYAYYA");
                             } else if (mapValues.get("status").equals("LOOSE")) {
-                                showLosePopup("YOU ARE A LOOSER");
+                                //showLosePopup("YOU ARE A LOOSER");
                             }
                         }
                     }
@@ -301,18 +301,24 @@ public class MainAppAgentController {
     }
 
     public static void showWinPopup(String msg){
-        Alert alert = new Alert(Alert.AlertType.NONE);
-        alert.setTitle("YOU ARE THE WINNER !");
-        alert.setHeaderText("Game over - you won");
-        alert.setContentText(msg);
-        alert.showAndWait();
+
+        Platform.runLater(()-> {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("YOU ARE THE WINNER !");
+            alert.setHeaderText("Game over - you won");
+            alert.setContentText(msg);
+            alert.showAndWait();
+        });
+
     }
 
     public static void showLosePopup(String msg){
-        Alert alert = new Alert(Alert.AlertType.NONE);
-        alert.setTitle("LOOSER . . .");
-        alert.setHeaderText("Game over - you LOOSE maybe win next time !");
-        alert.setContentText(msg);
-        alert.showAndWait();
+        Platform.runLater(() -> {
+            Alert alert = new Alert(Alert.AlertType.NONE);
+            alert.setTitle("LOOSER . . .");
+            alert.setHeaderText("Game over - you LOOSE maybe win next time !");
+            alert.setContentText(msg);
+            alert.showAndWait();
+        });
     }
 }

@@ -2,6 +2,7 @@ package dTOUI;
 
 import decryption.manager.DecryptionManager;
 import engine.Engine;
+import javafx.stage.Stage;
 import uboat.engine.users.UserManager;
 
 import java.util.*;
@@ -31,23 +32,23 @@ public class DTOAppData {
          return mapContestToListOfReadyAllies.get(contestName);
     }
 
-    public String getDecryptString() {
+    public synchronized String getDecryptString() {
         return decryptString;
     }
 
-    public String getEncryptString() {
+    public synchronized String getEncryptString() {
         return encryptString;
     }
 
-    public List<String> getListFullSContest() {
+    public  synchronized List<String> getListFullSContest() {
         return listFullSContest;
     }
 
-    public void setDecryptString(String decryptString) {
+    public synchronized void setDecryptString(String decryptString) {
         this.decryptString = decryptString;
     }
 
-    public void setEncryptString(String encryptString) {
+    public synchronized void setEncryptString(String encryptString) {
         this.encryptString = encryptString;
     }
 

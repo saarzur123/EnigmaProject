@@ -1,5 +1,7 @@
 package decryption.manager;
 
+import javafx.application.Platform;
+import javafx.scene.control.Alert;
 import machine.MachineImplement;
 import machine.Reflector;
 import machine.SecretCode;
