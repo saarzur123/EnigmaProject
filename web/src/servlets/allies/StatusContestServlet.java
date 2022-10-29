@@ -37,12 +37,11 @@ public class StatusContestServlet extends HttpServlet {
         if(counter == listActiveTeam.size()) {
             Map<String, DecryptionManager> mapAlliesNameToDM = appData.getMapAllieNameToDM();
 
-            //check if contest didn't start already - prevent multiple tasks
+            //check if contest didn't start already - prevent multiple missions
             if(!appData.getMapContestNameToContestReadyStatus().get(contestName)) {
                //activate competition
                 for (int i = 0; i < listActiveTeam.size(); i++) {
                     DecryptionManager DM = mapAlliesNameToDM.get(listActiveTeam.get(i).getTeamName());
-                    //TODO CONSUMER THAT UPDATE UI
                     DM.findSecretCode(appData.getDecryptString(), appData.getMapContestNameToContestData().get(contestName).getCompetitionLevel(), null, null, null);
                 }
                 //change contest status - start

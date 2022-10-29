@@ -8,7 +8,9 @@ import component.configure.AlliesConfigureController;
 import component.configure.tile.ActiveTeamDataController;
 import component.contest.ContestDataController;
 import component.login.LoginController;
+import component.progress.ProgressController;
 import component.refresh.agent.data.RefresherAgentsDataArea;
+import component.refresh.agent.data.RefresherDMProgress;
 import component.refresh.contest.data.ContestDataAreaRefresher;
 import component.refresh.contest.data.ContestTeamsDataAreaRefresher;
 import component.refresh.table.AllieCandidatesRefresher;
@@ -16,6 +18,7 @@ import component.status.RefresherStatusContest;
 import dTOUI.ActiveTeamsDTO;
 import dTOUI.ContestDTO;
 import dTOUI.DTOActiveAgent;
+import dTOUI.DTODmProgress;
 import decryption.manager.DTOMissionResult;
 import javafx.application.Platform;
 import javafx.beans.binding.Bindings;
@@ -57,8 +60,6 @@ public class MainAppAlliesController {
     private Label userGreetingLabel;
     @FXML private Label encryptedStringLBL;
 
-//    @FXML
-//    private HBox stringEncryptBruteForce;
     @FXML
     private HBox agentsDataAreaHBOX;
     @FXML
@@ -71,6 +72,9 @@ public class MainAppAlliesController {
     @FXML private AlliesConfigureController alliesConfigureController;
     @FXML private TableView<AllieRowObject> candidate;
     @FXML private CandidateController candidateController;
+
+    @FXML private VBox progress;
+    @FXML private ProgressController progressController;
 
     ////dashboard - fxml
     @FXML
@@ -85,6 +89,8 @@ public class MainAppAlliesController {
     private Timer updateAllieResultsTimer;
     private TimerTask updateAllieResultsTask;
 
+    private TimerTask updateDMProgressTask;
+    private Timer updateDMProgressTimer;
     private TimerTask updateAgentsDataAreaTask;
     private Timer updateAgentsDataAreaTimer;
 
@@ -110,10 +116,11 @@ public class MainAppAlliesController {
 
         tabPaneAllies.setDisable(true);
         userGreetingLabel.textProperty().bind(Bindings.concat("Hello ", currentUserName));
-        if (loginController != null && alliesConfigureController != null && candidateController!= null) {
+        if (loginController != null && alliesConfigureController != null && candidateController!= null && progressController != null) {
             loginController.setAlliesMainController(this);
             alliesConfigureController.setMainController(this);
             candidateController.setMainController(this);
+            progressController.setAlliesController(this);
         }
 
         startUpdateContestsData();
@@ -343,6 +350,8 @@ public class MainAppAlliesController {
         timeToUpdateStatusContest.schedule(updateStatusContest, REFRESH_RATE, REFRESH_RATE);
     }
 
+
+
     private void enterNewAllieToSystem(String allieName) {
         ActiveTeamsDTO teamsDTO = new ActiveTeamsDTO(allieName, -1, -1,currentBattleFieldName);
         Gson gson = new Gson();
@@ -387,11 +396,28 @@ public class MainAppAlliesController {
         this.currentBattleFieldName = chosenContestData.getBattleFieldName();
         startUpdateAlliesData();
         startUpdateAgentsData();
+        startUpdateDMProgress();
     }
     public void startUpdateAgentsData() {
-        updateAgentsDataAreaTask = new RefresherAgentsDataArea(currentBattleFieldName, alliesConfigureController.getAllieName(),this::updateAgentsDataArea);
+        updateAgentsDataAreaTask = new RefresherAgentsDataArea(currentBattleFieldName, alliesConfigureController.getAllieName(),
+                this::updateAgentsDataArea);
         updateAgentsDataAreaTimer = new Timer();
         updateAgentsDataAreaTimer.schedule(updateAgentsDataAreaTask, REFRESH_RATE, REFRESH_RATE);
+    }
+
+    public void startUpdateDMProgress(){
+        updateDMProgressTask = new RefresherDMProgress(currentBattleFieldName, alliesConfigureController.getAllieName(),
+                this::updateProgressData);
+        updateDMProgressTimer = new Timer();
+        updateDMProgressTimer.schedule(updateDMProgressTask, REFRESH_RATE, REFRESH_RATE);
+    }
+
+    private void updateProgressData(DTODmProgress progData){
+        Platform.runLater(()->{
+            progressController.getMissionExist().set(String.valueOf(progData.getTotalMissionExist()));
+            progressController.setMissionProduced(progData.getTotalMissionsPushedToQ());
+            progressController.setMissionDone(progData.getMissionsDone());
+        });
     }
 
     private void updateAgentsDataArea(List<DTOActiveAgent> agentsData){
