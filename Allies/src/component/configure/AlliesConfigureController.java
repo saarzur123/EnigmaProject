@@ -42,7 +42,12 @@ public class AlliesConfigureController {
 
     @FXML
     public void initialize() {
-        startBTN.disableProperty().bind(allOk);
+        //startBTN.disableProperty().bind(allOk);
+        startBTN.setDisable(true);
+    }
+
+    public Button getStartBTN() {
+        return startBTN;
     }
 
     public void setMainController(MainAppAlliesController main){

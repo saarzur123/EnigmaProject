@@ -17,10 +17,11 @@ public class DTOAppData {
     private Map<String,ActiveTeamsDTO> mapTeamNameAllActiveTeamsData = new HashMap<>();
     private Map<String,Boolean> mapContestNameToContestReadyStatus = new HashMap<>();
     private Map<String,List<String>> mapContestToListOfReadyAllies = new HashMap<>();
+    private Map<String, Boolean> mapAlliesNameToReadyToStart = new HashMap<>();
 
     private Map<String,Map<String,List<DTOMissionResult>>> mapContestToMapOfTeamsToResults = new HashMap<>();
-    private String encryptString;
-    private String decryptString;
+    private String encryptString ="";
+    private String decryptString ="";
 
     public DTOAppData(){
         mapContestNameToActiveTeamsData = new HashMap<>();
@@ -31,6 +32,10 @@ public class DTOAppData {
              mapContestToListOfReadyAllies.put(contestName,new ArrayList<>());
          }
          return mapContestToListOfReadyAllies.get(contestName);
+    }
+
+    public synchronized Map<String, Boolean> getMapAlliesNameToReadyToStart() {
+        return mapAlliesNameToReadyToStart;
     }
 
     public synchronized void addResultsToAllie(String contestName, String allieName, DTOMissionResult resultToAdd){
@@ -51,6 +56,20 @@ public class DTOAppData {
             mapContestToMapOfTeamsToResults.get(contestName).put(allieName,new ArrayList<>());
         }
         return mapContestToMapOfTeamsToResults.get(contestName).get(allieName);
+    }
+    public synchronized List<DTOMissionResult> getListOFAllResultsFromAllTheAllies(String contestName){
+        if(!mapContestToMapOfTeamsToResults.containsKey(contestName)){
+            mapContestToMapOfTeamsToResults.put(contestName,new HashMap<>());
+        }
+        List<DTOMissionResult> listOfResult = new ArrayList<>();
+        Map<String, List<DTOMissionResult>> mapOfAlliesNameToResult = mapContestToMapOfTeamsToResults.get(contestName);
+        for(String alliesName : mapOfAlliesNameToResult.keySet()){
+            List<DTOMissionResult> listOfResultInAllie = mapOfAlliesNameToResult.get(alliesName);
+            for (int i = 0; i < listOfResultInAllie.size(); i++) {
+                listOfResult.add(listOfResultInAllie.get(i));
+            }
+        }
+        return listOfResult;
     }
 
     public synchronized String getDecryptString() {

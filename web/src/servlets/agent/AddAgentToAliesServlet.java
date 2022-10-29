@@ -8,6 +8,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -17,13 +18,17 @@ public class AddAgentToAliesServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         response.setContentType("text/plain;charset=UTF-8");
-
+        Map<String, String> retValues =  new HashMap<>();
         DTOAppData appData = utils.ServletUtils.getDTOAppData(getServletContext());
         Map<String, ActiveTeamsDTO> stringAlliesDTOMap = appData.getMapTeamNameAllActiveTeamsData();
         ActiveTeamsDTO active = stringAlliesDTOMap.remove(request.getParameter("alliesName"));
         active.setAgentNumberInt(active.getAgentNumberInt() + 1);
         stringAlliesDTOMap.put(active.getTeamName(), active);
         searchInMapActiveTeam(request.getParameter("alliesName") , appData);
+
+        if(active.getAgentNumberInt() > 0)
+            appData.getMapAlliesNameToReadyToStart().put(request.getParameter("alliesName"),true);
+
 
     }
     private void searchInMapActiveTeam(String alliesName, DTOAppData appData){

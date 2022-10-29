@@ -71,6 +71,7 @@ public class EncryptController {
             @Override
             public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
                 String jsonMapOfData = response.body().string();
+                uboatMainController.startUpdateResultsTable();
             }
         });
     }

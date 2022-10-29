@@ -1,7 +1,7 @@
 package Uboat.client.component.main;
 
-import Uboat.client.component.candidate.CandidateController;
 import Uboat.client.component.candidate.CandidateRowObject;
+import Uboat.client.component.candidate.refresh.table.CandidateRefreshTable;
 import Uboat.client.component.configure.codes.CreateNewSecretCodeController;
 import Uboat.client.component.encrypt.EncryptController;
 import Uboat.client.component.login.LoginController;
@@ -12,7 +12,7 @@ import Uboat.client.component.teams.ActiveTeamsController;
 import Uboat.client.component.teams.RefreshActiveTeamDetails;
 import Uboat.client.component.upload.file.UploadFileController;
 import dTOUI.ActiveTeamsDTO;
-import dTOUI.ContestDTO;
+import decryption.manager.DTOMissionResult;
 import engine.Commander;
 import engine.Engine;
 import javafx.application.Platform;
@@ -48,9 +48,9 @@ public class UboatMainController implements Closeable{
     @FXML private BorderPane machineDetails;
     @FXML private MachineDetailsController machineDetailsController;
 
-    @FXML private TableView<CandidateRowObject> candidate;
+    @FXML private TableView<CandidateRowObject> candidateTableView;
 
-    @FXML private CandidateController candidateController;
+    @FXML private Uboat.client.component.candidate.candidateTableViewController candidateTableViewController;
 
     @FXML private ScrollPane secretCode;
     @FXML private SecretCodeController secretCodeController;
@@ -69,6 +69,8 @@ public class UboatMainController implements Closeable{
     //members for updating agents in allies
     private Timer timeToUpdateActiveTeams;
     private TimerTask updateActiveTeamsArea;
+    private Timer updateUBoatResultsTimer;
+    private TimerTask updateUBoatResultsTask;
     private Map<String, ActiveTeamsController> mapAlliesNameToActiveTeamsController = new HashMap<>();
 
     private Commander engineCommands = new Engine();
@@ -86,12 +88,15 @@ public class UboatMainController implements Closeable{
                 loginController != null&&
                 stringEncryptBruteForceController != null&&
                 createNewSecretCodeController != null&&
-                secretCodeController != null){
+                secretCodeController != null&&
+                candidateTableViewController != null
+        ){
             uploadFileController.setUboatMainController(this);
             loginController.setUboatMainController(this);
             stringEncryptBruteForceController.setUboatMainController(this);
             createNewSecretCodeController.setUboatMainController(this);
             secretCodeController.setUboatMainController(this);
+            candidateTableViewController.setMainController(this);
         }
 
         //loadLoginPage();
@@ -146,6 +151,26 @@ public class UboatMainController implements Closeable{
 
     public void setSecretCodeState(boolean secretCodeState){
         secretCodeController.getIsSecretCodeExist().setValue(secretCodeState);
+    }
+    //TODO
+    public void startUpdateResultsTable() {
+
+        updateUBoatResultsTask = new CandidateRefreshTable(this::updateUboatCandidateTable,currentBattleFieldName);
+        updateUBoatResultsTimer = new Timer();
+        updateUBoatResultsTimer.schedule(updateUBoatResultsTask, REFRESH_RATE, REFRESH_RATE);
+
+    }
+    private void updateUboatCandidateTable(List<DTOMissionResult> objList){
+        Platform.runLater(()->{
+            candidateTableViewController.resetDataTable();
+        });
+        for(DTOMissionResult obj : objList){
+            for(String code : obj.getEncryptionCandidates().keySet()){
+                Platform.runLater(()->{
+                    candidateTableViewController.addRow(obj.getDecryptString(), code, obj.getAlliesNameDecrypt());
+                });
+            }
+        }
     }
 
     public void unDisableMachineDetails(){

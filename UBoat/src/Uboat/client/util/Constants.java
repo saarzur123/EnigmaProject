@@ -23,6 +23,7 @@ public class Constants {
 
 
     public final static String LOGIN_PAGE = FULL_SERVER_PATH + "/loginShortResponse";
+    public final static String REFRESHER_UBOAT_CANDIDATE_TABLE = FULL_SERVER_PATH + "/refreshUboatCandidatesTable";
     public final static String UPLOAD_FILE = LOGIN_PAGE + "/uploadFile";
     public final static String AUTOMATION_SECRET_CODE = LOGIN_PAGE + "/automationCode";
 

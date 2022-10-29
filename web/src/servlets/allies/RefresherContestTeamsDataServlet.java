@@ -26,6 +26,11 @@ public class RefresherContestTeamsDataServlet extends HttpServlet {
         String currContestName = request.getParameter("gameTitle");
         DTOAppData appData = utils.ServletUtils.getDTOAppData(getServletContext());
 
+        Map<String, ActiveTeamsDTO> stringAlliesDTOMap = appData.getMapTeamNameAllActiveTeamsData();
+        ActiveTeamsDTO active = stringAlliesDTOMap.get(request.getParameter("alliesName"));
+//        if(active.getAgentNumberInt() > 0)
+//            resourceNameToValueMap.put("agentEntered", "YES");
+
         //add current contest teams data - teamName: activeTeamDTO
         if(appData.getMapContestNameToActiveTeamsData().size()>0) {
             List<ActiveTeamsDTO> currentContestTeamsList = appData.getMapContestNameToActiveTeamsData().get(currContestName);
@@ -36,6 +41,8 @@ public class RefresherContestTeamsDataServlet extends HttpServlet {
             resourceNameToValueMap.put("teamsDataMap", gson.toJson(retTeams));
         }
         }
+        if(appData.getMapAlliesNameToReadyToStart().containsKey(request.getParameter("alliesName")))
+            resourceNameToValueMap.put("ready", "ready");
 
         String mapToJson = gson.toJson(resourceNameToValueMap);
         response.getWriter().println(mapToJson);

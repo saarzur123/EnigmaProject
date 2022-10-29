@@ -59,6 +59,7 @@ public class RefresherTakingMissions extends TimerTask {
                 String jsonRetMap = response.body().string();
                 Map<String,String> mapDoneMissionsAndMissionsList = gson.fromJson(jsonRetMap, Map.class);
 
+
                 boolean isAllMissionsOut = gson.fromJson(mapDoneMissionsAndMissionsList.get("isAllMissionsOut"),Boolean.class);
                 //commit   Mission[] missionsArr = gson.fromJson(mapDoneMissionsAndMissionsList.get("listMissions"),Mission[].class);
 
