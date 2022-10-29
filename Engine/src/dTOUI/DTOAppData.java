@@ -1,5 +1,6 @@
 package dTOUI;
 
+import decryption.manager.DTOMissionResult;
 import decryption.manager.DecryptionManager;
 import engine.Engine;
 import uboat.engine.users.UserManager;
@@ -17,6 +18,7 @@ public class DTOAppData {
     private Map<String,Boolean> mapContestNameToContestReadyStatus = new HashMap<>();
     private Map<String,List<String>> mapContestToListOfReadyAllies = new HashMap<>();
 
+    private Map<String,Map<String,List<DTOMissionResult>>> mapContestToMapOfTeamsToResults = new HashMap<>();
     private String encryptString;
     private String decryptString;
 
@@ -31,23 +33,43 @@ public class DTOAppData {
          return mapContestToListOfReadyAllies.get(contestName);
     }
 
-    public String getDecryptString() {
+    public synchronized void addResultsToAllie(String contestName, String allieName, DTOMissionResult resultToAdd){
+        if(!mapContestToMapOfTeamsToResults.containsKey(contestName)){
+            mapContestToMapOfTeamsToResults.put(contestName,new HashMap<>());
+        }
+        if(!mapContestToMapOfTeamsToResults.get(contestName).containsKey(allieName)){
+            mapContestToMapOfTeamsToResults.get(contestName).put(allieName,new ArrayList<>());
+        }
+        mapContestToMapOfTeamsToResults.get(contestName).get(allieName).add(resultToAdd);
+    }
+
+    public synchronized List<DTOMissionResult> getListOfAllieResults(String contestName, String allieName){
+        if(!mapContestToMapOfTeamsToResults.containsKey(contestName)){
+            mapContestToMapOfTeamsToResults.put(contestName,new HashMap<>());
+        }
+        if(!mapContestToMapOfTeamsToResults.get(contestName).containsKey(allieName)){
+            mapContestToMapOfTeamsToResults.get(contestName).put(allieName,new ArrayList<>());
+        }
+        return mapContestToMapOfTeamsToResults.get(contestName).get(allieName);
+    }
+
+    public synchronized String getDecryptString() {
         return decryptString;
     }
 
-    public String getEncryptString() {
+    public synchronized String getEncryptString() {
         return encryptString;
     }
 
-    public List<String> getListFullSContest() {
+    public synchronized List<String> getListFullSContest() {
         return listFullSContest;
     }
 
-    public void setDecryptString(String decryptString) {
+    public synchronized void setDecryptString(String decryptString) {
         this.decryptString = decryptString;
     }
 
-    public void setEncryptString(String encryptString) {
+    public synchronized void setEncryptString(String encryptString) {
         this.encryptString = encryptString;
     }
 

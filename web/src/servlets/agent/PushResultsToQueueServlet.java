@@ -34,6 +34,9 @@ public class PushResultsToQueueServlet extends HttpServlet {
 
         //check if there are candidates
         if(resultToPush.getEncryptionCandidates().size()>0){
+            //updating table data for allies
+            appData.addResultsToAllie(contestName,teamName,resultToPush);
+
             retJson.put("results",gson.toJson(resultToPush));
             currDM.pushMissionsToCandidateQueue(resultToPush);
                 String stringRes = resultToPush.getDecryptString().toUpperCase();

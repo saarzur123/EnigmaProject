@@ -38,4 +38,9 @@ public class CandidateController {
         candidatesTableView.setEditable(true);
         candidatesTableView.getItems().add(new AllieRowObject(stringCandidate,codeCombination,allieName));
     }
+
+    public void resetDataTable(){
+        candidatesTableView.setEditable(true);
+        candidatesTableView.getItems().clear();
+    }
 }
